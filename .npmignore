@@ -1,0 +1,10 @@
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/allure-result
+/allure-report
+.DS_store
+.idea
+@rerun.txt
