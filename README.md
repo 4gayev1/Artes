@@ -1,7 +1,6 @@
 <p align="center">
-  <img alt="madge" src="https://github.com/user-attachments/assets/e0641011-0e96-4330-8ad5-935b395b0838" width="320">
+  <img alt="madge" src="https://github.com/user-attachments/assets/e0641011-0e96-4330-8ad5-935b395b0838" width="280">
 </p>
-
 
 <h1 align="center">Artes</h1>
 
