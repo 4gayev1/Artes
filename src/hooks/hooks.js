@@ -16,7 +16,7 @@ const cucumberConfig = require("../../cucumber.config");
 let browser;
 let request;
 
-setDefaultTimeout(cucumberConfig.cucumberTimeout);
+setDefaultTimeout(cucumberConfig.default.cucumberTimeout);
 
 BeforeAll(async function () {
   browser = await invokeBrowser();
@@ -31,7 +31,7 @@ BeforeAll(async function () {
   });
 });
 
-Before(async function ({ pickle }) {
+Before(async function () {
   context.page = await browser.newPage();
   context.request = await request;
 });
@@ -53,7 +53,6 @@ After(async function ({ pickle, result }) {
   await browser.tracing.stop({ path: "./trace.zip" });
 
   await context.page.close();
-  await browser.close();
 
   if (result?.status == Status.FAILED) {
     const videoPath = await context.page.video().path();
@@ -63,5 +62,6 @@ After(async function ({ pickle, result }) {
 });
 
 AfterAll(function () {
+  browser.close();
   browser.tracing.stop({ path: "../../trace.zip" });
 });

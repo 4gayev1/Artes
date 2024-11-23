@@ -17,7 +17,7 @@ try {
 module.exports = {
   default: {
     // File paths and patterns
-    cucumberTimeout: argusConfig.cucumberTimeout || 10000, // Default timeout in milliseconds
+    cucumberTimeout: argusConfig.cucumberTimeout || 5000, // Default timeout in milliseconds
     paths: argusConfig.features
       ? path.join(moduleConfig.projectPath, argusConfig.features)
       : [moduleConfig.featuresPath], // Paths to feature files
