@@ -1,8 +1,13 @@
+<p align="center">
+  <img alt="madge" src="https://github.com/user-attachments/assets/e0641011-0e96-4330-8ad5-935b395b0838" width="320">
+</p>
+
+
 <h1 align="center">Artes</h1>
 
 ## 🚀 Summary
 
-Artes is a test runner for Playwright that executes [predefined Cucumber tests](./stepDefinitions.md) and can generate Allure reports for test results. It simplifies the process of setting up Playwright with Cucumber in your automation workflow. With Artes, you can easily run tests without writing step definitions, generate reports, and customize your testing environment.
+Artes is a test runner for Playwright that executes [predefined Cucumber tests](./stepDefinitions.md) and can generate Allure reports for test results. It simplifies setting up Playwright with Cucumber in your automation workflow. With Artes, you can easily run tests without writing step definitions, generate reports, and customize your testing environment.
 
 ## 🧑‍💻 Installation
 
@@ -53,7 +58,7 @@ Locally: npx artes
 ## 🎯 Best Practices
 
 - **Global Installation:**  
-  For ease of use, it's recommended to install Artes globally. You can do this by running the following command:
+  For ease of use, it's recommended that Artes be installed globally. You can do this by running the following command:
 
   ```bash
   npm install -g artes
