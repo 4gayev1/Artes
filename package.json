@@ -1,6 +1,7 @@
 {
   "name": "artes",
   "version": "1.0.1",
+  "description": "The package provide step definitions and user writes feature files, and the package handles automation, with optional POM files and custom step definitions.",
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js --config=cucumber.config.js",
@@ -12,10 +13,17 @@
   "bin": {
     "artes": "./executer.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "kdt",
+    "automation",
+    "playwright",
+    "cucumber",
+    "test automation",
+    "end-to-end",
+    "API testing"
+  ],
+  "author": "VhdAghyv",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "@cucumber/cucumber": "^11.0.1",
     "@cucumber/messages": "^26.0.1",
@@ -27,9 +35,14 @@
     "rimraf": "^6.0.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.15.0",
-    "eslint": "^9.15.0",
-    "globals": "^15.12.0",
     "madge": "^8.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/4gayev1/Artes"
+  },
+  "bugs": {
+    "url": "https://github.com/4gayev1/Artes/issues"
+  },
+  "homepage": "https://github.com/4gayev1/Artes/blob/main/README.md"
 }
