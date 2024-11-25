@@ -12,10 +12,6 @@ function cleanUp() {
         shell: true,
       },
     );
-
-    if (result.error) {
-      throw result.error;
-    }
   } catch (error) {
     console.error("❌ Error in cleanup:", error.message);
     process.exit(1);

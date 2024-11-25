@@ -8,15 +8,15 @@ const {
 } = require("@cucumber/cucumber");
 const { invokeBrowser } = require("../helper/contextManager/browserManager");
 const { invokeRequest } = require("../helper/contextManager/requestManager");
-const { context } = require("./context");
 const { pomCollector } = require("../helper/pomController/pomCollector");
-const fs = require("fs");
 const cucumberConfig = require("../../cucumber.config");
+const { context } = require("./context");
+const fs = require("fs");
 
 let browser;
 let request;
 
-setDefaultTimeout(cucumberConfig.default.cucumberTimeout);
+setDefaultTimeout(cucumberConfig.default.cucumberTimeout * 1000);
 
 BeforeAll(async function () {
   browser = await invokeBrowser();
@@ -24,11 +24,11 @@ BeforeAll(async function () {
 
   pomCollector();
 
-  browser.tracing.start({
-    sources: true,
-    screenshots: true,
-    snapshots: true,
-  });
+  //  browser.tracing.start({
+  //   sources: true,
+  //   screenshots: true,
+  //   snapshots: true,
+  // });
 });
 
 Before(async function () {
@@ -50,10 +50,8 @@ After(async function ({ pickle, result }) {
     this.attach(img, "image/png");
   }
 
-  await browser.tracing.stop({ path: "./trace.zip" });
-
   await context.page.close();
-
+  // await browser.tracing.stop({ path: 'trace.zip' });
   if (result?.status == Status.FAILED) {
     const videoPath = await context.page.video().path();
     const webmBuffer = await fs.readFileSync(videoPath);
@@ -63,5 +61,4 @@ After(async function ({ pickle, result }) {
 
 AfterAll(function () {
   browser.close();
-  browser.tracing.stop({ path: "../../trace.zip" });
 });

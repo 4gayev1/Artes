@@ -15,10 +15,6 @@ function generateReport() {
       },
     );
 
-    if (result.error) {
-      throw result.error;
-    }
-
     console.log(
       `📋 Report generated successfully in ${moduleConfig.reportPath}!`,
     );

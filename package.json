@@ -1,6 +1,6 @@
 {
   "name": "artes",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "The package provide step definitions and user writes feature files, and the package handles automation, with optional POM files and custom step definitions.",
   "main": "index.js",
   "scripts": {
@@ -33,9 +33,6 @@
     "allure-js-commons": "^3.0.5",
     "playwright": "^1.48.2",
     "rimraf": "^6.0.1"
-  },
-  "devDependencies": {
-    "madge": "^8.0.0"
   },
   "repository": {
     "type": "git",

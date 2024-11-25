@@ -14,7 +14,7 @@ const {
   frame,
   assert,
   elementInteractions,
-} = require("./src/helper/stepFunctions/actionCommons");
+} = require("./src/helper/stepFunctions/exporter");
 
 module.exports = {
   expect,

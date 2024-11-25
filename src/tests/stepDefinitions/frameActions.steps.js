@@ -1,5 +1,5 @@
 const { When } = require("../../helper/imports/commons");
-const { frame } = require("../../helper/stepFunctions/actionCommons");
+const { frame } = require("../../helper/stepFunctions/exporter");
 
 // User takes a screenshot of a specific selector
 When("User takes a screenshot of {string}", async function (selector) {

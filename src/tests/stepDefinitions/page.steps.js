@@ -1,5 +1,5 @@
 const { When, context } = require("../../helper/imports/commons");
-const { page } = require("../../helper/stepFunctions/actionCommons");
+const { page } = require("../../helper/stepFunctions/exporter");
 
 When("User navigates to {string} page", async function (url) {
   await page.navigateTo(url);
@@ -9,8 +9,12 @@ When("User navigates to {string} page", async function (url) {
 //   await page.navigateTo(url);
 // });
 
-When("User gets URL of page", async function () {
-  await page.getURL();
+When("User navigates previous page", async function () {
+  await page.navigateBack();
+});
+
+When("User navigates next page", async function () {
+  await page.navigateForward();
 });
 
 When("User gets URL of page", async function () {
@@ -18,13 +22,13 @@ When("User gets URL of page", async function () {
 });
 
 When(`User waits {int} seconds`, async (sec) => {
-  await context.page.waitForTimeout(sec * 1000);
+  await page.wait(sec * 1000);
 });
 
 When(`User waits {int} milliseconds`, async (sec) => {
-  await context.page.waitForTimeout(sec);
+  await page.wait(sec);
 });
 
 When(`User waits {int} minutes`, async (sec) => {
-  await context.page.waitForTimeout(sec * 1000 * 60);
+  await page.wait(sec * 1000 * 60);
 });

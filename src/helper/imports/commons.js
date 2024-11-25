@@ -16,6 +16,7 @@ const moduleConfig = {
   modulePackageJsonPath: path.join(modulePath, "/package.json"),
   modulePath: path.join(modulePath, "/node_modules/artes"),
   reportPath: path.join(modulePath, "/report"),
+  tracerPath: path.join(projectPath, "/trace.zip"),
   cucumberConfigPath: path.join(projectPath, "/artes.config.js"),
   featuresPath: path.join(projectPath, "/tests/features/"),
   stepsPath: path.join(projectPath, "/tests/steps/*.js"),

@@ -40,26 +40,27 @@ function createProject(createYes) {
 
     // Configuration options:
     // paths: [],                    // string[] - Paths to feature files
-    // require: "",                  // string - Step definitions files
+    // steps: "",                    // string - Step definitions files
     // pomPath: "",                  // string - Path to POM files
+    // timeout : 0                   // number - Test timeout in seconds
+    // parallel: 0,                  // number - Number of parallel workers
+    // format: [],                   // string[] - Formatter names/paths
+    // formatOptions: {},            // object - Formatter options    
+    // retry: 0,                     // number - Retry attempts for failing tests
+    // tags: "",                     // string - Tag expression to filter scenarios
     // backtrace: false,             // boolean - Show full backtrace for errors
     // dryRun: false,                // boolean - Prepare test run without execution
     // forceExit: false,             // boolean - Force process.exit() after tests
     // failFast: false,              // boolean - Stop on first test failure
-    // format: [],                   // string[] - Formatter names/paths
-    // formatOptions: {},            // object - Formatter options
     // import: [],                   // string[] - Support code paths
     // language: "en",               // string - Default feature file language
     // loader: [],                   // string[] - Module loader specifications
     // name: [],                     // string[] - Run scenarios matching regex
     // order: "defined",             // string - Run order (defined/random)
-    // parallel: 0,                  // number - Number of parallel workers
     // publish: false,               // boolean - Publish to cucumber.io
     // requireModule: [],            // string[] - Transpilation module names
-    // retry: 0,                     // number - Retry attempts for failing tests
     // retryTagFilter: "",           // string - Tag expression for retries
     // strict: true,                 // boolean - Fail on pending steps
-    // tags: "",                     // string - Tag expression to filter scenarios
     // worldParameters: {}           // object - World constructor parameters
 };
 `;
