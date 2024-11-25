@@ -7,11 +7,11 @@ const { showVersion } = require("./versionChecker");
 const { cleanUp } = require("./cleaner");
 
 module.exports = {
-    createProject,
-    generateReport,
-    runTests,
-    showHelp,
-    showVersion,
-    tracer,
-    cleanUp
-}
+  createProject,
+  generateReport,
+  runTests,
+  showHelp,
+  showVersion,
+  tracer,
+  cleanUp,
+};

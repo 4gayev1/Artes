@@ -7,10 +7,10 @@ const page = {
   getURL: async () => {
     return await context.page.url();
   },
-  navigateBack:async () => {
+  navigateBack: async () => {
     return await context.page.goBack();
   },
-  navigateForward:async () => {
+  navigateForward: async () => {
     return await context.page.goForward();
   },
   wait: async (time) => {

@@ -4,6 +4,7 @@ const { keyboard } = require("./keyboardActions");
 const { frame } = require("./frameActions");
 const { elementInteractions } = require("./elementInteractions");
 const { page } = require("./pageActions");
+const { api } = require("./APIActions");
 
 module.exports = {
   assert,
@@ -12,4 +13,5 @@ module.exports = {
   frame,
   elementInteractions,
   page,
+  api,
 };

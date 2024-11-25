@@ -1,7 +1,14 @@
 #!/usr/bin/env node
 
-const { showHelp,showVersion,createProject,runTests,generateReport,cleanUp,tracer } = require("./src/helper/executers/exporter");
-
+const {
+  showHelp,
+  showVersion,
+  createProject,
+  runTests,
+  generateReport,
+  cleanUp,
+  tracer,
+} = require("./src/helper/executers/exporter");
 
 const args = process.argv.slice(2);
 
@@ -15,8 +22,6 @@ const flags = {
 };
 
 function main() {
-
-
   if (flags.help) {
     showHelp();
     return;
@@ -32,17 +37,11 @@ function main() {
     return;
   }
 
-  if (flags.trace) {
-    runTests();
-    tracer();
-    cleanUp();
-  } 
-  if (flags.report && flags.trace) {
-    runTests();
-    generateReport();
-    tracer();
-    cleanUp();
-  } 
+  // if (flags.trace) {
+  //   runTests();
+  //   tracer();
+  //   cleanUp();
+  // }
 
   if (flags.report) {
     runTests();
@@ -55,7 +54,3 @@ function main() {
 }
 
 main();
-
-module.exports = {
-  flags
-}

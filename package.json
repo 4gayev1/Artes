@@ -34,9 +34,6 @@
     "playwright": "^1.48.2",
     "rimraf": "^6.0.1"
   },
-  "devDependencies": {
-    "madge": "^8.0.0"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/4gayev1/Artes"

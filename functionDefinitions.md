@@ -398,10 +398,10 @@ await navigateTo("https://example.com");
 Navigates to the previous page.
 
 ```javascript
- navigateBack();
+navigateBack();
 ```
 
-  ---
+---
 
 #### `navigateForward()`
 
@@ -422,9 +422,10 @@ await getURL();
 ```
 
 - **Returns**:
+
   - _(string)_: The current page URL.
-  
-  ---
+
+  ***
 
 #### `wait()`
 
@@ -433,11 +434,11 @@ Waits on the page until specified times.
 ```javascript
 await wait(time);
 ```
+
 - **Parameters**:
   - `time` _(int)_: millisecond.
 
 ---
-  
 
 ### **Assertion Functions**
 

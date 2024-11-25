@@ -10,7 +10,6 @@ const { invokeBrowser } = require("../helper/contextManager/browserManager");
 const { invokeRequest } = require("../helper/contextManager/requestManager");
 const { pomCollector } = require("../helper/pomController/pomCollector");
 const cucumberConfig = require("../../cucumber.config");
-const { flags } = require("../../executer");
 const { context } = require("./context");
 const fs = require("fs");
 
@@ -25,11 +24,11 @@ BeforeAll(async function () {
 
   pomCollector();
 
-  flags.trace && browser.tracing.start({
-    sources: true,
-    screenshots: true,
-    snapshots: true,
-  });
+  //  browser.tracing.start({
+  //   sources: true,
+  //   screenshots: true,
+  //   snapshots: true,
+  // });
 });
 
 Before(async function () {
@@ -52,7 +51,7 @@ After(async function ({ pickle, result }) {
   }
 
   await context.page.close();
-
+  // await browser.tracing.stop({ path: 'trace.zip' });
   if (result?.status == Status.FAILED) {
     const videoPath = await context.page.video().path();
     const webmBuffer = await fs.readFileSync(videoPath);
@@ -62,5 +61,4 @@ After(async function ({ pickle, result }) {
 
 AfterAll(function () {
   browser.close();
-  flags.trace && browser.tracing.stop({ path: '/trace.zip' });
 });
