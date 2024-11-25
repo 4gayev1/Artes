@@ -110,6 +110,8 @@
 ### Navigation Actions
 
 - User navigates to `{string}` page
+- User navigates previous page
+- User navigates next page
 
 ### URL Actions
 

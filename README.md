@@ -47,6 +47,8 @@ npx artes [options]
 | 🏗️ `-c, --create`  | Create an example project with Artes                          | `artes -c` or `artes --create`          |
 | ✅ `-y, --yes`     | Skip the confirmation prompt when creating an example project | `artes -c -y` or `artes --create --yes` |
 | 📊 `-r, --report`  | Run tests and generate Allure report                          | `artes -r` or `artes --report`          |
+| 🕵️‍♂️ `-t, --trace`   | Run tests with trace and open trace viewer                    | `artes -t` or `artes --trace`           |
+
 
 \*\* To just run the tests: <br>
 Globally: artes <br>

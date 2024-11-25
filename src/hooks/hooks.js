@@ -8,15 +8,16 @@ const {
 } = require("@cucumber/cucumber");
 const { invokeBrowser } = require("../helper/contextManager/browserManager");
 const { invokeRequest } = require("../helper/contextManager/requestManager");
-const { context } = require("./context");
 const { pomCollector } = require("../helper/pomController/pomCollector");
-const fs = require("fs");
 const cucumberConfig = require("../../cucumber.config");
+const { flags } = require("../../executer");
+const { context } = require("./context");
+const fs = require("fs");
 
 let browser;
 let request;
 
-setDefaultTimeout(cucumberConfig.default.cucumberTimeout);
+setDefaultTimeout(cucumberConfig.default.cucumberTimeout * 1000);
 
 BeforeAll(async function () {
   browser = await invokeBrowser();
@@ -24,7 +25,7 @@ BeforeAll(async function () {
 
   pomCollector();
 
-  browser.tracing.start({
+  flags.trace && browser.tracing.start({
     sources: true,
     screenshots: true,
     snapshots: true,
@@ -50,8 +51,6 @@ After(async function ({ pickle, result }) {
     this.attach(img, "image/png");
   }
 
-  await browser.tracing.stop({ path: "./trace.zip" });
-
   await context.page.close();
 
   if (result?.status == Status.FAILED) {
@@ -63,5 +62,5 @@ After(async function ({ pickle, result }) {
 
 AfterAll(function () {
   browser.close();
-  browser.tracing.stop({ path: "../../trace.zip" });
+  flags.trace && browser.tracing.stop({ path: '/trace.zip' });
 });
