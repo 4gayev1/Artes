@@ -39,20 +39,17 @@ Before(async function () {
 After(async function ({ pickle, result }) {
   let img;
 
-  if (result?.status == Status.FAILED) {
+  if (result?.status != Status.PASSED) {
     img = await context.page.screenshot({
       path: `./test-results/visualReport/${pickle.name}/${pickle.name}.png`,
       type: "png",
     });
-  }
-
-  if (result?.status == Status.FAILED) {
-    this.attach(img, "image/png");
+    await this.attach(img, "image/png");
   }
 
   await context.page.close();
   // await browser.tracing.stop({ path: 'trace.zip' });
-  if (result?.status == Status.FAILED) {
+  if (result?.status != Status.PASSED) {
     const videoPath = await context.page.video().path();
     const webmBuffer = await fs.readFileSync(videoPath);
     await this.attach(webmBuffer, "video/webm");

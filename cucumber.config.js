@@ -43,7 +43,7 @@ module.exports = {
     }, // Formatter options
 
     // Execution options
-    parallel: artesConfig.parallel || 1, // Number of parallel workers
+    parallel: artesConfig.parallel || 0, // Number of parallel workers
     dryRun: artesConfig.dryRun || false, // Prepare test run without execution
     failFast: artesConfig.failFast || false, // Stop on first test failure
     forceExit: artesConfig.forceExit || false, // Force process.exit() after tests
