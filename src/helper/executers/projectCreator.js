@@ -42,7 +42,7 @@ function createProject(createYes) {
     // paths: [],                    // string[] - Paths to feature files
     // steps: "",                    // string - Step definitions files
     // pomPath: "",                  // string - Path to POM files
-    // timeout : 0                   // number - Test timeout in seconds
+    // timeout : 0,                   // number - Test timeout in seconds
     // parallel: 0,                  // number - Number of parallel workers
     // format: [],                   // string[] - Formatter names/paths
     // formatOptions: {},            // object - Formatter options    
