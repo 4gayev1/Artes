@@ -17,7 +17,7 @@ try {
 module.exports = {
   default: {
     // File paths and patterns
-    cucumberTimeout: artesConfig.cucumberTimeout || 30, // Default timeout in milliseconds
+    cucumberTimeout: artesConfig.timeout || 30, // Default timeout in milliseconds
     paths: artesConfig.features
       ? path.join(moduleConfig.projectPath, artesConfig.features)
       : [moduleConfig.featuresPath], // Paths to feature files
@@ -43,7 +43,7 @@ module.exports = {
     }, // Formatter options
 
     // Execution options
-    parallel: artesConfig.parallel || 0, // Number of parallel workers
+    parallel: artesConfig.parallel || 1, // Number of parallel workers
     dryRun: artesConfig.dryRun || false, // Prepare test run without execution
     failFast: artesConfig.failFast || false, // Stop on first test failure
     forceExit: artesConfig.forceExit || false, // Force process.exit() after tests

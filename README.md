@@ -265,26 +265,26 @@ Then("User should see the login form", async () => {
 
 You can configure Artes by editing the `artes.config.js` file. Below are the default configuration options with explanations:
 
-| **Option**       | **Default Value**                                    | **Description**                         |
-| ---------------- | ---------------------------------------------------- | --------------------------------------- |
-| `headless`       | `true`                                               | Run in headless browser mode.           |
-| `paths`          | `["tests/features/"]`                                | Array of paths to feature files.        |
-| `pomPath`        | `"tests/POMs/*.json"`                                | Path to Page Object Models.             |
-| `require`        | `"tests/steps/*.js"`                                 | Array of support code paths (CommonJS). |
-| `parallel`       | `1`                                                  | Number of parallel workers.             |
-| `tags`           | `""`                                                 | Tag expression to filter scenarios.     |
-| `language`       | `"en"`                                               | Default language for feature files.     |
-| `order`          | `"defined"`                                          | Run order (defined or random).          |
-| `dryRun`         | `false`                                              | Prepare test run without execution.     |
-| `failFast`       | `false`                                              | Stop on first failure.                  |
-| `forceExit`      | `false`                                              | Force `process.exit()` after tests.     |
-| `retry`          | `0`                                                  | Retry attempts for failing tests.       |
-| `retryTagFilter` | `""`                                                 | Tag expression for retries.             |
-| `strict`         | `true`                                               | Fail on pending steps.                  |
-| `backtrace`      | `false`                                              | Show full backtrace for errors.         |
-| `format`         | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]` | Array of formatter names/paths.         |
-| `formatOptions`  | `{ "resultsDir": "allure-result" }`                  | Formatter options.                      |
-| `publish`        | `false`                                              | Publish results to `cucumber.io`.       |
+| **Option**       | **Default Value**                                    | **Description**                     |
+| ---------------- | ---------------------------------------------------- | ----------------------------------- |
+| `headless`       | `true`                                               | Run in headless browser mode.       |
+| `paths`          | `["tests/features/"]`                                | Array of paths to feature files.    |
+| `pomPath`        | `"tests/POMs/*.json"`                                | Path to Page Object Models.         |
+| `steps`          | `"tests/steps/*.js"`                                 | string - Step definitions files.    |
+| `format`         | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]` | Array of formatter names/paths.     |
+| `formatOptions`  | `{ "resultsDir": "allure-result" }`                  | Formatter options.                  |
+| `parallel`       | `1`                                                  | Number of parallel workers.         |
+| `tags`           | `""`                                                 | Tag expression to filter scenarios. |
+| `language`       | `"en"`                                               | Default language for feature files. |
+| `order`          | `"defined"`                                          | Run order (defined or random).      |
+| `dryRun`         | `false`                                              | Prepare test run without execution. |
+| `failFast`       | `false`                                              | Stop on first failure.              |
+| `forceExit`      | `false`                                              | Force `process.exit()` after tests. |
+| `retry`          | `0`                                                  | Retry attempts for failing tests.   |
+| `retryTagFilter` | `""`                                                 | Tag expression for retries.         |
+| `strict`         | `true`                                               | Fail on pending steps.              |
+| `backtrace`      | `false`                                              | Show full backtrace for errors.     |
+| `publish`        | `false`                                              | Publish results to `cucumber.io`.   |
 
 ---
 

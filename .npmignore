@@ -8,3 +8,4 @@ node_modules/
 .DS_store
 .idea
 @rerun.txt
+.vscode

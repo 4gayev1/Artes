@@ -568,7 +568,7 @@ Then(
 
 // Check if a selector's text content should not be equal to the expected value
 Then(
-  "User expects {string} should not have {string} text",
+  "User expects {string} should not be {string} text",
   function (selector, expected) {
     assert.shouldNotBe(selector, expected);
   },

@@ -19,9 +19,6 @@ let request;
 setDefaultTimeout(cucumberConfig.default.cucumberTimeout * 1000);
 
 BeforeAll(async function () {
-  browser = await invokeBrowser();
-  request = await invokeRequest();
-
   pomCollector();
 
   //  browser.tracing.start({
@@ -32,6 +29,8 @@ BeforeAll(async function () {
 });
 
 Before(async function () {
+  browser = await invokeBrowser();
+  request = await invokeRequest();
   context.page = await browser.newPage();
   context.request = await request;
 });
@@ -48,6 +47,8 @@ After(async function ({ pickle, result }) {
   }
 
   await context.page.close();
+  await browser.close();
+
   // await browser.tracing.stop({ path: 'trace.zip' });
   if (result?.status != Status.PASSED) {
     const videoPath = await context.page.video().path();
@@ -56,6 +57,4 @@ After(async function ({ pickle, result }) {
   }
 });
 
-AfterAll(function () {
-  browser.close();
-});
+AfterAll(function () {});
