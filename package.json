@@ -1,6 +1,6 @@
 {
   "name": "artes",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "The package provide step definitions and user writes feature files, and the package handles automation, with optional POM files and custom step definitions.",
   "main": "index.js",
   "scripts": {
