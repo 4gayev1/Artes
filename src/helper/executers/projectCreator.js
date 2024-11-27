@@ -68,7 +68,7 @@ function createProject(createYes) {
   const featureContent = `Feature: Shopping on SauceDemo 🛒
 
         Background: Login on SauceDemo
-            Given User navigates to "https://www.saucedemo.com/" page
+            Given User is on home page of SauceDemo
               And User types "standard_user" in "username_input"
               And User types "secret_sauce" in "password_input"
               And User clicks "#login-button"

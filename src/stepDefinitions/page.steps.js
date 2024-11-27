@@ -1,5 +1,5 @@
-const { When, context } = require("../../helper/imports/commons");
-const { page } = require("../../helper/stepFunctions/exporter");
+const { When, context } = require("../helper/imports/commons");
+const { page } = require("../helper/stepFunctions/exporter");
 
 When("User navigates to {string} page", async function (url) {
   await page.navigateTo(url);

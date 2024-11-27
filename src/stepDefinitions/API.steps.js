@@ -1,5 +1,5 @@
-const { When, context } = require("../../helper/imports/commons");
-const { api, assert } = require("../../helper/stepFunctions/exporter");
+const { When, context } = require("../helper/imports/commons");
+const { api, assert } = require("../helper/stepFunctions/exporter");
 
 When("User sends GET request to {string}", async function (url) {
   await api.get(url);

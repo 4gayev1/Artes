@@ -1,5 +1,5 @@
-const { When } = require("../../helper/imports/commons");
-const { keyboard } = require("../../helper/stepFunctions/exporter");
+const { When } = require("../helper/imports/commons");
+const { keyboard } = require("../helper/stepFunctions/exporter");
 
 // User presses a key on a specific selector
 When("User presses {string} on {string}", async function (key, selector) {
