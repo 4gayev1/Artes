@@ -120,7 +120,7 @@ await context.page.goto("https://www.saucedemo.com/");
   const vsCodeSettings = JSON.stringify({
     "cucumber.glue": [
       "tests/steps/*.{ts,js}",
-      "node_modules/artes/src/tests/stepDefinitions/*.{ts,js}",
+      "node_modules/artes/src/stepDefinitions/*.{ts,js}",
     ],
     "cucumber.features": ["tests/features/*.features"],
     "cucumberautocomplete.syncfeatures": true,

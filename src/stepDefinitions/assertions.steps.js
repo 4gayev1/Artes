@@ -1,5 +1,5 @@
-const { Then } = require("../../helper/imports/commons");
-const { assert } = require("../../helper/stepFunctions/exporter");
+const { Then } = require("../helper/imports/commons");
+const { assert } = require("../helper/stepFunctions/exporter");
 
 // Check if a selector should be attached
 Then("User expects {string} should be attached", async function (selector) {

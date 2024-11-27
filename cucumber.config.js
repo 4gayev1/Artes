@@ -25,7 +25,7 @@ module.exports = {
       artesConfig.steps
         ? path.join(moduleConfig.projectPath, artesConfig.steps)
         : moduleConfig.stepsPath,
-      "src/tests/stepDefinitions/*.js",
+      "src/stepDefinitions/*.js",
       "src/hooks/hooks.js",
     ], // Support code paths (CommonJS)
     pomPath: artesConfig.pomPath
