@@ -74,8 +74,8 @@ module.exports = {
   browser: {
     browserType: artesConfig.browserType || "chrome",
     viewport: {
-      width: artesConfig.viewport?.width || 1280,
-      height: artesConfig.viewport?.height || 720,
+      width: artesConfig?.width || 1280,
+      height: artesConfig?.height || 720,
     },
     headless: artesConfig.headless !== undefined ? artesConfig.headless : true,
   },

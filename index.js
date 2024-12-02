@@ -5,6 +5,7 @@ const {
   Then,
   context,
   element,
+  selector,
   page,
   request,
 } = require("./src/helper/imports/commons");
@@ -22,6 +23,7 @@ module.exports = {
   When,
   Then,
   element,
+  selector,
   context,
   page,
   request,

@@ -16,9 +16,17 @@ class Elements {
     const waitTime = this.elements[element]?.waitTime * 1000 || 0;
     return context.page.locator(selector);
   }
+
+  static getSelector(element) {
+    const selector =
+      this.elements?.[element]?.selector || this.elements?.[element] || element;
+    return selector;
+  }
+  
 }
 
 module.exports = {
   getElement: Elements.getElement.bind(Elements),
   addElements: Elements.addElements.bind(Elements),
+  getSelector: Elements.getSelector.bind(Elements)
 };

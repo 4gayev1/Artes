@@ -1,9 +1,10 @@
 const { expect } = require("playwright/test");
 const { Given, When, Then } = require("@cucumber/cucumber");
-const { getElement } = require("../pomController/elementController");
+const { getElement,getSelector } = require("../pomController/elementController");
 const { context } = require("../../hooks/context");
 
 const element = getElement;
+const selector = getSelector;
 const page = context.page;
 const request = context.request;
 
@@ -30,6 +31,7 @@ module.exports = {
   When,
   Then,
   element,
+  selector,
   page,
   request,
   context,

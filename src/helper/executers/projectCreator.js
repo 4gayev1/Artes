@@ -42,7 +42,7 @@ function createProject(createYes) {
     // paths: [],                    // string[] - Paths to feature files
     // steps: "",                    // string - Step definitions files
     // pomPath: "",                  // string - Path to POM files
-    // timeout : 0,                   // number - Test timeout in seconds
+    // timeout : 0,                  // number - Test timeout in seconds
     // parallel: 0,                  // number - Number of parallel workers
     // format: [],                   // string[] - Formatter names/paths
     // formatOptions: {},            // object - Formatter options    
@@ -50,6 +50,9 @@ function createProject(createYes) {
     // tags: "",                     // string - Tag expression to filter scenarios
     // backtrace: false,             // boolean - Show full backtrace for errors
     // dryRun: false,                // boolean - Prepare test run without execution
+    // browser: "chrome",            // "chrome", "firefox", "webkit"
+    // width: 1280,                  // number - Browser width
+    // height: 720,                  // number - Browser height
     // forceExit: false,             // boolean - Force process.exit() after tests
     // failFast: false,              // boolean - Stop on first test failure
     // import: [],                   // string[] - Support code paths

@@ -7,12 +7,10 @@ const mouse = {
   forceClick: async (selector) => {
     await element(selector).click({ force: true });
   },
-  clickPosition: async (selector, position) => {
-    const [x, y] = position.split(",").map(Number);
+  clickPosition: async (selector, x, y) => {
     await element(selector).click({ position: { x: x, y: y } });
   },
-  forceClickPosition: async (selector, position) => {
-    const [x, y] = position.split(",").map(Number);
+  forceClickPosition: async (selector, x, y) => {
     await element(selector).click({ force: true, position: { x: x, y: y } });
   },
   rightClick: async (selector) => {
@@ -33,8 +31,7 @@ const mouse = {
   forceDoubleClick: async (selector) => {
     await element(selector).dblclick({ force: true });
   },
-  forceDoubleClickPosition: async (selector, position) => {
-    const [x, y] = position.split(",").map(Number);
+  forceDoubleClickPosition: async (selector, x, y) => {
     await element(selector).dblclick({ force: true, position: { x: x, y: y } });
   },
   hover: async (selector) => {
@@ -43,12 +40,10 @@ const mouse = {
   forceHover: async (selector) => {
     await element(selector).hover({ force: true });
   },
-  hoverPosition: async (selector, position) => {
-    const [x, y] = position.split(",").map(Number);
+  hoverPosition: async (selector, x, y) => {
     await element(selector).hover({ x: x, y: y });
   },
-  forceHoverPosition: async (selector, position) => {
-    const [x, y] = position.split(",").map(Number);
+  forceHoverPosition: async (selector, x, y) => {
     await element(selector).hover({ force: true, x: x, y: y });
   },
   focus: async (selector) => {
@@ -57,12 +52,10 @@ const mouse = {
   forceFocus: async (selector) => {
     await element(selector).focus({ force: true });
   },
-  focusPosition: async (selector, position) => {
-    const [x, y] = position.split(",").map(Number);
+  focusPosition: async (selector, x, y) => {
     await element(selector).focus({ x: x, y: y });
   },
-  forceFocusPosition: async (selector, position) => {
-    const [x, y] = position.split(",").map(Number);
+  forceFocusPosition: async (selector, x, y) => {
     await element(selector).focus({ force: true, x: x, y: y });
   },
   dragAndDrop: async (sourceSelector, targetSelector) => {
@@ -70,8 +63,7 @@ const mouse = {
     const target = await element(targetSelector);
     await source.dragTo(target);
   },
-  dragAndDropPosition: async (sourceSelector, position) => {
-    const [x, y] = position.split(",").map(Number);
+  dragAndDropPosition: async (sourceSelector, x, y) => {
     await element(sourceSelector).dragTo({ targetPosition: { x: x, y: y } });
   },
   selectByValue: async (selector, value) => {
