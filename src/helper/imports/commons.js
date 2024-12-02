@@ -1,6 +1,9 @@
 const { expect } = require("playwright/test");
 const { Given, When, Then } = require("@cucumber/cucumber");
-const { getElement,getSelector } = require("../pomController/elementController");
+const {
+  getElement,
+  getSelector,
+} = require("../pomController/elementController");
 const { context } = require("../../hooks/context");
 
 const element = getElement;

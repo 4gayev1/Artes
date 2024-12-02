@@ -22,11 +22,10 @@ class Elements {
       this.elements?.[element]?.selector || this.elements?.[element] || element;
     return selector;
   }
-  
 }
 
 module.exports = {
   getElement: Elements.getElement.bind(Elements),
   addElements: Elements.addElements.bind(Elements),
-  getSelector: Elements.getSelector.bind(Elements)
+  getSelector: Elements.getSelector.bind(Elements),
 };
