@@ -53,6 +53,7 @@ function createProject(createYes) {
     // browser: "chrome",            // "chrome", "firefox", "webkit"
     // width: 1280,                  // number - Browser width
     // height: 720,                  // number - Browser height
+    // maximizeScreen: true,         // boolean - Open browser in full screen mode
     // forceExit: false,             // boolean - Force process.exit() after tests
     // failFast: false,              // boolean - Stop on first test failure
     // import: [],                   // string[] - Support code paths
