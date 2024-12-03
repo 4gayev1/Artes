@@ -1,5 +1,5 @@
 const { When, context, selector } = require("../helper/imports/commons");
-const { page } = require("../helper/stepFunctions/exporter");
+const { page, assert } = require("../helper/stepFunctions/exporter");
 
 When("User navigates to {string} page", async function (url) {
   const URL = await selector(url);
@@ -8,7 +8,7 @@ When("User navigates to {string} page", async function (url) {
 
 When("User is on {string} page", async function (url) {
   const URL = await selector(url);
-  await page.navigateTo(URL);
+  await assert.shouldPageHaveURL(URL);
 });
 
 When("User navigates previous page", async function () {

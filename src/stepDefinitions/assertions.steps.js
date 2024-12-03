@@ -180,11 +180,7 @@ Then(
 );
 
 // Check if the page should have a specific URL
-Then("User expects the page url should be {string}", async function (url) {
-  await assert.shouldPageHaveURL(url);
-});
-
-Then("User is on {string} page", async function (url) {
+Then("User expects to be in {string} page", async function (url) {
   await assert.shouldPageHaveURL(url);
 });
 
