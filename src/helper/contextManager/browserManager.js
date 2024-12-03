@@ -6,14 +6,16 @@ const invokeBrowser = async () => {
 
   const options = {
     headless: cucumberConfig.browser.headless,
-    args:[cucumberConfig.browser.maximizeScreen && '--start-maximized']
+    args: [cucumberConfig.browser.maximizeScreen && "--start-maximized"],
   };
 
   const browserType =
     cucumberConfig.browser.browserType.toLowerCase() || "chrome";
 
   const browserContextOptions = {
-    viewport: cucumberConfig.browser.maximizeScreen ? null : cucumberConfig.browser.viewport,
+    viewport: cucumberConfig.browser.maximizeScreen
+      ? null
+      : cucumberConfig.browser.viewport,
     recordVideo: {
       dir: "./test-results/visualReport/",
       size: cucumberConfig.viewport,
