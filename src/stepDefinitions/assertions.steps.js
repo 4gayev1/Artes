@@ -1,4 +1,4 @@
-const { Then } = require("../helper/imports/commons");
+const { Then, selector } = require("../helper/imports/commons");
 const { assert } = require("../helper/stepFunctions/exporter");
 
 // Check if a selector should be attached
@@ -181,7 +181,8 @@ Then(
 
 // Check if the page should have a specific URL
 Then("User expects to be in {string} page", async function (url) {
-  await assert.shouldPageHaveURL(url);
+  const URL = await selector(url);
+  await assert.shouldPageHaveURL(URL);
 });
 
 // Check if the response should be OK
