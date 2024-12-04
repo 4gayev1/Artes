@@ -21,7 +21,10 @@ class Elements {
       this.elements?.[element]?.split("=")[1] ||
       element?.split("=")[1];
 
-    const locator = [selectorType.trim(), selector.trim()];
+    const locator = [
+      selectorType.trim(),
+      selector != undefined ? selector.trim() : selector
+    ];
 
     const waitTime = this.elements[element]?.waitTime * 1000 || 0;
 
