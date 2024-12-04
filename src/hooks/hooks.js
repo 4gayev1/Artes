@@ -20,12 +20,6 @@ setDefaultTimeout(cucumberConfig.default.cucumberTimeout * 1000);
 
 BeforeAll(async function () {
   pomCollector();
-
-  //  browser.tracing.start({
-  //   sources: true,
-  //   screenshots: true,
-  //   snapshots: true,
-  // });
 });
 
 Before(async function () {
@@ -33,6 +27,11 @@ Before(async function () {
   request = await invokeRequest();
   context.page = await browser.newPage();
   context.request = await request;
+  await browser.tracing.start({
+    sources: true,
+    screenshots: true,
+    snapshots: true,
+  });
 });
 
 After(async function ({ pickle, result }) {
@@ -46,10 +45,10 @@ After(async function ({ pickle, result }) {
     await this.attach(img, "image/png");
   }
 
+  await browser.tracing.stop({ path: "./trace.zip" });
   await context.page.close();
   await browser.close();
 
-  // await browser.tracing.stop({ path: 'trace.zip' });
   if (result?.status != Status.PASSED) {
     const videoPath = await context.page.video().path();
     const webmBuffer = await fs.readFileSync(videoPath);
