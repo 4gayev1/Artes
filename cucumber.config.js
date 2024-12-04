@@ -17,7 +17,7 @@ try {
 module.exports = {
   default: {
     // File paths and patterns
-    cucumberTimeout: artesConfig.timeout || 30, // Default timeout in milliseconds
+    timeout: artesConfig.timeout || 30, // Default timeout in milliseconds
     paths: artesConfig.features
       ? path.join(moduleConfig.projectPath, artesConfig.features)
       : [moduleConfig.featuresPath], // Paths to feature files

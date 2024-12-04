@@ -21,8 +21,8 @@ class Elements {
       this.elements?.[element]?.split("=")[1] ||
       element?.split("=")[1];
 
-    const locator = [selectorType, selector];
-    
+    const locator = [selectorType.trim(), selector.trim()];
+
     const waitTime = this.elements[element]?.waitTime * 1000 || 0;
 
     switch (locator[0]) {

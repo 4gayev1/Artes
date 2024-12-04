@@ -4,7 +4,6 @@ const {
   After,
   Status,
   setDefaultTimeout,
-  AfterAll,
 } = require("@cucumber/cucumber");
 const { invokeBrowser } = require("../helper/contextManager/browserManager");
 const { invokeRequest } = require("../helper/contextManager/requestManager");
@@ -16,7 +15,7 @@ const fs = require("fs");
 let browser;
 let request;
 
-setDefaultTimeout(cucumberConfig.default.cucumberTimeout * 1000);
+setDefaultTimeout(cucumberConfig.default.timeout * 1000);
 
 BeforeAll(async function () {
   pomCollector();
@@ -25,8 +24,12 @@ BeforeAll(async function () {
 Before(async function () {
   browser = await invokeBrowser();
   request = await invokeRequest();
+
   context.page = await browser.newPage();
+  await context.page.setDefaultTimeout(cucumberConfig.default.timeout * 1000);
+
   context.request = await request;
+
   await browser.tracing.start({
     sources: true,
     screenshots: true,
@@ -55,5 +58,3 @@ After(async function ({ pickle, result }) {
     await this.attach(webmBuffer, "video/webm");
   }
 });
-
-AfterAll(function () {});
