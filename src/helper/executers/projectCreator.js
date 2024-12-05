@@ -139,10 +139,7 @@ await context.page.goto("https://www.saucedemo.com/");
     featureContent,
   );
   fs.writeFileSync(path.join(srcDir, "POMs", "example.pom.json"), pomContent);
-  fs.writeFileSync(
-    path.join(srcDir, "steps", "example.steps.js"),
-    stepsContent,
-  );
+  fs.writeFileSync(path.join(srcDir, "steps", "common.steps.js"), stepsContent);
 
   fs.writeFileSync(
     path.join(projectDir, ".vscode", "settings.json"),

@@ -7,49 +7,74 @@ class Elements {
     this.elements = { ...this.elements, ...elements };
   }
 
+  // static async locatorExistenceChecker(locator){
+  //   const locatorCount = await locator.count();
+  //   console.log(locator, locatorCount)
+  //   return locatorCount ==0 ? false : true;
+  // }
+
   static getElement(element) {
     if (!context.page) {
       throw new Error("Page context is not initialized.");
     }
 
-    const selectorType =
-      this.elements?.[element]?.selector?.split("=")[0] ||
-      this.elements?.[element]?.split("=")[0] ||
-      element?.split("=")[0];
-    const selector =
-      this.elements?.[element]?.selector?.split("=")[1] ||
-      this.elements?.[element]?.split("=")[1] ||
-      element?.split("=")[1];
+    function selectorSeperator(element) {
+      const selector = element?.split("=");
+      return [
+        selector[0]?.trim(),
+        selector[1] !== undefined ? selector[1].trim() : "",
+      ];
+    }
 
-    const locator = [
-      selectorType.trim(),
-      selector != undefined ? selector.trim() : selector
-    ];
+    function getSelector(elements, element) {
+      if (elements?.[element]?.selector) {
+        return selectorSeperator(elements[element].selector);
+      } else if (elements?.[element]) {
+        return selectorSeperator(elements[element]);
+      } else if (typeof element === "string") {
+        return selectorSeperator(element);
+      }
+      return null;
+    }
 
+    const selector = getSelector(this.elements, element);
     const waitTime = this.elements[element]?.waitTime * 1000 || 0;
 
-    switch (locator[0]) {
+    let locator;
+    switch (selector[0]) {
       case "xpath":
-        return context.page.locator(`xpath=${locator[1]}`);
+        locator = context.page.locator(`xpath=${selector[1]}`);
+        break;
       case "name":
-        return context.page.locator(`[name=${locator[1]}]`);
+        locator = context.page.locator(`[name=${selector[1]}]`);
+        break;
       case "placeholder":
-        return context.page.getByPlaceholder(locator[1]);
+        locator = context.page.getByPlaceholder(selector[1]);
+        break;
       case "text":
-        return context.page.getByText(locator[1]);
+        locator = context.page.getByText(selector[1]);
+        break;
       case "label":
-        return context.page.getByLabel(locator[1]);
+        locator = context.page.getByLabel(selector[1]);
+        break;
       case "role":
-        return context.page.getByRole(locator[1]);
+        locator = context.page.getByRole(selector[1]);
+        break;
       case "alt":
-        return context.page.getByAltText(locator[1]);
+        locator = context.page.getByAltText(selector[1]);
+        break;
       case "title":
-        return context.page.getByTitle(locator[1]);
+        locator = context.page.getByTitle(selector[1]);
+        break;
       case "testid":
-        return context.page.getByTestId(locator[1]);
+        locator = context.page.getByTestId(selector[1]);
+        break;
       default:
-        return context.page.locator(locator[0]);
+        locator = context.page.locator(selector[0]);
+        break;
     }
+
+    return locator;
   }
 
   static getSelector(element) {

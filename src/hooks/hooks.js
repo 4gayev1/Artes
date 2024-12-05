@@ -11,6 +11,7 @@ const { pomCollector } = require("../helper/pomController/pomCollector");
 const cucumberConfig = require("../../cucumber.config");
 const { context } = require("./context");
 const fs = require("fs");
+const { expect } = require("playwright/test");
 
 let browser;
 let request;
@@ -27,7 +28,6 @@ Before(async function () {
 
   context.page = await browser.newPage();
   await context.page.setDefaultTimeout(cucumberConfig.default.timeout * 1000);
-
   context.request = await request;
 
   await browser.tracing.start({
@@ -52,7 +52,7 @@ After(async function ({ pickle, result }) {
   await context.page.close();
   await browser.close();
 
-  if (result?.status != Status.PASSED) {
+  if (result?.status != Status.FAILED) {
     const videoPath = await context.page.video().path();
     const webmBuffer = await fs.readFileSync(videoPath);
     await this.attach(webmBuffer, "video/webm");
