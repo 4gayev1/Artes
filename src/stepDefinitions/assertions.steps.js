@@ -65,10 +65,8 @@ Then(
 Then(
   "User expects multiple {string} should have {string} text",
   async (elements, expectedText) => {
-    for (let i = 0; i < count; i++) {
       await assert.multipleElementsShouldContainText(elements, expectedText);
-    }
-  },
+  }
 );
 
 // Check if a selector should have an accessible description
