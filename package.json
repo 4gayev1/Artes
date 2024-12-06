@@ -1,6 +1,6 @@
 {
   "name": "artes",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "description": "The package provide step definitions and user writes feature files, and the package handles automation, with optional POM files and custom step definitions.",
   "main": "index.js",
   "scripts": {
@@ -27,6 +27,9 @@
   "dependencies": {
     "@cucumber/cucumber": "^11.0.1",
     "@cucumber/messages": "^26.0.1",
+    "@gatling.io/core": "3.12.0",
+    "@gatling.io/cli": "3.12.0",
+    "@gatling.io/http": "3.12.0",
     "@types/node": "^22.9.0",
     "allure-commandline": "^2.30.0",
     "allure-cucumberjs": "^3.0.5",

@@ -1,8 +1,15 @@
 const { element } = require("../imports/commons");
-
+const { frame } = require("../stepFunctions/frameActions");
 const mouse = {
   click: async (selector) => {
-    await element(selector).click(selector);
+    await element(selector).click();
+  },
+  multipleElementClick: async (elements) => {
+    const elementCount = await frame.count(elements);
+
+    for (let i = 0; i < elementCount; i++) {
+      await frame.nth(elements, i).click();
+    }
   },
   forceClick: async (selector) => {
     await element(selector).click({ force: true });
@@ -16,11 +23,25 @@ const mouse = {
   rightClick: async (selector) => {
     await element(selector).click({ button: "right" });
   },
+  multipleElementRightClick: async (elements) => {
+    const elementCount = await frame.count(elements);
+
+    for (let i = 0; i < elementCount; i++) {
+      await frame.nth(elements, i).click({ button: "right" });
+    }
+  },
   forceRightClick: async (selector) => {
     await element(selector).click({ force: true, button: "right" });
   },
   leftClick: async (selector) => {
     await element(selector).click({ button: "left" });
+  },
+  multipleElementLeftClick: async (elements) => {
+    const elementCount = await frame.count(elements);
+
+    for (let i = 0; i < elementCount; i++) {
+      await frame.nth(elements, i).click({ button: "left" });
+    }
   },
   forceLeftClick: async (selector) => {
     await element(selector).click({ force: true, button: "left" });

@@ -1,79 +1,135 @@
 const { expect, element, context } = require("../imports/commons");
 const { elementInteractions } = require("./elementInteractions");
+const { frame } = require("../stepFunctions/frameActions");
 
 const assert = {
   // Element Assertion
   shouldBeAttached: async (selector) => {
-    await expect(element(selector)).toBeAttached();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toBeAttached();
   },
   shouldBeChecked: async (selector) => {
-    await expect(element(selector)).toBeChecked();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toBeChecked();
   },
   shouldBeDisabled: async (selector) => {
-    await expect(element(selector)).toBeDisabled();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toBeDisabled();
   },
   shouldBeEditable: async (selector) => {
-    await expect(element(selector)).toBeEditable();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toBeEditable();
   },
   shouldBeEmpty: async (selector) => {
-    await expect(element(selector)).toBeEmpty();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toBeEmpty();
   },
   shouldBeEnabled: async (selector) => {
-    await expect(element(selector)).toBeEnabled();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toBeEnabled();
   },
   shouldBeFocused: async (selector) => {
-    await expect(element(selector)).toBeFocused();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toBeFocused();
   },
   shouldBeHidden: async (selector) => {
-    await expect(element(selector)).toBeHidden();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toBeHidden();
   },
   shouldBeInViewport: async (selector) => {
-    await expect(element(selector)).toBeInViewport();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toBeInViewport();
   },
   shouldBeVisible: async (selector) => {
-    await expect(element(selector)).toBeVisible();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toBeVisible();
   },
   shouldContainText: async (selector, text) => {
-    await expect(element(selector)).toContainText(text);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toContainText(text);
+  },
+  multipleElementsShouldContainText: async (elements, expectedText) => {
+    const count = await frame.count(elements);
+
+    for (let i = 0; i < count; i++) {
+      await assert.shouldContainText(frame.nth(elements, i), expectedText);
+    }
   },
   shouldHaveAccessibleDescription: async (selector, description) => {
-    await expect(element(selector)).toHaveAccessibleDescription(description);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toHaveAccessibleDescription(description);
   },
   shouldHaveAccessibleName: async (selector, name) => {
-    await expect(element(selector)).toHaveAccessibleName(name);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toHaveAccessibleName(name);
   },
   shouldHaveAttribute: async (selector, attribute, value) => {
-    await expect(element(selector)).toHaveAttribute(attribute, value);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toHaveAttribute(attribute, value);
   },
   shouldHaveClass: async (selector, className) => {
-    await expect(element(selector)).toHaveClass(className);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toHaveClass(className);
   },
   shouldHaveCount: async (selector, count) => {
-    await expect(element(selector)).toHaveCount(count);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toHaveCount(count);
   },
   shouldHaveCSS: async (selector, property, value) => {
-    await expect(element(selector)).toHaveCSS(property, value);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toHaveCSS(property, value);
   },
   shouldHaveId: async (selector, id) => {
-    await expect(element(selector)).toHaveId(id);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toHaveId(id);
   },
   shouldHaveJSProperty: async (selector, property, value) => {
-    await expect(element(selector)).toHaveJSProperty(property, value);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toHaveJSProperty(property, value);
   },
   shouldHaveRole: async (selector, role) => {
-    await expect(element(selector)).toHaveRole(role);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toHaveRole(role);
   },
   shouldHaveScreenshot: async (selector) => {
-    await expect(element(selector)).toHaveScreenshot();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toHaveScreenshot();
   },
   shouldHaveText: async (selector, text) => {
-    await expect(element(selector)).toHaveText(text);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toHaveText(text);
   },
   shouldHaveValue: async (selector, value) => {
-    await expect(element(selector)).toHaveValue(value);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toHaveValue(value);
   },
   shouldHaveValues: async (selector, values) => {
-    await expect(element(selector)).toHaveValues(values);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).toHaveValues(values);
   },
   shouldPageHaveScreenshot: async () => {
     await expect(context.page).toHaveScreenshot();
@@ -90,78 +146,124 @@ const assert = {
 
   // Negative Element Assertion
   shouldNotBeAttached: async (selector) => {
-    await expect(element(selector)).not.toBeAttached();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeAttached();
   },
   shouldNotBeChecked: async (selector) => {
-    await expect(element(selector)).not.toBeChecked();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeChecked();
   },
   shouldNotBeDisabled: async (selector) => {
-    await expect(element(selector)).not.toBeDisabled();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeDisabled();
   },
   shouldNotBeEditable: async (selector) => {
-    await expect(element(selector)).not.toBeEditable();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeEditable();
   },
   shouldNotBeEmpty: async (selector) => {
-    await expect(element(selector)).not.toBeEmpty();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeEmpty();
   },
   shouldNotBeEnabled: async (selector) => {
-    await expect(element(selector)).not.toBeEnabled();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeEnabled();
   },
   shouldNotBeFocused: async (selector) => {
-    await expect(element(selector)).not.toBeFocused();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeFocused();
   },
   shouldNotBeHidden: async (selector) => {
-    await expect(element(selector)).not.toBeHidden();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeHidden();
   },
   shouldNotBeInViewport: async (selector) => {
-    await expect(element(selector)).not.toBeInViewport();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeInViewport();
   },
   shouldNotBeVisible: async (selector) => {
-    await expect(element(selector)).not.toBeVisible();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeVisible();
   },
   shouldNotContainText: async (selector, text) => {
-    await expect(element(selector)).not.toContainText(text);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toContainText(text);
   },
   shouldNotHaveAccessibleDescription: async (selector, description) => {
-    await expect(element(selector)).not.toHaveAccessibleDescription(
-      description,
-    );
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveAccessibleDescription(description);
   },
   shouldNotHaveAccessibleName: async (selector, name) => {
-    await expect(element(selector)).not.toHaveAccessibleName(name);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveAccessibleName(name);
   },
   shouldNotHaveAttribute: async (selector, attribute, value) => {
-    await expect(element(selector)).not.toHaveAttribute(attribute, value);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveAttribute(attribute, value);
   },
   shouldNotHaveClass: async (selector, className) => {
-    await expect(element(selector)).not.toHaveClass(className);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveClass(className);
   },
   shouldNotHaveCount: async (selector, count) => {
-    await expect(element(selector)).not.toHaveCount(count);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveCount(count);
   },
   shouldNotHaveCSS: async (selector, property, value) => {
-    await expect(element(selector)).not.toHaveCSS(property, value);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveCSS(property, value);
   },
   shouldNotHaveId: async (selector, id) => {
-    await expect(element(selector)).not.toHaveId(id);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveId(id);
   },
   shouldNotHaveJSProperty: async (selector, property, value) => {
-    await expect(element(selector)).not.toHaveJSProperty(property, value);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveJSProperty(property, value);
   },
   shouldNotHaveRole: async (selector, role) => {
-    await expect(element(selector)).not.toHaveRole(role);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveRole(role);
   },
   shouldNotHaveScreenshot: async (selector) => {
-    await expect(element(selector)).not.toHaveScreenshot();
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveScreenshot();
   },
   shouldNotHaveText: async (selector, text) => {
-    await expect(element(selector)).not.toHaveText(text);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveText(text);
   },
   shouldNotHaveValue: async (selector, value) => {
-    await expect(element(selector)).not.toHaveValue(value);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveValue(value);
   },
   shouldNotHaveValues: async (selector, values) => {
-    await expect(element(selector)).not.toHaveValues(values);
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveValues(values);
   },
   shouldNotPageHaveScreenshot: async () => {
     await expect(context.page).not.toHaveScreenshot();
