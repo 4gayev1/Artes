@@ -13,6 +13,13 @@ const keyboard = {
   fill: async (selector, value) => {
     await element(selector).fill(value);
   },
+  multipleElementFill: async (selectors, value) => {
+    const elementCount = await frame.count(selectors);
+
+    for (let i = 0; i < elementCount; i++) {
+      await frame.nth(selectors, i).fill(value);
+    }
+  },
   clear: async (selector) => {
     await element(selector).clear();
   },

@@ -6,6 +6,10 @@ When("User clicks {string}", async function (selector) {
   await mouse.click(selector);
 });
 
+When("User clicks multiple {string}", async (elements) => {
+  await mouse.multipleElementClick(elements);
+});
+
 // User clicks on a selector with force
 When("User clicks {string} with force", async function (selector) {
   await mouse.click(selector, true);
@@ -67,6 +71,10 @@ When(
 // User double clicks on a selector
 When("User double clicks {string}", async function (selector) {
   await mouse.doubleClick(selector);
+});
+
+When("User double clicks multiple {string}", async (elements) => {
+  await mouse.multipleElementDoubleClick(elements);
 });
 
 // User double clicks on a selector with force
@@ -213,9 +221,17 @@ When("User checks {string}", async function (selector) {
   await mouse.check(selector);
 });
 
+When("User checks multiple {string}", async function (selectors) {
+  await mouse.multipleElementCheck(selectors);
+});
+
 // User unchecks a checkbox or radio button
 When("User unchecks {string}", async function (selector) {
   await mouse.uncheck(selector);
+});
+
+When("User unchecks multiple {string}", async function (selectors) {
+  await mouse.multipleElementUncheck(selectors);
 });
 
 // User scrolls into view if needed for a selector

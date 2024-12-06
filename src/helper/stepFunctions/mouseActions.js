@@ -4,11 +4,11 @@ const mouse = {
   click: async (selector) => {
     await element(selector).click();
   },
-  multipleElementClick: async (elements) => {
-    const elementCount = await frame.count(elements);
+  multipleElementClick: async (selectors) => {
+    const elementCount = await frame.count(selectors);
 
     for (let i = 0; i < elementCount; i++) {
-      await frame.nth(elements, i).click();
+      await frame.nth(selectors, i).click();
     }
   },
   forceClick: async (selector) => {
@@ -48,6 +48,13 @@ const mouse = {
   },
   doubleClick: async (selector) => {
     await element(selector).dblclick();
+  },
+  multipleElementDoubleClick: async (elements) => {
+    const elementCount = await frame.count(elements);
+
+    for (let i = 0; i < elementCount; i++) {
+      await frame.nth(elements, i).dblclick();
+    }
   },
   forceDoubleClick: async (selector) => {
     await element(selector).dblclick({ force: true });
@@ -97,8 +104,22 @@ const mouse = {
   check: async (selector) => {
     await element(selector).check();
   },
+  multipleElementCheck: async (selectors) => {
+    const elementCount = await frame.count(selectors);
+
+    for (let i = 0; i < elementCount; i++) {
+      await frame.nth(selectors, i).check();
+    }
+  },
   uncheck: async (selector) => {
     await element(selector).uncheck();
+  },
+  multipleElementUncheck: async (selectors) => {
+    const elementCount = await frame.count(selectors);
+
+    for (let i = 0; i < elementCount; i++) {
+      await frame.nth(selectors, i).uncheck();
+    }
   },
   scrollIntoViewIfNeeded: async (selector) => {
     await element(selector).scrollIntoViewIfNeeded();

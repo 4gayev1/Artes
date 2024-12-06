@@ -12,6 +12,8 @@ const cucumberConfig = require("../../cucumber.config");
 const { context } = require("./context");
 const fs = require("fs");
 const { expect } = require("playwright/test");
+const { moduleConfig } = require("artes/src/helper/imports/commons");
+const path = require("path");
 
 let browser;
 let request;
@@ -48,11 +50,13 @@ After(async function ({ pickle, result }) {
     await this.attach(img, "image/png");
   }
 
-  await browser.tracing.stop({ path: "./trace.zip" });
+  await browser.tracing.stop({
+    path: path.join(moduleConfig.projectPath, "./trace.zip"),
+  });
   await context.page.close();
   await browser.close();
 
-  if (result?.status != Status.FAILED) {
+  if (result?.status != Status.PASSED) {
     const videoPath = await context.page.video().path();
     const webmBuffer = await fs.readFileSync(videoPath);
     await this.attach(webmBuffer, "video/webm");

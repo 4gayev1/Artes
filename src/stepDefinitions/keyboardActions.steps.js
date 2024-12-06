@@ -27,6 +27,13 @@ When("User types {string} in {string}", async function (value, selector) {
   await keyboard.fill(selector, value);
 });
 
+When(
+  "User types {string} in multiple {string}",
+  async function (value, selectors) {
+    await keyboard.multipleElementFill(selectors, value);
+  },
+);
+
 // User clears the input of a specific selector
 When("User clears {string}", async function (selector) {
   await keyboard.clear(selector);
