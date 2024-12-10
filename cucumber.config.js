@@ -72,28 +72,12 @@ module.exports = {
   },
 
   browser: {
-    browserType: artesConfig.browserType || "chrome",
+    browserType: artesConfig?.browser || "chrome",
     viewport: {
       width: artesConfig?.width || 1280,
       height: artesConfig?.height || 720,
     },
-    maximizeScreen: true,
-    headless: artesConfig.headless !== undefined ? artesConfig.headless : true,
-  },
-
-  ci: {
-    ...this.default,
-    parallel: 4,
-    tags: "@smoke",
-    headless: true,
-    format: ["json:reports/cucumber-report.json"],
-  },
-
-  debug: {
-    ...this.default,
-    parallel: 1,
-    backtrace: true,
-    failFast: true,
-    format: ["progress-bar"],
+    maximizeScreen: artesConfig?.maximizeScreen || true,
+    headless: artesConfig?.headless !== undefined ? artesConfig.headless : true,
   },
 };
