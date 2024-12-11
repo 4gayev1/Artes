@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="madge" src="https://github.com/user-attachments/assets/e0641011-0e96-4330-8ad5-935b395b0838" width="280">
+  <img alt="artesLogo" src="https://github.com/user-attachments/assets/e0641011-0e96-4330-8ad5-935b395b0838" width="280">
 </p>
 
 <h1 align="center">Artes</h1>
@@ -40,14 +40,13 @@ npx artes [options]
 
 ### Options
 
-| Option             | Description                                                   | Usage Example                              |
-| ------------------ | ------------------------------------------------------------- | ------------------------------------------ | ----------------------------- | --- |
-| 🆘 `-h, --help`    | Show the usage options                                        | `artes -h` or `artes --help`               |
-| 🏷️ `-v, --version` | Show the current version of Artes                             | `artes -v` or `artes --version`            |
-| 🏗️ `-c, --create`  | Create an example project with Artes                          | `artes -c` or `artes --create`             |
-| ✅ `-y, --yes`     | Skip the confirmation prompt when creating an example project | `artes -c -y` or `artes --create --yes`    |
-| 📊 `-r, --report`  | Run tests and generate Allure report                          | `artes -r` or `artes --report`             |
-| <!--               | 🕵️‍♂️ `-t, --trace`                                              | Run tests with trace and open trace viewer | `artes -t` or `artes --trace` | --> |
+| Option             | Description                                                   | Usage Example                           |
+| ------------------ | ------------------------------------------------------------- | --------------------------------------- |
+| 🆘 `-h, --help`    | Show the usage options                                        | `artes -h` or `artes --help`            |
+| 🏷️ `-v, --version` | Show the current version of Artes                             | `artes -v` or `artes --version`         |
+| 🏗️ `-c, --create`  | Create an example project with Artes                          | `artes -c` or `artes --create`          |
+| ✅ `-y, --yes`     | Skip the confirmation prompt when creating an example project | `artes -c -y` or `artes --create --yes` |
+| 📊 `-r, --report`  | Run tests and generate Allure report                          | `artes -r` or `artes --report`          |
 
 \*\* To just run the tests: <br>
 Globally: artes <br>
