@@ -1,5 +1,5 @@
 const { When, context, selector } = require("../helper/imports/commons");
-const { page, assert } = require("../helper/stepFunctions/exporter");
+const { page, assert, mouse } = require("../helper/stepFunctions/exporter");
 
 When("User navigates to {string} page", async function (url) {
   const URL = await selector(url);
@@ -37,4 +37,33 @@ When(`User waits {int} milliseconds`, async (sec) => {
 
 When(`User waits {int} minutes`, async (sec) => {
   await page.wait(sec * 1000 * 60);
+});
+
+
+When('User clicks {string} and confirms alert', async (button) => {
+  context.page.on('dialog', async (dialog) => {
+    await dialog.accept();
+  });
+  await mouse.click(button);
+});
+
+When('User clicks {string} and confirms popup', async (button) => {
+  context.page.on('dialog', async (dialog) => {
+    await dialog.accept();
+  });
+  await mouse.click(button);
+});
+
+When('User clicks {string} and dismisses popup', async (button) => {
+  context.page.on('dialog', async (dialog) => {
+    await dialog.dismiss();
+  });
+  await mouse.click(button);
+});
+
+When('User clicks {string} and types {string} in prompt', async (button, prompt) => {
+  context.page.on('dialog', async (dialog) => {
+    await dialog.accept(prompt);
+  });
+  await mouse.click(button);
 });
