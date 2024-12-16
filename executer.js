@@ -7,7 +7,6 @@ const {
   runTests,
   generateReport,
   cleanUp,
-  tracer,
 } = require("./src/helper/executers/exporter");
 
 const args = process.argv.slice(2);

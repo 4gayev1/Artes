@@ -39,31 +39,33 @@ When(`User waits {int} minutes`, async (sec) => {
   await page.wait(sec * 1000 * 60);
 });
 
-
-When('User clicks {string} and confirms alert', async (button) => {
-  context.page.on('dialog', async (dialog) => {
+When("User clicks {string} and confirms alert", async (button) => {
+  context.page.on("dialog", async (dialog) => {
     await dialog.accept();
   });
   await mouse.click(button);
 });
 
-When('User clicks {string} and confirms popup', async (button) => {
-  context.page.on('dialog', async (dialog) => {
+When("User clicks {string} and confirms popup", async (button) => {
+  context.page.on("dialog", async (dialog) => {
     await dialog.accept();
   });
   await mouse.click(button);
 });
 
-When('User clicks {string} and dismisses popup', async (button) => {
-  context.page.on('dialog', async (dialog) => {
+When("User clicks {string} and dismisses popup", async (button) => {
+  context.page.on("dialog", async (dialog) => {
     await dialog.dismiss();
   });
   await mouse.click(button);
 });
 
-When('User clicks {string} and types {string} in prompt', async (button, prompt) => {
-  context.page.on('dialog', async (dialog) => {
-    await dialog.accept(prompt);
-  });
-  await mouse.click(button);
-});
+When(
+  "User clicks {string} and types {string} in prompt",
+  async (button, prompt) => {
+    context.page.on("dialog", async (dialog) => {
+      await dialog.accept(prompt);
+    });
+    await mouse.click(button);
+  },
+);
