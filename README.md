@@ -8,6 +8,9 @@
 
 Artes is a test runner for Playwright that executes [predefined Cucumber tests](./documents/stepDefinitions.md) and can generate Allure reports for test results. It simplifies setting up Playwright with Cucumber in your automation workflow. With Artes, you can easily run tests without writing step definitions, generate reports, and customize your testing environment.
 
+![artes demonstration](https://github.com/user-attachments/assets/c46172f7-103d-45d1-a37d-8d4267df0967)
+
+
 ## 🧑‍💻 Installation
 
 You can install **Artes** via npm. To install it globally**(RECOMMENDED)**, run the following command:
