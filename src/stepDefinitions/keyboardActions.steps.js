@@ -6,10 +6,13 @@ When("User presses {string} on {string}", async function (key, selector) {
   await keyboard.press(selector, key);
 });
 
-When('User types {string} in {int} th of {string}', async (text, order, elements) => {
-  const nthElement = await frame.nth(elements, order)
-  await nthElement.fill(text);
-})
+When(
+  "User types {string} in {int} th of {string}",
+  async (text, order, elements) => {
+    const nthElement = await frame.nth(elements, order);
+    await nthElement.fill(text);
+  },
+);
 
 // User presses keys sequentially on a specific selector
 When(

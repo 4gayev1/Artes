@@ -96,10 +96,10 @@ const mouse = {
   },
   selectByValue: async (selector, value) => {
     const valueArray = value.split(",");
-  value !== "" ? await element(selector).selectOption(valueArray) : "";
+    value !== "" ? await element(selector).selectOption(valueArray) : "";
   },
   selectByText: async (selector, value) => {
-   value !== "" ? await element(selector).selectOption(value) : "" ;
+    value !== "" ? await element(selector).selectOption(value) : "";
   },
   check: async (selector) => {
     await element(selector).check();

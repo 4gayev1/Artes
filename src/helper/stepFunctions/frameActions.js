@@ -14,7 +14,7 @@ const frame = {
     return await element(selector).frameLocator();
   },
   nth: async (selector, index) => {
-    return await element(selector).nth(index-1);
+    return await element(selector).nth(index - 1);
   },
   first: async (selector) => {
     return await element(selector).first();

@@ -1,4 +1,9 @@
-const { Then, selector,expect,element } = require("../helper/imports/commons");
+const {
+  Then,
+  selector,
+  expect,
+  element,
+} = require("../helper/imports/commons");
 const { assert, frame } = require("../helper/stepFunctions/exporter");
 
 // Check if a selector should be attached
@@ -62,10 +67,13 @@ Then(
   },
 );
 
-Then('User expects default value of {string} should have {string} text', async (selector, text) => {
-  const defaultValue = await element(selector).inputValue()
-  await expect(defaultValue).toContain(text)
-})
+Then(
+  "User expects default value of {string} should have {string} text",
+  async (selector, text) => {
+    const defaultValue = await element(selector).inputValue();
+    await expect(defaultValue).toContain(text);
+  },
+);
 
 Then(
   "User expects multiple {string} should have {string} text",
@@ -801,7 +809,7 @@ Then(
   },
 );
 
-Then('User expects should have {int} {string}', async (count, elements) => {
+Then("User expects should have {int} {string}", async (count, elements) => {
   const elementCount = await frame.count(elements);
-  expect(elementCount).toEqual(count)
-})
+  expect(elementCount).toEqual(count);
+});
