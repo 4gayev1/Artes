@@ -1,10 +1,21 @@
 const { When } = require("../helper/imports/commons");
-const { mouse } = require("../helper/stepFunctions/exporter");
+const { mouse, frame } = require("../helper/stepFunctions/exporter");
 
 // User clicks on a selector
 When("User clicks {string}", async function (selector) {
   await mouse.click(selector);
 });
+
+When("User clicks last of {string}", async (selector) => {
+  const elementCount = await frame.count(selector)
+  const lastElement = await frame.nth(selector, elementCount)
+  await mouse.click(lastElement);
+});
+
+When('User clicks {int} th of {string}', async (order, elements) => {
+  const nthElement = await frame.nth(elements, order)
+  await nthElement.click();
+})
 
 When("User clicks multiple {string}", async (elements) => {
   await mouse.multipleElementClick(elements);

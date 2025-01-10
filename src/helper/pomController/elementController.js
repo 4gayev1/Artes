@@ -43,34 +43,34 @@ class Elements {
     let locator;
     switch (selector[0]) {
       case "xpath":
-        locator = context.page.locator(`xpath=${selector[1]}`);
+        locator = context.page.locator(`xpath=${selector[1]}`,{ exact: true });
         break;
       case "name":
-        locator = context.page.locator(`[name=${selector[1]}]`);
+        locator = context.page.locator(`[name=${selector[1]}]`,{ exact: true });
         break;
       case "placeholder":
-        locator = context.page.getByPlaceholder(selector[1]);
+        locator = context.page.getByPlaceholder(selector[1],{ exact: true });
         break;
       case "text":
-        locator = context.page.getByText(selector[1]);
+        locator = context.page.getByText(selector[1],{ exact: true });
         break;
       case "label":
-        locator = context.page.getByLabel(selector[1]);
+        locator = context.page.getByLabel(selector[1],{ exact: true });
         break;
       case "role":
-        locator = context.page.getByRole(selector[1]);
+        locator = context.page.getByRole(selector[1],{ exact: true });
         break;
       case "alt":
-        locator = context.page.getByAltText(selector[1]);
+        locator = context.page.getByAltText(selector[1],{ exact: true });
         break;
       case "title":
-        locator = context.page.getByTitle(selector[1]);
+        locator = context.page.getByTitle(selector[1],{ exact: true });
         break;
       case "testid":
-        locator = context.page.getByTestId(selector[1]);
+        locator = context.page.getByTestId(selector[1],{ exact: true });
         break;
       default:
-        locator = context.page.locator(selector[0]);
+        locator = context.page.locator(selector[0],{ exact: true });
         break;
     }
 

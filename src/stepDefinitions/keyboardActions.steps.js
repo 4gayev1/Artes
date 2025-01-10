@@ -1,10 +1,15 @@
 const { When } = require("../helper/imports/commons");
-const { keyboard } = require("../helper/stepFunctions/exporter");
+const { keyboard, frame } = require("../helper/stepFunctions/exporter");
 
 // User presses a key on a specific selector
 When("User presses {string} on {string}", async function (key, selector) {
   await keyboard.press(selector, key);
 });
+
+When('User types {string} in {int} th of {string}', async (text, order, elements) => {
+  const nthElement = await frame.nth(elements, order)
+  await nthElement.fill(text);
+})
 
 // User presses keys sequentially on a specific selector
 When(
@@ -40,8 +45,8 @@ When("User clears {string}", async function (selector) {
 });
 
 // User selects text in a specific selector
-When("User selects text in {string}", async function (selector) {
-  await keyboard.selectText(selector);
+When("User selects {string} text", async function (text) {
+  await keyboard.selectText(text);
 });
 
 // User sets input files for a specific selector

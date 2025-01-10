@@ -18,7 +18,7 @@ const invokeBrowser = async () => {
       : cucumberConfig.browser.viewport,
     recordVideo: {
       dir: "./test-results/visualReport/",
-      size: cucumberConfig.viewport,
+      size: cucumberConfig.browser.viewport,
     },
   };
 
