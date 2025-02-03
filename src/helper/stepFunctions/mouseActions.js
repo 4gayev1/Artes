@@ -1,5 +1,6 @@
 const { element } = require("../imports/commons");
 const { frame } = require("../stepFunctions/frameActions");
+
 const mouse = {
   click: async (selector) => {
     await element(selector).click();

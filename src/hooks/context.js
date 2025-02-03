@@ -1,5 +1,6 @@
 class Context {
   constructor() {
+    this.browser = undefined;
     this.page = undefined;
     this.request = undefined;
   }

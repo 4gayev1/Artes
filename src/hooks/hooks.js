@@ -11,7 +11,6 @@ const { pomCollector } = require("../helper/pomController/pomCollector");
 const cucumberConfig = require("../../cucumber.config");
 const { context } = require("./context");
 const fs = require("fs");
-const { expect } = require("playwright/test");
 const { moduleConfig } = require("artes/src/helper/imports/commons");
 const path = require("path");
 
@@ -28,6 +27,7 @@ Before(async function () {
   browser = await invokeBrowser();
   request = await invokeRequest();
 
+  context.browser = await browser;
   context.page = await browser.newPage();
   await context.page.setDefaultTimeout(cucumberConfig.default.timeout * 1000);
   context.request = await request;

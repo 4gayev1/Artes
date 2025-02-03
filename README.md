@@ -6,10 +6,9 @@
 
 ## 🚀 Summary
 
-Artes is a test runner for Playwright that executes [predefined Cucumber tests](./documents/stepDefinitions.md) and can generate Allure reports for test results. It simplifies setting up Playwright with Cucumber in your automation workflow. With Artes, you can easily run tests without writing step definitions, generate reports, and customize your testing environment.
+Artes is a test runner for Playwright that executes [predefined Cucumber tests](./docs/stepDefinitions.md) and can generate Allure reports for test results. It simplifies setting up Playwright with Cucumber in your automation workflow. With Artes, you can easily run tests without writing step definitions, generate reports, and customize your testing environment.
 
 ![artes demonstration](https://github.com/user-attachments/assets/c46172f7-103d-45d1-a37d-8d4267df0967)
-
 
 ## 🧑‍💻 Installation
 
@@ -43,14 +42,13 @@ npx artes [options]
 
 ### Options
 
-| Option             | Description                                                   | Usage Example                              |
-|--------------------|---------------------------------------------------------------|--------------------------------------------|
-| 🆘 `-h, --help`    | Show the usage options                                        | `artes -h` or `artes --help`               |
-| 🏷️ `-v, --version` | Show the current version of Artes                             | `artes -v` or `artes --version`            |
-| 🏗️ `-c, --create`  | Create an example project with Artes                          | `artes -c` or `artes --create`             |
-| ✅ `-y, --yes`     | Skip the confirmation prompt when creating an example project | `artes -c -y` or `artes --create --yes`    |
-| 📊 `-r, --report`  | Run tests and generate Allure report                          | `artes -r` or `artes --report`             |
-
+| Option             | Description                                                   | Usage Example                           |
+| ------------------ | ------------------------------------------------------------- | --------------------------------------- |
+| 🆘 `-h, --help`    | Show the usage options                                        | `artes -h` or `artes --help`            |
+| 🏷️ `-v, --version` | Show the current version of Artes                             | `artes -v` or `artes --version`         |
+| 🏗️ `-c, --create`  | Create an example project with Artes                          | `artes -c` or `artes --create`          |
+| ✅ `-y, --yes`     | Skip the confirmation prompt when creating an example project | `artes -c -y` or `artes --create --yes` |
+| 📊 `-r, --report`  | Run tests and generate Allure report                          | `artes -r` or `artes --report`          |
 
 \*\* To just run the tests: <br>
 Globally: artes <br>
@@ -242,7 +240,7 @@ const { mouse, keyboard, frame, elementInteractions, page } = require("artes");
 
 ---
 
-For a detailed explanation of each function, please refer to the [functionDefinitions.md](./documents/functionDefinitions.md).
+For a detailed explanation of each function, please refer to the [functionDefinitions.md](./docs/functionDefinitions.md).
 
 ---
 
