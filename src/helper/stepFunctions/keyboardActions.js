@@ -11,7 +11,7 @@ const keyboard = {
     await element(selector).pressSequentially(keys, { delay: delay });
   },
   fill: async (selector, value) => {
-    await element(selector).fill(value);
+   value !== "" ? await element(selector).fill(value) : "";
   },
   multipleElementFill: async (selectors, value) => {
     const elementCount = await frame.count(selectors);
