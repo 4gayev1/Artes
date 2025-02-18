@@ -249,3 +249,8 @@ When("User unchecks multiple {string}", async function (selectors) {
 When("User scrolls {string} into view", async function (selector) {
   await mouse.scrollIntoViewIfNeeded(selector);
 });
+
+// User uploads file
+When("User uploads {string} file to {string}", async (filePath, fileInput) => {
+  await mouse.upload(filePath, fileInput);
+});

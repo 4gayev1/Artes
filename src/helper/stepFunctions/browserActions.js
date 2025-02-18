@@ -3,17 +3,17 @@ const { context, selector } = require("../imports/commons");
 const browser = {
   setCookies: async (cookies) => {
     let cookieData;
-  try {
-    cookieData = JSON.parse(cookies);
-  } catch {
-    cookieData = selector(cookies);
-  }
+    try {
+      cookieData = JSON.parse(cookies);
+    } catch {
+      cookieData = selector(cookies);
+    }
 
-  cookieData = Array.isArray(cookieData) ? cookieData : [cookieData];
-  await context.browser.addCookies(cookieData);
+    cookieData = Array.isArray(cookieData) ? cookieData : [cookieData];
+    await context.browser.addCookies(cookieData);
   },
 };
 
 module.exports = {
-  browser
+  browser,
 };

@@ -1,4 +1,4 @@
-const { element } = require("../imports/commons");
+const { element, context } = require("../imports/commons");
 const { frame } = require("../stepFunctions/frameActions");
 
 const mouse = {
@@ -124,6 +124,12 @@ const mouse = {
   },
   scrollIntoViewIfNeeded: async (selector) => {
     await element(selector).scrollIntoViewIfNeeded();
+  },
+  upload: async (filePath, fileInput) => {
+    const fileChooserPromise = context.page.waitForEvent("filechooser");
+    await element(fileInput).click();
+    const fileChooser = await fileChooserPromise;
+    await fileChooser.setFiles(filePath);
   },
 };
 
