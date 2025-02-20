@@ -77,7 +77,7 @@ module.exports = {
       width: artesConfig?.width || 1280,
       height: artesConfig?.height || 720,
     },
-    maximizeScreen: artesConfig?.maximizeScreen || true,
+    maximizeScreen: artesConfig?.maximizeScreen !== undefined ? artesConfig.maximizeScreen : true,
     headless: artesConfig?.headless !== undefined ? artesConfig.headless : true,
   },
 };
