@@ -20,6 +20,7 @@ const invokeBrowser = async () => {
       dir: "./test-results/visualReport/",
       size: cucumberConfig.browser.viewport,
     },
+    ignoreHTTPSErrors: true
   };
 
   switch (browserType) {
