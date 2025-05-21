@@ -1,5 +1,10 @@
-const path = require('path');
-const { element, context, selector, moduleConfig } = require("../imports/commons");
+const path = require("path");
+const {
+  element,
+  context,
+  selector,
+  moduleConfig,
+} = require("../imports/commons");
 const { frame } = require("../stepFunctions/frameActions");
 
 const mouse = {
@@ -127,7 +132,7 @@ const mouse = {
     await element(selector).scrollIntoViewIfNeeded();
   },
   upload: async (filePath, fileInput) => {
-    const file = selector(filePath)
+    const file = selector(filePath);
     const fileChooserPromise = context.page.waitForEvent("filechooser");
     await element(fileInput).click();
     const fileChooser = await fileChooserPromise;

@@ -1,10 +1,13 @@
 const { request } = require("playwright");
+const cucumberConfig = require("../../../cucumber.config.js");
 
-const requestContextOptions = {};
+const requestContextOptions = {
+  baseURL: cucumberConfig.api.baseURL,
+};
 
 async function invokeRequest() {
   const context = await request.newContext(requestContextOptions);
-  return await context;
+  return context;
 }
 
 module.exports = { invokeRequest };

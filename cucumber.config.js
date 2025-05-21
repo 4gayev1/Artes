@@ -71,13 +71,20 @@ module.exports = {
     worldParameters: artesConfig.worldParameters || {}, // Custom world parameters
   },
 
+  api: {
+    baseURL: artesConfig?.baseURL ? artesConfig?.baseURL : "",
+  },
+
   browser: {
     browserType: artesConfig?.browser || "chrome",
     viewport: {
       width: artesConfig?.width || 1280,
       height: artesConfig?.height || 720,
     },
-    maximizeScreen: artesConfig?.maximizeScreen !== undefined ? artesConfig.maximizeScreen : true,
+    maximizeScreen:
+      artesConfig?.maximizeScreen !== undefined
+        ? artesConfig.maximizeScreen
+        : true,
     headless: artesConfig?.headless !== undefined ? artesConfig.headless : true,
   },
 };

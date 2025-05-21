@@ -30,6 +30,7 @@ Before(async function () {
   context.browser = await browser;
   context.page = await browser.newPage();
   await context.page.setDefaultTimeout(cucumberConfig.default.timeout * 1000);
+
   context.request = await request;
 
   await browser.tracing.start({
@@ -53,8 +54,17 @@ After(async function ({ pickle, result }) {
   await browser.tracing.stop({
     path: path.join(moduleConfig.projectPath, "./trace.zip"),
   });
+
+  if (context.response) {
+    await this.attach(
+      `Request Payload:\n${JSON.stringify(context.response, null, 2)}`,
+      "text/plain",
+    );
+  }
+
   await context.page.close();
   await browser.close();
+  await context.request.dispose();
 
   if (result?.status != Status.PASSED) {
     const videoPath = await context.page.video().path();

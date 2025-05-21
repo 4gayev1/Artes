@@ -3,6 +3,8 @@ class Context {
     this.browser = undefined;
     this.page = undefined;
     this.request = undefined;
+    this.response = undefined;
+    this.vars = {};
   }
 }
 
