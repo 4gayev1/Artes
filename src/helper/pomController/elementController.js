@@ -84,10 +84,35 @@ class Elements {
       this.elements?.[element]?.selector || this.elements?.[element] || element;
     return selector;
   }
+
+  static saveVar(value, customName, path) {
+    if (!customName) {
+      const flatKey = path
+        .split(".")
+        .map((part, i) =>
+          i === 0 ? part : part[0].toUpperCase() + part.slice(1),
+        )
+        .join("");
+
+      context.vars[flatKey] = value;
+    } else {
+      context.vars[customName] = value;
+    }
+  }
+
+  static resolveVariable(template) {
+    if (typeof template !== "string") return template;
+    return template.replace(/{{\s*(\w+)\s*}}/g, (_, varName) => {
+      const value = context.vars[varName];
+      return value !== undefined ? value : `{{${varName}}}`;
+    });
+  }
 }
 
 module.exports = {
   getElement: Elements.getElement.bind(Elements),
   addElements: Elements.addElements.bind(Elements),
   getSelector: Elements.getSelector.bind(Elements),
+  saveVar: Elements.saveVar.bind(Elements),
+  resolveVariable: Elements.resolveVariable.bind(Elements),
 };

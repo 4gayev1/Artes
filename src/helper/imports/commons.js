@@ -3,6 +3,8 @@ const { Given, When, Then } = require("@cucumber/cucumber");
 const {
   getElement,
   getSelector,
+  saveVar,
+  resolveVariable,
 } = require("../pomController/elementController");
 const { context } = require("../../hooks/context");
 
@@ -35,6 +37,8 @@ module.exports = {
   Then,
   element,
   selector,
+  saveVar,
+  resolveVariable,
   page,
   request,
   context,
