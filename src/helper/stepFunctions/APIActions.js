@@ -141,7 +141,7 @@ const api = {
     context.response = response;
   },
   vars: () => {
-     context.vars
+     return context.vars
   },
 };
 
