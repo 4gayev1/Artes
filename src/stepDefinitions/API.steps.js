@@ -3,37 +3,13 @@ const {
   context,
   expect,
   selector,
+  extractVarsFromResponse,
   saveVar
 } = require("../helper/imports/commons");
 const { api } = require("../helper/stepFunctions/exporter");
 const Ajv = require("ajv");
 
-function extractVarsFromResponse(vars, customVarName) {
-  const responseBody = context.response.responseBody;
 
-  function getValueByPath(obj, path) {
-    const keys = path.split(".");
-    let current = obj;
-
-    for (const key of keys) {
-      if (current && typeof current === "object" && key in current) {
-        current = current[key];
-      } else {
-        return undefined;
-      }
-    }
-
-    return current;
-  }
-
-  vars.split(",").forEach((v) => {
-    const path = v.trim();
-    const value = getValueByPath(responseBody, path);
-    if (value !== undefined) {
-      saveVar(value, customVarName, path);
-    }
-  });
-}
 
 When("User sends GET request to {string}", async function (url) {
   await api.get(url);

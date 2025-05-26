@@ -6,6 +6,7 @@ const {
   context,
   element,
   selector,
+  saveVar,extractVarsFromResponse,
   page,
   request,
   random
@@ -25,6 +26,7 @@ module.exports = {
   Then,
   element,
   selector,
+  saveVar,extractVarsFromResponse,
   context,
   random,
   page,

@@ -3,6 +3,7 @@ const { Given, When, Then } = require("@cucumber/cucumber");
 const {
   getElement,
   getSelector,
+  extractVarsFromResponse,
   saveVar,
   resolveVariable,
 } = require("../pomController/elementController");
@@ -39,6 +40,7 @@ module.exports = {
   Then,
   element,
   selector,
+  extractVarsFromResponse,
   saveVar,
   resolveVariable,
   random,

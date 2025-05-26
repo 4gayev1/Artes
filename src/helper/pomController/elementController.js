@@ -85,6 +85,33 @@ class Elements {
     return selector;
   }
 
+  static extractVarsFromResponse(vars, customVarName) {
+    const responseBody = context.response.responseBody;
+  
+    function getValueByPath(obj, path) {
+      const keys = path.split(".");
+      let current = obj;
+  
+      for (const key of keys) {
+        if (current && typeof current === "object" && key in current) {
+          current = current[key];
+        } else {
+          return undefined;
+        }
+      }
+  
+      return current;
+    }
+  
+    vars.split(",").forEach((v) => {
+      const path = v.trim();
+      const value = getValueByPath(responseBody, path);
+      if (value !== undefined) {
+        saveVar(value, customVarName, path);
+      }
+    });
+  }
+
   static saveVar(value, customName, path) {
     if (!customName) {
       const flatKey = path
@@ -113,6 +140,7 @@ module.exports = {
   getElement: Elements.getElement.bind(Elements),
   addElements: Elements.addElements.bind(Elements),
   getSelector: Elements.getSelector.bind(Elements),
+  extractVarsFromResponse: Elements.extractVarsFromResponse.bind(Elements),
   saveVar: Elements.saveVar.bind(Elements),
   resolveVariable: Elements.resolveVariable.bind(Elements),
 };
