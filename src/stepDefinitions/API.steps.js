@@ -4,12 +4,10 @@ const {
   expect,
   selector,
   extractVarsFromResponse,
-  saveVar
+  saveVar,
 } = require("../helper/imports/commons");
 const { api } = require("../helper/stepFunctions/exporter");
 const Ajv = require("ajv");
-
-
 
 When("User sends GET request to {string}", async function (url) {
   await api.get(url);
@@ -130,7 +128,6 @@ When(
 
 When("User wants to see saved variables", async function () {
   console.log("\nVariables:", api.vars(), "\n");
-
 });
 
 When("User wants to see request body", async function () {

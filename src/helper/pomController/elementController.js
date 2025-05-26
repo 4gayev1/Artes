@@ -87,11 +87,11 @@ class Elements {
 
   static extractVarsFromResponse(vars, customVarName) {
     const responseBody = context.response.responseBody;
-  
+
     function getValueByPath(obj, path) {
       const keys = path.split(".");
       let current = obj;
-  
+
       for (const key of keys) {
         if (current && typeof current === "object" && key in current) {
           current = current[key];
@@ -99,10 +99,10 @@ class Elements {
           return undefined;
         }
       }
-  
+
       return current;
     }
-  
+
     vars.split(",").forEach((v) => {
       const path = v.trim();
       const value = getValueByPath(responseBody, path);

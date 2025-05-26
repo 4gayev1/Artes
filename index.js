@@ -6,10 +6,11 @@ const {
   context,
   element,
   selector,
-  saveVar,extractVarsFromResponse,
+  saveVar,
+  extractVarsFromResponse,
   page,
   request,
-  random
+  random,
 } = require("./src/helper/imports/commons");
 const {
   keyboard,
@@ -26,7 +27,8 @@ module.exports = {
   Then,
   element,
   selector,
-  saveVar,extractVarsFromResponse,
+  saveVar,
+  extractVarsFromResponse,
   context,
   random,
   page,
