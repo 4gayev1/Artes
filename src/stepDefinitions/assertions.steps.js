@@ -4,6 +4,7 @@ const {
   expect,
   element,
   extractVarsFromResponse,
+  context
 } = require("../helper/imports/commons");
 const { assert, frame } = require("../helper/stepFunctions/exporter");
 
