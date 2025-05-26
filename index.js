@@ -8,6 +8,7 @@ const {
   selector,
   page,
   request,
+  random
 } = require("./src/helper/imports/commons");
 const {
   keyboard,
@@ -25,6 +26,7 @@ module.exports = {
   element,
   selector,
   context,
+  random,
   page,
   request,
   keyboard,
