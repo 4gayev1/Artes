@@ -3,6 +3,7 @@ const {
   selector,
   expect,
   element,
+  extractVarsFromResponse
 } = require("../helper/imports/commons");
 const { assert, frame } = require("../helper/stepFunctions/exporter");
 
@@ -813,3 +814,9 @@ Then("User expects should have {int} {string}", async (count, elements) => {
   const elementCount = await frame.count(elements);
   expect(elementCount).toEqual(count);
 });
+
+Then('User expects that response has {string} field with {string} value', async (field, value) => {
+  extractVarsFromResponse(field, field);
+
+  expect(context.vars[field]).toBe(value);
+})

@@ -1,4 +1,4 @@
-const { Given, context, random, expect, extractVarsFromResponse } = require("../helper/imports/commons");
+const { Given, context, random } = require("../helper/imports/commons");
 
 Given("User sets random words as {string} variable", async (key) => {
     const words = random.lorem.words({min:2, max: 5})
@@ -17,8 +17,3 @@ Given('User sends GET request to {string} and save {string} variable as a {strin
     context.vars[variableKey] = randomContent[varName];    
 })
 
-Given('User expects that response has {string} field with {string} value', async (field, value) => {
-    extractVarsFromResponse(field, field);
-
-    expect(context.vars[field]).toBe(value);
-})

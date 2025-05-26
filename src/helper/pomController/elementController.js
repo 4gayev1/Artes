@@ -107,7 +107,7 @@ class Elements {
       const path = v.trim();
       const value = getValueByPath(responseBody, path);
       if (value !== undefined) {
-        saveVar(value, customVarName, path);
+        this.saveVar(value, customVarName, path);
       }
     });
   }
