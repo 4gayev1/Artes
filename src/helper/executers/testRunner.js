@@ -1,7 +1,10 @@
 const { spawnSync } = require("child_process");
 const { moduleConfig } = require("../imports/commons");
 
-function runTests() {
+function runTests(flag) {
+
+  flag ? process.env.REPORT_FORMAT = JSON.stringify(["rerun:@rerun.txt", "allure-cucumberjs/reporter"]) : "";
+
   try {
     console.log("🧪 Running tests...");
     process.env.FORCE_COLOR = "1";

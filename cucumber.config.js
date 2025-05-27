@@ -34,10 +34,9 @@ module.exports = {
     import: artesConfig.import || [], // Support code paths
 
     // Formatting and output
-    format: artesConfig.format || [
-      "rerun:@rerun.txt",
-      "allure-cucumberjs/reporter",
-    ], // Formatter names/paths
+    format: process.env.REPORT_FORMAT 
+    ? JSON.parse(process.env.REPORT_FORMAT) 
+    : artesConfig.format || ["rerun:@rerun.txt", "allure-cucumberjs/reporter"], // Formatter names/paths
     formatOptions: artesConfig.formatOptions || {
       resultsDir: `allure-result`,
     }, // Formatter options

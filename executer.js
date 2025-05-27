@@ -43,11 +43,11 @@ function main() {
   // }
 
   if (flags.report) {
-    runTests();
+    runTests(flags.report);
     generateReport();
     cleanUp();
   } else {
-    runTests();
+    runTests(flags.report);
     cleanUp();
   }
 }
