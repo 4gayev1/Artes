@@ -9,6 +9,7 @@ const {
   saveVar,
   extractVarsFromResponse,
   page,
+  api,
   request,
   random,
 } = require("./src/helper/imports/commons");
@@ -33,6 +34,7 @@ module.exports = {
   random,
   page,
   request,
+  api,
   keyboard,
   mouse,
   frame,

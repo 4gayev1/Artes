@@ -9,6 +9,7 @@ const {
 } = require("../pomController/elementController");
 const { faker } = require("@faker-js/faker");
 const { context } = require("../../hooks/context");
+const { api } = require("../stepFunctions/APIActions");
 
 const element = getElement;
 const selector = getSelector;
@@ -46,6 +47,7 @@ module.exports = {
   random,
   page,
   request,
+  api,
   context,
   moduleConfig,
 };
