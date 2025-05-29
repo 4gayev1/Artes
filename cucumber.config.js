@@ -52,7 +52,7 @@ module.exports = {
     // Filtering and organization
     tags: process.env.RUN_TAGS 
     ? JSON.parse(process.env.RUN_TAGS) 
-    : artesConfig.format || artesConfig.tags || "", // Tag expression to filter scenarios
+    : artesConfig.tags || artesConfig.tags || "", // Tag expression to filter scenarios
     name: artesConfig.name || [], // Run scenarios matching regex
     order: artesConfig.order || "defined", // Run order (defined/random)
     language: artesConfig.language || "en", // Default feature file language
