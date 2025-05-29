@@ -9,7 +9,6 @@ const {
   saveVar,
   extractVarsFromResponse,
   page,
-  api,
   request,
   random,
 } = require("./src/helper/imports/commons");
@@ -19,6 +18,7 @@ const {
   frame,
   assert,
   elementInteractions,
+  api,
 } = require("./src/helper/stepFunctions/exporter");
 
 module.exports = {
@@ -31,6 +31,7 @@ module.exports = {
   saveVar,
   extractVarsFromResponse,
   context,
+  api,
   random,
   page,
   request,
