@@ -55,15 +55,20 @@ When(
   },
 );
 
-When('User sends multipart POST request to {string} with payload:', async (url, payload) => {
-  await api.post(url, payload, "multipart");
-})
+When(
+  "User sends multipart POST request to {string} with payload:",
+  async (url, payload) => {
+    await api.post(url, payload, "multipart");
+  },
+);
 
-When('User sends multipart POST request to {string} with payload and {string} variables', async (url, vars, payload) => {
-  await api.post(url, payload, "multipart");
-  extractVarsFromResponse(vars);
-})
-
+When(
+  "User sends multipart POST request to {string} with payload and {string} variables",
+  async (url, vars, payload) => {
+    await api.post(url, payload, "multipart");
+    extractVarsFromResponse(vars);
+  },
+);
 
 When(
   "User sends PUT request to {string} with payload:",
@@ -74,7 +79,7 @@ When(
 
 When(
   "User sends PUT request to {string} with payload and saves {string} variables",
-  async function (url, vars,  payload) {
+  async function (url, vars, payload) {
     await api.put(url, payload);
     extractVarsFromResponse(vars);
   },

@@ -34,9 +34,12 @@ module.exports = {
     import: artesConfig.import || [], // Support code paths
 
     // Formatting and output
-    format: process.env.REPORT_FORMAT 
-    ? JSON.parse(process.env.REPORT_FORMAT) 
-    : artesConfig.format || ["rerun:@rerun.txt", "allure-cucumberjs/reporter"], // Formatter names/paths
+    format: process.env.REPORT_FORMAT
+      ? JSON.parse(process.env.REPORT_FORMAT)
+      : artesConfig.format || [
+          "rerun:@rerun.txt",
+          "allure-cucumberjs/reporter",
+        ], // Formatter names/paths
     formatOptions: artesConfig.formatOptions || {
       resultsDir: `allure-result`,
     }, // Formatter options
@@ -50,9 +53,9 @@ module.exports = {
     backtrace: artesConfig.backtrace || false, // Show full backtrace for errors
 
     // Filtering and organization
-    tags: process.env.RUN_TAGS 
-    ? JSON.parse(process.env.RUN_TAGS) 
-    : artesConfig.tags || artesConfig.tags || "", // Tag expression to filter scenarios
+    tags: process.env.RUN_TAGS
+      ? JSON.parse(process.env.RUN_TAGS)
+      : artesConfig.tags || artesConfig.tags || "", // Tag expression to filter scenarios
     name: artesConfig.name || [], // Run scenarios matching regex
     order: artesConfig.order || "defined", // Run order (defined/random)
     language: artesConfig.language || "en", // Default feature file language

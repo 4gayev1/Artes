@@ -1,51 +1,63 @@
 const { context, selector, resolveVariable } = require("../imports/commons");
 
-
 function getMimeType(filePath) {
   const ext = path.extname(filePath).toLowerCase();
   const mimeTypes = {
-    '.jpg': 'image/jpeg',
-    '.jpeg': 'image/jpeg',
-    '.png': 'image/png',
-    '.gif': 'image/gif',
-    '.pdf': 'application/pdf',
-    '.txt': 'text/plain',
-    '.json': 'application/json',
-    '.xml': 'application/xml',
-    '.zip': 'application/zip',
-    '.doc': 'application/msword',
-    '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    '.csv': 'text/csv'
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".png": "image/png",
+    ".gif": "image/gif",
+    ".pdf": "application/pdf",
+    ".txt": "text/plain",
+    ".json": "application/json",
+    ".xml": "application/xml",
+    ".zip": "application/zip",
+    ".doc": "application/msword",
+    ".docx":
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ".csv": "text/csv",
   };
-  
-  return mimeTypes[ext] || 'application/octet-stream';
+
+  return mimeTypes[ext] || "application/octet-stream";
 }
 
 function processForm(key, value) {
   let formData = {};
 
-  if(typeof value === 'object') {
-    if(value.contentType) {
-      const content = typeof value.data === 'object' ? JSON.stringify(value.data) : String(value.data);
-      console.log("Content:", content)
+  if (typeof value === "object") {
+    if (value.contentType) {
+      const content =
+        typeof value.data === "object"
+          ? JSON.stringify(value.data)
+          : String(value.data);
+      console.log("Content:", content);
       formData[key] = {
         name: value.filename || key,
         mimeType: value.contentType,
-        buffer: Buffer.from(content, 'utf8')
+        buffer: Buffer.from(content, "utf8"),
       };
     } else {
       formData[key] = JSON.stringify(value);
     }
   }
-    
-  if (typeof value === 'string' && (value.endsWith('.pdf') || value.endsWith('.jpg') || value.endsWith('.png') || value.endsWith('.txt') || value.endsWith('.doc') || value.endsWith('.docx') || value.includes('/'))) {
+
+  if (
+    typeof value === "string" &&
+    (value.endsWith(".pdf") ||
+      value.endsWith(".jpg") ||
+      value.endsWith(".png") ||
+      value.endsWith(".txt") ||
+      value.endsWith(".doc") ||
+      value.endsWith(".docx") ||
+      value.includes("/"))
+  ) {
     // If it looks like a file path, treat it as a file
     try {
       if (fs.existsSync(value)) {
         formData[key] = {
           name: path.basename(value),
           mimeType: getMimeType(value),
-          buffer: fs.readFileSync(value)
+          buffer: fs.readFileSync(value),
         };
         return;
       }
@@ -103,7 +115,7 @@ const api = {
     const resolvedPayload = await resolveVariable(payload);
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
 
-    let requestBody = {}
+    let requestBody = {};
 
     switch (bodyType) {
       case "multipart":
@@ -112,14 +124,14 @@ const api = {
         }
         requestBody = {
           headers: payloadJSON.headers,
-          multipart: formData
-        }
+          multipart: formData,
+        };
         break;
       default:
-          requestBody = {
-            headers: payloadJSON ? payloadJSON.headers : {},
-            data: payloadJSON ? payloadJSON.body : {},
-          }
+        requestBody = {
+          headers: payloadJSON ? payloadJSON.headers : {},
+          data: payloadJSON ? payloadJSON.body : {},
+        };
     }
 
     const res = await context.request.post(resolvedURL, requestBody);
@@ -137,91 +149,91 @@ const api = {
     };
 
     context.response = response;
-},
-put: async (url, payload, bodyType) => {
-  const URL = await selector(url);
-  const resolvedURL = await resolveVariable(URL);
+  },
+  put: async (url, payload, bodyType) => {
+    const URL = await selector(url);
+    const resolvedURL = await resolveVariable(URL);
 
-  const resolvedPayload = await resolveVariable(payload);
-  const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
+    const resolvedPayload = await resolveVariable(payload);
+    const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
 
-  let requestBody = {}
+    let requestBody = {};
 
-  switch (bodyType) {
-    case "multipart":
-      for (const [key, value] of Object.entries(payloadJSON.body)) {
-        var formData = processForm(key, value);
-      }
-      requestBody = {
-        headers: payloadJSON.headers,
-        multipart: formData
-      }
-      break;
-    default:
+    switch (bodyType) {
+      case "multipart":
+        for (const [key, value] of Object.entries(payloadJSON.body)) {
+          var formData = processForm(key, value);
+        }
+        requestBody = {
+          headers: payloadJSON.headers,
+          multipart: formData,
+        };
+        break;
+      default:
         requestBody = {
           headers: payloadJSON ? payloadJSON.headers : {},
           data: payloadJSON ? payloadJSON.body : {},
+        };
+    }
+
+    const res = await context.request.put(resolvedURL, requestBody);
+
+    const header = await res.headers();
+    const body = await res.json();
+
+    const response = {
+      url: res.url(),
+      requestHeaders: payloadJSON.headers,
+      requestBody: payloadJSON.body,
+      response: res,
+      responseHeaders: header,
+      responseBody: body,
+    };
+
+    context.response = response;
+  },
+  patch: async (url, payload, bodyType) => {
+    const URL = await selector(url);
+    const resolvedURL = await resolveVariable(URL);
+
+    const resolvedPayload = await resolveVariable(payload);
+    const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
+
+    let requestBody = {};
+
+    switch (bodyType) {
+      case "multipart":
+        for (const [key, value] of Object.entries(payloadJSON.body)) {
+          var formData = processForm(key, value);
         }
-  }
-
-  const res = await context.request.put(resolvedURL, requestBody);
-
-  const header = await res.headers();
-  const body = await res.json();
-
-  const response = {
-    url: res.url(),
-    requestHeaders: payloadJSON.headers,
-    requestBody: payloadJSON.body,
-    response: res,
-    responseHeaders: header,
-    responseBody: body,
-  };
-
-  context.response = response;
-},
-patch: async (url, payload, bodyType) => {
-  const URL = await selector(url);
-  const resolvedURL = await resolveVariable(URL);
-
-  const resolvedPayload = await resolveVariable(payload);
-  const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
-
-  let requestBody = {}
-
-  switch (bodyType) {
-    case "multipart":
-      for (const [key, value] of Object.entries(payloadJSON.body)) {
-        var formData = processForm(key, value);
-      }
-      requestBody = {
-        headers: payloadJSON.headers,
-        multipart: formData
-      }
-      break;
-    default:
+        requestBody = {
+          headers: payloadJSON.headers,
+          multipart: formData,
+        };
+        break;
+      default:
         requestBody = {
           headers: payloadJSON ? payloadJSON.headers : {},
           data: payloadJSON ? payloadJSON.body : {},
-        }
-  }
+        };
+    }
 
-  const res = await context.request.patch(resolvedURL, requestBody);
+    const res = await context.request.patch(resolvedURL, requestBody);
 
-  const header = await res.headers();
-  const body = await res.json();
+    const header = await res.headers();
+    const body = await res.json();
 
-  const response = {
-    url: res.url(),
-    requestHeaders: payloadJSON.headers,
-    requestBody: payloadJSON.body,
-    response: res,
-    responseHeaders: header,
-    responseBody: body,
-  };
+    const response = {
+      url: res.url(),
+      requestHeaders: payloadJSON.headers,
+      requestBody: payloadJSON.body,
+      response: res,
+      responseHeaders: header,
+      responseBody: body,
+    };
 
-  context.response = response;
-},
+    context.response = response;
+  },
   delete: async (url, payload) => {
     const URL = await selector(url);
     const resolvedURL = await resolveVariable(URL);
