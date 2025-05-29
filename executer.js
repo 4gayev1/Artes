@@ -18,6 +18,8 @@ const flags = {
   createYes: args.includes("-y") || args.includes("--yes"),
   report: args.includes("-r") || args.includes("--report"),
   trace: args.includes("-t") || args.includes("--trace"),
+  features: args.includes("--features"),
+  tags: args.includes("--tags"),
 };
 
 function main() {
@@ -43,11 +45,11 @@ function main() {
   // }
 
   if (flags.report) {
-    runTests(flags.report);
+    runTests(flags.report, flags.tags, flags.features);
     generateReport();
     cleanUp();
   } else {
-    runTests(flags.report);
+    runTests(flags.report, flags.tags, flags.features);
     cleanUp();
   }
 }

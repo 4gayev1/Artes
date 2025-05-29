@@ -50,7 +50,9 @@ module.exports = {
     backtrace: artesConfig.backtrace || false, // Show full backtrace for errors
 
     // Filtering and organization
-    tags: artesConfig.tags || process.env.npm_config_TAGS || "", // Tag expression to filter scenarios
+    tags: process.env.RUN_TAGS 
+    ? JSON.parse(process.env.RUN_TAGS) 
+    : artesConfig.format || artesConfig.tags || "", // Tag expression to filter scenarios
     name: artesConfig.name || [], // Run scenarios matching regex
     order: artesConfig.order || "defined", // Run order (defined/random)
     language: artesConfig.language || "en", // Default feature file language

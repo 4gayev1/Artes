@@ -1,9 +1,22 @@
 const { spawnSync } = require("child_process");
 const { moduleConfig } = require("../imports/commons");
+const path = require("path");
 
-function runTests(flag) {
+function runTests(flagReport, flagTags, flagFeatures) {
+  const args = process.argv.slice(2); 
 
-  flag ? process.env.REPORT_FORMAT = JSON.stringify(["rerun:@rerun.txt", "allure-cucumberjs/reporter"]) : "";
+  const featureFiles = args[args.indexOf("--features") + 1];
+  const features = flagFeatures && featureFiles.split(',').map(f=>path.join(moduleConfig.featuresPath, `${f.trim()}.feature`));
+
+  const tags = args[args.indexOf("--tags") + 1]
+
+  flagReport ? process.env.REPORT_FORMAT = JSON.stringify(["rerun:@rerun.txt", "allure-cucumberjs/reporter"]) : "";
+
+  flagTags && console.log("Running tags:", tags);
+  flagTags ? process.env.RUN_TAGS = JSON.stringify(tags) : "";
+
+  flagFeatures && console.log("Running features:", features);
+  flagFeatures ? process.env.FEATURES = JSON.stringify(features) : "";
 
   try {
     console.log("🧪 Running tests...");

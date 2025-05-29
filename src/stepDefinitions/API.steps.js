@@ -15,7 +15,7 @@ When("User sends GET request to {string}", async function (url) {
 
 When(
   "User sends GET request to {string} with payload:",
-  async function (url, reqParams) {
+  async function (url, payload) {
     await api.get(url, payload);
   },
 );
@@ -23,7 +23,7 @@ When(
 When(
   "User sends GET request to {string} and saves {string} variables",
   async function (url, vars) {
-    await api.get(url, payload);
+    await api.get(url);
     extractVarsFromResponse(vars);
   },
 );
@@ -49,11 +49,21 @@ When(
 
 When(
   "User sends POST request to {string} with payload and saves {string} variables",
-  async function (url, payload) {
+  async function (url, vars, payload) {
     await api.post(url, payload);
     extractVarsFromResponse(vars);
   },
 );
+
+When('User sends multipart POST request to {string} with payload:', async (url, payload) => {
+  await api.post(url, payload, "multipart");
+})
+
+When('User sends multipart POST request to {string} with payload and {string} variables', async (url, vars, payload) => {
+  await api.post(url, payload, "multipart");
+  extractVarsFromResponse(vars);
+})
+
 
 When(
   "User sends PUT request to {string} with payload:",
@@ -64,8 +74,23 @@ When(
 
 When(
   "User sends PUT request to {string} with payload and saves {string} variables",
-  async function (url, payload) {
+  async function (url, vars,  payload) {
     await api.put(url, payload);
+    extractVarsFromResponse(vars);
+  },
+);
+
+When(
+  "User sends multipart PUT request to {string} with payload:",
+  async function (url, payload) {
+    await api.put(url, payload, "multipart");
+  },
+);
+
+When(
+  "User sends multipart PUT request to {string} with payload and saves {string} variables",
+  async function (url, vars, payload) {
+    await api.put(url, payload, "multipart");
     extractVarsFromResponse(vars);
   },
 );
@@ -79,8 +104,23 @@ When(
 
 When(
   "User sends PATCH request to {string} with payload and saves {string} variables",
-  async function (url, payload) {
+  async function (url, vars, payload) {
     await api.patch(url, payload);
+    extractVarsFromResponse(vars);
+  },
+);
+
+When(
+  "User sends multipart PATCH request to {string} with payload:",
+  async function (url, payload) {
+    await api.patch(url, payload, "multipart");
+  },
+);
+
+When(
+  "User sends multipart PATCH request to {string} with payload and saves {string} variables",
+  async function (url, vars, payload) {
+    await api.patch(url, payload, "multipart");
     extractVarsFromResponse(vars);
   },
 );
