@@ -74,10 +74,8 @@ module.exports = {
     // World parameters
     worldParameters: artesConfig.worldParameters || {}, // Custom world parameters
   },
-
-  api: {
-    baseURL: artesConfig?.baseURL ? artesConfig?.baseURL : "",
-  },
+  env: process.env.ENV ? JSON.parse(process.env.ENV) : artesConfig.env || "",
+  baseURL: artesConfig?.baseURL ? artesConfig?.baseURL : "",
 
   browser: {
     browserType: artesConfig?.browser || "chrome",

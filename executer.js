@@ -20,6 +20,7 @@ const flags = {
   trace: args.includes("-t") || args.includes("--trace"),
   features: args.includes("--features"),
   tags: args.includes("--tags"),
+  env: args.includes("--env"),
 };
 
 function main() {
@@ -45,11 +46,11 @@ function main() {
   // }
 
   if (flags.report) {
-    runTests(flags.report, flags.tags, flags.features);
+    runTests(flags.report, flags.tags, flags.features, flags.env);
     generateReport();
     cleanUp();
   } else {
-    runTests(flags.report, flags.tags, flags.features);
+    runTests(flags.report, flags.tags, flags.features, flags.env);
     cleanUp();
   }
 }

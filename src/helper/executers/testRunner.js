@@ -2,8 +2,10 @@ const { spawnSync } = require("child_process");
 const { moduleConfig } = require("../imports/commons");
 const path = require("path");
 
-function runTests(flagReport, flagTags, flagFeatures) {
+function runTests(flagReport, flagTags, flagFeatures, flagEnv) {
   const args = process.argv.slice(2);
+
+  const env = args[args.indexOf("--env") + 1];
 
   const featureFiles = args[args.indexOf("--features") + 1];
   const features =
@@ -13,6 +15,9 @@ function runTests(flagReport, flagTags, flagFeatures) {
       .map((f) => path.join(moduleConfig.featuresPath, `${f.trim()}.feature`));
 
   const tags = args[args.indexOf("--tags") + 1];
+
+  flagEnv && console.log("Running env:", env);
+  flagEnv ? (process.env.ENV = JSON.stringify(env)) : "";
 
   flagReport
     ? (process.env.REPORT_FORMAT = JSON.stringify([
