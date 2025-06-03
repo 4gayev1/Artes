@@ -39,7 +39,8 @@ function createProject(createYes) {
     headless: false, // Set to true for headless browser mode
 
     // Configuration options:
-    // baseURL: "",                     // string - Base URL for API tests
+    // env: "",                      // string - Environment name for tests
+    // baseURL: "",                  // string - Base URL for API tests
     // paths: [],                    // string[] - Paths to feature files
     // steps: "",                    // string - Step definitions files
     // pomPath: "",                  // string - Path to POM files
