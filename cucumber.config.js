@@ -87,6 +87,10 @@ module.exports = {
       artesConfig?.maximizeScreen !== undefined
         ? artesConfig.maximizeScreen
         : true,
-    headless: artesConfig?.headless !== undefined ? artesConfig.headless : true,
+    headless: process.env.MODE
+      ? JSON.parse(process.env.MODE)
+      : artesConfig?.headless !== undefined
+        ? artesConfig.headless
+        : true,
   },
 };

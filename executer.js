@@ -21,6 +21,7 @@ const flags = {
   features: args.includes("--features"),
   tags: args.includes("--tags"),
   env: args.includes("--env"),
+  headless: args.includes("--headless"),
 };
 
 function main() {
@@ -46,11 +47,11 @@ function main() {
   // }
 
   if (flags.report) {
-    runTests(flags.report, flags.tags, flags.features, flags.env);
+    runTests(args, flags);
     generateReport();
     cleanUp();
   } else {
-    runTests(flags.report, flags.tags, flags.features, flags.env);
+    runTests(args, flags);
     cleanUp();
   }
 }

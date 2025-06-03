@@ -30,6 +30,12 @@ function showHelp() {
 
         🔖 --tags          Run tests with specified Cucumber tags
             Usage:   artes --tags "@smoke and not @wip"
+
+        🌐 --env           Set environment for the test run
+            Usage:   artes --env "dev"
+
+        🕶️ --headless      Run browser in headless mode
+            Usage:   artes --headless
     `);
 }
 

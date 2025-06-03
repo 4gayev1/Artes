@@ -2,35 +2,39 @@ const { spawnSync } = require("child_process");
 const { moduleConfig } = require("../imports/commons");
 const path = require("path");
 
-function runTests(flagReport, flagTags, flagFeatures, flagEnv) {
-  const args = process.argv.slice(2);
-
+function runTests(args, flags) {
   const env = args[args.indexOf("--env") + 1];
 
   const featureFiles = args[args.indexOf("--features") + 1];
   const features =
-    flagFeatures &&
+    flags.features &&
     featureFiles
       .split(",")
       .map((f) => path.join(moduleConfig.featuresPath, `${f.trim()}.feature`));
 
   const tags = args[args.indexOf("--tags") + 1];
 
-  flagEnv && console.log("Running env:", env);
-  flagEnv ? (process.env.ENV = JSON.stringify(env)) : "";
+  const headless = args.includes("--headless");
 
-  flagReport
+  flags.env && console.log("Running env:", env);
+  flags.env ? (process.env.ENV = JSON.stringify(env)) : "";
+
+  flags.report
     ? (process.env.REPORT_FORMAT = JSON.stringify([
         "rerun:@rerun.txt",
         "allure-cucumberjs/reporter",
       ]))
     : "";
 
-  flagTags && console.log("Running tags:", tags);
-  flagTags ? (process.env.RUN_TAGS = JSON.stringify(tags)) : "";
+  flags.tags && console.log("Running tags:", tags);
+  flags.tags ? (process.env.RUN_TAGS = JSON.stringify(tags)) : "";
 
-  flagFeatures && console.log("Running features:", features);
-  flagFeatures ? (process.env.FEATURES = JSON.stringify(features)) : "";
+  flags.features && console.log("Running features:", features);
+  flags.features ? (process.env.FEATURES = JSON.stringify(features)) : "";
+
+  flags.headless &&
+    console.log("Running mode:", flags.headless ? "headless" : "headed");
+  flags.headless ? (process.env.MODE = JSON.stringify(true)) : false;
 
   try {
     console.log("🧪 Running tests...");

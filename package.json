@@ -1,7 +1,7 @@
 {
   "name": "artes",
-  "version": "1.0.56",
-  "description": "The package provide step definitions and user writes feature files, and the package handles automation, with optional POM files and custom step definitions.",
+  "version": "1.0.57",
+  "description": "The simplest way to automate UI and API tests using Cucumber-style steps.",
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js --config=cucumber.config.js",
