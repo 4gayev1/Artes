@@ -128,7 +128,7 @@ await context.page.goto("https://www.saucedemo.com/");
       "tests/steps/*.{ts,js}",
       "node_modules/artes/src/stepDefinitions/*.{ts,js}",
     ],
-    "cucumber.features": ["tests/features/*.features"],
+    "cucumber.features": ["tests/features/**/*.feature"],
     "cucumberautocomplete.syncfeatures": true,
     "cucumberautocomplete.strictGherkinCompletion": true,
   });

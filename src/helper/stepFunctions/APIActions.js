@@ -30,7 +30,7 @@ function processForm(key, value) {
         typeof value.data === "object"
           ? JSON.stringify(value.data)
           : String(value.data);
-      console.log("Content:", content);
+
       formData[key] = {
         name: value.filename || key,
         mimeType: value.contentType,
@@ -129,12 +129,14 @@ const api = {
 
     switch (bodyType) {
       case "multipart":
+        let combinedFormData = {};
         for (const [key, value] of Object.entries(payloadJSON.body)) {
-          var formData = processForm(key, value);
+          const formData = processForm(key, value);
+          Object.assign(combinedFormData, formData);
         }
         requestBody = {
           headers: payloadJSON.headers,
-          multipart: formData,
+          multipart: combinedFormData,
         };
         break;
       default:
@@ -174,12 +176,14 @@ const api = {
 
     switch (bodyType) {
       case "multipart":
+        let combinedFormData = {};
         for (const [key, value] of Object.entries(payloadJSON.body)) {
-          var formData = processForm(key, value);
+          const formData = processForm(key, value);
+          Object.assign(combinedFormData, formData);
         }
         requestBody = {
           headers: payloadJSON.headers,
-          multipart: formData,
+          multipart: combinedFormData,
         };
         break;
       default:
@@ -219,12 +223,14 @@ const api = {
 
     switch (bodyType) {
       case "multipart":
+        let combinedFormData = {};
         for (const [key, value] of Object.entries(payloadJSON.body)) {
-          var formData = processForm(key, value);
+          const formData = processForm(key, value);
+          Object.assign(combinedFormData, formData);
         }
         requestBody = {
           headers: payloadJSON.headers,
-          multipart: formData,
+          multipart: combinedFormData,
         };
         break;
       default:

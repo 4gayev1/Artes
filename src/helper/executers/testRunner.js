@@ -14,8 +14,7 @@ function runTests(args, flags) {
 
   const tags = args[args.indexOf("--tags") + 1];
 
-  const headless = args.includes("--headless");
-
+  
   flags.env && console.log("Running env:", env);
   flags.env ? (process.env.ENV = JSON.stringify(env)) : "";
 
