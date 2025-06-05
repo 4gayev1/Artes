@@ -6,15 +6,11 @@ function runTests(args, flags) {
   const env = args[args.indexOf("--env") + 1];
 
   const featureFiles = args[args.indexOf("--features") + 1];
-  const features =
-    flags.features &&
-    featureFiles
-      .split(",")
-      .map((f) => path.join(moduleConfig.featuresPath, `${f.trim()}.feature`));
-
+  const features = flags.features && featureFiles;
+  
   const tags = args[args.indexOf("--tags") + 1];
 
-  
+
   flags.env && console.log("Running env:", env);
   flags.env ? (process.env.ENV = JSON.stringify(env)) : "";
 
@@ -29,7 +25,7 @@ function runTests(args, flags) {
   flags.tags ? (process.env.RUN_TAGS = JSON.stringify(tags)) : "";
 
   flags.features && console.log("Running features:", features);
-  flags.features ? (process.env.FEATURES = JSON.stringify(features)) : "";
+  flags.features ? (process.env.FEATURES = features) : "";
 
   flags.headless &&
     console.log("Running mode:", flags.headless ? "headless" : "headed");

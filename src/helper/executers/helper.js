@@ -25,8 +25,8 @@ function showHelp() {
         📊 -r, --report    Run tests and generate Allure report
             Usage:   artes -r or artes --report
 
-        📁 --features      Specify one or more feature files to run (comma-separated)
-            Usage:   artes --features "Alma, Banan"
+        📁 --features      Specify one or more feature files' relative paths to run (comma-separated)
+            Usage:   artes --features "tests/features/Alma, tests/features/Banan.feature"
 
         🔖 --tags          Run tests with specified Cucumber tags
             Usage:   artes --tags "@smoke and not @wip"

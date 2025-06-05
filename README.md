@@ -49,7 +49,7 @@ npx artes [options]
 | 🏗️ `-c, --create`   | Create an example project with Artes                          | `artes -c` or `artes --create`                     |
 | ✅ `-y, --yes`      | Skip the confirmation prompt when creating an example project | `artes -c -y` or `artes --create --yes`            |
 | 📊 `-r, --report`   | Run tests and generate Allure report                          | `artes -r` or `artes --report`                     |
-| 📁 `--features`     | Specify one or more feature files to run (comma-separated)    | `artes --features 'Alma, Banan'`                   |
+| 📁 `--features`     | Specify one or more feature files' relative paths to run (comma-separated) (comma-separated)    | `artes --features "tests/features/Alma, tests/features/Banan.feature"`                   |
 | 🔖 `--tags`         | Run tests with specified Cucumber tags                        | `artes --tags "@smoke or @wip"`                    |
 | 🌐 `--env`          | Set the environment for the test run                          | `artes --env "dev"`                                |
 | 🕶️ `--headless`     | Run browser in headless mode                                  | `artes --headless`                                 |

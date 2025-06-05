@@ -18,9 +18,11 @@ module.exports = {
   default: {
     // File paths and patterns
     timeout: artesConfig.timeout || 30, // Default timeout in milliseconds
-    paths: artesConfig.features
-      ? path.join(moduleConfig.projectPath, artesConfig.features)
-      : [moduleConfig.featuresPath], // Paths to feature files
+    paths: process.env.FEATURES
+      ? [path.join(moduleConfig.projectPath, process.env.FEATURES)]
+      : artesConfig.features
+        ? path.join(moduleConfig.projectPath, artesConfig.features)
+        : [moduleConfig.featuresPath], // Paths to feature files
     require: [
       artesConfig.steps
         ? path.join(moduleConfig.projectPath, artesConfig.steps)
