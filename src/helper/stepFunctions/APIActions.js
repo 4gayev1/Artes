@@ -81,21 +81,23 @@ const api = {
       headers: payloadJSON ? payloadJSON.headers : {},
     });
 
+    const header = await res.headers();
+    let body;
     try {
-      const header = await res.headers();
-      const body = await res.json();
-
-      const response = {
-        url: res.url(),
-        response: res,
-        responseHeaders: header,
-        responseBody: body,
-      };
-
-      context.response = response;
-    } catch (error) {
-      throw new Error(`Error processing response: ${error.message}`);
+      body = await res.json();
+    } catch (e) {
+      body = await res.text();
     }
+
+    const response = {
+      url: res.url(),
+      requestHeaders: payloadJSON.headers,
+      response: res,
+      responseHeaders: header,
+      responseBody: body,
+    };
+
+    context.response = response;
   },
   head: async (url) => {
     const URL = await selector(url);
@@ -103,20 +105,22 @@ const api = {
 
     const res = await context.request.head(resolvedURL);
 
+    const header = await res.headers();
+    let body;
     try {
-      const header = await res.headers();
-
-      const response = {
-        url: res.url(),
-        response: res,
-        responseHeaders: header,
-        responseBody: body,
-      };
-
-      context.response = response;
-    } catch (error) {
-      throw new Error(`Error processing response: ${error.message}`);
+      body = await res.json();
+    } catch (e) {
+      body = await res.text();
     }
+
+    const response = {
+      url: res.url(),
+      response: res,
+      responseHeaders: header,
+      responseBody: body,
+    };
+
+    context.response = response;
   },
   post: async (url, payload, bodyType) => {
     const URL = await selector(url);
@@ -148,22 +152,23 @@ const api = {
 
     const res = await context.request.post(resolvedURL, requestBody);
 
+    const header = await res.headers();
+    let body;
     try {
-      const header = await res.headers();
-      const body = await res.json();
-
-      const response = {
-        url: res.url(),
-        requestHeaders: payloadJSON.headers,
-        requestBody: payloadJSON.body,
-        response: res,
-        responseHeaders: header,
-        responseBody: body,
-      };
-      context.response = response;
-    } catch (error) {
-      throw new Error(`Error processing response: ${error.message}`);
+      body = await res.json();
+    } catch (e) {
+      body = await res.text();
     }
+
+    const response = {
+      url: res.url(),
+      requestHeaders: payloadJSON.headers,
+      requestBody: payloadJSON.body,
+      response: res,
+      responseHeaders: header,
+      responseBody: body,
+    };
+    context.response = response;
   },
   put: async (url, payload, bodyType) => {
     const URL = await selector(url);
@@ -195,22 +200,23 @@ const api = {
 
     const res = await context.request.put(resolvedURL, requestBody);
 
+    const header = await res.headers();
+    let body;
     try {
-      const header = await res.headers();
-      const body = await res.json();
-
-      const response = {
-        url: res.url(),
-        requestHeaders: payloadJSON.headers,
-        requestBody: payloadJSON.body,
-        response: res,
-        responseHeaders: header,
-        responseBody: body,
-      };
-      context.response = response;
-    } catch (error) {
-      throw new Error(`Error processing response: ${error.message}`);
+      body = await res.json();
+    } catch (e) {
+      body = await res.text();
     }
+
+    const response = {
+      url: res.url(),
+      requestHeaders: payloadJSON.headers,
+      requestBody: payloadJSON.body,
+      response: res,
+      responseHeaders: header,
+      responseBody: body,
+    };
+    context.response = response;
   },
   patch: async (url, payload, bodyType) => {
     const URL = await selector(url);
@@ -242,22 +248,23 @@ const api = {
 
     const res = await context.request.patch(resolvedURL, requestBody);
 
+    const header = await res.headers();
+    let body;
     try {
-      const header = await res.headers();
-      const body = await res.json();
-
-      const response = {
-        url: res.url(),
-        requestHeaders: payloadJSON.headers,
-        requestBody: payloadJSON.body,
-        response: res,
-        responseHeaders: header,
-        responseBody: body,
-      };
-      context.response = response;
-    } catch (error) {
-      throw new Error(`Error processing response: ${error.message}`);
+      body = await res.json();
+    } catch (e) {
+      body = await res.text();
     }
+
+    const response = {
+      url: res.url(),
+      requestHeaders: payloadJSON.headers,
+      requestBody: payloadJSON.body,
+      response: res,
+      responseHeaders: header,
+      responseBody: body,
+    };
+    context.response = response;
   },
   delete: async (url, payload) => {
     const URL = await selector(url);
@@ -270,21 +277,23 @@ const api = {
       headers: payloadJSON.headers,
     });
 
+    const header = await res.headers();
+    let body;
     try {
-      const header = await res.headers();
-      const body = await res.json();
-
-      const response = {
-        url: res.url(),
-        response: res,
-        responseHeaders: header,
-        responseBody: body,
-      };
-
-      context.response = response;
-    } catch (error) {
-      throw new Error(`Error processing response: ${error.message}`);
+      body = await res.json();
+    } catch (e) {
+      body = await res.text();
     }
+
+    const response = {
+      url: res.url(),
+      requestHeaders: payloadJSON.headers,
+      response: res,
+      responseHeaders: header,
+      responseBody: body,
+    };
+
+    context.response = response;
   },
   vars: () => {
     return context.vars;

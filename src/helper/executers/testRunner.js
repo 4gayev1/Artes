@@ -7,9 +7,8 @@ function runTests(args, flags) {
 
   const featureFiles = args[args.indexOf("--features") + 1];
   const features = flags.features && featureFiles;
-  
-  const tags = args[args.indexOf("--tags") + 1];
 
+  const tags = args[args.indexOf("--tags") + 1];
 
   flags.env && console.log("Running env:", env);
   flags.env ? (process.env.ENV = JSON.stringify(env)) : "";
