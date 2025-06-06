@@ -56,10 +56,12 @@ After(async function ({ pickle, result }) {
   });
 
   if (context.response) {
-    await this.attach(
-      `Request Payload:\n${JSON.stringify(context.response, null, 2)}`,
-      "text/plain",
-    );
+    Object.entries(context.response).forEach(async ([key, value]) => {
+      await this.attach(
+        `${key}:\n${JSON.stringify(value, null, 2)}`,
+        "text/plain",
+      );
+    });
   }
 
   await context.page.close();

@@ -51,7 +51,6 @@ function processForm(key, value) {
       value.endsWith(".docx") ||
       value.includes("/"))
   ) {
-    // If it looks like a file path, treat it as a file
     try {
       if (fs.existsSync(value)) {
         formData[key] = {
@@ -61,12 +60,55 @@ function processForm(key, value) {
         };
         return;
       }
-    } catch (error) {
-      // If file doesn't exist, treat as regular string
-    }
+    } catch (error) {}
   }
 
   return formData;
+}
+
+async function requestMaker(headers, data, requestDataType) {
+  let request = {};
+
+  Object.assign(request, { headers: headers });
+
+  switch (requestDataType) {
+    case "multipart":
+      Object.assign(request, { multipart: data });
+      break;
+    default:
+      Object.assign(request, { data: data });
+  }
+
+  return request;
+}
+
+async function responseMaker(request, response) {
+  const responseObject = {};
+
+  response && Object.assign(responseObject, { URL: response.url() });
+
+  request.headers &&
+    Object.assign(responseObject, { "Request Headers": await request.headers });
+
+  request.body &&
+    Object.assign(responseObject, { "Request Body": await request.body });
+
+  response && Object.assign(responseObject, { Response: await response });
+
+  response &&
+    Object.assign(responseObject, {
+      "Response Headers": await response.headers(),
+    });
+
+  if (response) {
+    try {
+      Object.assign(responseObject, { "Response Body": await response.json() });
+    } catch (e) {
+      Object.assign(responseObject, { "Response Body": await response.text() });
+    }
+  }
+
+  return responseObject;
 }
 
 const api = {
@@ -74,30 +116,16 @@ const api = {
     const URL = await selector(url);
     const resolvedURL = await resolveVariable(URL);
 
-    const resolvedPayload = resolveVariable(payload);
+    const resolvedPayload = (await payload) && resolveVariable(payload);
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
 
-    const res = await context.request.get(resolvedURL, {
-      headers: payloadJSON ? payloadJSON.headers : {},
-    });
+    const req = await requestMaker(payloadJSON?.headers || {});
 
-    const header = await res.headers();
-    let body;
-    try {
-      body = await res.json();
-    } catch (e) {
-      body = await res.text();
-    }
+    const res = await context.request.get(resolvedURL, req);
 
-    const response = {
-      url: res.url(),
-      requestHeaders: payloadJSON.headers,
-      response: res,
-      responseHeaders: header,
-      responseBody: body,
-    };
+    const response = responseMaker(payloadJSON, res);
 
-    context.response = response;
+    context.response = await response;
   },
   head: async (url) => {
     const URL = await selector(url);
@@ -105,195 +133,135 @@ const api = {
 
     const res = await context.request.head(resolvedURL);
 
-    const header = await res.headers();
-    let body;
-    try {
-      body = await res.json();
-    } catch (e) {
-      body = await res.text();
-    }
+    const response = responseMaker(payloadJSON, res);
 
-    const response = {
-      url: res.url(),
-      response: res,
-      responseHeaders: header,
-      responseBody: body,
-    };
-
-    context.response = response;
+    context.response = await response;
   },
-  post: async (url, payload, bodyType) => {
+  post: async (url, payload, requestDataType) => {
     const URL = await selector(url);
     const resolvedURL = await resolveVariable(URL);
 
-    const resolvedPayload = await resolveVariable(payload);
+    const resolvedPayload = (await payload) && resolveVariable(payload);
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
 
-    let requestBody = {};
+    let req;
 
-    switch (bodyType) {
+    switch (requestDataType) {
+      case "multipart":
+        let combinedFormData = {};
+
+        for (const [key, value] of Object.entries(payloadJSON.body)) {
+          const formData = processForm(key, value);
+          Object.assign(combinedFormData, formData);
+        }
+
+        req = await requestMaker(
+          payloadJSON.headers || {},
+          combinedFormData || {},
+          requestDataType,
+        );
+        break;
+      default:
+        req = await requestMaker(
+          payloadJSON.headers || {},
+          payloadJSON.body || {},
+        );
+    }
+
+    const res = await context.request.post(resolvedURL, req);
+
+    const response = await responseMaker(payloadJSON, res);
+
+    context.response = await response;
+  },
+  put: async (url, payload, requestDataType) => {
+    const URL = await selector(url);
+    const resolvedURL = await resolveVariable(URL);
+
+    const resolvedPayload = (await payload) && resolveVariable(payload);
+    const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
+
+    let req;
+
+    switch (requestDataType) {
       case "multipart":
         let combinedFormData = {};
         for (const [key, value] of Object.entries(payloadJSON.body)) {
           const formData = processForm(key, value);
           Object.assign(combinedFormData, formData);
         }
-        requestBody = {
-          headers: payloadJSON.headers,
-          multipart: combinedFormData,
-        };
+
+        req = await requestMaker(
+          payloadJSON.headers || {},
+          combinedFormData || {},
+          requestDataType,
+        );
+
         break;
       default:
-        requestBody = {
-          headers: payloadJSON ? payloadJSON.headers : {},
-          data: payloadJSON ? payloadJSON.body : {},
-        };
+        req = await requestMaker(
+          payloadJSON.headers || {},
+          payloadJSON.body || {},
+        );
     }
 
-    const res = await context.request.post(resolvedURL, requestBody);
+    const res = await context.request.put(resolvedURL, req);
 
-    const header = await res.headers();
-    let body;
-    try {
-      body = await res.json();
-    } catch (e) {
-      body = await res.text();
-    }
+    const response = await responseMaker(payloadJSON, res);
 
-    const response = {
-      url: res.url(),
-      requestHeaders: payloadJSON.headers,
-      requestBody: payloadJSON.body,
-      response: res,
-      responseHeaders: header,
-      responseBody: body,
-    };
-    context.response = response;
+    context.response = await response;
   },
-  put: async (url, payload, bodyType) => {
+  patch: async (url, payload, requestDataType) => {
     const URL = await selector(url);
     const resolvedURL = await resolveVariable(URL);
 
-    const resolvedPayload = await resolveVariable(payload);
+    const resolvedPayload = (await payload) && resolveVariable(payload);
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
 
-    let requestBody = {};
+    let req;
 
-    switch (bodyType) {
+    switch (requestDataType) {
       case "multipart":
         let combinedFormData = {};
         for (const [key, value] of Object.entries(payloadJSON.body)) {
           const formData = processForm(key, value);
           Object.assign(combinedFormData, formData);
         }
-        requestBody = {
-          headers: payloadJSON.headers,
-          multipart: combinedFormData,
-        };
+
+        req = await requestMaker(
+          payloadJSON.headers || {},
+          combinedFormData || {},
+          requestDataType,
+        );
+
         break;
       default:
-        requestBody = {
-          headers: payloadJSON ? payloadJSON.headers : {},
-          data: payloadJSON ? payloadJSON.body : {},
-        };
+        req = await requestMaker(
+          payloadJSON.headers || {},
+          payloadJSON.body || {},
+        );
     }
 
-    const res = await context.request.put(resolvedURL, requestBody);
+    const res = await context.request.patch(resolvedURL, req);
 
-    const header = await res.headers();
-    let body;
-    try {
-      body = await res.json();
-    } catch (e) {
-      body = await res.text();
-    }
+    const response = responseMaker(payloadJSON, res);
 
-    const response = {
-      url: res.url(),
-      requestHeaders: payloadJSON.headers,
-      requestBody: payloadJSON.body,
-      response: res,
-      responseHeaders: header,
-      responseBody: body,
-    };
-    context.response = response;
-  },
-  patch: async (url, payload, bodyType) => {
-    const URL = await selector(url);
-    const resolvedURL = await resolveVariable(URL);
-
-    const resolvedPayload = await resolveVariable(payload);
-    const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
-
-    let requestBody = {};
-
-    switch (bodyType) {
-      case "multipart":
-        let combinedFormData = {};
-        for (const [key, value] of Object.entries(payloadJSON.body)) {
-          const formData = processForm(key, value);
-          Object.assign(combinedFormData, formData);
-        }
-        requestBody = {
-          headers: payloadJSON.headers,
-          multipart: combinedFormData,
-        };
-        break;
-      default:
-        requestBody = {
-          headers: payloadJSON ? payloadJSON.headers : {},
-          data: payloadJSON ? payloadJSON.body : {},
-        };
-    }
-
-    const res = await context.request.patch(resolvedURL, requestBody);
-
-    const header = await res.headers();
-    let body;
-    try {
-      body = await res.json();
-    } catch (e) {
-      body = await res.text();
-    }
-
-    const response = {
-      url: res.url(),
-      requestHeaders: payloadJSON.headers,
-      requestBody: payloadJSON.body,
-      response: res,
-      responseHeaders: header,
-      responseBody: body,
-    };
-    context.response = response;
+    context.response = await response;
   },
   delete: async (url, payload) => {
     const URL = await selector(url);
     const resolvedURL = await resolveVariable(URL);
 
-    const resolvedPayload = await resolveVariable(payload);
+    const resolvedPayload = (await payload) && resolveVariable(payload);
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
 
-    const res = await context.request.delete(resolvedURL, {
-      headers: payloadJSON.headers,
-    });
+    const req = await requestMaker(payloadJSON.headers || {});
 
-    const header = await res.headers();
-    let body;
-    try {
-      body = await res.json();
-    } catch (e) {
-      body = await res.text();
-    }
+    const res = await context.request.delete(resolvedURL, req);
 
-    const response = {
-      url: res.url(),
-      requestHeaders: payloadJSON.headers,
-      response: res,
-      responseHeaders: header,
-      responseBody: body,
-    };
+    const response = responseMaker(payloadJSON, res);
 
-    context.response = response;
+    context.response = await response;
   },
   vars: () => {
     return context.vars;
