@@ -18,7 +18,7 @@ When("User gets the frame locator of {string}", async function (selector) {
 
 // User gets the nth element of a specific selector
 When(
-  "User gets the {int}th element of {string}",
+  "User gets the {int} th element of {string}",
   async function (index, selector) {
     await frame.nth(selector, index);
   },

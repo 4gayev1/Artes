@@ -3,7 +3,7 @@
 If you don't want to deal with Playwright methods directly, you can simply use the following predefined actions methods by import them:
 
 ```javascript
-const { mouse, keyboard, frame, elementInteractions, page } = require("artes");
+const { mouse, keyboard, frame, elementInteractions, page, api } = require("artes");
 ```
 
 - **Mouse Actions:**  
@@ -21,6 +21,9 @@ const { mouse, keyboard, frame, elementInteractions, page } = require("artes");
 - **Frame Actions:**  
   `frame.first()`
 
+- **API Actions:**  
+  `api.post(url, payload, requestDataType)`
+
 ---
 
 ## Table of Contents
@@ -30,6 +33,8 @@ const { mouse, keyboard, frame, elementInteractions, page } = require("artes");
 - [Assertions Functions](#assertions-functions)
 - [Page Functions](#page-functions)
 - [Frame Functions](#frame-functions)
+- [API Functions](#api-object-methods)
+- [Usage Examples](#usage-examples)
 
 ### **Mouse Functions**
 
@@ -440,7 +445,7 @@ await wait(time);
 
 ---
 
-### **Assertion Functions**
+### **Assertions Functions**
 
 #### `shouldBeAttached(selector)`
 
@@ -2098,4 +2103,241 @@ Returns elements with the specified `data-testid` attribute.
 
 ```javascript
 const element = await getByTestId("submit-button");
+```
+
+## API Object Methods
+
+The `api` object provides methods for making HTTP requests with automatic URL resolution, payload processing, and response handling.
+
+### `api.get(url, payload)`
+
+Makes a GET request to the specified URL.
+
+**Parameters:**
+- `url` (string): The target URL (supports variable resolution)
+- `payload` (string, optional): JSON string containing headers and other request options
+
+**Returns:** Promise that resolves when the request completes
+
+**Example:**
+```javascript
+await api.get("https://api.example.com/users", JSON.stringify({
+  headers: { "Authorization": "Bearer {{token}}" }
+}));
+```
+
+### `api.head(url)`
+
+Makes a HEAD request to the specified URL.
+
+**Parameters:**
+- `url` (string): The target URL (supports variable resolution)
+
+**Returns:** Promise that resolves when the request completes
+
+**Example:**
+```javascript
+await api.head("https://api.example.com/status");
+```
+
+### `api.post(url, payload, requestDataType)`
+
+Makes a POST request to the specified URL.
+
+**Parameters:**
+- `url` (string): The target URL (supports variable resolution)
+- `payload` (string): JSON string containing headers, body, and other request options
+- `requestDataType` (string, optional): Request data type ("multipart" for form data, default for JSON)
+
+**Returns:** Promise that resolves when the request completes
+
+**Example:**
+```javascript
+// Regular POST request
+await api.post("https://api.example.com/users", JSON.stringify({
+  headers: { "Content-Type": "application/json" },
+  body: { name: "John", email: "john@example.com" }
+}));
+
+// Multipart form data
+await api.post("https://api.example.com/upload", JSON.stringify({
+  headers: {},
+  body: { file: "/path/to/file.pdf", description: "Document upload" }
+}), "multipart");
+```
+
+### `api.put(url, payload, requestDataType)`
+
+Makes a PUT request to the specified URL.
+
+**Parameters:**
+- `url` (string): The target URL (supports variable resolution)
+- `payload` (string): JSON string containing headers, body, and other request options
+- `requestDataType` (string, optional): Request data type ("multipart" for form data, default for JSON)
+
+**Returns:** Promise that resolves when the request completes
+
+**Example:**
+```javascript
+await api.put("https://api.example.com/users/{{userId}}", JSON.stringify({
+  headers: { "Content-Type": "application/json" },
+  body: { name: "Updated Name" }
+}));
+```
+
+### `api.patch(url, payload, requestDataType)`
+
+Makes a PATCH request to the specified URL.
+
+**Parameters:**
+- `url` (string): The target URL (supports variable resolution)
+- `payload` (string): JSON string containing headers, body, and other request options
+- `requestDataType` (string, optional): Request data type ("multipart" for form data, default for JSON)
+
+**Returns:** Promise that resolves when the request completes
+
+**Example:**
+```javascript
+await api.patch("https://api.example.com/users/{{userId}}", JSON.stringify({
+  headers: { "Content-Type": "application/json" },
+  body: { email: "newemail@example.com" }
+}));
+```
+
+### `api.delete(url, payload)`
+
+Makes a DELETE request to the specified URL.
+
+**Parameters:**
+- `url` (string): The target URL (supports variable resolution)
+- `payload` (string, optional): JSON string containing headers and other request options
+
+**Returns:** Promise that resolves when the request completes
+
+**Example:**
+```javascript
+await api.delete("https://api.example.com/users/{{userId}}", JSON.stringify({
+  headers: { "Authorization": "Bearer {{token}}" }
+}));
+```
+
+### `api.vars()`
+
+Returns the current context variables object.
+
+**Returns:** Object containing all stored variables
+
+**Example:**
+```javascript
+const currentVars = api.vars();
+console.log(currentVars); // { token: "abc123", userId: "user456" }
+```
+
+
+## Static Methods
+
+### `extractVarsFromResponse(vars, customVarName)`
+
+Extracts variables from the response body using dot notation paths.
+
+**Parameters:**
+- `vars` (string): Comma-separated list of dot notation paths (e.g., "user.id,user.name")
+- `customVarName` (string, optional): Custom variable name to use instead of auto-generated names
+
+**Behavior:**
+- Extracts values from `context.response.responseBody` using specified paths
+- Saves extracted values as variables using `saveVar()`
+- If `customVarName` is provided, uses it; otherwise generates camelCase names
+
+**Example:**
+```javascript
+// Response body: { user: { id: 123, profile: { name: "John" } } }
+extractVarsFromResponse("user.id,user.profile.name");
+// Creates variables: userId = 123, userProfileName = "John"
+
+extractVarsFromResponse("user.id", "currentUserId");
+// Creates variable: currentUserId = 123
+```
+
+### `saveVar(value, customName, path)`
+
+Saves a variable to the context with either a custom name or auto-generated camelCase name.
+
+**Parameters:**
+- `value` (any): The value to store
+- `customName` (string, optional): Custom variable name
+- `path` (string): Dot notation path used for auto-generating variable name
+
+**Behavior:**
+- If `customName` is provided, uses it as the variable name
+- Otherwise, converts dot notation path to camelCase (e.g., "user.profile.name" → "userProfileName")
+
+### `resolveVariable(template)`
+
+Resolves variable placeholders in template strings using the format `{{variableName}}`.
+
+**Parameters:**
+- `template` (string): Template string containing variable placeholders
+
+**Returns:** String with variables resolved, or original value if not a string
+
+**Example:**
+```javascript
+// Assuming context.vars = { userId: "123", token: "abc" }
+resolveVariable("https://api.example.com/users/{{userId}}")
+// Returns: "https://api.example.com/users/123"
+
+resolveVariable("Bearer {{token}}")
+// Returns: "Bearer abc"
+```
+
+## Usage Examples
+
+### Basic API Usage
+
+```javascript
+// Set up variables
+context.vars.baseUrl = "https://api.example.com";
+context.vars.token = "your-auth-token";
+
+// Make a GET request
+await api.get("{{baseUrl}}/users", JSON.stringify({
+  headers: { "Authorization": "Bearer {{token}}" }
+}));
+
+// Extract user ID from response
+extractVarsFromResponse("data.0.id", "firstUserId");
+
+// Use extracted variable in subsequent request
+await api.get("{{baseUrl}}/users/{{firstUserId}}/profile");
+```
+
+### File Upload Example
+
+```javascript
+await api.post("{{baseUrl}}/upload", JSON.stringify({
+  headers: { "Authorization": "Bearer {{token}}" },
+  body: {
+    file: "/path/to/document.pdf",
+    description: "Important document",
+    metadata: { type: "legal", priority: "high" }
+  }
+}), "multipart");
+```
+
+### Variable Extraction and Chaining
+
+```javascript
+// Login request
+await api.post("{{baseUrl}}/auth/login", JSON.stringify({
+  body: { username: "user@example.com", password: "password" }
+}));
+
+// Extract token from login response
+extractVarsFromResponse("access_token", "authToken");
+
+// Use token in protected endpoint
+await api.get("{{baseUrl}}/protected-data", JSON.stringify({
+  headers: { "Authorization": "Bearer {{authToken}}" }
+}));
 ```

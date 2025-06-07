@@ -6,13 +6,17 @@
 - [Keyboard Actions](#keyboard-actions)
 - [Page Actions](#page-actions)
 - [Frame Actions](#frame-actions)
+- [API Actions](#api-actions)
+- [Variable Management](#variable-management)
+- [Debugging / Console Output](#debugging--console-output)
+- [Generic HTTP Request](#generic-http-request)
 - [Assertions](#assertions)
 
 ---
 
-## Mouse Actions
+# Mouse Actions
 
-### Click Actions
+## Click Actions
 
 - User clicks `{string}`
 - User clicks `{string}` with force
@@ -24,7 +28,7 @@
 - User clicks `{string}` with button `{string}`
 - User clicks `{string}` with button `{string}` and force
 
-### Double Click Actions
+## Double Click Actions
 
 - User double clicks `{string}`
 - User double clicks `{string}` with force
@@ -34,70 +38,70 @@
 - User double clicks at `{int}, {int}` coordinates with click count `{int}` and delay `{int}`
 - User double clicks at `{int}, {int}` coordinates with force
 
-### Mouse Movement Actions
+## Mouse Movement Actions
 
 - User moves to `{int}, {int}` coordinates
 - User scrolls the mouse wheel at `{int}, {int}` coordinates
 
-### Hover Actions
+## Hover Actions
 
 - User hovers over `{string}`
 - User hovers over `{string}` with force
 - User hovers over `{string}` at `{int}, {int}` position
 - User hovers over `{string}` at `{int}, {int}` position with force
 
-### Focus Actions
+## Focus Actions
 
 - User focuses on `{string}`
 - User focuses on `{string}` with force
 - User focuses on `{string}` at `{int}, {int}` position
 - User focuses on `{string}` at `{int}, {int}` position with force
 
-### Drag Actions
+## Drag Actions
 
 - User drags `{string}` to `{string}`
 - User drags `{string}` to `{int}, {int}` position
 
-### Selection Actions
+## Selection Actions
 
 - User selects by value `{string}` from `{string}`
 - User selects by text `{string}` from `{string}`
 
-### Checkbox Actions
+## Checkbox Actions
 
 - User checks `{string}`
 - User unchecks `{string}`
 
-### Scroll Actions
+## Scroll Actions
 
 - User scrolls into view for `{string}`
 
 ---
 
-## Keyboard Actions
+# Keyboard Actions
 
-### Press Actions
+## Press Actions
 
-- User presses `{string} on {string}`
+- User presses `{string}` on `{string}`
 - User presses keys `{string}` sequentially on `{string}`
-- User presses keys `{string}` sequentially with delay `{int} on {string}`
+- User presses keys `{string}` sequentially with delay `{int}` on `{string}`
 
-### Input Actions
+## Input Actions
 
 - User types `{string}` in `{string}`
 - User types `{string}` with delay `{int}`
 - User inserts text `{string}`
 - User clears `{string}`
 
-### Selection Actions
+## Selection Actions
 
 - User selects text in `{string}`
 
-### File Input Actions
+## File Input Actions
 
 - User sets input files `{string}` for `{string}`
 
-### Key State Actions
+## Key State Actions
 
 - User holds down `{string}`
 - User releases `{string}`
@@ -105,19 +109,19 @@
 
 ---
 
-## Page Actions
+# Page Actions
 
-### Navigation Actions
+## Navigation Actions
 
 - User navigates to `{string}` page
 - User navigates previous page
 - User navigates next page
 
-### URL Actions
+## URL Actions
 
 - User gets URL of page
 
-### Wait Actions
+## Wait Actions
 
 - User waits `{int}` seconds
 - User waits `{int}` milliseconds
@@ -125,36 +129,113 @@
 
 ---
 
-## Frame Actions
+# Frame Actions
 
-### Screenshot Actions
+## Screenshot Actions
 
 - User takes a screenshot of `{string}`
 
-### Content and Locator Actions
+## Content and Locator Actions
 
 - User gets the content frame of `{string}`
 - User gets the frame locator of `{string}`
 
-### Element Retrieval Actions
+## Element Retrieval Actions
 
-- User gets the `{int}th` element of `{string}`
+- User gets the `{int} th` element of `{string}`
 - User gets the first element of `{string}`
 - User gets the last element of `{string}`
 - User filters elements of `{string}` with filter `{string}`
 
-### Counting Actions
+## Counting Actions
 
 - User counts the elements of `{string}`
 
-### Accessibility-Based Retrieval Actions
+## Accessibility-Based Retrieval Actions
 
 - User gets the element with alt text `{string}`
 - User gets the element with label `{string}`
 - User gets the element with placeholder `{string}`
 - User gets the element with role `{string}`
-- User gets the element with testI `{string}`
-- User gets the element with testII `{string}`
+- User gets the element with testId `{string}`
+- User gets the element with testId `{string}` (assuming you meant testId twice)
+
+---
+
+# API Actions
+
+## GET Requests
+
+- User sends GET request to `{string}`
+- User sends GET request to `{string}` with payload:
+- User sends GET request to `{string}` and saves `{string}` variables
+- User sends GET request to `{string}` with payload and saves `{string}` variables
+
+## HEAD Requests
+
+- User sends HEAD request to `{string}`
+
+## POST Requests
+
+- User sends POST request to `{string}` with payload:
+- User sends POST request to `{string}` with payload and saves `{string}` variables
+- User sends multipart POST request to `{string}` with payload:
+- User sends multipart POST request to `{string}` with payload and `{string}` variables
+
+## PUT Requests
+
+- User sends PUT request to `{string}` with payload:
+- User sends PUT request to `{string}` with payload and saves `{string}` variables
+- User sends multipart PUT request to `{string}` with payload:
+- User sends multipart PUT request to `{string}` with payload and saves `{string}` variables
+
+## PATCH Requests
+
+- User sends PATCH request to `{string}` with payload:
+- User sends PATCH request to `{string}` with payload and saves `{string}` variables
+- User sends multipart PATCH request to `{string}` with payload:
+- User sends multipart PATCH request to `{string}` with payload and saves `{string}` variables
+
+## DELETE Requests
+
+- User sends DELETE request to `{string}`
+- User sends DELETE request to `{string}` and saves `{string}` variables
+- User sends DELETE request to `{string}` with payload:
+- User sends DELETE request to `{string}` with payload and saves `{string}` variables
+
+---
+
+# Variable Management
+
+- User saves `{string}` variable from response as `{string}`
+- User saves `{string}` variable as `{string}`
+
+---
+
+# Debugging / Console Output
+
+- User wants to see saved variables
+- User wants to see request body
+- User wants to see response body
+
+---
+
+# Generic HTTP Request
+
+- User sends `{string}` request to `{string}`
+
+---
+
+# Random Data Generation
+
+- User sets random words as `{string}` variable
+- User sets random number from `{int}` to `{int}` as `{string}` variable
+
+# API Data Extraction
+
+- User sends GET request to `{string}` and save `{string}` variable as a `{string}` randomly
+
+---
 
 ## Assertions
 
@@ -267,3 +348,5 @@
 - User expects `{string}` should not contain `{string}` object properties
 - User expects `{string}` should not contain `{string}` substring
 - User expects `{string}` should not match `{string}` regex
+- User expects that request should have `{int}` status code
+- User expects that response body should match `{string}` schema

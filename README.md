@@ -242,9 +242,12 @@ const { mouse, keyboard, frame, elementInteractions, page } = require("artes");
 - **Frame Actions:**  
   `frame.first()`
 
+- **API Actions:**  
+  `api.post(url, payload, requestDataType)`
+
 ---
 
-For a detailed explanation of each function, please refer to the [functionDefinitions.md](./docs/functionDefinitions.md).
+For a detailed explanation of each function, please refer to the [function definitions](./docs/functionDefinitions.md).
 
 ---
 
@@ -270,26 +273,39 @@ Then("User should see the login form", async () => {
 
 You can configure Artes by editing the `artes.config.js` file. Below are the default configuration options with explanations:
 
-| **Option**       | **Default Value**                                    | **Description**                     |
-| ---------------- | ---------------------------------------------------- | ----------------------------------- |
-| `headless`       | `true`                                               | Run in headless browser mode.       |
-| `paths`          | `["tests/features/"]`                                | Array of paths to feature files.    |
-| `pomPath`        | `"tests/POMs/*.json"`                                | Path to Page Object Models.         |
-| `steps`          | `"tests/steps/*.js"`                                 | string - Step definitions files.    |
-| `format`         | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]` | Array of formatter names/paths.     |
-| `formatOptions`  | `{ "resultsDir": "allure-result" }`                  | Formatter options.                  |
-| `parallel`       | `1`                                                  | Number of parallel workers.         |
-| `tags`           | `""`                                                 | Tag expression to filter scenarios. |
-| `language`       | `"en"`                                               | Default language for feature files. |
-| `order`          | `"defined"`                                          | Run order (defined or random).      |
-| `dryRun`         | `false`                                              | Prepare test run without execution. |
-| `failFast`       | `false`                                              | Stop on first failure.              |
-| `forceExit`      | `false`                                              | Force `process.exit()` after tests. |
-| `retry`          | `0`                                                  | Retry attempts for failing tests.   |
-| `retryTagFilter` | `""`                                                 | Tag expression for retries.         |
-| `strict`         | `true`                                               | Fail on pending steps.              |
-| `backtrace`      | `false`                                              | Show full backtrace for errors.     |
-| `publish`        | `false`                                              | Publish results to `cucumber.io`.   |
+
+| **Option**        | **Default Value**                                    | **Description**                                       |
+| ----------------- | ---------------------------------------------------- | ----------------------------------------------------- |
+| `timeout`         | `30`                                                 | Default timeout in milliseconds.                     |
+| `paths`           | `[moduleConfig.featuresPath]`                        | Paths to feature files.                              |
+| `require`         | `[moduleConfig.stepsPath, "src/stepDefinitions/*.js", "src/hooks/hooks.js"]` | Support code paths (CommonJS).      |
+| `pomPath`         | `moduleConfig.pomPath`                               | Path to Page Object Models.                          |
+| `import`          | `[]`                                                 | Support code paths.                                  |
+| `format`          | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]` | Formatter names/paths.                               |
+| `formatOptions`   | `{ "resultsDir": "allure-result" }`                  | Formatter options.                                   |
+| `parallel`        | `1`                                                  | Number of parallel workers.                          |
+| `dryRun`          | `false`                                              | Prepare test run without execution.                  |
+| `failFast`        | `false`                                              | Stop on first test failure.                         |
+| `forceExit`       | `false`                                              | Force `process.exit()` after tests.                 |
+| `strict`          | `true`                                               | Fail on pending steps.                              |
+| `backtrace`       | `false`                                              | Show full backtrace for errors.                     |
+| `tags`            | `""`                                                 | Tag expression to filter scenarios.                 |
+| `name`            | `[]`                                                 | Run scenarios matching regex.                        |
+| `order`           | `"defined"`                                          | Run order (defined/random).                         |
+| `language`        | `"en"`                                               | Default feature file language.                       |
+| `loader`          | `[]`                                                 | Module loader specifications.                        |
+| `requireModule`   | `[]`                                                 | Transpilation module names.                          |
+| `retry`           | `0`                                                  | Retry attempts for failing tests.                    |
+| `retryTagFilter`  | `""`                                                 | Tag expression for retries.                          |
+| `publish`         | `false`                                              | Publish to cucumber.io.                              |
+| `worldParameters` | `{}`                                                 | Custom world parameters.                             |
+
+### Environment Configuration
+
+| **Option**  | **Default Value** | **Description**                    |
+| ----------- | ----------------- | ---------------------------------- |
+| `env`       | `""`              | Environment configuration. Should match the name with the baseURL object, like "dev"       |
+| `baseURL`   | `""`              | Base URL for API requests. Can be object {"dev":"dev-api.com", "pre":"pre-api.com"}, or string "dev-api.com"       |
 
 ---
 
