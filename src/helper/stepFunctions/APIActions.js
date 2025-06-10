@@ -255,7 +255,7 @@ const api = {
     const resolvedPayload = (await payload) && resolveVariable(payload);
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
 
-    const req = await requestMaker(payloadJSON.headers || {});
+    const req = await requestMaker(payloadJSON?.headers || {});
 
     const res = await context.request.delete(resolvedURL, req);
 
