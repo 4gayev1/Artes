@@ -176,11 +176,11 @@ When("User wants to see saved variables", async function () {
 });
 
 When("User wants to see request body", async function () {
-  console.log("Request Body: ", context.response.requestBody);
+  console.log("Request Body: ", context.response["Request Body"]);
 });
 
 When("User wants to see response body", async function () {
-  console.log("Request Body: ", context.response.responseBody);
+  console.log("Request Body: ", context.response["Response Body"]);
 });
 
 When(
@@ -225,7 +225,7 @@ When(
 When(
   "User expects that request should have {int} status code",
   async function (expectedStatusCode) {
-    const actualStatusCode = await context.response.response.status();
+    const actualStatusCode = await context.response.Response.status();
     expect(actualStatusCode).toBe(expectedStatusCode);
   },
 );

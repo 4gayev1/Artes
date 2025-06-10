@@ -87,10 +87,10 @@ async function responseMaker(request, response) {
 
   response && Object.assign(responseObject, { URL: response.url() });
 
-  request.headers &&
+  request?.headers &&
     Object.assign(responseObject, { "Request Headers": await request.headers });
 
-  request.body &&
+  request?.body &&
     Object.assign(responseObject, { "Request Body": await request.body });
 
   response && Object.assign(responseObject, { Response: await response });
