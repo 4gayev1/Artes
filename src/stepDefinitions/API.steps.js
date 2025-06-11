@@ -180,7 +180,7 @@ When("User wants to see request body", async function () {
 });
 
 When("User wants to see response body", async function () {
-  console.log("Request Body: ", context.response["Response Body"]);
+  console.log("Response Body: ", context.response["Response Body"]);
 });
 
 When(
