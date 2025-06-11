@@ -1,4 +1,6 @@
-const { context, selector, resolveVariable } = require("../imports/commons");
+const path = require("path");
+const fs = require("fs");
+const { context, selector, resolveVariable, moduleConfig } = require("../imports/commons");
 
 function getMimeType(filePath) {
   const ext = path.extname(filePath).toLowerCase();
@@ -21,9 +23,7 @@ function getMimeType(filePath) {
   return mimeTypes[ext] || "application/octet-stream";
 }
 
-function processForm(key, value) {
-  let formData = {};
-
+function processForm(formData, key, value) {
   if (typeof value === "object") {
     if (value.contentType) {
       const content =
@@ -36,8 +36,10 @@ function processForm(key, value) {
         mimeType: value.contentType,
         buffer: Buffer.from(content, "utf8"),
       };
+      return;
     } else {
       formData[key] = JSON.stringify(value);
+      return;
     }
   }
 
@@ -52,18 +54,21 @@ function processForm(key, value) {
       value.includes("/"))
   ) {
     try {
-      if (fs.existsSync(value)) {
+      const filePath = path.join(moduleConfig.projectPath, value);
+      if (fs.existsSync(filePath)) {
         formData[key] = {
-          name: path.basename(value),
-          mimeType: getMimeType(value),
-          buffer: fs.readFileSync(value),
+          name: path.basename(filePath),
+          mimeType: getMimeType(filePath),
+          buffer: fs.readFileSync(filePath),
         };
         return;
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  return formData;
+  formData[key] = value;
 }
 
 async function requestMaker(headers, data, requestDataType) {
@@ -148,23 +153,22 @@ const api = {
 
     switch (requestDataType) {
       case "multipart":
-        let combinedFormData = {};
-
-        for (const [key, value] of Object.entries(payloadJSON.body)) {
-          const formData = processForm(key, value);
-          Object.assign(combinedFormData, formData);
+        let formData = {};
+        
+        for (const [key, value] of Object.entries(payloadJSON?.body)) {
+          processForm(formData, key, value);
         }
 
         req = await requestMaker(
-          payloadJSON.headers || {},
-          combinedFormData || {},
+          payloadJSON?.headers || {},
+          formData || {},
           requestDataType,
         );
         break;
       default:
         req = await requestMaker(
-          payloadJSON.headers || {},
-          payloadJSON.body || {},
+          payloadJSON?.headers || {},
+          payloadJSON?.body || {},
         );
     }
 
@@ -172,7 +176,7 @@ const api = {
 
     const response = await responseMaker(payloadJSON, res);
 
-    context.response = await response;
+    context.response = response;
   },
   put: async (url, payload, requestDataType) => {
     const URL = await selector(url);
@@ -185,23 +189,23 @@ const api = {
 
     switch (requestDataType) {
       case "multipart":
-        let combinedFormData = {};
-        for (const [key, value] of Object.entries(payloadJSON.body)) {
-          const formData = processForm(key, value);
-          Object.assign(combinedFormData, formData);
+        let formData = {};
+        
+        for (const [key, value] of Object.entries(payloadJSON?.body)) {
+          processForm(formData, key, value);
         }
 
         req = await requestMaker(
-          payloadJSON.headers || {},
-          combinedFormData || {},
+          payloadJSON?.headers || {},
+          formData || {},
           requestDataType,
         );
 
         break;
       default:
         req = await requestMaker(
-          payloadJSON.headers || {},
-          payloadJSON.body || {},
+          payloadJSON?.headers || {},
+          payloadJSON?.body || {},
         );
     }
 
@@ -209,7 +213,7 @@ const api = {
 
     const response = await responseMaker(payloadJSON, res);
 
-    context.response = await response;
+    context.response = response;
   },
   patch: async (url, payload, requestDataType) => {
     const URL = await selector(url);
@@ -222,31 +226,31 @@ const api = {
 
     switch (requestDataType) {
       case "multipart":
-        let combinedFormData = {};
-        for (const [key, value] of Object.entries(payloadJSON.body)) {
-          const formData = processForm(key, value);
-          Object.assign(combinedFormData, formData);
+        let formData = {};
+        
+        for (const [key, value] of Object.entries(payloadJSON?.body)) {
+          processForm(formData, key, value);
         }
 
         req = await requestMaker(
-          payloadJSON.headers || {},
-          combinedFormData || {},
+          payloadJSON?.headers || {},
+          formData || {},
           requestDataType,
         );
 
         break;
       default:
         req = await requestMaker(
-          payloadJSON.headers || {},
-          payloadJSON.body || {},
+          payloadJSON?.headers || {},
+          payloadJSON?.body || {},
         );
     }
 
     const res = await context.request.patch(resolvedURL, req);
 
-    const response = responseMaker(payloadJSON, res);
+    const response = await responseMaker(payloadJSON, res);
 
-    context.response = await response;
+    context.response = response;
   },
   delete: async (url, payload) => {
     const URL = await selector(url);
