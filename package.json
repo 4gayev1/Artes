@@ -1,6 +1,6 @@
 {
   "name": "artes",
-  "version": "1.0.65",
+  "version": "1.0.66",
   "description": "The simplest way to automate UI and API tests using Cucumber-style steps.",
   "main": "index.js",
   "scripts": {

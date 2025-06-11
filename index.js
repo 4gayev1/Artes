@@ -11,6 +11,7 @@ const {
   page,
   request,
   random,
+  resolveVariable
 } = require("./src/helper/imports/commons");
 const {
   keyboard,
@@ -30,6 +31,7 @@ module.exports = {
   selector,
   saveVar,
   extractVarsFromResponse,
+  resolveVariable,
   context,
   api,
   random,
