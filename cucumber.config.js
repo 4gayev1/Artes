@@ -47,7 +47,7 @@ module.exports = {
     }, // Formatter options
 
     // Execution options
-    parallel: process.env.REPORT_FORMAT ? JSON.parse(process.env.REPORT_FORMAT) : artesConfig.parallel || 1, // Number of parallel workers
+    parallel: process.env.PARALLEL ? JSON.parse(process.env.PARALLEL) : artesConfig.parallel || 1, // Number of parallel workers
     dryRun: process.env.DRYRUN ? JSON.parse(process.env.DRYRUN) : artesConfig.dryRun || false, // Prepare test run without execution
     failFast: artesConfig.failFast || false, // Stop on first test failure
     forceExit: artesConfig.forceExit || false, // Force process.exit() after tests
