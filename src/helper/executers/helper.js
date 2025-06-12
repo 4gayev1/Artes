@@ -46,7 +46,7 @@ function showHelp() {
             🎭 --dryrun        Perform a dry run without executing tests
                 Usage:   artes --dryrun
       `);
-      
+    }
 
 module.exports = {
   showHelp,
