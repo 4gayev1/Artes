@@ -22,6 +22,9 @@ const flags = {
   tags: args.includes("--tags"),
   env: args.includes("--env"),
   headless: args.includes("--headless"),
+  parallel: args.includes("--parallel"),
+  retry: args.includes("--retry"),
+  dryrun: args.includes("--dryrun")
 };
 
 function main() {

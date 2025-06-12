@@ -43,16 +43,20 @@ npx artes [options]
 ### Options
 
 | Option              | Description                                                   | Usage Example                                      |
-| -------------------| ------------------------------------------------------------- | -------------------------------------------------- |
+| ------------------- | ------------------------------------------------------------- | ------------------------------------------------- |
 | 🆘 `-h, --help`     | Show the usage options                                        | `artes -h` or `artes --help`                       |
 | 🏷️ `-v, --version`  | Show the current version of Artes                             | `artes -v` or `artes --version`                    |
 | 🏗️ `-c, --create`   | Create an example project with Artes                          | `artes -c` or `artes --create`                     |
 | ✅ `-y, --yes`      | Skip the confirmation prompt when creating an example project | `artes -c -y` or `artes --create --yes`            |
 | 📊 `-r, --report`   | Run tests and generate Allure report                          | `artes -r` or `artes --report`                     |
-| 📁 `--features`     | Specify one or more feature files' relative paths to run (comma-separated) (comma-separated)    | `artes --features "tests/features/Alma, tests/features/Banan.feature"`                   |
+| 📁 `--features`     | Specify one or more feature files' relative paths to run (comma-separated) | `artes --features "tests/features/Alma, tests/features/Banan.feature"` |
 | 🔖 `--tags`         | Run tests with specified Cucumber tags                        | `artes --tags "@smoke or @wip"`                    |
 | 🌐 `--env`          | Set the environment for the test run                          | `artes --env "dev"`                                |
 | 🕶️ `--headless`     | Run browser in headless mode                                  | `artes --headless`                                 |
+| ⚡ `--parallel`     | Run tests in parallel mode                                    | `artes --parallel 2`                                 |
+| 🔁 `--retry`        | Retry failed tests                                           | `artes --retry 3`                                    |
+| 🎭 `--dryrun`       | Perform a dry run without executing tests                    | `artes --dryrun`                                   |
+
 
 \*\* To just run the tests: <br>
 Globally: artes <br>

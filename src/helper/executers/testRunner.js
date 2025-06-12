@@ -9,6 +9,8 @@ function runTests(args, flags) {
   const features = flags.features && featureFiles;
 
   const tags = args[args.indexOf("--tags") + 1];
+  const parallel = args[args.indexOf("--parallel") + 1];
+  const retry = args[args.indexOf("--retry") + 1];
 
   flags.env && console.log("Running env:", env);
   flags.env ? (process.env.ENV = JSON.stringify(env)) : "";
@@ -29,6 +31,10 @@ function runTests(args, flags) {
   flags.headless &&
     console.log("Running mode:", flags.headless ? "headless" : "headed");
   flags.headless ? (process.env.MODE = JSON.stringify(true)) : false;
+
+  flags.parallel ? (process.env.PARALLEL = JSON.stringify(parallel)) : "";
+  flags.retry ? (process.env.RETRY = JSON.stringify(retry)) : "";
+  flags.dryrun ? (process.env.DRYRUN = JSON.stringify(true)) : "";
 
   try {
     console.log("🧪 Running tests...");

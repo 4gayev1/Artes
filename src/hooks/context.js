@@ -4,7 +4,7 @@ class Context {
     this.page = undefined;
     this.request = undefined;
     this.response = undefined;
-    this.vars = {};
+    this.vars = undefined;
   }
 }
 

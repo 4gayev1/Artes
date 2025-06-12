@@ -24,6 +24,7 @@ BeforeAll(async function () {
 });
 
 Before(async function () {
+  context.vars = {};
   browser = await invokeBrowser();
   request = await invokeRequest();
 
