@@ -87,10 +87,14 @@ async function requestMaker(headers, data, requestDataType) {
   return request;
 }
 
-async function responseMaker(request, response) {
+async function responseMaker(request, response, duration) {
   const responseObject = {};
 
-  response && Object.assign(responseObject, { URL: response.url() });
+  response && Object.assign(responseObject, {
+    "Response Params": `URL: ${response.url()}
+     Response Status: ${await response.status()}
+     Response Time: ${Math.round(duration)} ms`
+  });
 
   request?.headers &&
     Object.assign(responseObject, { "Request Headers": await request.headers });
@@ -113,6 +117,8 @@ async function responseMaker(request, response) {
     }
   }
 
+  Object.assign(responseObject, { "Response Time":  `${Math.round(duration)} ms`});
+
   return responseObject;
 }
 
@@ -126,9 +132,13 @@ const api = {
 
     const req = await requestMaker(payloadJSON?.headers || {});
 
+    const requestStarts = performance.now();
+
     const res = await context.request.get(resolvedURL, req);
 
-    const response = responseMaker(payloadJSON, res);
+    const duration = performance.now() - requestStarts;
+
+    const response = responseMaker(payloadJSON, res, duration);
 
     context.response = await response;
   },
@@ -136,9 +146,13 @@ const api = {
     const URL = await selector(url);
     const resolvedURL = await resolveVariable(URL);
 
+    const requestStarts = performance.now();
+
     const res = await context.request.head(resolvedURL);
 
-    const response = responseMaker(payloadJSON, res);
+    const duration = performance.now() - requestStarts;
+
+    const response = responseMaker(payloadJSON, res, duration);
 
     context.response = await response;
   },
@@ -172,9 +186,13 @@ const api = {
         );
     }
 
+    const requestStarts = performance.now();
+
     const res = await context.request.post(resolvedURL, req);
 
-    const response = await responseMaker(payloadJSON, res);
+    const duration = performance.now() - requestStarts;
+
+    const response = await responseMaker(payloadJSON, res, duration);
 
     context.response = response;
   },
@@ -209,9 +227,13 @@ const api = {
         );
     }
 
+    const requestStarts = performance.now();
+
     const res = await context.request.put(resolvedURL, req);
 
-    const response = await responseMaker(payloadJSON, res);
+    const duration = performance.now() - requestStarts;
+
+    const response = await responseMaker(payloadJSON, res, duration);
 
     context.response = response;
   },
@@ -246,9 +268,13 @@ const api = {
         );
     }
 
+    const requestStarts = performance.now();
+
     const res = await context.request.patch(resolvedURL, req);
 
-    const response = await responseMaker(payloadJSON, res);
+    const duration = performance.now() - requestStarts;
+
+    const response = await responseMaker(payloadJSON, res, duration);
 
     context.response = response;
   },
@@ -261,9 +287,13 @@ const api = {
 
     const req = await requestMaker(payloadJSON?.headers || {});
 
+    const requestStarts = performance.now();
+
     const res = await context.request.delete(resolvedURL, req);
 
-    const response = responseMaker(payloadJSON, res);
+    const duration = performance.now() - requestStarts;
+
+    const response = responseMaker(payloadJSON, res, duration);
 
     context.response = await response;
   },

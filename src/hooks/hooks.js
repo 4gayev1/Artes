@@ -57,12 +57,17 @@ After(async function ({ pickle, result }) {
   });
 
   if (context.response) {
-    Object.entries(context.response).forEach(async ([key, value]) => {
-      await this.attach(
-        `${key}:\n${JSON.stringify(value, null, 2)}`,
-        "text/plain",
-      );
-    });
+    for (const [key, value] of Object.entries(context.response)) {
+      let text = `${key}:\n`;
+  
+      if (typeof value === 'object') {
+        text += JSON.stringify(value, null, 2);
+      } else {
+        text += value;
+      }
+  
+      await this.attach(text, "text/plain");
+    }
   }
 
   await context.page.close();
