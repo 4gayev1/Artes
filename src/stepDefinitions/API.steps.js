@@ -63,7 +63,7 @@ When(
 );
 
 When(
-  "User sends multipart POST request to {string} with payload and {string} variables",
+  "User sends multipart POST request to {string} with payload and saves {string} variables",
   async (url, vars, payload) => {
     await api.post(url, payload, "multipart");
     extractVarsFromResponse(vars);
