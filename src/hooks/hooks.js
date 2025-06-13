@@ -3,7 +3,7 @@ const {
   Before,
   After,
   Status,
-  setDefaultTimeout,
+  setDefaultTimeout, AfterStep
 } = require("@cucumber/cucumber");
 const { invokeBrowser } = require("../helper/contextManager/browserManager");
 const { invokeRequest } = require("../helper/contextManager/requestManager");
@@ -39,6 +39,27 @@ Before(async function () {
     snapshots: true,
   });
 });
+
+AfterStep(async function ({pickleStep}) {
+  const stepText = pickleStep.text;
+
+  const methods = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'];
+
+  if( methods.some(method => stepText.includes(method))){
+  if (context.response) {
+    for (const [key, value] of Object.entries(context.response)) {
+      let text = `${key}:\n`;
+  
+      if (typeof value === 'object') {
+        text += JSON.stringify(value, null, 2);
+      } else {
+        text += value;
+      }
+  
+      await this.attach(text, "text/plain");
+    }
+  }}
+})
 
 After(async function ({ pickle, result }) {
   if (result?.status != Status.PASSED) {
