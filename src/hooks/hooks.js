@@ -14,9 +14,6 @@ const fs = require("fs");
 const { moduleConfig } = require("artes/src/helper/imports/commons");
 const path = require("path");
 
-let browser;
-let request;
-
 setDefaultTimeout(cucumberConfig.default.timeout * 1000);
 
 BeforeAll(async function () {
@@ -25,16 +22,18 @@ BeforeAll(async function () {
 
 Before(async function () {
   context.vars = {};
-  browser = await invokeBrowser();
-  request = await invokeRequest();
 
-  context.browser = await browser;
-  context.page = await browser.newPage();
+  const { browser, context: browserContext } = await invokeBrowser();
+  const requestInstance = await invokeRequest();
+
+  context.browser = browser;
+  context.browserContext = browserContext;
+  context.page = await browserContext.newPage();
+  context.request = requestInstance;
+
   await context.page.setDefaultTimeout(cucumberConfig.default.timeout * 1000);
 
-  context.request = await request;
-
-  await browser.tracing.start({
+  await context.browserContext.tracing.start({
     sources: true,
     screenshots: true,
     snapshots: true,
@@ -42,17 +41,15 @@ Before(async function () {
 });
 
 After(async function ({ pickle, result }) {
-  let img;
-
   if (result?.status != Status.PASSED) {
-    img = await context.page.screenshot({
+    let img = await context.page.screenshot({
       path: `./test-results/visualReport/${pickle.name}/${pickle.name}.png`,
       type: "png",
     });
     await this.attach(img, "image/png");
   }
 
-  await browser.tracing.stop({
+  await context.browserContext.tracing.stop({
     path: path.join(moduleConfig.projectPath, "./trace.zip"),
   });
 
@@ -70,13 +67,22 @@ After(async function ({ pickle, result }) {
     }
   }
 
-  await context.page.close();
-  await browser.close();
-  await context.request.dispose();
-
-  if (result?.status != Status.PASSED) {
+  await context.page?.close();
+  
+  await context.browserContext?.close();
+  
+  await context.browser?.close();
+  
+  await context.request?.dispose();
+  
+  if (result?.status != Status.PASSED && context.page.video()) {
     const videoPath = await context.page.video().path();
-    const webmBuffer = await fs.readFileSync(videoPath);
-    await this.attach(webmBuffer, "video/webm");
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    if (fs.existsSync(videoPath)) {
+      const webmBuffer = await fs.readFileSync(videoPath);
+      await this.attach(webmBuffer, "video/webm");
+    }
   }
+
 });

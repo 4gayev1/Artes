@@ -58,7 +58,11 @@ const invokeBrowser = async () => {
   }
 
   const context = await browser.newContext(browserContextOptions);
-  return await context;
+  
+  return {
+    browser: browser,
+    context: context
+  };
 };
 
 module.exports = {

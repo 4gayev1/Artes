@@ -12,7 +12,7 @@ const browser = {
     }
 
     cookieData = Array.isArray(cookieData) ? cookieData : [cookieData];
-    await context.browser.addCookies(cookieData);
+    await context.browserContext.addCookies(cookieData);
   },
 };
 
