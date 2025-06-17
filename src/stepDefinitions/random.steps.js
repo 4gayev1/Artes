@@ -14,12 +14,12 @@ Given(
 );
 
 Given(
-  "User sends GET request to {string} and save {string} variable as a {string} randomly",
-  async (api, varName, variableKey) => {
-    const res = await fetch(api);
-    const body = await res.json();
+  "User sends GET request to {string} and save {string} variable from {string} array as a {string} randomly",
+  async (endPoint, varName, fromArray, variableKey) => {
+    await api.get(endPoint);
+    const responseBody = await context.response["Response Body"][fromArray]
     const randomContent =
-      body.content[random.number.int({ min: 0, max: body.content.length - 1 })];
+    responseBody[random.number.int({ min: 0, max: responseBody.length - 1 })];
     context.vars[variableKey] = randomContent[varName];
   },
 );

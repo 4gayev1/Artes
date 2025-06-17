@@ -2236,7 +2236,7 @@ console.log(currentVars); // { token: "abc123", userId: "user456" }
 
 ## Static Methods
 
-### `extractVarsFromResponse(vars, customVarName)`
+### `extractVarsFromResponse(object, vars, customVarName)`
 
 Extracts variables from the response body using dot notation paths.
 
@@ -2252,10 +2252,10 @@ Extracts variables from the response body using dot notation paths.
 **Example:**
 ```javascript
 // Response body: { user: { id: 123, profile: { name: "John" } } }
-extractVarsFromResponse("user.id,user.profile.name");
+extractVarsFromResponse(object, "user.id,user.profile.name");
 // Creates variables: userId = 123, userProfileName = "John"
 
-extractVarsFromResponse("user.id", "currentUserId");
+extractVarsFromResponse(object, "user.id", "currentUserId");
 // Creates variable: currentUserId = 123
 ```
 

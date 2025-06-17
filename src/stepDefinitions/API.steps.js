@@ -24,7 +24,7 @@ When(
   "User sends GET request to {string} and saves {string} variables",
   async function (url, vars) {
     await api.get(url);
-    extractVarsFromResponse(vars);
+    await extractVarsFromResponse(context.response["Response Body"], vars);
   },
 );
 
@@ -32,7 +32,7 @@ When(
   "User sends GET request to {string} with payload and saves {string} variables",
   async function (url, vars, payload) {
     await api.get(url, payload);
-    extractVarsFromResponse(vars);
+    await extractVarsFromResponse(context.response["Response Body"], vars);
   },
 );
 
@@ -51,7 +51,7 @@ When(
   "User sends POST request to {string} with payload and saves {string} variables",
   async function (url, vars, payload) {
     await api.post(url, payload);
-    extractVarsFromResponse(vars);
+    await extractVarsFromResponse(context.response["Response Body"], vars);
   },
 );
 
@@ -66,7 +66,7 @@ When(
   "User sends multipart POST request to {string} with payload and saves {string} variables",
   async (url, vars, payload) => {
     await api.post(url, payload, "multipart");
-    extractVarsFromResponse(vars);
+    await extractVarsFromResponse(context.response["Response Body"], vars);
   },
 );
 
@@ -81,7 +81,7 @@ When(
   "User sends PUT request to {string} with payload and saves {string} variables",
   async function (url, vars, payload) {
     await api.put(url, payload);
-    extractVarsFromResponse(vars);
+    await extractVarsFromResponse(context.response["Response Body"], vars);
   },
 );
 
@@ -96,7 +96,7 @@ When(
   "User sends multipart PUT request to {string} with payload and saves {string} variables",
   async function (url, vars, payload) {
     await api.put(url, payload, "multipart");
-    extractVarsFromResponse(vars);
+    await extractVarsFromResponse(context.response["Response Body"], vars);
   },
 );
 
@@ -111,7 +111,7 @@ When(
   "User sends PATCH request to {string} with payload and saves {string} variables",
   async function (url, vars, payload) {
     await api.patch(url, payload);
-    extractVarsFromResponse(vars);
+    await extractVarsFromResponse(context.response["Response Body"], vars);
   },
 );
 
@@ -126,7 +126,7 @@ When(
   "User sends multipart PATCH request to {string} with payload and saves {string} variables",
   async function (url, vars, payload) {
     await api.patch(url, payload, "multipart");
-    extractVarsFromResponse(vars);
+    await extractVarsFromResponse(context.response["Response Body"], vars);
   },
 );
 
@@ -138,7 +138,7 @@ When(
   "User sends DELETE request to {string} and saves {string} variables",
   async function (url, vars) {
     await api.delete(url);
-    extractVarsFromResponse(vars);
+    await extractVarsFromResponse(context.response["Response Body"], vars);
   },
 );
 
@@ -153,14 +153,14 @@ When(
   "User sends DELETE request to {string} with payload and saves {string} variables",
   async function (url, vars, payload) {
     await api.delete(url, payload);
-    extractVarsFromResponse(vars);
+    await extractVarsFromResponse(context.response["Response Body"], vars);
   },
 );
 
 When(
   "User saves {string} variable from response as {string}",
   async function (vars, customVarName) {
-    extractVarsFromResponse(vars, customVarName);
+    await extractVarsFromResponse(context.response["Response Body"], vars, customVarName);
   },
 );
 

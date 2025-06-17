@@ -819,7 +819,7 @@ Then("User expects should have {int} {string}", async (count, elements) => {
 Then(
   "User expects that response has {string} field with {string} value",
   async (field, value) => {
-    extractVarsFromResponse(field, field);
+    extractVarsFromResponse(context.response["Response Body"], field);
 
     expect(context.vars[field]).toBe(value);
   },

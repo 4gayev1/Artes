@@ -3,7 +3,8 @@ const {
   Before,
   After,
   Status,
-  setDefaultTimeout, AfterStep
+  setDefaultTimeout, AfterStep,
+  BeforeStep
 } = require("@cucumber/cucumber");
 const { invokeBrowser } = require("../helper/contextManager/browserManager");
 const { invokeRequest } = require("../helper/contextManager/requestManager");
@@ -40,13 +41,23 @@ Before(async function () {
   });
 });
 
+BeforeStep(async function ({ pickleStep }) {
+  const stepText = pickleStep.text;
+
+  const methods = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'];
+
+  if( methods.some(method => stepText.includes(method))){
+      context.response = {}
+  }
+})
+
 AfterStep(async function ({pickleStep}) {
   const stepText = pickleStep.text;
 
   const methods = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
   if( methods.some(method => stepText.includes(method))){
-  if (context.response) {
+  if (await context.response) {
     for (const [key, value] of Object.entries(context.response)) {
       let text = `${key}:\n`;
   
@@ -95,7 +106,7 @@ After(async function ({ pickle, result }) {
   await context.browser?.close();
   
   await context.request?.dispose();
-  
+
   if (result?.status != Status.PASSED && context.page.video()) {
     const videoPath = await context.page.video().path();
     await new Promise(resolve => setTimeout(resolve, 1000));
