@@ -17,7 +17,7 @@ Given(
   "User sends GET request to {string} and save {string} variable from {string} array as a {string} randomly",
   async (endPoint, varName, fromArray, variableKey) => {
     await api.get(endPoint);
-    const responseBody = await context.response["Response Body"][fromArray]
+    const responseBody = await context.response["Response Body"][fromArray == [] ? 0 : fromArray]
     const randomContent =
     responseBody[random.number.int({ min: 0, max: responseBody.length - 1 })];
     context.vars[variableKey] = randomContent[varName];
