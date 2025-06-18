@@ -42,21 +42,21 @@ npx artes [options]
 
 ### Options
 
-| Option              | Description                                                   | Usage Example                                      |
-| ------------------- | ------------------------------------------------------------- | ------------------------------------------------- |
-| 🆘 `-h, --help`     | Show the usage options                                        | `artes -h` or `artes --help`                       |
-| 🏷️ `-v, --version`  | Show the current version of Artes                             | `artes -v` or `artes --version`                    |
-| 🏗️ `-c, --create`   | Create an example project with Artes                          | `artes -c` or `artes --create`                     |
-| ✅ `-y, --yes`      | Skip the confirmation prompt when creating an example project | `artes -c -y` or `artes --create --yes`            |
-| 📊 `-r, --report`   | Run tests and generate Allure report                          | `artes -r` or `artes --report`                     |
-| 📁 `--features`     | Specify one or more feature files' relative paths to run (comma-separated) | `artes --features "tests/features/Alma, tests/features/Banan.feature"` |
-| 🔖 `--tags`         | Run tests with specified Cucumber tags                        | `artes --tags "@smoke or @wip"`                    |
-| 🌐 `--env`          | Set the environment for the test run                          | `artes --env "dev"`                                |
-| 🕶️ `--headless`     | Run browser in headless mode                                  | `artes --headless`                                 |
-| ⚡ `--parallel`     | Run tests in parallel mode                                    | `artes --parallel 2`                                 |
-| 🔁 `--retry`        | Retry failed tests                                           | `artes --retry 3`                                    |
-| 🎭 `--dryrun`       | Perform a dry run without executing tests                    | `artes --dryrun`                                   |
-| 📈 `--percentage`   | Set minimum success percentage to pass test run               | `artes --percentage 85`                            |
+| Option             | Description                                                                | Usage Example                                                          |
+| ------------------ | -------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 🆘 `-h, --help`    | Show the usage options                                                     | `artes -h` or `artes --help`                                           |
+| 🏷️ `-v, --version` | Show the current version of Artes                                          | `artes -v` or `artes --version`                                        |
+| 🏗️ `-c, --create`  | Create an example project with Artes                                       | `artes -c` or `artes --create`                                         |
+| ✅ `-y, --yes`     | Skip the confirmation prompt when creating an example project              | `artes -c -y` or `artes --create --yes`                                |
+| 📊 `-r, --report`  | Run tests and generate Allure report                                       | `artes -r` or `artes --report`                                         |
+| 📁 `--features`    | Specify one or more feature files' relative paths to run (comma-separated) | `artes --features "tests/features/Alma, tests/features/Banan.feature"` |
+| 🔖 `--tags`        | Run tests with specified Cucumber tags                                     | `artes --tags "@smoke or @wip"`                                        |
+| 🌐 `--env`         | Set the environment for the test run                                       | `artes --env "dev"`                                                    |
+| 🕶️ `--headless`    | Run browser in headless mode                                               | `artes --headless`                                                     |
+| ⚡ `--parallel`    | Run tests in parallel mode                                                 | `artes --parallel 2`                                                   |
+| 🔁 `--retry`       | Retry failed tests                                                         | `artes --retry 3`                                                      |
+| 🎭 `--dryrun`      | Perform a dry run without executing tests                                  | `artes --dryrun`                                                       |
+| 📈 `--percentage`  | Set minimum success percentage to pass test run(default is 0)                            | `artes --percentage 85`                                                |
 
 \*\* To just run the tests: <br>
 Globally: artes <br>
@@ -277,39 +277,38 @@ Then("User should see the login form", async () => {
 
 You can configure Artes by editing the `artes.config.js` file. Below are the default configuration options with explanations:
 
-
-| **Option**        | **Default Value**                                    | **Description**                                       |
-| ----------------- | ---------------------------------------------------- | ----------------------------------------------------- |
-| `timeout`         | `30`                                                 | Default timeout in milliseconds.                     |
-| `paths`           | `[moduleConfig.featuresPath]`                        | Paths to feature files.                              |
+| **Option**        | **Default Value**                                                            | **Description**                     |
+| ----------------- | ---------------------------------------------------------------------------- | ----------------------------------- |
+| `timeout`         | `30`                                                                         | Default timeout in milliseconds.    |
+| `paths`           | `[moduleConfig.featuresPath]`                                                | Paths to feature files.             |
 | `require`         | `[moduleConfig.stepsPath, "src/stepDefinitions/*.js", "src/hooks/hooks.js"]` | Support code paths (CommonJS).      |
-| `pomPath`         | `moduleConfig.pomPath`                               | Path to Page Object Models.                          |
-| `import`          | `[]`                                                 | Support code paths.                                  |
-| `format`          | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]` | Formatter names/paths.                               |
-| `formatOptions`   | `{ "resultsDir": "allure-result" }`                  | Formatter options.                                   |
-| `parallel`        | `1`                                                  | Number of parallel workers.                          |
-| `dryRun`          | `false`                                              | Prepare test run without execution.                  |
-| `failFast`        | `false`                                              | Stop on first test failure.                         |
-| `forceExit`       | `false`                                              | Force `process.exit()` after tests.                 |
-| `strict`          | `true`                                               | Fail on pending steps.                              |
-| `backtrace`       | `false`                                              | Show full backtrace for errors.                     |
-| `tags`            | `""`                                                 | Tag expression to filter scenarios.                 |
-| `name`            | `[]`                                                 | Run scenarios matching regex.                        |
-| `order`           | `"defined"`                                          | Run order (defined/random).                         |
-| `language`        | `"en"`                                               | Default feature file language.                       |
-| `loader`          | `[]`                                                 | Module loader specifications.                        |
-| `requireModule`   | `[]`                                                 | Transpilation module names.                          |
-| `retry`           | `0`                                                  | Retry attempts for failing tests.                    |
-| `retryTagFilter`  | `""`                                                 | Tag expression for retries.                          |
-| `publish`         | `false`                                              | Publish to cucumber.io.                              |
-| `worldParameters` | `{}`                                                 | Custom world parameters.                             |
+| `pomPath`         | `moduleConfig.pomPath`                                                       | Path to Page Object Models.         |
+| `import`          | `[]`                                                                         | Support code paths.                 |
+| `format`          | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]`                         | Formatter names/paths.              |
+| `formatOptions`   | `{ "resultsDir": "allure-result" }`                                          | Formatter options.                  |
+| `parallel`        | `1`                                                                          | Number of parallel workers.         |
+| `dryRun`          | `false`                                                                      | Prepare test run without execution. |
+| `failFast`        | `false`                                                                      | Stop on first test failure.         |
+| `forceExit`       | `false`                                                                      | Force `process.exit()` after tests. |
+| `strict`          | `true`                                                                       | Fail on pending steps.              |
+| `backtrace`       | `false`                                                                      | Show full backtrace for errors.     |
+| `tags`            | `""`                                                                         | Tag expression to filter scenarios. |
+| `name`            | `[]`                                                                         | Run scenarios matching regex.       |
+| `order`           | `"defined"`                                                                  | Run order (defined/random).         |
+| `language`        | `"en"`                                                                       | Default feature file language.      |
+| `loader`          | `[]`                                                                         | Module loader specifications.       |
+| `requireModule`   | `[]`                                                                         | Transpilation module names.         |
+| `retry`           | `0`                                                                          | Retry attempts for failing tests.   |
+| `retryTagFilter`  | `""`                                                                         | Tag expression for retries.         |
+| `publish`         | `false`                                                                      | Publish to cucumber.io.             |
+| `worldParameters` | `{}`                                                                         | Custom world parameters.            |
 
 ### Environment Configuration
 
-| **Option**  | **Default Value** | **Description**                    |
-| ----------- | ----------------- | ---------------------------------- |
-| `env`       | `""`              | Environment configuration. Should match the name with the baseURL object, like "dev"       |
-| `baseURL`   | `""`              | Base URL for API requests. Can be object {"dev":"dev-api.com", "pre":"pre-api.com"}, or string "dev-api.com"       |
+| **Option** | **Default Value** | **Description**                                                                                              |
+| ---------- | ----------------- | ------------------------------------------------------------------------------------------------------------ |
+| `env`      | `""`              | Environment configuration. Should match the name with the baseURL object, like "dev"                         |
+| `baseURL`  | `""`              | Base URL for API requests. Can be object {"dev":"dev-api.com", "pre":"pre-api.com"}, or string "dev-api.com" |
 
 ---
 

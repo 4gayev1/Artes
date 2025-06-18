@@ -17,6 +17,9 @@ const fs = require("fs");
 const { moduleConfig } = require("artes/src/helper/imports/commons");
 const path = require("path");
 
+let totalTests = 0;
+let testsFailed = 0;
+
 setDefaultTimeout(cucumberConfig.default.timeout * 1000);
 
 BeforeAll(async function () {
@@ -24,6 +27,7 @@ BeforeAll(async function () {
 });
 
 Before(async function () {
+  totalTests++;
   context.vars = {};
 
   const { browser, context: browserContext } = await invokeBrowser();
@@ -77,6 +81,7 @@ AfterStep(async function ({ pickleStep }) {
 
 After(async function ({ pickle, result }) {
   if (result?.status != Status.PASSED) {
+    testsFailed++;
     let img = await context.page.screenshot({
       path: `./test-results/visualReport/${pickle.name}/${pickle.name}.png`,
       type: "png",
@@ -125,6 +130,7 @@ AfterAll(async function () {
   const successPercentage = 100 - (testsFailed / totalTests) * 100;
   const successRate =
     successPercentage.toFixed(2) >= cucumberConfig.testPercentage;
+
   if (!isNaN(successPercentage)) {
     if (successRate) {
       console.log(

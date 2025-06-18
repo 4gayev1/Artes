@@ -17,7 +17,9 @@ try {
 module.exports = {
   default: {
     // File paths and patterns
-    testPercentage: process.env.PERCENTAGE ? process.env.PERCENTAGE : artesConfig.testPercentage || 0, // number - Percentage of tests to run (0-100)
+    testPercentage: process.env.PERCENTAGE
+      ? process.env.PERCENTAGE
+      : artesConfig.testPercentage || 0, // number - Percentage of tests to run (0-100)
     timeout: artesConfig.timeout || 30, // Default timeout in milliseconds
     paths: process.env.FEATURES
       ? [path.join(moduleConfig.projectPath, process.env.FEATURES)]
