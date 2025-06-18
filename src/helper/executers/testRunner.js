@@ -17,8 +17,8 @@ function runTests(args, flags) {
 
   flags.report
     ? (process.env.REPORT_FORMAT = JSON.stringify([
-        "rerun:@rerun.txt",
-        "allure-cucumberjs/reporter",
+        "rerun:@rerun.txt","progress-bar",
+        "allure-cucumberjs/reporter:./allure-results"
       ]))
     : "";
 
