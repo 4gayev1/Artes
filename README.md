@@ -56,7 +56,7 @@ npx artes [options]
 | ⚡ `--parallel`     | Run tests in parallel mode                                    | `artes --parallel 2`                                 |
 | 🔁 `--retry`        | Retry failed tests                                           | `artes --retry 3`                                    |
 | 🎭 `--dryrun`       | Perform a dry run without executing tests                    | `artes --dryrun`                                   |
-
+| 📈 `--percentage`   | Set minimum success percentage to pass test run               | `artes --percentage 85`                            |
 
 \*\* To just run the tests: <br>
 Globally: artes <br>

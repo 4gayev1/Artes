@@ -11,14 +11,16 @@ function runTests(args, flags) {
   const tags = args[args.indexOf("--tags") + 1];
   const parallel = args[args.indexOf("--parallel") + 1];
   const retry = args[args.indexOf("--retry") + 1];
+  const percentage = args[args.indexOf("percentage") + 1];
 
   flags.env && console.log("Running env:", env);
   flags.env ? (process.env.ENV = JSON.stringify(env)) : "";
 
   flags.report
     ? (process.env.REPORT_FORMAT = JSON.stringify([
-        "rerun:@rerun.txt","progress-bar",
-        "allure-cucumberjs/reporter:./allure-results"
+        "rerun:@rerun.txt",
+        "progress-bar",
+        "allure-cucumberjs/reporter:./allure-results",
       ]))
     : "";
 
@@ -35,6 +37,7 @@ function runTests(args, flags) {
   flags.parallel ? (process.env.PARALLEL = JSON.stringify(parallel)) : "";
   flags.retry ? (process.env.RETRY = JSON.stringify(retry)) : "";
   flags.dryrun ? (process.env.DRYRUN = JSON.stringify(true)) : "";
+  flags.percentage ? (process.env.PERCENTAGE = percentage) : "";
 
   try {
     console.log("🧪 Running tests...");

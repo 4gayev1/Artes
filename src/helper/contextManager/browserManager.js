@@ -58,10 +58,10 @@ const invokeBrowser = async () => {
   }
 
   const context = await browser.newContext(browserContextOptions);
-  
+
   return {
     browser: browser,
-    context: context
+    context: context,
   };
 };
 

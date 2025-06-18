@@ -160,7 +160,11 @@ When(
 When(
   "User saves {string} variable from response as {string}",
   async function (vars, customVarName) {
-    await extractVarsFromResponse(context.response["Response Body"], vars, customVarName);
+    await extractVarsFromResponse(
+      context.response["Response Body"],
+      vars,
+      customVarName,
+    );
   },
 );
 

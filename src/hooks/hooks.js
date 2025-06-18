@@ -3,8 +3,10 @@ const {
   Before,
   After,
   Status,
-  setDefaultTimeout, AfterStep,
-  BeforeStep
+  setDefaultTimeout,
+  AfterStep,
+  BeforeStep,
+  AfterAll,
 } = require("@cucumber/cucumber");
 const { invokeBrowser } = require("../helper/contextManager/browserManager");
 const { invokeRequest } = require("../helper/contextManager/requestManager");
@@ -44,33 +46,34 @@ Before(async function () {
 BeforeStep(async function ({ pickleStep }) {
   const stepText = pickleStep.text;
 
-  const methods = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'];
+  const methods = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"];
 
-  if( methods.some(method => stepText.includes(method))){
-      context.response = {}
+  if (methods.some((method) => stepText.includes(method))) {
+    context.response = {};
   }
-})
+});
 
-AfterStep(async function ({pickleStep}) {
+AfterStep(async function ({ pickleStep }) {
   const stepText = pickleStep.text;
 
-  const methods = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'];
+  const methods = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"];
 
-  if( methods.some(method => stepText.includes(method))){
-  if (await context.response) {
-    for (const [key, value] of Object.entries(context.response)) {
-      let text = `${key}:\n`;
-  
-      if (typeof value === 'object') {
-        text += JSON.stringify(value, null, 2);
-      } else {
-        text += value;
+  if (methods.some((method) => stepText.includes(method))) {
+    if (await context.response) {
+      for (const [key, value] of Object.entries(context.response)) {
+        let text = `${key}:\n`;
+
+        if (typeof value === "object") {
+          text += JSON.stringify(value, null, 2);
+        } else {
+          text += value;
+        }
+
+        await this.attach(text, "text/plain");
       }
-  
-      await this.attach(text, "text/plain");
     }
-  }}
-})
+  }
+});
 
 After(async function ({ pickle, result }) {
   if (result?.status != Status.PASSED) {
@@ -88,33 +91,51 @@ After(async function ({ pickle, result }) {
   if (context.response) {
     for (const [key, value] of Object.entries(context.response)) {
       let text = `${key}:\n`;
-  
-      if (typeof value === 'object') {
+
+      if (typeof value === "object") {
         text += JSON.stringify(value, null, 2);
       } else {
         text += value;
       }
-  
+
       await this.attach(text, "text/plain");
     }
   }
 
   await context.page?.close();
-  
+
   await context.browserContext?.close();
-  
+
   await context.browser?.close();
-  
+
   await context.request?.dispose();
 
   if (result?.status != Status.PASSED && context.page.video()) {
     const videoPath = await context.page.video().path();
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     if (fs.existsSync(videoPath)) {
       const webmBuffer = await fs.readFileSync(videoPath);
       await this.attach(webmBuffer, "video/webm");
     }
   }
+});
 
+AfterAll(async function () {
+  const successPercentage = 100 - (testsFailed / totalTests) * 100;
+  const successRate =
+    successPercentage.toFixed(2) >= cucumberConfig.testPercentage;
+  if (!isNaN(successPercentage)) {
+    if (successRate) {
+      console.log(
+        `Tests passed with ${successPercentage.toFixed(2)}% results!`,
+      );
+      process.exit(0);
+    } else {
+      console.log(
+        `Tests failed with ${successPercentage.toFixed(2)}% results!`,
+      );
+      process.exit(1);
+    }
+  }
 });

@@ -24,7 +24,8 @@ const flags = {
   headless: args.includes("--headless"),
   parallel: args.includes("--parallel"),
   retry: args.includes("--retry"),
-  dryrun: args.includes("--dryrun")
+  dryrun: args.includes("--dryrun"),
+  percentage: args.includes("--percentage")
 };
 
 function main() {

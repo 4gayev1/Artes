@@ -11,7 +11,7 @@ const {
   page,
   request,
   random,
-  resolveVariable
+  resolveVariable,
 } = require("./src/helper/imports/commons");
 const {
   keyboard,

@@ -86,7 +86,6 @@ class Elements {
   }
 
   static extractVarsFromResponse(responseBody, vars, customVarName) {
-
     function getValueByPath(obj, path) {
       const keys = path.split(".");
       let current = obj;

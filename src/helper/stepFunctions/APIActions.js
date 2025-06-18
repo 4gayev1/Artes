@@ -1,6 +1,11 @@
 const path = require("path");
 const fs = require("fs");
-const { context, selector, resolveVariable, moduleConfig } = require("../imports/commons");
+const {
+  context,
+  selector,
+  resolveVariable,
+  moduleConfig,
+} = require("../imports/commons");
 
 function getMimeType(filePath) {
   const ext = path.extname(filePath).toLowerCase();
@@ -90,11 +95,12 @@ async function requestMaker(headers, data, requestDataType) {
 async function responseMaker(request, response, duration) {
   const responseObject = {};
 
-  response && Object.assign(responseObject, {
-    "Response Params": `URL: ${response.url()}
+  response &&
+    Object.assign(responseObject, {
+      "Response Params": `URL: ${response.url()}
      Response Status: ${await response.status()}
-     Response Time: ${Math.round(duration)} ms`
-  });
+     Response Time: ${Math.round(duration)} ms`,
+    });
 
   request?.headers &&
     Object.assign(responseObject, { "Request Headers": await request.headers });
@@ -117,7 +123,9 @@ async function responseMaker(request, response, duration) {
     }
   }
 
-  Object.assign(responseObject, { "Response Time":  `${Math.round(duration)} ms`});
+  Object.assign(responseObject, {
+    "Response Time": `${Math.round(duration)} ms`,
+  });
 
   return responseObject;
 }
@@ -168,7 +176,7 @@ const api = {
     switch (requestDataType) {
       case "multipart":
         let formData = {};
-        
+
         for (const [key, value] of Object.entries(payloadJSON?.body)) {
           processForm(formData, key, value);
         }
@@ -208,7 +216,7 @@ const api = {
     switch (requestDataType) {
       case "multipart":
         let formData = {};
-        
+
         for (const [key, value] of Object.entries(payloadJSON?.body)) {
           processForm(formData, key, value);
         }
@@ -249,7 +257,7 @@ const api = {
     switch (requestDataType) {
       case "multipart":
         let formData = {};
-        
+
         for (const [key, value] of Object.entries(payloadJSON?.body)) {
           processForm(formData, key, value);
         }

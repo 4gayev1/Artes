@@ -17,6 +17,7 @@ try {
 module.exports = {
   default: {
     // File paths and patterns
+    testPercentage: process.env.PERCENTAGE ? process.env.PERCENTAGE : artesConfig.testPercentage || 0, // number - Percentage of tests to run (0-100)
     timeout: artesConfig.timeout || 30, // Default timeout in milliseconds
     paths: process.env.FEATURES
       ? [path.join(moduleConfig.projectPath, process.env.FEATURES)]
@@ -47,8 +48,12 @@ module.exports = {
     }, // Formatter options
 
     // Execution options
-    parallel: process.env.PARALLEL ? JSON.parse(process.env.PARALLEL) : artesConfig.parallel || 1, // Number of parallel workers
-    dryRun: process.env.DRYRUN ? JSON.parse(process.env.DRYRUN) : artesConfig.dryRun || false, // Prepare test run without execution
+    parallel: process.env.PARALLEL
+      ? JSON.parse(process.env.PARALLEL)
+      : artesConfig.parallel || 1, // Number of parallel workers
+    dryRun: process.env.DRYRUN
+      ? JSON.parse(process.env.DRYRUN)
+      : artesConfig.dryRun || false, // Prepare test run without execution
     failFast: artesConfig.failFast || false, // Stop on first test failure
     forceExit: artesConfig.forceExit || false, // Force process.exit() after tests
     strict: artesConfig.strict || true, // Fail on pending steps
@@ -67,7 +72,9 @@ module.exports = {
     requireModule: artesConfig.requireModule || [], // Transpilation module names
 
     // Retry logic
-    retry: process.env.RETRY ? JSON.parse(process.env.RETRY) : artesConfig.retry || 0, // Retry attempts for failing tests
+    retry: process.env.RETRY
+      ? JSON.parse(process.env.RETRY)
+      : artesConfig.retry || 0, // Retry attempts for failing tests
     retryTagFilter: artesConfig.retryTagFilter || "", // Tag expression for retries
 
     // Publishing

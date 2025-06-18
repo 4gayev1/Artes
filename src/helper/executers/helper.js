@@ -1,5 +1,5 @@
 function showHelp() {
-    console.log(`
+  console.log(`
         🚀 Artes - Playwright Test Runner
       
         Description:
@@ -45,8 +45,11 @@ function showHelp() {
       
             🎭 --dryrun        Perform a dry run without executing tests
                 Usage:   artes --dryrun
+
+            📈 --percentage    Set minimum success percentage to pass test run
+                Usage:   artes --percentage 85
       `);
-    }
+}
 
 module.exports = {
   showHelp,
