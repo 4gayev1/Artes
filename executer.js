@@ -51,13 +51,15 @@ function main() {
   // }
 
   if (flags.report) {
-    runTests(args, flags);
+    const result = runTests(args, flags)
     generateReport();
     cleanUp();
-  } else {
-    runTests(args, flags);
-    cleanUp();
-  }
+    process.exit(result.status);
+} else {
+  const result = runTests(args, flags);
+  cleanUp();
+  process.exit(result.status);
+}
 }
 
 main();

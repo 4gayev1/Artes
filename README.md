@@ -284,6 +284,7 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 | `require`         | `[moduleConfig.stepsPath, "src/stepDefinitions/*.js", "src/hooks/hooks.js"]` | Support code paths (CommonJS).      |
 | `pomPath`         | `moduleConfig.pomPath`                                                       | Path to Page Object Models.         |
 | `import`          | `[]`                                                                         | Support code paths.                 |
+| `testPercentage`  |  `0`                                                                         | Define test coverage percentage     |
 | `format`          | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]`                         | Formatter names/paths.              |
 | `formatOptions`   | `{ "resultsDir": "allure-result" }`                                          | Formatter options.                  |
 | `parallel`        | `1`                                                                          | Number of parallel workers.         |

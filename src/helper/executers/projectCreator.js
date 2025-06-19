@@ -40,6 +40,7 @@ function createProject(createYes) {
 
     // Configuration options:
     // env: "",                      // string - Environment name for tests
+    //testPercentage: 0, // number - Minimum success rate percentage(Default: 0)
     // baseURL: "",                  // string - Base URL for API tests
     // paths: [],                    // string[] - Paths to feature files
     // steps: "",                    // string - Step definitions files
