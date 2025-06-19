@@ -129,17 +129,17 @@ After(async function ({ pickle, result }) {
 AfterAll(async function () {
   const successPercentage = 100 - (testsFailed / totalTests) * 100;
   const successRate =
-    successPercentage.toFixed(2) >= cucumberConfig.testPercentage;
+    successPercentage.toFixed(2) >= cucumberConfig.default.testPercentage;
 
-  if (!isNaN(successPercentage)) {
+    if (!isNaN(successPercentage)) {
     if (successRate) {
       console.log(
-        `Tests passed with ${successPercentage.toFixed(2)}% results!`,
+        `Tests passed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}% !`,
       );
       process.exit(0);
     } else {
       console.log(
-        `Tests failed with ${successPercentage.toFixed(2)}% results!`,
+        `Tests failed at required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`,
       );
       process.exit(1);
     }

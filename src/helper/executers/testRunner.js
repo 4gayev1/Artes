@@ -55,8 +55,8 @@ function runTests(args, flags) {
         CI: "false",
       },
     });
-
-    console.log("✅ Tests completed successfully!");
+    console.log("✅ Tests running completed successfully!");
+    process.exit(result.status);
   } catch (error) {
     console.error("❌ Test execution failed:", error);
     process.exit(1);
