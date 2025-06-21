@@ -34,11 +34,12 @@ function runTests(args, flags) {
     console.log("Running mode:", flags.headless ? "headless" : "headed");
   flags.headless ? (process.env.MODE = JSON.stringify(true)) : false;
 
-  flags.parallel ? (process.env.PARALLEL = JSON.stringify(parallel)) : "";
+  flags.parallel ? (process.env.PARALLEL = parallel) : "";
   flags.retry ? (process.env.RETRY = JSON.stringify(retry)) : "";
   flags.dryrun ? (process.env.DRYRUN = JSON.stringify(true)) : "";
   flags.percentage ? (process.env.PERCENTAGE = percentage) : "";
-
+    
+ 
   try {
     console.log("🧪 Running tests...");
     process.env.FORCE_COLOR = "1";

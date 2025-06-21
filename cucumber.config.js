@@ -18,7 +18,7 @@ module.exports = {
   default: {
     // File paths and patterns
     testPercentage: process.env.PERCENTAGE
-      ? process.env.PERCENTAGE
+      ? Number(process.env.PERCENTAGE)
       : artesConfig.testPercentage || 0, // number - Percentage of tests to run (0-100)
     timeout: artesConfig.timeout || 30, // Default timeout in milliseconds
     paths: process.env.FEATURES
@@ -51,7 +51,7 @@ module.exports = {
 
     // Execution options
     parallel: process.env.PARALLEL
-      ? JSON.parse(process.env.PARALLEL)
+      ? Number(process.env.PARALLEL)
       : artesConfig.parallel || 1, // Number of parallel workers
     dryRun: process.env.DRYRUN
       ? JSON.parse(process.env.DRYRUN)
