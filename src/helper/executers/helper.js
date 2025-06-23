@@ -48,6 +48,24 @@ function showHelp() {
 
             📈 --percentage    Set minimum success percentage to pass test run
                 Usage:   artes --percentage 85
+
+            🌐 --browser       Specify browser to use (chromium, firefox, webkit)
+                Usage:   artes --browser chromium
+
+            🌐 --baseURL       Set base URL for the tests
+                Usage:   artes --baseURL "https://example.com"
+
+            📏 --maxScreen     Maximize browser window
+                Usage:   artes --maxScreen
+
+            📐 --width         Set browser width (default: 1280)
+                Usage:   artes --width 1920
+
+            📏 --height        Set browser height (default: 720)
+                Usage:   artes --height 1080
+
+            ⏱️ --timeout       Set timeout for each test step (default: 30 seconds)
+                Usage:   artes --timeout 10
       `);
 }
 
