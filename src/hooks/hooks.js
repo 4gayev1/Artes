@@ -79,19 +79,19 @@ AfterStep(async function ({ pickleStep }) {
 
 After(async function ({ pickle, result }) {
   if (result?.status != Status.PASSED) {
-    fs.mkdirSync(statusDir, { recursive: true });
-
-    fs.writeFileSync(
-      path.join(statusDir, `${result.status}-${pickle.id}.txt`),
-      "",
-    );
-
     let img = await context.page.screenshot({
       path: `./test-results/visualReport/${pickle.name}/${pickle.name}.png`,
       type: "png",
     });
     await this.attach(img, "image/png");
   }
+
+  fs.mkdirSync(statusDir, { recursive: true });
+
+  fs.writeFileSync(
+    path.join(statusDir, `${result.status}-${pickle.id}.txt`),
+    "",
+  );
 
   await context.browserContext.tracing.stop({
     path: path.join(moduleConfig.projectPath, "./trace.zip"),
