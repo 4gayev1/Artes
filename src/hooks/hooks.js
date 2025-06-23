@@ -139,7 +139,7 @@ AfterAll(async function () {
 
   const successPercentage = (passedCount / totalTests) * 100;
   const successRate =
-    successPercentage.toFixed(2) > cucumberConfig.default.testPercentage;
+    successPercentage.toFixed(2) >= cucumberConfig.default.testPercentage;
 
   if (!isNaN(successPercentage)) {
     if (successRate) {
