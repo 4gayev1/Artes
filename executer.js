@@ -76,15 +76,13 @@ flags.dryrun ? (process.env.DRYRUN = flags.dryrun) : "";
 flags.percentage ? (process.env.PERCENTAGE = percentage) : "";
 
 flags.browser && console.log("Running browser:", browser);
-flags.browser
-  ? (process.env.BROWSER = JSON.stringify(browser))
-  : "";
+flags.browser ? (process.env.BROWSER = JSON.stringify(browser)) : "";
 
-flags.baseURL
-  ? (process.env.BASE_URL = JSON.stringify(baseURL))
-  : "";
+flags.baseURL ? (process.env.BASE_URL = JSON.stringify(baseURL)) : "";
 
-flags.maximizeScreen ? (process.env.MAXIMIZE_SCREEN = flags.maximizeScreen) : "";
+flags.maximizeScreen
+  ? (process.env.MAXIMIZE_SCREEN = flags.maximizeScreen)
+  : "";
 
 flags.width && console.log("Running width:", width);
 flags.width ? (process.env.WIDTH = width) : "";
@@ -99,10 +97,10 @@ function main() {
   if (flags.version) return showVersion();
   if (flags.create) return createProject(flags.createYes);
 
-  const result = runTests();
+  runTests();
   if (flags.report) generateReport();
   cleanUp();
-  process.exit(result.status);
+  process.exit(process.env.EXIT_CODE);
 }
 
 main();

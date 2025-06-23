@@ -17,8 +17,7 @@ const fs = require("fs");
 const { moduleConfig } = require("artes/src/helper/imports/commons");
 const path = require("path");
 
-let totalTests = 0;
-let testsFailed = 0;
+const statusDir = path.join(process.cwd(), "testsStatus");
 
 setDefaultTimeout(cucumberConfig.default.timeout * 1000);
 
@@ -27,7 +26,6 @@ BeforeAll(async function () {
 });
 
 Before(async function () {
-  totalTests++;
   context.vars = {};
 
   const { browser, context: browserContext } = await invokeBrowser();
@@ -81,7 +79,13 @@ AfterStep(async function ({ pickleStep }) {
 
 After(async function ({ pickle, result }) {
   if (result?.status != Status.PASSED) {
-    testsFailed++;
+    fs.mkdirSync(statusDir, { recursive: true });
+
+    fs.writeFileSync(
+      path.join(statusDir, `${result.status}-${pickle.id}.txt`),
+      "",
+    );
+
     let img = await context.page.screenshot({
       path: `./test-results/visualReport/${pickle.name}/${pickle.name}.png`,
       type: "png",
@@ -127,21 +131,27 @@ After(async function ({ pickle, result }) {
 });
 
 AfterAll(async function () {
-  const successPercentage = 100 - (testsFailed / totalTests) * 100;
-  const successRate =
-    successPercentage.toFixed(2) >= cucumberConfig.default.testPercentage;
+  const files = fs.readdirSync(statusDir);
+  const passedCount = files.filter(
+    (file) => file.split("-")[0] === "PASSED",
+  ).length;
+  const totalTests = files.length;
 
-    if (!isNaN(successPercentage)) {
+  const successPercentage = (passedCount / totalTests) * 100;
+  const successRate =
+    successPercentage.toFixed(2) > cucumberConfig.default.testPercentage;
+
+  if (!isNaN(successPercentage)) {
     if (successRate) {
       console.log(
         `Tests passed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}% !`,
       );
-      process.exit(0);
+      process.env.EXIT_CODE = 0;
     } else {
       console.log(
         `Tests failed at required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`,
       );
-      process.exit(1);
+      process.env.EXIT_CODE = 1;
     }
   }
 });

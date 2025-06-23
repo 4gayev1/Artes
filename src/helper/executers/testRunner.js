@@ -2,13 +2,12 @@ const { spawnSync } = require("child_process");
 const { moduleConfig } = require("../imports/commons");
 
 function runTests() {
-
   try {
     console.log("🧪 Running tests...");
     process.env.FORCE_COLOR = "1";
     process.env.FORCE_STDIO_TTY = "1";
 
-    const result = spawnSync("cucumber-js", ["--config=cucumber.config.js"], {
+    spawnSync("cucumber-js", ["--config=cucumber.config.js"], {
       cwd: moduleConfig.modulePath,
       stdio: "inherit",
       shell: true,
@@ -20,10 +19,9 @@ function runTests() {
       },
     });
     console.log("✅ Tests running completed successfully!");
-    return result;
   } catch (error) {
     console.error("❌ Test execution failed:", error);
-    process.exit(1);
+    process.env.EXIT_CODE = 1;
   }
 }
 

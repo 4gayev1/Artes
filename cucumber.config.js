@@ -20,7 +20,9 @@ module.exports = {
     testPercentage: process.env.PERCENTAGE
       ? Number(process.env.PERCENTAGE)
       : artesConfig.testPercentage || 0, // number - Percentage of tests to run (0-100)
-    timeout:  process.env.TIMEOUT ? Number(process.env.TIMEOUT) : artesConfig.timeout || 30, // Default timeout in milliseconds
+    timeout: process.env.TIMEOUT
+      ? Number(process.env.TIMEOUT)
+      : artesConfig.timeout || 30, // Default timeout in milliseconds
     paths: process.env.FEATURES
       ? [path.join(moduleConfig.projectPath, process.env.FEATURES)]
       : artesConfig.features
@@ -86,26 +88,27 @@ module.exports = {
     worldParameters: artesConfig.worldParameters || {}, // Custom world parameters
   },
   env: process.env.ENV ? JSON.parse(process.env.ENV) : artesConfig.env || "",
-  baseURL:  process.env.BASE_URL ? JSON.parse(process.env.BASE_URL) : artesConfig?.baseURL ? artesConfig?.baseURL : "",
+  baseURL: process.env.BASE_URL
+    ? JSON.parse(process.env.BASE_URL)
+    : artesConfig?.baseURL
+      ? artesConfig?.baseURL
+      : "",
 
   browser: {
     browserType: process.env.BROWSER
       ? JSON.parse(process.env.BROWSER)
       : artesConfig?.browser || "chrome",
     viewport: {
-      width:  
-        process.env.WIDTH
-          ? Number(process.env.WIDTH)
-          : artesConfig?.width || 1280,
-      height: 
-        process.env.HEIGHT
-          ? Number(process.env.HEIGHT)
-          : artesConfig?.height || 720,
+      width: process.env.WIDTH
+        ? Number(process.env.WIDTH)
+        : artesConfig?.width || 1280,
+      height: process.env.HEIGHT
+        ? Number(process.env.HEIGHT)
+        : artesConfig?.height || 720,
     },
-    maximizeScreen:
-      process.env.MAXIMIZE_SCREEN
-        ? JSON.parse(process.env.MAXIMIZE_SCREEN)
-        : artesConfig?.maximizeScreen !== undefined
+    maximizeScreen: process.env.MAXIMIZE_SCREEN
+      ? JSON.parse(process.env.MAXIMIZE_SCREEN)
+      : artesConfig?.maximizeScreen !== undefined
         ? artesConfig.maximizeScreen
         : true,
     headless: process.env.MODE
