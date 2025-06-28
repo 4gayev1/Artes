@@ -23,6 +23,7 @@ const invokeBrowser = async () => {
 
   const options = {
     headless: cucumberConfig.browser.headless,
+    slowMo: cucumberConfig.browser.slowMo,
     args: [cucumberConfig.browser.maximizeScreen ? "--start-maximized" : ""],
   };
 

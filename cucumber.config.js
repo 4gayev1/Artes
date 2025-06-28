@@ -14,6 +14,22 @@ try {
   console.log("Proceeding with default config.");
 }
 
+const defaultFormats = [
+    "rerun:@rerun.txt",
+      "progress-bar"];
+
+const userFormatsFromEnv = process.env.REPORT_FORMAT
+  ? JSON.parse(process.env.REPORT_FORMAT)
+  : [];
+
+const userFormatsFromConfig = artesConfig.format || [];
+
+const finalFormats = [...new Set([
+  ...defaultFormats,
+  ...userFormatsFromEnv,
+  ...userFormatsFromConfig,
+])];
+
 module.exports = {
   default: {
     // File paths and patterns
@@ -41,12 +57,7 @@ module.exports = {
     import: artesConfig.import || [], // Support code paths
 
     // Formatting and output
-    format: process.env.REPORT_FORMAT
-      ? JSON.parse(process.env.REPORT_FORMAT)
-      : artesConfig.format || [
-          "rerun:@rerun.txt",
-          "allure-cucumberjs/reporter",
-        ], // Formatter names/paths
+    format: finalFormats, // Formatter names/paths
     formatOptions: artesConfig.formatOptions || {
       resultsDir: `allure-result`,
     }, // Formatter options
@@ -116,5 +127,10 @@ module.exports = {
       : artesConfig?.headless !== undefined
         ? artesConfig.headless
         : true,
+        slowMo: process.env.SLOWMO
+      ? Number(process.env.SLOWMO)
+      : artesConfig?.slowMo !== undefined
+        ? artesConfig.slowMo
+        : 0,
   },
 };

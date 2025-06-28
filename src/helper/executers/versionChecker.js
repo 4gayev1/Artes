@@ -1,11 +1,12 @@
+const { execSync } = require("child_process");
+const path = require("path");
 const fs = require("fs");
-const { moduleConfig } = require("../imports/commons");
 
 function showVersion() {
-  const packageJson = JSON.parse(
-    fs.readFileSync(moduleConfig.modulePackageJsonPath, "utf-8"),
-  );
-  console.log(`📌 Artes version: ${packageJson.version}`);
+  const artesVersion = execSync("npm root -g").toString().trim();
+  const artesGPackageJSONPath = path.join(artesVersion, "artes/package.json");
+   const asrtesGPackageJSON = JSON.parse(fs.readFileSync(artesGPackageJSONPath, "utf8"));
+   console.log(`ARTES Version: ${asrtesGPackageJSON.version}`);
 }
 
 module.exports = {

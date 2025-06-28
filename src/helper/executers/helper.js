@@ -66,6 +66,9 @@ function showHelp() {
 
             ⏱️ --timeout       Set timeout for each test step (default: 30 seconds)
                 Usage:   artes --timeout 10
+            
+            🐢 --slowmo        Slow down text execution for clear view (default: 0ms)
+                Usage:   artes --slowmo 1000
       `);
 }
 

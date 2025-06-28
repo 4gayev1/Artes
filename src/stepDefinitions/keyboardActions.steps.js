@@ -6,25 +6,25 @@ When("User presses {string} on {string}", async function (key, selector) {
   await keyboard.press(selector, key);
 });
 
-When(
-  "User types {string} in {int} th of {string}",
-  async (text, order, elements) => {
-    const nthElement = await frame.nth(elements, order);
-    await nthElement.fill(text);
-  },
-);
-
 // User presses keys sequentially on a specific selector
 When(
-  "User presses keys {string} sequentially on {string}",
+  "User types {string} by hand in {string}",
   async function (keys, selector) {
     await keyboard.pressSequentially(selector, keys);
   },
 );
 
+When(
+  "User types {string} by hand in {int} th of {string}",
+  async (text, order, elements) => {
+    const nthElement = await frame.nth(elements, order);
+    await nthElement.pressSequentially(text);
+  },
+);
+
 // User presses keys sequentially with a delay on a specific selector
 When(
-  "User presses keys {string} sequentially with delay {int} on {string}",
+  "User types {string} by hand with delay {int} in {string}",
   async function (keys, delay, selector) {
     await keyboard.pressSequentiallyDelay(selector, keys, delay);
   },
@@ -34,6 +34,14 @@ When(
 When("User types {string} in {string}", async function (value, selector) {
   await keyboard.fill(selector, value);
 });
+
+When(
+  "User types {string} in {int} th of {string}",
+  async (text, order, elements) => {
+    const nthElement = await frame.nth(elements, order);
+    await nthElement.fill(text);
+  },
+);
 
 When(
   "User types {string} in multiple {string}",

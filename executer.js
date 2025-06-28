@@ -31,6 +31,7 @@ const flags = {
   width: args.includes("--width"),
   height: args.includes("--height"),
   timeout: args.includes("--timeout"),
+  slowmo: args.includes("--slowmo"),
 };
 
 const env = args[args.indexOf("--env") + 1];
@@ -45,14 +46,13 @@ const baseURL = args[args.indexOf("--baseURL") + 1];
 const width = args[args.indexOf("--width") + 1];
 const height = args[args.indexOf("--height") + 1];
 const timeout = args[args.indexOf("--timeout") + 1];
+const slowmo = args[args.indexOf("--slowmo") + 1];
 
 flags.env && console.log("Running env:", env);
 flags.env ? (process.env.ENV = JSON.stringify(env)) : "";
 
 flags.report
   ? (process.env.REPORT_FORMAT = JSON.stringify([
-      "rerun:@rerun.txt",
-      "progress-bar",
       "allure-cucumberjs/reporter:./allure-results",
     ]))
   : "";
@@ -91,6 +91,8 @@ flags.height && console.log("Running height:", height);
 flags.height ? (process.env.HEIGHT = height) : "";
 
 flags.timeout ? (process.env.TIMEOUT = timeout) : "";
+
+flags.slowmo ? (process.env.SLOWMO = slowmo) : "";
 
 function main() {
   if (flags.help) return showHelp();

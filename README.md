@@ -45,24 +45,25 @@ npx artes [options]
 | Option              | Description                                                                | Usage Example                                                         |
 | ------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | 🆘 `-h, --help`     | Show the usage options                                                     | `artes -h` or `artes --help`                                          |
-| 🏷️ `-v, --version` | Show the current version of Artes                                          | `artes -v` or `artes --version`                                       |
-| 🏗️ `-c, --create`  | Create an example project with Artes                                       | `artes -c` or `artes --create`                                        |
-| ✅ `-y, --yes`       | Skip the confirmation prompt when creating an example project              | `artes -c -y` or `artes --create --yes`                               |
+| 🏷️ `-v, --version`  | Show the current version of Artes                                          | `artes -v` or `artes --version`                                       |
+| 🏗️ `-c, --create`   | Create an example project with Artes                                       | `artes -c` or `artes --create`                                        |
+| ✅ `-y, --yes`      | Skip the confirmation prompt when creating an example project              | `artes -c -y` or `artes --create --yes`                               |
 | 📊 `-r, --report`   | Run tests and generate Allure report                                       | `artes -r` or `artes --report`                                        |
 | 📁 `--features`     | Specify one or more feature files' relative paths to run (comma-separated) | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
 | 🔖 `--tags`         | Run tests with specified Cucumber tags                                     | `artes --tags "@smoke or @wip"`                                       |
 | 🌐 `--env`          | Set the environment for the test run                                       | `artes --env "dev"`                                                   |
-| 🕶️ `--headless`    | Run browser in headless mode                                               | `artes --headless`                                                    |
-| ⚡ `--parallel`      | Run tests in parallel mode                                                 | `artes --parallel 2`                                                  |
+| 🕶️ `--headless`     | Run browser in headless mode                                               | `artes --headless`                                                    |
+| ⚡ `--parallel`     | Run tests in parallel mode                                                 | `artes --parallel 2`                                                  |
 | 🔁 `--retry`        | Retry failed tests                                                         | `artes --retry 3`                                                     |
 | 🎭 `--dryrun`       | Perform a dry run without executing tests                                  | `artes --dryrun`                                                      |
 | 📈 `--percentage`   | Set minimum success percentage to pass test run (default is 0)             | `artes --percentage 85`                                               |
 | 🌍 `--browser`      | Specify browser to use (`chromium`, `firefox`, or `webkit`)                | `artes --browser chromium`                                            |
 | 🔗 `--baseURL`      | Set base URL for the tests                                                 | `artes --baseURL "https://example.com"`                               |
-| 🖥️ `--maxScreen`   | Maximize browser window on launch                                          | `artes --maxScreen`                                                   |
+| 🖥️ `--maxScreen`    | Maximize browser window on launch                                          | `artes --maxScreen`                                                   |
 | 📏 `--width`        | Set browser width (default is 1280)                                        | `artes --width 1920`                                                  |
 | 📐 `--height`       | Set browser height (default is 720)                                        | `artes --height 1080`                                                 |
 | ⏱️ `--timeout`      | Set timeout for each test step in seconds (default is 30)                  | `artes --timeout 10`                                                  |
+| 🐢 `--slowmo`       | Slow down text execution for clear view (default: 0ms)                     | `artes --slowmo 1000`                                                 |      
 
 \*\* To just run the tests: <br>
 Globally: artes <br>

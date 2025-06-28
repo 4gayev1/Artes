@@ -46,6 +46,7 @@ function createProject(createYes) {
     // steps: "",                    // string - Step definitions files
     // pomPath: "",                  // string - Path to POM files
     // timeout : 0,                  // number - Test timeout in seconds
+    // slowmo: 0,                    // number - Slow down test execution (Default: 0ms)
     // parallel: 0,                  // number - Number of parallel workers
     // format: [],                   // string[] - Formatter names/paths
     // formatOptions: {},            // object - Formatter options    
@@ -81,14 +82,14 @@ function createProject(createYes) {
               And User clicks "#login-button"
 
         Scenario Outline: Success Shopping
-              And User expects the page url should be "https://www.saucedemo.com/inventory.html"
+              And User expects to be in "https://www.saucedemo.com/inventory.html" page
               And User clicks "product_title"
               And User clicks "add_to_cart_button"
               And User clicks "cart_button"
              Then User expects "item_price" should have "$29.99" text
 
         Scenario Outline: Failed Shopping
-              And User expects the page url should be "https://www.saucedemo.com/inventory.html"
+              And User expects to be in "https://www.saucedemo.com/inventory.html" page
               And User clicks "product_title"
               And User clicks "add_to_cart_button"
               And User clicks "cart_button"
