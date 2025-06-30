@@ -55,15 +55,15 @@ npx artes [options]
 | 🕶️ `--headless`     | Run browser in headless mode                                               | `artes --headless`                                                    |
 | ⚡ `--parallel`     | Run tests in parallel mode                                                 | `artes --parallel 2`                                                  |
 | 🔁 `--retry`        | Retry failed tests                                                         | `artes --retry 3`                                                     |
-| 🎭 `--dryrun`       | Perform a dry run without executing tests                                  | `artes --dryrun`                                                      |
+| 🎭 `--dryRun`       | Perform a dry run without executing tests                                  | `artes --dryRun`                                                      |
 | 📈 `--percentage`   | Set minimum success percentage to pass test run (default is 0)             | `artes --percentage 85`                                               |
 | 🌍 `--browser`      | Specify browser to use (`chromium`, `firefox`, or `webkit`)                | `artes --browser chromium`                                            |
 | 🔗 `--baseURL`      | Set base URL for the tests                                                 | `artes --baseURL "https://example.com"`                               |
 | 🖥️ `--maxScreen`    | Maximize browser window on launch                                          | `artes --maxScreen`                                                   |
 | 📏 `--width`        | Set browser width (default is 1280)                                        | `artes --width 1920`                                                  |
 | 📐 `--height`       | Set browser height (default is 720)                                        | `artes --height 1080`                                                 |
-| ⏱️ `--timeout`      | Set timeout for each test step in seconds (default is 30)                  | `artes --timeout 10`                                                  |
-| 🐢 `--slowmo`       | Slow down text execution for clear view (default: 0ms)                     | `artes --slowmo 1000`                                                 |      
+| ⏱️ `--timeout`      | Set timeout for each test step in seconds (default is 30 seconds)                  | `artes --timeout 10`                                                  |
+| 🐢 `--slowMo`       | Slow down text execution for clear view (default: 0 seconds)                     | `artes --slowMo 1`                                                 |  
 
 \*\* To just run the tests: <br>
 Globally: artes <br>
@@ -286,7 +286,8 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 
 | **Option**        | **Default Value**                                                            | **Description**                     |
 | ----------------- | ---------------------------------------------------------------------------- | ----------------------------------- |
-| `timeout`         | `30`                                                                         | Default timeout in milliseconds.    |
+| `timeout`         | `30`                                                                         | Default timeout in seconds.         |
+| `slowMo`          | `0`                                                                          | Default slow motion in seconds      |
 | `paths`           | `[moduleConfig.featuresPath]`                                                | Paths to feature files.             |
 | `require`         | `[moduleConfig.stepsPath, "src/stepDefinitions/*.js", "src/hooks/hooks.js"]` | Support code paths (CommonJS).      |
 | `pomPath`         | `moduleConfig.pomPath`                                                       | Path to Page Object Models.         |

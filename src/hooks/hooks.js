@@ -19,7 +19,7 @@ const path = require("path");
 
 const statusDir = path.join(process.cwd(), "testsStatus");
 
-setDefaultTimeout(cucumberConfig.default.timeout * 1000);
+setDefaultTimeout(cucumberConfig.default.timeout);
 
 BeforeAll(async function () {
   pomCollector();
@@ -36,7 +36,7 @@ Before(async function () {
   context.page = await browserContext.newPage();
   context.request = requestInstance;
 
-  await context.page.setDefaultTimeout(cucumberConfig.default.timeout * 1000);
+  await context.page.setDefaultTimeout(cucumberConfig.default.timeout);
 
   await context.browserContext.tracing.start({
     sources: true,

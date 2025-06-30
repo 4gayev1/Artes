@@ -23,7 +23,7 @@ const flags = {
   headless: args.includes("--headless"),
   parallel: args.includes("--parallel"),
   retry: args.includes("--retry"),
-  dryrun: args.includes("--dryrun"),
+  dryRun: args.includes("--dryRun"),
   percentage: args.includes("--percentage"),
   browser: args.includes("--browser"),
   baseURL: args.includes("--baseURL"),
@@ -31,7 +31,7 @@ const flags = {
   width: args.includes("--width"),
   height: args.includes("--height"),
   timeout: args.includes("--timeout"),
-  slowmo: args.includes("--slowmo"),
+  slowMo: args.includes("--slowMo"),
 };
 
 const env = args[args.indexOf("--env") + 1];
@@ -46,7 +46,7 @@ const baseURL = args[args.indexOf("--baseURL") + 1];
 const width = args[args.indexOf("--width") + 1];
 const height = args[args.indexOf("--height") + 1];
 const timeout = args[args.indexOf("--timeout") + 1];
-const slowmo = args[args.indexOf("--slowmo") + 1];
+const slowMo = args[args.indexOf("--slowMo") + 1];
 
 flags.env && console.log("Running env:", env);
 flags.env ? (process.env.ENV = JSON.stringify(env)) : "";
@@ -71,7 +71,7 @@ flags.parallel ? (process.env.PARALLEL = parallel) : "";
 
 flags.retry ? (process.env.RETRY = retry) : "";
 
-flags.dryrun ? (process.env.DRYRUN = flags.dryrun) : "";
+flags.dryRun ? (process.env.DRYRUN = flags.dryRun) : "";
 
 flags.percentage ? (process.env.PERCENTAGE = percentage) : "";
 
@@ -92,7 +92,7 @@ flags.height ? (process.env.HEIGHT = height) : "";
 
 flags.timeout ? (process.env.TIMEOUT = timeout) : "";
 
-flags.slowmo ? (process.env.SLOWMO = slowmo) : "";
+flags.slowMo ? (process.env.SLOWMO = slowMo) : "";
 
 function main() {
   if (flags.help) return showHelp();

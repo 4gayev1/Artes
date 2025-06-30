@@ -46,7 +46,7 @@ function createProject(createYes) {
     // steps: "",                    // string - Step definitions files
     // pomPath: "",                  // string - Path to POM files
     // timeout : 0,                  // number - Test timeout in seconds
-    // slowmo: 0,                    // number - Slow down test execution (Default: 0ms)
+    // slowMo: 0,                    // number - Slow down test execution (Default: 0 seconds)
     // parallel: 0,                  // number - Number of parallel workers
     // format: [],                   // string[] - Formatter names/paths
     // formatOptions: {},            // object - Formatter options    

@@ -43,8 +43,8 @@ function showHelp() {
             🔁 --retry         Retry failed tests
                 Usage:   artes --retry 2
       
-            🎭 --dryrun        Perform a dry run without executing tests
-                Usage:   artes --dryrun
+            🎭 --dryRun        Perform a dry run without executing tests
+                Usage:   artes --dryRun
 
             📈 --percentage    Set minimum success percentage to pass test run
                 Usage:   artes --percentage 85
@@ -67,8 +67,8 @@ function showHelp() {
             ⏱️ --timeout       Set timeout for each test step (default: 30 seconds)
                 Usage:   artes --timeout 10
             
-            🐢 --slowmo        Slow down text execution for clear view (default: 0ms)
-                Usage:   artes --slowmo 1000
+            🐢 --slowMo        Slow down text execution for clear view (default: 0 seconds)
+                Usage:   artes --slowMo 1
       `);
 }
 

@@ -37,8 +37,8 @@ module.exports = {
       ? Number(process.env.PERCENTAGE)
       : artesConfig.testPercentage || 0, // number - Percentage of tests to run (0-100)
     timeout: process.env.TIMEOUT
-      ? Number(process.env.TIMEOUT)
-      : artesConfig.timeout || 30, // Default timeout in milliseconds
+      ? Number(process.env.TIMEOUT) * 1000
+      : artesConfig.timeout * 1000 || 30 * 1000, // Default timeout in seconds
     paths: process.env.FEATURES
       ? [path.join(moduleConfig.projectPath, process.env.FEATURES)]
       : artesConfig.features
@@ -128,9 +128,7 @@ module.exports = {
         ? artesConfig.headless
         : true,
         slowMo: process.env.SLOWMO
-      ? Number(process.env.SLOWMO)
-      : artesConfig?.slowMo !== undefined
-        ? artesConfig.slowMo
-        : 0,
+        ? Number(process.env.SLOWMO) * 1000
+        : artesConfig?.slowMo * 1000 || 0    
   },
 };
