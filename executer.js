@@ -16,6 +16,7 @@ const flags = {
   create: args.includes("-c") || args.includes("--create"),
   createYes: args.includes("-y") || args.includes("--yes"),
   report: args.includes("-r") || args.includes("--report"),
+  reportSuccess: args.includes("--reportSuccess"),
   trace: args.includes("-t") || args.includes("--trace"),
   features: args.includes("--features"),
   tags: args.includes("--tags"),
@@ -56,6 +57,8 @@ flags.report
       "allure-cucumberjs/reporter:./allure-results",
     ]))
   : "";
+
+flags.reportSuccess ? (process.env.REPORT_SUCCESS = true) : "";
 
 flags.tags && console.log("Running tags:", tags);
 flags.tags ? (process.env.RUN_TAGS = JSON.stringify(tags)) : "";

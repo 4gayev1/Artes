@@ -49,6 +49,7 @@ npx artes [options]
 | 🏗️ `-c, --create`   | Create an example project with Artes                                       | `artes -c` or `artes --create`                                        |
 | ✅ `-y, --yes`      | Skip the confirmation prompt when creating an example project              | `artes -c -y` or `artes --create --yes`                               |
 | 📊 `-r, --report`   | Run tests and generate Allure report                                       | `artes -r` or `artes --report`                                        |
+| `--reportSuccess` | Add screenshots and video records for also Success test cases |  `artes --reportSuccess`|
 | 📁 `--features`     | Specify one or more feature files' relative paths to run (comma-separated) | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
 | 🔖 `--tags`         | Run tests with specified Cucumber tags                                     | `artes --tags "@smoke or @wip"`                                       |
 | 🌐 `--env`          | Set the environment for the test run                                       | `artes --env "dev"`                                                   |
@@ -293,6 +294,7 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 | `pomPath`         | `moduleConfig.pomPath`                                                       | Path to Page Object Models.         |
 | `import`          | `[]`                                                                         | Support code paths.                 |
 | `testPercentage`  |  `0`                                                                         | Define test coverage percentage     |
+| `reportSuccess`   |  `true`                                                                      | Add screenshots and video records for also success test cases |
 | `format`          | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]`                         | Formatter names/paths.              |
 | `formatOptions`   | `{ "resultsDir": "allure-result" }`                                          | Formatter options.                  |
 | `parallel`        | `1`                                                                          | Number of parallel workers.         |

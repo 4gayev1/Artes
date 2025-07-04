@@ -24,6 +24,9 @@ function showHelp() {
       
             📊 -r, --report    Run tests and generate Allure report
                 Usage:   artes -r or artes --report
+
+            ✅ --reportSuccess Generate screenshot and video record with also successful tests
+                Usage:   artes --reportSuccess
       
             📁 --features      Specify one or more feature files' relative paths to run (comma-separated)
                 Usage:   artes --features "tests/features/Alma, tests/features/Banan.feature"

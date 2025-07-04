@@ -48,6 +48,7 @@ function createProject(createYes) {
     // timeout : 0,                  // number - Test timeout in seconds
     // slowMo: 0,                    // number - Slow down test execution (Default: 0 seconds)
     // parallel: 0,                  // number - Number of parallel workers
+    // reportSuccess: false,         // boolean - Add screenshots and video records to report also for success test cases
     // format: [],                   // string[] - Formatter names/paths
     // formatOptions: {},            // object - Formatter options    
     // retry: 0,                     // number - Retry attempts for failing tests

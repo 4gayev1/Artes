@@ -57,6 +57,7 @@ module.exports = {
     import: artesConfig.import || [], // Support code paths
 
     // Formatting and output
+    successReport: process.env.REPORT_SUCCESS ? true : artesConfig.reportSuccess || false, // Include successful tests in report
     format: finalFormats, // Formatter names/paths
     formatOptions: artesConfig.formatOptions || {
       resultsDir: `allure-result`,

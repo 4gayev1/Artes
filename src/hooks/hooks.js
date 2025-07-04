@@ -78,7 +78,7 @@ AfterStep(async function ({ pickleStep }) {
 });
 
 After(async function ({ pickle, result }) {
-  if (result?.status != Status.PASSED) {
+  if (process.env.REPORT_SUCCESS || result?.status !== Status.PASSED) {
     let img = await context.page.screenshot({
       path: `./test-results/visualReport/${pickle.name}/${pickle.name}.png`,
       type: "png",
@@ -119,7 +119,10 @@ After(async function ({ pickle, result }) {
 
   await context.request?.dispose();
 
-  if (result?.status != Status.PASSED && context.page.video()) {
+  if (
+    (process.env.REPORT_SUCCESS || result?.status !== Status.PASSED) &&
+    context.page.video()
+  ) {
     const videoPath = await context.page.video().path();
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -131,27 +134,29 @@ After(async function ({ pickle, result }) {
 });
 
 AfterAll(async function () {
-  const files = fs.readdirSync(statusDir);
-  const passedCount = files.filter(
-    (file) => file.split("-")[0] === "PASSED",
-  ).length;
-  const totalTests = files.length;
+  if (fs.existsSync(statusDir)) {
+    const files = fs.readdirSync(statusDir);
+    const passedCount = files.filter(
+      (file) => file.split("-")[0] === "PASSED",
+    ).length;
+    const totalTests = files.length;
 
-  const successPercentage = (passedCount / totalTests) * 100;
-  const successRate =
-    successPercentage.toFixed(2) >= cucumberConfig.default.testPercentage;
+    const successPercentage = (passedCount / totalTests) * 100;
+    const successRate =
+      successPercentage.toFixed(2) >= cucumberConfig.default.testPercentage;
 
-  if (!isNaN(successPercentage)) {
-    if (successRate) {
-      console.log(
-        `Tests passed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}% !`,
-      );
-      process.env.EXIT_CODE = 0;
-    } else {
-      console.log(
-        `Tests failed at required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`,
-      );
-      process.env.EXIT_CODE = 1;
+    if (!isNaN(successPercentage)) {
+      if (successRate) {
+        console.log(
+          `Tests passed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}% !`,
+        );
+        process.env.EXIT_CODE = 0;
+      } else {
+        console.log(
+          `Tests failed at required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`,
+        );
+        process.env.EXIT_CODE = 1;
+      }
     }
   }
 });
