@@ -35,6 +35,7 @@ module.exports = {
   context,
   api,
   random,
+  time,
   page,
   request,
   api,

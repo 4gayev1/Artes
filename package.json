@@ -1,6 +1,6 @@
 {
   "name": "artes",
-  "version": "1.0.90",
+  "version": "1.1.0",
   "description": "The simplest way to automate UI and API tests using Cucumber-style steps.",
   "main": "index.js",
   "scripts": {
@@ -36,6 +36,7 @@
     "allure-commandline": "^2.30.0",
     "allure-cucumberjs": "^3.0.5",
     "allure-js-commons": "^3.0.5",
+    "dayjs": "^1.11.13",
     "playwright": "^1.48.2",
     "rimraf": "^6.0.1"
   },

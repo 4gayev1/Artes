@@ -7,14 +7,18 @@ const {
   saveVar,
   resolveVariable,
 } = require("../pomController/elementController");
-const { faker } = require("@faker-js/faker");
 const { context } = require("../../hooks/context");
+
+const { faker } = require("@faker-js/faker");
+const dayjs = require("dayjs");
 
 const element = getElement;
 const selector = getSelector;
 const page = context.page;
 const request = context.request;
+
 const random = faker;
+const time = dayjs;
 
 const path = require("path");
 const modulePath = process.cwd();
@@ -45,6 +49,7 @@ module.exports = {
   saveVar,
   resolveVariable,
   random,
+  time,
   page,
   request,
   context,
