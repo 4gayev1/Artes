@@ -13,15 +13,9 @@
   "bin": {
     "artes": "./executer.js"
   },
-  "keywords": [
-    "kdt",
-    "automation",
-    "playwright",
-    "cucumber",
-    "test automation",
-    "end-to-end",
-    "API testing"
-  ],
+  "publishConfig": {
+  "registry": "https://registry.npmjs.org/"
+},
   "author": "VhdAghyv",
   "license": "ISC",
   "dependencies": {
@@ -47,5 +41,14 @@
   "bugs": {
     "url": "https://github.com/4gayev1/Artes/issues"
   },
-  "homepage": "https://github.com/4gayev1/Artes/blob/main/README.md"
+  "homepage": "https://github.com/4gayev1/Artes/blob/main/README.md",
+    "keywords": [
+    "kdt",
+    "automation",
+    "playwright",
+    "cucumber",
+    "test automation",
+    "end-to-end",
+    "API testing"
+  ]
 }
