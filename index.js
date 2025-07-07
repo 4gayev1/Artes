@@ -11,6 +11,7 @@ const {
   page,
   request,
   random,
+  time,
   resolveVariable,
 } = require("./src/helper/imports/commons");
 const {
