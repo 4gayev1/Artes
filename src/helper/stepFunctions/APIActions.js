@@ -293,7 +293,9 @@ const api = {
     const resolvedPayload = (await payload) && resolveVariable(payload);
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
 
-    const req = await requestMaker(payloadJSON?.headers || {});
+    const req = await requestMaker(
+      payloadJSON?.headers || {},
+      payloadJSON?.body || {});
 
     const requestStarts = performance.now();
 

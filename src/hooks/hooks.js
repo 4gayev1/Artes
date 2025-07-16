@@ -145,7 +145,7 @@ AfterAll(async function () {
     const successRate =
       successPercentage.toFixed(2) >= cucumberConfig.default.testPercentage;
 
-    if (!isNaN(successPercentage)) {
+    if (cucumberConfig.default.testPercentage !=0 && !isNaN(successPercentage)) {
       if (successRate) {
         console.log(
           `Tests passed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}% !`,
