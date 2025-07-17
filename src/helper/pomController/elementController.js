@@ -128,7 +128,13 @@ class Elements {
   static resolveVariable(template) {
     if (typeof template !== "string") return template;
     return template.replace(/{{\s*(\w+)\s*}}/g, (_, varName) => {
-      const value = context.vars[varName];
+      let value = context.vars[varName];
+         if (typeof value === "string") {
+      value = value
+        .replace(/\n/g, "\\n")
+        .replace(/\r/g, "\\r")
+        .replace(/\t/g, "\\t");
+    }
       return value !== undefined ? value : `{{${varName}}}`;
     });
   }
