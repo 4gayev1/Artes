@@ -123,9 +123,7 @@ async function responseMaker(request, response, duration) {
     }
   }
 
-  Object.assign(responseObject, {
-    "Response Time": `${Math.round(duration)} ms`,
-  });
+
 
   return responseObject;
 }

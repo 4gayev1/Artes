@@ -6,12 +6,12 @@ Given("User sets random word as {string} variable", async (key) => {
   context.vars[key] = word;
 });
 
-Given("User sets random word that has {int} character as {string} variable", async (key, count) => {
+Given("User sets random word that has {int} character as {string} variable", async (count, key) => {
   const word = random.lorem.word(count);
   context.vars[key] = word;
 });
 
-Given("User sets random word that has character between {int} and {int} as {string} variable", async (key, from, to) => {
+Given("User sets random word that has character between {int} and {int} as {string} variable", async (from, to, key) => {
   const word = random.lorem.word({length: { min: from, max: to }});
   context.vars[key] = word;
 });
@@ -21,12 +21,12 @@ Given("User sets random words as {string} variable", async (key) => {
   context.vars[key] = words;
 });
 
-Given("User sets random {int} words as {string} variable", async (key, count) => {
+Given("User sets random {int} words as {string} variable", async (count, key) => {
   const words = random.lorem.words({ wordCount: count });
   context.vars[key] = words;
 });
 
-Given("User sets random words that range between {int} and {int} as {string} variable", async (key,from,to) => {
+Given("User sets random words that range between {int} and {int} as {string} variable", async (from, to, key) => {
   const words = random.lorem.words({ min: from, max: to });
   context.vars[key] = words;
 });
