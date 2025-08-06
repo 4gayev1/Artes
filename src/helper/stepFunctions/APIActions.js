@@ -4,9 +4,8 @@ const {
   context,
   selector,
   resolveVariable,
-  moduleConfig
+  moduleConfig,
 } = require("../imports/commons");
-
 
 function getMimeType(filePath) {
   const ext = path.extname(filePath).toLowerCase();
@@ -29,59 +28,56 @@ function getMimeType(filePath) {
   return mimeTypes[ext] || "application/octet-stream";
 }
 
-function processForm( requestBody) {
+function processForm(requestBody) {
+  let formData = {};
   for (const [key, value] of Object.entries(requestBody)) {
+    if (typeof value === "object") {
+      if (value.contentType) {
+        const content =
+          typeof value.data === "object"
+            ? JSON.stringify(value.data)
+            : String(value.data);
 
-      for (const item of value) {
-        if (typeof value === "object") {
-          if (value.contentType) {
-            const content =
-              typeof value.data === "object"
-                ? JSON.stringify(value.data)
-                : String(value.data);
-      
-            formData[key] = {
-              name: value.filename || key,
-              mimeType: value.contentType,
-              buffer: Buffer.from(content, "utf8"),
-            };
-            return;
-          } else {
-            formData[key] = JSON.stringify(value);
-            return;
-          }
-        }
-      
-        if (
-          typeof value === "string" &&
-          (value.endsWith(".pdf") ||
-            value.endsWith(".jpg") ||
-            value.endsWith(".png") ||
-            value.endsWith(".txt") ||
-            value.endsWith(".doc") ||
-            value.endsWith(".docx") ||
-            value.includes("/"))
-        ) {
-          try {
-            const filePath = path.join(moduleConfig.projectPath, value);
-            if (fs.existsSync(filePath)) {
-              formData[key] = {
-                name: path.basename(filePath),
-                mimeType: getMimeType(filePath),
-                buffer: fs.readFileSync(filePath),
-              };
-              return;
-            }
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      
-        formData[key] = value;
-      
+        formData[key] = {
+          name: value.filename || key,
+          mimeType: value.contentType,
+          buffer: Buffer.from(content, "utf8"),
+        };
+        return;
+      } else {
+        formData[key] = JSON.stringify(value);
+        return;
       }
     }
-    return formData;
+
+    if (
+      typeof value === "string" &&
+      (value.endsWith(".pdf") ||
+        value.endsWith(".jpg") ||
+        value.endsWith(".png") ||
+        value.endsWith(".txt") ||
+        value.endsWith(".doc") ||
+        value.endsWith(".docx") ||
+        value.includes("/"))
+    ) {
+      try {
+        const filePath = path.join(moduleConfig.projectPath, value);
+        if (fs.existsSync(filePath)) {
+          formData[key] = {
+            name: path.basename(filePath),
+            mimeType: getMimeType(filePath),
+            buffer: fs.readFileSync(filePath),
+          };
+          return;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    formData[key] = value;
+  }
+  return formData;
 }
 
 async function requestMaker(headers, data, requestDataType) {
@@ -131,7 +127,6 @@ async function responseMaker(request, response, duration) {
     }
   }
 
-
   return responseObject;
 }
 
@@ -177,8 +172,7 @@ const api = {
 
     switch (requestDataType) {
       case "multipart":
-
-       const formRequest =  processForm( payloadJSON?.body || {});
+        const formRequest = processForm(payloadJSON?.body || {});
 
         req = await requestMaker(
           payloadJSON?.headers || {},
@@ -213,10 +207,7 @@ const api = {
 
     switch (requestDataType) {
       case "multipart":
-
-        const formRequest =  processForm( payloadJSON?.body || {});
-
-
+        const formRequest = processForm(payloadJSON?.body || {});
 
         req = await requestMaker(
           payloadJSON?.headers || {},
@@ -252,10 +243,8 @@ const api = {
 
     switch (requestDataType) {
       case "multipart":
-        let formData = {};
 
-        const formRequest =  processForm( payloadJSON?.body || {});
-
+        const formRequest = processForm(payloadJSON?.body || {});
 
         req = await requestMaker(
           payloadJSON?.headers || {},
@@ -289,7 +278,8 @@ const api = {
 
     const req = await requestMaker(
       payloadJSON?.headers || {},
-      payloadJSON?.body || {});
+      payloadJSON?.body || {},
+    );
 
     const requestStarts = performance.now();
 

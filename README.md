@@ -42,30 +42,30 @@ npx artes [options]
 
 ### Options
 
-| Option              | Description                                                                | Usage Example                                                         |
-| ------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| 🆘 `-h, --help`     | Show the usage options                                                     | `artes -h` or `artes --help`                                          |
-| 🏷️ `-v, --version`  | Show the current version of Artes                                          | `artes -v` or `artes --version`                                       |
-| 🏗️ `-c, --create`   | Create an example project with Artes                                       | `artes -c` or `artes --create`                                        |
-| ✅ `-y, --yes`      | Skip the confirmation prompt when creating an example project              | `artes -c -y` or `artes --create --yes`                               |
-| 📊 `-r, --report`   | Run tests and generate Allure report                                       | `artes -r` or `artes --report`                                        |
-| `--reportSuccess` | Add screenshots and video records for also Success test cases |  `artes --reportSuccess`|
-| 📁 `--features`     | Specify one or more feature files' relative paths to run (comma-separated) | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
-| 📜 `--stepDef`     | Specify one or more step definition files' relative paths to use (comma-separated) | `artes --stepDef "tests/steps/login.js,tests/steps/home.js"` |
-| 🔖 `--tags`         | Run tests with specified Cucumber tags                                     | `artes --tags "@smoke or @wip"`                                       |
-| 🌐 `--env`          | Set the environment for the test run                                       | `artes --env "dev"`                                                   |
-| 🕶️ `--headless`     | Run browser in headless mode                                               | `artes --headless`                                                    |
-| ⚡ `--parallel`     | Run tests in parallel mode                                                 | `artes --parallel 2`                                                  |
-| 🔁 `--retry`        | Retry failed tests                                                         | `artes --retry 3`                                                     |
-| 🎭 `--dryRun`       | Perform a dry run without executing tests                                  | `artes --dryRun`                                                      |
-| 📈 `--percentage`   | Set minimum success percentage to pass test run (default is 0)             | `artes --percentage 85`                                               |
-| 🌍 `--browser`      | Specify browser to use (`chromium`, `firefox`, or `webkit`)                | `artes --browser chromium`                                            |
-| 🔗 `--baseURL`      | Set base URL for the tests                                                 | `artes --baseURL "https://example.com"`                               |
-| 🖥️ `--maxScreen`    | Maximize browser window on launch                                          | `artes --maxScreen`                                                   |
-| 📏 `--width`        | Set browser width (default is 1280)                                        | `artes --width 1920`                                                  |
-| 📐 `--height`       | Set browser height (default is 720)                                        | `artes --height 1080`                                                 |
-| ⏱️ `--timeout`      | Set timeout for each test step in seconds (default is 30 seconds)                  | `artes --timeout 10`                                                  |
-| 🐢 `--slowMo`       | Slow down text execution for clear view (default: 0 seconds)                     | `artes --slowMo 1`                                                 |  
+| Option             | Description                                                                        | Usage Example                                                         |
+| ------------------ | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| 🆘 `-h, --help`    | Show the usage options                                                             | `artes -h` or `artes --help`                                          |
+| 🏷️ `-v, --version` | Show the current version of Artes                                                  | `artes -v` or `artes --version`                                       |
+| 🏗️ `-c, --create`  | Create an example project with Artes                                               | `artes -c` or `artes --create`                                        |
+| ✅ `-y, --yes`     | Skip the confirmation prompt when creating an example project                      | `artes -c -y` or `artes --create --yes`                               |
+| 📊 `-r, --report`  | Run tests and generate Allure report                                               | `artes -r` or `artes --report`                                        |
+| `--reportSuccess`  | Add screenshots and video records for also Success test cases                      | `artes --reportSuccess`                                               |
+| 📁 `--features`    | Specify one or more feature files' relative paths to run (comma-separated)         | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
+| 📜 `--stepDef`     | Specify one or more step definition files' relative paths to use (comma-separated) | `artes --stepDef "tests/steps/login.js,tests/steps/home.js"`          |
+| 🔖 `--tags`        | Run tests with specified Cucumber tags                                             | `artes --tags "@smoke or @wip"`                                       |
+| 🌐 `--env`         | Set the environment for the test run                                               | `artes --env "dev"`                                                   |
+| 🕶️ `--headless`    | Run browser in headless mode                                                       | `artes --headless`                                                    |
+| ⚡ `--parallel`    | Run tests in parallel mode                                                         | `artes --parallel 2`                                                  |
+| 🔁 `--retry`       | Retry failed tests                                                                 | `artes --retry 3`                                                     |
+| 🎭 `--dryRun`      | Perform a dry run without executing tests                                          | `artes --dryRun`                                                      |
+| 📈 `--percentage`  | Set minimum success percentage to pass test run (default is 0)                     | `artes --percentage 85`                                               |
+| 🌍 `--browser`     | Specify browser to use (`chromium`, `firefox`, or `webkit`)                        | `artes --browser chromium`                                            |
+| 🔗 `--baseURL`     | Set base URL for the tests                                                         | `artes --baseURL "https://example.com"`                               |
+| 🖥️ `--maxScreen`   | Maximize browser window on launch                                                  | `artes --maxScreen`                                                   |
+| 📏 `--width`       | Set browser width (default is 1280)                                                | `artes --width 1920`                                                  |
+| 📐 `--height`      | Set browser height (default is 720)                                                | `artes --height 1080`                                                 |
+| ⏱️ `--timeout`     | Set timeout for each test step in seconds (default is 30 seconds)                  | `artes --timeout 10`                                                  |
+| 🐢 `--slowMo`      | Slow down text execution for clear view (default: 0 seconds)                       | `artes --slowMo 1`                                                    |
 
 \*\* To just run the tests: <br>
 Globally: artes <br>
@@ -286,34 +286,34 @@ Then("User should see the login form", async () => {
 
 You can configure Artes by editing the `artes.config.js` file. Below are the default configuration options with explanations:
 
-| **Option**        | **Default Value**                                                            | **Description**                     |
-| ----------------- | ---------------------------------------------------------------------------- | ----------------------------------- |
-| `timeout`         | `30`                                                                         | Default timeout in seconds.         |
-| `slowMo`          | `0`                                                                          | Default slow motion in seconds      |
-| `paths`           | `[moduleConfig.featuresPath]`                                                | Paths to feature files.             |
-| `require`         | `[moduleConfig.stepsPath, "src/stepDefinitions/*.js", "src/hooks/hooks.js"]` | Support code paths (CommonJS).      |
-| `pomPath`         | `moduleConfig.pomPath`                                                       | Path to Page Object Models.         |
-| `import`          | `[]`                                                                         | Support code paths.                 |
-| `testPercentage`  |  `0`                                                                         | Define test coverage percentage     |
-| `reportSuccess`   |  `true`                                                                      | Add screenshots and video records for also success test cases |
-| `format`          | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]`                         | Formatter names/paths.              |
-| `formatOptions`   | `{ "resultsDir": "allure-result" }`                                          | Formatter options.                  |
-| `parallel`        | `1`                                                                          | Number of parallel workers.         |
-| `dryRun`          | `false`                                                                      | Prepare test run without execution. |
-| `failFast`        | `false`                                                                      | Stop on first test failure.         |
-| `forceExit`       | `false`                                                                      | Force `process.exit()` after tests. |
-| `strict`          | `true`                                                                       | Fail on pending steps.              |
-| `backtrace`       | `false`                                                                      | Show full backtrace for errors.     |
-| `tags`            | `""`                                                                         | Tag expression to filter scenarios. |
-| `name`            | `[]`                                                                         | Run scenarios matching regex.       |
-| `order`           | `"defined"`                                                                  | Run order (defined/random).         |
-| `language`        | `"en"`                                                                       | Default feature file language.      |
-| `loader`          | `[]`                                                                         | Module loader specifications.       |
-| `requireModule`   | `[]`                                                                         | Transpilation module names.         |
-| `retry`           | `0`                                                                          | Retry attempts for failing tests.   |
-| `retryTagFilter`  | `""`                                                                         | Tag expression for retries.         |
-| `publish`         | `false`                                                                      | Publish to cucumber.io.             |
-| `worldParameters` | `{}`                                                                         | Custom world parameters.            |
+| **Option**        | **Default Value**                                                            | **Description**                                               |
+| ----------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `timeout`         | `30`                                                                         | Default timeout in seconds.                                   |
+| `slowMo`          | `0`                                                                          | Default slow motion in seconds                                |
+| `paths`           | `[moduleConfig.featuresPath]`                                                | Paths to feature files.                                       |
+| `require`         | `[moduleConfig.stepsPath, "src/stepDefinitions/*.js", "src/hooks/hooks.js"]` | Support code paths (CommonJS).                                |
+| `pomPath`         | `moduleConfig.pomPath`                                                       | Path to Page Object Models.                                   |
+| `import`          | `[]`                                                                         | Support code paths.                                           |
+| `testPercentage`  | `0`                                                                          | Define test coverage percentage                               |
+| `reportSuccess`   | `true`                                                                       | Add screenshots and video records for also success test cases |
+| `format`          | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]`                         | Formatter names/paths.                                        |
+| `formatOptions`   | `{ "resultsDir": "allure-result" }`                                          | Formatter options.                                            |
+| `parallel`        | `1`                                                                          | Number of parallel workers.                                   |
+| `dryRun`          | `false`                                                                      | Prepare test run without execution.                           |
+| `failFast`        | `false`                                                                      | Stop on first test failure.                                   |
+| `forceExit`       | `false`                                                                      | Force `process.exit()` after tests.                           |
+| `strict`          | `true`                                                                       | Fail on pending steps.                                        |
+| `backtrace`       | `false`                                                                      | Show full backtrace for errors.                               |
+| `tags`            | `""`                                                                         | Tag expression to filter scenarios.                           |
+| `name`            | `[]`                                                                         | Run scenarios matching regex.                                 |
+| `order`           | `"defined"`                                                                  | Run order (defined/random).                                   |
+| `language`        | `"en"`                                                                       | Default feature file language.                                |
+| `loader`          | `[]`                                                                         | Module loader specifications.                                 |
+| `requireModule`   | `[]`                                                                         | Transpilation module names.                                   |
+| `retry`           | `0`                                                                          | Retry attempts for failing tests.                             |
+| `retryTagFilter`  | `""`                                                                         | Tag expression for retries.                                   |
+| `publish`         | `false`                                                                      | Publish to cucumber.io.                                       |
+| `worldParameters` | `{}`                                                                         | Custom world parameters.                                      |
 
 ### Environment Configuration
 

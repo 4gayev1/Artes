@@ -14,9 +14,7 @@ try {
   console.log("Proceeding with default config.");
 }
 
-const defaultFormats = [
-    "rerun:@rerun.txt",
-      "progress-bar"];
+const defaultFormats = ["rerun:@rerun.txt", "progress-bar"];
 
 const userFormatsFromEnv = process.env.REPORT_FORMAT
   ? JSON.parse(process.env.REPORT_FORMAT)
@@ -24,11 +22,13 @@ const userFormatsFromEnv = process.env.REPORT_FORMAT
 
 const userFormatsFromConfig = artesConfig.format || [];
 
-const finalFormats = [...new Set([
-  ...defaultFormats,
-  ...userFormatsFromEnv,
-  ...userFormatsFromConfig,
-])];
+const finalFormats = [
+  ...new Set([
+    ...defaultFormats,
+    ...userFormatsFromEnv,
+    ...userFormatsFromConfig,
+  ]),
+];
 
 module.exports = {
   default: {
@@ -45,11 +45,11 @@ module.exports = {
         ? path.join(moduleConfig.projectPath, artesConfig.features)
         : [moduleConfig.featuresPath], // Paths to feature files
     require: [
-      process.env.STEP_DEFINITIONS ?
-      [path.join(moduleConfig.projectPath, process.env.STEP_DEFINITIONS)] :
-      artesConfig.steps
-        ? path.join(moduleConfig.projectPath, artesConfig.steps)
-        : moduleConfig.stepsPath,
+      process.env.STEP_DEFINITIONS
+        ? [path.join(moduleConfig.projectPath, process.env.STEP_DEFINITIONS)]
+        : artesConfig.steps
+          ? path.join(moduleConfig.projectPath, artesConfig.steps)
+          : moduleConfig.stepsPath,
       "src/stepDefinitions/*.js",
       "src/hooks/hooks.js",
     ], // Support code paths (CommonJS)
@@ -59,7 +59,9 @@ module.exports = {
     import: artesConfig.import || [], // Support code paths
 
     // Formatting and output
-    successReport: process.env.REPORT_SUCCESS ? true : artesConfig.reportSuccess || false, // Include successful tests in report
+    successReport: process.env.REPORT_SUCCESS
+      ? true
+      : artesConfig.reportSuccess || false, // Include successful tests in report
     format: finalFormats, // Formatter names/paths
     formatOptions: artesConfig.formatOptions || {
       resultsDir: `allure-result`,
@@ -130,8 +132,8 @@ module.exports = {
       : artesConfig?.headless !== undefined
         ? artesConfig.headless
         : true,
-        slowMo: process.env.SLOWMO
-        ? Number(process.env.SLOWMO) * 1000
-        : artesConfig?.slowMo * 1000 || 0    
+    slowMo: process.env.SLOWMO
+      ? Number(process.env.SLOWMO) * 1000
+      : artesConfig?.slowMo * 1000 || 0,
   },
 };
