@@ -1,44 +1,39 @@
 const { context } = require("../../hooks/context");
 
-class Elements {
-  static elements = {};
+let elements = {};
 
-  static addElements(elements) {
-    this.elements = { ...this.elements, ...elements };
-  }
 
-  // static async locatorExistenceChecker(locator){
+function addElements(newElements) {
+  elements = { ...elements, ...newElements };
+}
+
+  // async function locatorExistenceChecker(locator){
   //   const locatorCount = await locator.count();
   //   console.log(locator, locatorCount)
   //   return locatorCount ==0 ? false : true;
   // }
 
-  static getElement(element) {
+  function selectorSeperator(element) {
+    const selector = element?.split("=");
+    return [
+      selector[0]?.trim(),
+      selector[1] !== undefined ? selector[1].trim() : "",
+    ];
+  }
+
+  function getSelector(element) {
+    const selector =
+      elements?.[element]?.selector || elements?.[element] || element;
+    return resolveVariable(selectorSeperator(selector));
+  }
+
+  function getElement(element) {
     if (!context.page) {
       throw new Error("Page context is not initialized.");
     }
 
-    function selectorSeperator(element) {
-      const selector = element?.split("=");
-      return [
-        selector[0]?.trim(),
-        selector[1] !== undefined ? selector[1].trim() : "",
-      ];
-    }
-
-    function getSelector(elements, element) {
-      if (elements?.[element]?.selector) {
-        return selectorSeperator(elements[element].selector);
-      } else if (elements?.[element]) {
-        return selectorSeperator(elements[element]);
-      } else if (typeof element === "string") {
-        return selectorSeperator(element);
-      }
-      return null;
-    }
-
-    const selector = getSelector(this.elements, element);
-    const waitTime = this.elements[element]?.waitTime * 1000 || 0;
+    const selector = getSelector(element);
+    const waitTime = elements[element]?.waitTime * 1000 || 0;
 
     let locator;
     switch (selector[0]) {
@@ -79,13 +74,9 @@ class Elements {
     return locator;
   }
 
-  static getSelector(element) {
-    const selector =
-      this.elements?.[element]?.selector || this.elements?.[element] || element;
-    return selector;
-  }
+ 
 
-  static extractVarsFromResponse(responseBody, vars, customVarName) {
+  function extractVarsFromResponse(responseBody, vars, customVarName) {
     function getValueByPath(obj, path) {
       const keys = path.split(".");
       let current = obj;
@@ -105,12 +96,12 @@ class Elements {
       const path = v.trim();
       const value = getValueByPath(responseBody, path);
       if (value !== undefined) {
-        this.saveVar(value, customVarName, path);
+        saveVar(value, customVarName, path);
       }
     });
   }
 
-  static saveVar(value, customName, path) {
+  function saveVar(value, customName, path) {
     if (!customName) {
       const flatKey = path
         .split(".")
@@ -125,7 +116,7 @@ class Elements {
     }
   }
 
-  static resolveVariable(template) {
+  function resolveVariable(template) {
     if (typeof template !== "string") return template;
     return template.replace(/{{\s*(\w+)\s*}}/g, (_, varName) => {
       let value = context.vars[varName];
@@ -138,13 +129,13 @@ class Elements {
       return value !== undefined ? value : `{{${varName}}}`;
     });
   }
-}
+
 
 module.exports = {
-  getElement: Elements.getElement.bind(Elements),
-  addElements: Elements.addElements.bind(Elements),
-  getSelector: Elements.getSelector.bind(Elements),
-  extractVarsFromResponse: Elements.extractVarsFromResponse.bind(Elements),
-  saveVar: Elements.saveVar.bind(Elements),
-  resolveVariable: Elements.resolveVariable.bind(Elements),
+  getElement,
+  addElements,
+  getSelector,
+  extractVarsFromResponse,
+  saveVar,
+  resolveVariable
 };
