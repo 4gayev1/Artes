@@ -51,6 +51,7 @@ npx artes [options]
 | 📊 `-r, --report`   | Run tests and generate Allure report                                       | `artes -r` or `artes --report`                                        |
 | `--reportSuccess` | Add screenshots and video records for also Success test cases |  `artes --reportSuccess`|
 | 📁 `--features`     | Specify one or more feature files' relative paths to run (comma-separated) | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
+| 📜 `--stepDef`     | Specify one or more step definition files' relative paths to use (comma-separated) | `artes --stepDef "tests/steps/login.js,tests/steps/home.js"` |
 | 🔖 `--tags`         | Run tests with specified Cucumber tags                                     | `artes --tags "@smoke or @wip"`                                       |
 | 🌐 `--env`          | Set the environment for the test run                                       | `artes --env "dev"`                                                   |
 | 🕶️ `--headless`     | Run browser in headless mode                                               | `artes --headless`                                                    |

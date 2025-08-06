@@ -19,6 +19,7 @@ const flags = {
   reportSuccess: args.includes("--reportSuccess"),
   trace: args.includes("-t") || args.includes("--trace"),
   features: args.includes("--features"),
+  stepDef: args.includes("--stepDef"),
   tags: args.includes("--tags"),
   env: args.includes("--env"),
   headless: args.includes("--headless"),
@@ -38,6 +39,7 @@ const flags = {
 const env = args[args.indexOf("--env") + 1];
 const featureFiles = args[args.indexOf("--features") + 1];
 const features = flags.features && featureFiles;
+const stepDef = args[args.indexOf("--stepDef") + 1];
 const tags = args[args.indexOf("--tags") + 1];
 const parallel = args[args.indexOf("--parallel") + 1];
 const retry = args[args.indexOf("--retry") + 1];
@@ -65,6 +67,9 @@ flags.tags ? (process.env.RUN_TAGS = JSON.stringify(tags)) : "";
 
 flags.features && console.log("Running features:", features);
 flags.features ? (process.env.FEATURES = features) : "";
+
+flags.stepDef && console.log("Running step definitions:", flags.stepDef);
+flags.stepDef ? (process.env.STEP_DEFINITIONS = stepDef) : "";
 
 flags.headless &&
   console.log("Running mode:", flags.headless ? "headless" : "headed");

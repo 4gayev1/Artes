@@ -45,6 +45,8 @@ module.exports = {
         ? path.join(moduleConfig.projectPath, artesConfig.features)
         : [moduleConfig.featuresPath], // Paths to feature files
     require: [
+      process.env.STEP_DEFINITIONS ?
+      [path.join(moduleConfig.projectPath, process.env.STEP_DEFINITIONS)] :
       artesConfig.steps
         ? path.join(moduleConfig.projectPath, artesConfig.steps)
         : moduleConfig.stepsPath,
