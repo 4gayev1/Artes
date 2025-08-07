@@ -14,10 +14,17 @@ function addElements(newElements) {
 
 function selectorSeperator(element) {
   const selector = element?.split("=");
-  return [
-    selector[0]?.trim(),
-    selector[1] !== undefined ? selector[1].trim() : "",
-  ];
+  const validTypes = ["xpath", "name", "placeholder", "text", "label", "role", "alt", "title", "testid"];
+
+  if (selector && validTypes.includes(selector[0]?.trim())) {
+    return [
+      selector[0].trim(),
+      selector[1] !== undefined ? selector[1].trim() : "",
+    ];
+  }else{
+    return selector.join("=")
+  }
+
 }
 
 function getSelector(element) {
@@ -66,7 +73,7 @@ function getElement(element) {
       locator = context.page.getByTestId(selector[1], { exact: true });
       break;
     default:
-      locator = context.page.locator(selector[0], { exact: true });
+      locator = context.page.locator(selector, { exact: true });
       break;
   }
 

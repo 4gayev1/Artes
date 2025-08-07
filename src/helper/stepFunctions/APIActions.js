@@ -141,7 +141,7 @@ const api = {
 
     const requestStarts = performance.now();
 
-    const res = await context.request.get(URL[0], req);
+    const res = await context.request.get(URL, req);
 
     const duration = performance.now() - requestStarts;
 
@@ -154,7 +154,7 @@ const api = {
 
     const requestStarts = performance.now();
 
-    const res = await context.request.head(URL[0]);
+    const res = await context.request.head(URL);
 
     const duration = performance.now() - requestStarts;
 
@@ -189,7 +189,7 @@ const api = {
 
     const requestStarts = performance.now();
 
-    const res = await context.request.post(URL[0], req);
+    const res = await context.request.post(URL, req);
 
     const duration = performance.now() - requestStarts;
 
@@ -225,7 +225,7 @@ const api = {
 
     const requestStarts = performance.now();
 
-    const res = await context.request.put(URL[0], req);
+    const res = await context.request.put(URL, req);
 
     const duration = performance.now() - requestStarts;
 
@@ -262,7 +262,7 @@ const api = {
 
     const requestStarts = performance.now();
 
-    const res = await context.request.patch(URL[0], req);
+    const res = await context.request.patch(URL, req);
 
     const duration = performance.now() - requestStarts;
 
@@ -283,7 +283,7 @@ const api = {
 
     const requestStarts = performance.now();
 
-    const res = await context.request.delete(URL[0], req);
+    const res = await context.request.delete(URL, req);
 
     const duration = performance.now() - requestStarts;
 
