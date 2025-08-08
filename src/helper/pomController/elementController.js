@@ -13,6 +13,8 @@ function addElements(newElements) {
 // }
 
 function selectorSeperator(element) {
+  if(typeof element !== "string") return element;
+  
   const selector = element?.split("=");
   const validTypes = ["xpath", "name", "placeholder", "text", "label", "role", "alt", "title", "testid"];
 
@@ -24,7 +26,6 @@ function selectorSeperator(element) {
   }else{
     return selector.join("=")
   }
-
 }
 
 function getSelector(element) {
