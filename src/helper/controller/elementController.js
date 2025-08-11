@@ -86,6 +86,8 @@ function extractVarsFromResponse(responseBody, vars, customVarName) {
     const keys = path.split(".");
     let current = obj;
 
+    if(typeof obj == 'string') return obj;
+
     for (const key of keys) {
       if (current && typeof current === "object" && key in current) {
         current = current[key];

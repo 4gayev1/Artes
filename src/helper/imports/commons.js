@@ -6,7 +6,7 @@ const {
   extractVarsFromResponse,
   saveVar,
   resolveVariable,
-} = require("../pomController/elementController");
+} = require("../controller/elementController");
 const { context } = require("../../hooks/context");
 
 const { faker } = require("@faker-js/faker");
