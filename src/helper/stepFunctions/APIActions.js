@@ -43,10 +43,10 @@ function processForm(requestBody) {
           mimeType: value.contentType,
           buffer: Buffer.from(content, "utf8"),
         };
-        return;
+        continue;
       } else {
         formData[key] = JSON.stringify(value);
-        return;
+        continue;
       }
     }
 
@@ -68,7 +68,7 @@ function processForm(requestBody) {
             mimeType: getMimeType(filePath),
             buffer: fs.readFileSync(filePath),
           };
-          return;
+          continue;
         }
       } catch (error) {
         console.log(error);
