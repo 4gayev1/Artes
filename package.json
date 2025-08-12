@@ -1,6 +1,6 @@
 {
   "name": "artes",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "description": "The simplest way to automate UI and API tests using Cucumber-style steps.",
   "main": "index.js",
   "scripts": {
@@ -19,20 +19,20 @@
   "author": "VhdAghyv",
   "license": "ISC",
   "dependencies": {
-    "@cucumber/cucumber": "^11.0.1",
-    "@cucumber/messages": "^26.0.1",
-    "@faker-js/faker": "^9.8.0",
+    "@cucumber/cucumber": "11.0.1",
+    "@cucumber/messages": "26.0.1",
+    "@faker-js/faker": "9.8.0",
     "@gatling.io/cli": "3.12.0",
     "@gatling.io/core": "3.12.0",
     "@gatling.io/http": "3.12.0",
-    "@types/node": "^22.9.0",
-    "ajv": "^8.17.1",
-    "allure-commandline": "^2.30.0",
-    "allure-cucumberjs": "^3.0.5",
-    "allure-js-commons": "^3.0.5",
-    "dayjs": "^1.11.13",
-    "playwright": "^1.48.2",
-    "rimraf": "^6.0.1"
+    "@types/node": "22.9.0",
+    "ajv": "8.17.1",
+    "allure-commandline": "2.30.0",
+    "allure-cucumberjs": "3.0.5",
+    "allure-js-commons": "3.0.5",
+    "dayjs": "1.11.13",
+    "playwright": "1.52.0",
+    "rimraf": "6.0.1"
   },
   "repository": {
     "type": "git",
