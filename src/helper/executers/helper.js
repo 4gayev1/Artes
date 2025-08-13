@@ -30,6 +30,9 @@ function showHelp() {
       
             📁 --features      Specify one or more feature files' relative paths to run (comma-separated)
                 Usage:   artes --features "tests/features/Alma, tests/features/Banan.feature"
+
+            📜 --stepDef       Specify one or more step definition files' relative paths to use (comma-separated)
+                Usage:   artes --stepDef "tests/steps/login.js, tests/steps/home.js"
       
             🔖 --tags          Run tests with specified Cucumber tags
                 Usage:   artes --tags "@smoke and not @wip"

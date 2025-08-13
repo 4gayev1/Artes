@@ -338,6 +338,29 @@ Artes can generate Allure reports. After running tests with the `-r` flag, the r
 
 ---
 
+## 🐳 Docker Image for CI/CD
+
+A Docker image `vahidaghayev/artes` is available for running Artes in CI/CD pipelines. This image includes:
+
+- **Playwright Browsers**: Pre-installed to support UI testing.
+- **Xvfb**: Enables running UI tests with video recording in a virtual display.
+
+### Recommended Settings for Best Quality
+
+To achieve the best video recording quality, use the following command:
+
+```bash
+xvfb-run -a --server-args="-screen 0 3840x1180x24" --auto-servernum npx artes --width 1600 --height 900
+```
+
+### Playwright Version
+
+The Docker image uses Playwright version `1.52.0`.
+
+This setup ensures smooth execution of tests CI/CD environments.
+
+---
+
 ## 👍 Good To Use
 
 If you don't use the -c or --create option that the package offers, save the file below under the `.vscode` folder:
