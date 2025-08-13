@@ -71,6 +71,8 @@ flags.features ? (process.env.FEATURES = features) : "";
 flags.stepDef && console.log("Running step definitions:", flags.stepDef);
 flags.stepDef ? (process.env.STEP_DEFINITIONS = stepDef) : "";
 
+flags.trace ? (process.env.TRACE = true) : "";
+
 flags.headless &&
   console.log("Running mode:", flags.headless ? "headless" : "headed");
 flags.headless ? (process.env.MODE = JSON.stringify(true)) : false;

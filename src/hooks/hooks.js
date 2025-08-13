@@ -38,7 +38,7 @@ Before(async function () {
 
   await context.page.setDefaultTimeout(cucumberConfig.default.timeout);
 
-  await context.browserContext.tracing.start({
+  process.env.TRACE && await context.browserContext.tracing.start({
     sources: true,
     screenshots: true,
     snapshots: true,
@@ -93,7 +93,7 @@ After(async function ({ pickle, result }) {
     "",
   );
 
-  await context.browserContext.tracing.stop({
+  process.env.TRACE && await context.browserContext.tracing.stop({
     path: path.join(moduleConfig.projectPath, "./trace.zip"),
   });
 
@@ -146,7 +146,7 @@ AfterAll(async function () {
       successPercentage.toFixed(2) >= cucumberConfig.default.testPercentage;
 
     if (
-      cucumberConfig.default.testPercentage != 0 &&
+      cucumberConfig.default.testPercentage != undefined &&
       !isNaN(successPercentage)
     ) {
       if (successRate) {
