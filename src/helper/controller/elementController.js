@@ -13,18 +13,28 @@ function addElements(newElements) {
 // }
 
 function selectorSeperator(element) {
-  if(typeof element !== "string") return element;
-  
+  if (typeof element !== "string") return element;
+
   const selector = element?.split("=");
-  const validTypes = ["xpath", "name", "placeholder", "text", "label", "role", "alt", "title", "testid"];
+  const validTypes = [
+    "xpath",
+    "name",
+    "placeholder",
+    "text",
+    "label",
+    "role",
+    "alt",
+    "title",
+    "testid",
+  ];
 
   if (selector && validTypes.includes(selector[0]?.trim())) {
     return [
       selector[0].trim(),
       selector[1] !== undefined ? selector[1].trim() : "",
     ];
-  }else{
-    return selector.join("=")
+  } else {
+    return selector.join("=");
   }
 }
 
@@ -48,7 +58,7 @@ function getElement(element) {
       locator = context.page.locator(`xpath=${selector[1]}`, { exact: true });
       break;
     case "name":
-      locator = context.page.locator(`[name="${selector[1]"}]`, {
+      locator = context.page.locator(`[name="${selector[1]}"]`, {
         exact: true,
       });
       break;
@@ -86,7 +96,7 @@ function extractVarsFromResponse(responseBody, vars, customVarName) {
     const keys = path.split(".");
     let current = obj;
 
-    if(typeof obj == 'string') return obj;
+    if (typeof obj == "string") return obj;
 
     for (const key of keys) {
       if (current && typeof current === "object" && key in current) {

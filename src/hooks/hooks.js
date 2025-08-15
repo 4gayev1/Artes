@@ -38,11 +38,12 @@ Before(async function () {
 
   await context.page.setDefaultTimeout(cucumberConfig.default.timeout);
 
-  process.env.TRACE && await context.browserContext.tracing.start({
-    sources: true,
-    screenshots: true,
-    snapshots: true,
-  });
+  process.env.TRACE &&
+    (await context.browserContext.tracing.start({
+      sources: true,
+      screenshots: true,
+      snapshots: true,
+    }));
 });
 
 BeforeStep(async function ({ pickleStep }) {
@@ -93,9 +94,10 @@ After(async function ({ pickle, result }) {
     "",
   );
 
-  process.env.TRACE && await context.browserContext.tracing.stop({
-    path: path.join(moduleConfig.projectPath, "./trace.zip"),
-  });
+  process.env.TRACE &&
+    (await context.browserContext.tracing.stop({
+      path: path.join(moduleConfig.projectPath, "./trace.zip"),
+    }));
 
   if (context.response) {
     for (const [key, value] of Object.entries(context.response)) {

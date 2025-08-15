@@ -243,7 +243,6 @@ const api = {
 
     switch (requestDataType) {
       case "multipart":
-
         const formRequest = processForm(payloadJSON?.body || {});
 
         req = await requestMaker(
