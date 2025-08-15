@@ -237,16 +237,11 @@ When(
 When(
   "User expects that response body should match {string} schema",
   async function (expectedSchema) {
-    const schema = selector(expectedSchema);
-
-    const ajv = new Ajv();
-
-    const validate = ajv.compile(schema);
-
-    const responseBody = context.response?.responseBody;
-
-    const valid = validate(responseBody);
-
-    expect(valid).toBe(true);
+    const schema = await selector(expectedSchema);
+    const ajv = await new Ajv();
+    const validate = await ajv.compile(schema);
+    const responseBody = await context.response["Response Body"];
+    const valid = await validate(responseBody);
+    await expect(valid).toBe(true);
   },
 );
