@@ -48,7 +48,7 @@ function getElement(element) {
       locator = context.page.locator(`xpath=${selector[1]}`, { exact: true });
       break;
     case "name":
-      locator = context.page.locator(`[name=${selector[1]}]`, {
+      locator = context.page.locator(`[name="${selector[1]"}]`, {
         exact: true,
       });
       break;
