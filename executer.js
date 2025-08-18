@@ -7,6 +7,7 @@ const {
   generateReport,
   cleanUp,
 } = require("./src/helper/executers/exporter");
+const fs = require("fs");
 
 const args = process.argv.slice(2);
 
@@ -111,6 +112,15 @@ function main() {
 
   runTests();
   if (flags.report) generateReport();
+
+  if (fs.existsSync("./node_modules/artes/testsStatus/EXIT_CODE.txt")) {
+    const data = fs.readFileSync(
+      "./node_modules/artes/testsStatus/EXIT_CODE.txt",
+      "utf8",
+    );
+    process.env.EXIT_CODE = parseInt(data, 10);
+  }
+
   cleanUp();
   process.exit(process.env.EXIT_CODE);
 }
