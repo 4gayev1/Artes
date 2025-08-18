@@ -155,12 +155,12 @@ AfterAll(async function () {
         console.log(
           `Tests passed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}% !`,
         );
-        fs.writeFileSync(path.join(statusDir, `EXIT_CODE.txt`), "0");
+        fs.writeFileSync(path.join(process.cwd(), `EXIT_CODE.txt`), "0");
       } else {
         console.log(
           `Tests failed at required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`,
         );
-        fs.writeFileSync(path.join(statusDir, `EXIT_CODE.txt`), "1");
+        fs.writeFileSync(path.join(process.cwd(), `EXIT_CODE.txt`), "1");
       }
     }
   }

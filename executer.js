@@ -120,7 +120,6 @@ function main() {
         process.cwd(),
         "node_modules",
         "artes",
-        "testsStatus",
         "EXIT_CODE.txt",
       ),
     )
@@ -130,7 +129,6 @@ function main() {
         process.cwd(),
         "node_modules",
         "artes",
-        "testsStatus",
         "EXIT_CODE.txt",
       ),
       "utf8",
