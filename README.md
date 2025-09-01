@@ -50,6 +50,8 @@ npx artes [options]
 | ✅ `-y, --yes`     | Skip the confirmation prompt when creating an example project                      | `artes -c -y` or `artes --create --yes`                               |
 | 📊 `-r, --report`  | Run tests and generate Allure report                                               | `artes -r` or `artes --report`                                        |
 | `--reportSuccess`  | Add screenshots and video records for also Success test cases                      | `artes --reportSuccess`                                               |
+| `--trace` |  Enable tracing | `artes --trace ` |
+| `-rwt, --reportWithTracing` | Add trace to the report | ` artes -rwt ` or `artes --reportWithTracing`|
 | 📁 `--features`    | Specify one or more feature files' relative paths to run (comma-separated)         | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
 | 📜 `--stepDef`     | Specify one or more step definition files' relative paths to use (comma-separated) | `artes --stepDef "tests/steps/login.js,tests/steps/home.js"`          |
 | 🔖 `--tags`        | Run tests with specified Cucumber tags                                             | `artes --tags "@smoke or @wip"`                                       |
@@ -295,7 +297,10 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 | `pomPath`         | `moduleConfig.pomPath`                                                       | Path to Page Object Models.                                   |
 | `import`          | `[]`                                                                         | Support code paths.                                           |
 | `testPercentage`  | `0`                                                                          | Define test coverage percentage                               |
-| `reportSuccess`   | `true`                                                                       | Add screenshots and video records for also success test cases |
+| `report`          | `false`                                                                      | Generate report                                               |
+| `reportSuccess`   | `false`                                                                      | Add screenshots and video records for also success test cases |
+| `trace`           | `false`                                                                      | Enable trace                                                  |
+| `traceWithReport` | `false`                                                                      | Add trace to the report                                       | 
 | `format`          | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]`                         | Formatter names/paths.                                        |
 | `formatOptions`   | `{ "resultsDir": "allure-result" }`                                          | Formatter options.                                            |
 | `parallel`        | `1`                                                                          | Number of parallel workers.                                   |

@@ -8,6 +8,7 @@ const {
   BeforeStep,
   AfterAll,
 } = require("@cucumber/cucumber");
+const { spawnSync } = require("child_process");
 const { invokeBrowser } = require("../helper/contextManager/browserManager");
 const { invokeRequest } = require("../helper/contextManager/requestManager");
 const { pomCollector } = require("../helper/controller/pomCollector");
@@ -17,11 +18,47 @@ const fs = require("fs");
 const { moduleConfig } = require("artes/src/helper/imports/commons");
 const path = require("path");
 
+
 const statusDir = path.join(process.cwd(), "testsStatus");
+const HTTP_METHODS = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"];
 
 setDefaultTimeout(cucumberConfig.default.timeout);
 
-BeforeAll(async function () {
+/* ------------------- Helpers ------------------- */
+
+let artesConfig = {};
+
+try {
+  if (fs.existsSync(moduleConfig.cucumberConfigPath)) {
+    const artesConf = require(moduleConfig.cucumberConfigPath);
+    artesConfig = artesConf || {};
+  }
+} catch (error) {
+  console.warn("Error reading config file:", error.message);
+  console.log("Proceeding with default config.");
+}
+
+async function attachResponse(attachFn) {
+  if (!context.response) return;
+
+  for (const [key, value] of Object.entries(context.response)) {
+    const text =
+      typeof value === "object"
+        ? `${key}:\n${JSON.stringify(value, null, 2)}`
+        : `${key}:\n${value}`;
+
+    await attachFn(text, "text/plain");
+  }
+}
+
+function saveTestStatus(result, pickle) {
+  fs.mkdirSync(statusDir, { recursive: true });
+  fs.writeFileSync(path.join(statusDir, `${result.status}-${pickle.id}.txt`), "");
+}
+
+/* ------------------- Hooks ------------------- */
+
+BeforeAll(() => {
   pomCollector();
 });
 
@@ -38,130 +75,105 @@ Before(async function () {
 
   await context.page.setDefaultTimeout(cucumberConfig.default.timeout);
 
-  process.env.TRACE &&
-    (await context.browserContext.tracing.start({
+  if (process.env.TRACE || process.env.REPORT_WITH_TRACE) {
+    await browserContext.tracing.start({
       sources: true,
       screenshots: true,
       snapshots: true,
-    }));
+    });
+  }
 });
 
-BeforeStep(async function ({ pickleStep }) {
-  const stepText = pickleStep.text;
-
-  const methods = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"];
-
-  if (methods.some((method) => stepText.includes(method))) {
+BeforeStep(({ pickleStep }) => {
+  if (HTTP_METHODS.some((method) => pickleStep.text.includes(method))) {
     context.response = {};
   }
 });
 
 AfterStep(async function ({ pickleStep }) {
-  const stepText = pickleStep.text;
-
-  const methods = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"];
-
-  if (methods.some((method) => stepText.includes(method))) {
-    if (await context.response) {
-      for (const [key, value] of Object.entries(context.response)) {
-        let text = `${key}:\n`;
-
-        if (typeof value === "object") {
-          text += JSON.stringify(value, null, 2);
-        } else {
-          text += value;
-        }
-
-        await this.attach(text, "text/plain");
-      }
-    }
+  if (HTTP_METHODS.some((method) => pickleStep.text.includes(method))) {
+    await attachResponse(this.attach);
   }
 });
 
 After(async function ({ pickle, result }) {
-  if (process.env.REPORT_SUCCESS || result?.status !== Status.PASSED) {
-    let img = await context.page.screenshot({
-      path: `./test-results/visualReport/${pickle.name}/${pickle.name}.png`,
-      type: "png",
-    });
+  const shouldReport =
+    (artesConfig.successReport || result?.status !== Status.PASSED) &&
+    !context.request;
+
+  if (shouldReport) {
+    const screenshotPath = path.join(
+      "test-results",
+      "visualReport",
+      pickle.name,
+      `${pickle.name}.png`,
+    );
+
+    const img = await context.page.screenshot({ path: screenshotPath, type: "png" });
     await this.attach(img, "image/png");
   }
 
-  fs.mkdirSync(statusDir, { recursive: true });
+  saveTestStatus(result, pickle);
 
-  fs.writeFileSync(
-    path.join(statusDir, `${result.status}-${pickle.id}.txt`),
-    "",
-  );
-
-  process.env.TRACE &&
-    (await context.browserContext.tracing.stop({
-      path: path.join(moduleConfig.projectPath, "./trace.zip"),
-    }));
-
-  if (context.response) {
-    for (const [key, value] of Object.entries(context.response)) {
-      let text = `${key}:\n`;
-
-      if (typeof value === "object") {
-        text += JSON.stringify(value, null, 2);
-      } else {
-        text += value;
-      }
-
-      await this.attach(text, "text/plain");
+  if ((artesConfig.reportWithTrace || artesConfig.trace) && !context.request) {
+      await context.browserContext.tracing.stop({
+        path: path.join(moduleConfig.projectPath, `./${pickle.name}.zip`),
+      });
+      
+      if(artesConfig.reportWithTrace){
+      await this.attach(`./${pickle.name}.zip`, "application/zip");
+      spawnSync("npm", ["run", "clean", `./${pickle.name}.zip`], {
+        cwd: moduleConfig.modulePath,
+        stdio: "ignore",
+        shell: true,
+      });
     }
+
   }
 
+  await attachResponse(this.attach);
+
   await context.page?.close();
-
   await context.browserContext?.close();
-
   await context.browser?.close();
-
   await context.request?.dispose();
 
-  if (
-    (process.env.REPORT_SUCCESS || result?.status !== Status.PASSED) &&
-    context.page.video()
-  ) {
-    const videoPath = await context.page.video().path();
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+  if (shouldReport && context.page.video) {
+    const video = context.page.video();
+    if (video) {
+      const videoPath = await video.path();
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    if (fs.existsSync(videoPath)) {
-      const webmBuffer = await fs.readFileSync(videoPath);
-      await this.attach(webmBuffer, "video/webm");
+      if (fs.existsSync(videoPath)) {
+        const webmBuffer = fs.readFileSync(videoPath);
+        await this.attach(webmBuffer, "video/webm");
+      }
     }
   }
 });
 
-AfterAll(async function () {
-  if (fs.existsSync(statusDir)) {
-    const files = fs.readdirSync(statusDir);
-    const passedCount = files.filter(
-      (file) => file.split("-")[0] === "PASSED",
-    ).length;
-    const totalTests = files.length;
+AfterAll(() => {
+  if (!fs.existsSync(statusDir)) return;
 
-    const successPercentage = (passedCount / totalTests) * 100;
-    const successRate =
-      successPercentage.toFixed(2) >= cucumberConfig.default.testPercentage;
+  const files = fs.readdirSync(statusDir);
+  const passedCount = files.filter((f) => f.split("-")[0] === "PASSED").length;
+  const totalTests = files.length;
+  const successPercentage = (passedCount / totalTests) * 100;
 
-    if (
-      cucumberConfig.default.testPercentage != undefined &&
-      !isNaN(successPercentage)
-    ) {
-      if (successRate) {
-        console.log(
-          `Tests passed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}% !`,
-        );
-        fs.writeFileSync(path.join(process.cwd(), `EXIT_CODE.txt`), "0");
-      } else {
-        console.log(
-          `Tests failed at required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`,
-        );
-        fs.writeFileSync(path.join(process.cwd(), `EXIT_CODE.txt`), "1");
-      }
+  if (cucumberConfig.default.testPercentage !== undefined) {
+    const meetsThreshold =
+      successPercentage >= cucumberConfig.default.testPercentage;
+
+    if (meetsThreshold) {
+      console.log(
+        `✅ Tests passed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`,
+      );
+      fs.writeFileSync(path.join(process.cwd(), "EXIT_CODE.txt"), "0");
+    } else {
+      console.log(
+        `❌ Tests failed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`,
+      );
+      fs.writeFileSync(path.join(process.cwd(), "EXIT_CODE.txt"), "1");
     }
   }
 });

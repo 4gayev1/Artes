@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { moduleConfig } = require("./src/helper/imports/commons");
 
+
 let artesConfig = {};
 
 try {
@@ -58,10 +59,20 @@ module.exports = {
       : moduleConfig.pomPath,
     import: artesConfig.import || [], // Support code paths
 
+    report: process.env.REPORT_WITH_TRACE ??
+    artesConfig.reportWithTrace ??
+    process.env.REPORT ??
+    artesConfig.report ??
+    false, // Generate report
     // Formatting and output
     successReport: process.env.REPORT_SUCCESS
       ? true
       : artesConfig.reportSuccess || false, // Include successful tests in report
+
+    trace: process.env.TRACE ? true : artesConfig.trace || false, // Enable tracing
+
+    reportWithTrace: process.env.REPORT_WITH_TRACE ? process.env.REPORT_WITH_TRACE : artesConfig.reportWithTrace || false, // Include trace in report
+
     format: finalFormats, // Formatter names/paths
     formatOptions: artesConfig.formatOptions || {
       resultsDir: `allure-result`,

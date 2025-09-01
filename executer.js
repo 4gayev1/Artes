@@ -20,6 +20,7 @@ const flags = {
   report: args.includes("-r") || args.includes("--report"),
   reportSuccess: args.includes("--reportSuccess"),
   trace: args.includes("-t") || args.includes("--trace"),
+  reportWithTrace: args.includes("-rwt") ||args.includes("--reportWithTrace"),
   features: args.includes("--features"),
   stepDef: args.includes("--stepDef"),
   tags: args.includes("--tags"),
@@ -75,6 +76,8 @@ flags.stepDef ? (process.env.STEP_DEFINITIONS = stepDef) : "";
 
 flags.trace ? (process.env.TRACE = true) : "";
 
+flags.reportWithTrace ? (process.env.REPORT_WITH_TRACE = true) : "";
+
 flags.headless &&
   console.log("Running mode:", flags.headless ? "headless" : "headed");
 flags.headless ? (process.env.MODE = JSON.stringify(true)) : false;
@@ -112,7 +115,7 @@ function main() {
   if (flags.create) return createProject(flags.createYes);
 
   runTests();
-  if (flags.report) generateReport();
+  if (flags.report || flags.reportWithTrace) generateReport();
 
   if (
     fs.existsSync(
