@@ -7,6 +7,7 @@ const {
   generateReport,
   cleanUp,
 } = require("./src/helper/executers/exporter");
+const artesConfig = require("../../artes.config");
 const fs = require("fs");
 const path = require("path");
 
@@ -20,7 +21,7 @@ const flags = {
   report: args.includes("-r") || args.includes("--report"),
   reportSuccess: args.includes("--reportSuccess"),
   trace: args.includes("-t") || args.includes("--trace"),
-  reportWithTrace: args.includes("-rwt") ||args.includes("--reportWithTrace"),
+  reportWithTrace: args.includes("-rwt") || args.includes("--reportWithTrace"),
   features: args.includes("--features"),
   stepDef: args.includes("--stepDef"),
   tags: args.includes("--tags"),
@@ -57,7 +58,10 @@ const slowMo = args[args.indexOf("--slowMo") + 1];
 flags.env && console.log("Running env:", env);
 flags.env ? (process.env.ENV = JSON.stringify(env)) : "";
 
-flags.report
+flags.reportWithTrace ||
+artesConfig.reportWithTrace ||
+flags.report ||
+artesConfig.report
   ? (process.env.REPORT_FORMAT = JSON.stringify([
       "allure-cucumberjs/reporter:./allure-results",
     ]))
@@ -73,6 +77,8 @@ flags.features ? (process.env.FEATURES = features) : "";
 
 flags.stepDef && console.log("Running step definitions:", flags.stepDef);
 flags.stepDef ? (process.env.STEP_DEFINITIONS = stepDef) : "";
+
+flags.report ? (process.env.REPORT = true) : "";
 
 flags.trace ? (process.env.TRACE = true) : "";
 
@@ -115,25 +121,21 @@ function main() {
   if (flags.create) return createProject(flags.createYes);
 
   runTests();
-  if (flags.report || flags.reportWithTrace) generateReport();
+  if (
+    flags.reportWithTrace ||
+    artesConfig.reportWithTrace ||
+    flags.report ||
+    artesConfig.report
+  )
+    generateReport();
 
   if (
     fs.existsSync(
-      path.join(
-        process.cwd(),
-        "node_modules",
-        "artes",
-        "EXIT_CODE.txt",
-      ),
+      path.join(process.cwd(), "node_modules", "artes", "EXIT_CODE.txt"),
     )
   ) {
     const data = fs.readFileSync(
-      path.join(
-        process.cwd(),
-        "node_modules",
-        "artes",
-        "EXIT_CODE.txt",
-      ),
+      path.join(process.cwd(), "node_modules", "artes", "EXIT_CODE.txt"),
       "utf8",
     );
     process.env.EXIT_CODE = parseInt(data, 10);

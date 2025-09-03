@@ -15,9 +15,8 @@ const { pomCollector } = require("../helper/controller/pomCollector");
 const cucumberConfig = require("../../cucumber.config");
 const { context } = require("./context");
 const fs = require("fs");
-const { moduleConfig } = require("artes/src/helper/imports/commons");
 const path = require("path");
-
+const { moduleConfig } = require("artes/src/helper/imports/commons");
 
 const statusDir = path.join(process.cwd(), "testsStatus");
 const HTTP_METHODS = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"];
@@ -25,18 +24,6 @@ const HTTP_METHODS = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"];
 setDefaultTimeout(cucumberConfig.default.timeout);
 
 /* ------------------- Helpers ------------------- */
-
-let artesConfig = {};
-
-try {
-  if (fs.existsSync(moduleConfig.cucumberConfigPath)) {
-    const artesConf = require(moduleConfig.cucumberConfigPath);
-    artesConfig = artesConf || {};
-  }
-} catch (error) {
-  console.warn("Error reading config file:", error.message);
-  console.log("Proceeding with default config.");
-}
 
 async function attachResponse(attachFn) {
   if (!context.response) return;
@@ -53,7 +40,10 @@ async function attachResponse(attachFn) {
 
 function saveTestStatus(result, pickle) {
   fs.mkdirSync(statusDir, { recursive: true });
-  fs.writeFileSync(path.join(statusDir, `${result.status}-${pickle.id}.txt`), "");
+  fs.writeFileSync(
+    path.join(statusDir, `${result.status}-${pickle.id}.txt`),
+    "",
+  );
 }
 
 /* ------------------- Hooks ------------------- */
@@ -75,7 +65,10 @@ Before(async function () {
 
   await context.page.setDefaultTimeout(cucumberConfig.default.timeout);
 
-  if (process.env.TRACE || process.env.REPORT_WITH_TRACE) {
+  if (
+    (cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace) &&
+    !context.response
+  ) {
     await browserContext.tracing.start({
       sources: true,
       screenshots: true,
@@ -98,8 +91,9 @@ AfterStep(async function ({ pickleStep }) {
 
 After(async function ({ pickle, result }) {
   const shouldReport =
-    (artesConfig.successReport || result?.status !== Status.PASSED) &&
-    !context.request;
+    (cucumberConfig.default.successReport ||
+      result?.status !== Status.PASSED) &&
+    !context.response;
 
   if (shouldReport) {
     const screenshotPath = path.join(
@@ -109,26 +103,48 @@ After(async function ({ pickle, result }) {
       `${pickle.name}.png`,
     );
 
-    const img = await context.page.screenshot({ path: screenshotPath, type: "png" });
-    await this.attach(img, "image/png");
+    const img = await context.page.screenshot({
+      path: screenshotPath,
+      type: "png",
+    });
+    await this.attach(img, {
+      mediaType: "image/png",
+      fileName: `${pickle.name.replaceAll(" ", "_")}.png`,
+    });
   }
 
   saveTestStatus(result, pickle);
 
-  if ((artesConfig.reportWithTrace || artesConfig.trace) && !context.request) {
-      await context.browserContext.tracing.stop({
-        path: path.join(moduleConfig.projectPath, `./${pickle.name}.zip`),
-      });
-      
-      if(artesConfig.reportWithTrace){
-      await this.attach(`./${pickle.name}.zip`, "application/zip");
-      spawnSync("npm", ["run", "clean", `./${pickle.name}.zip`], {
-        cwd: moduleConfig.modulePath,
-        stdio: "ignore",
-        shell: true,
-      });
-    }
+  const tracePath = path.join(
+    moduleConfig.projectPath,
+    `./${pickle.name.replaceAll(" ", "_")}.zip`,
+  );
 
+  if (
+    (cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace) &&
+    !context.response &&
+    shouldReport
+  ) {
+    await context.browserContext.tracing.stop({
+      path: tracePath,
+    });
+
+    if (cucumberConfig.default.reportWithTrace) {
+      const trace = fs.readFileSync(tracePath);
+
+      await this.attach(trace, {
+        mediaType: "application/zip",
+        fileName: `${pickle.name.replace(/\s+/g, "_")}_trace.zip`,
+      });
+
+      if (!cucumberConfig.default.trace) {
+        spawnSync("npx", ["rimraf", tracePath], {
+          cwd: moduleConfig.projectPath,
+          stdio: "inherit",
+          shell: true,
+        });
+      }
+    }
   }
 
   await attachResponse(this.attach);
@@ -142,11 +158,15 @@ After(async function ({ pickle, result }) {
     const video = context.page.video();
     if (video) {
       const videoPath = await video.path();
+
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       if (fs.existsSync(videoPath)) {
         const webmBuffer = fs.readFileSync(videoPath);
-        await this.attach(webmBuffer, "video/webm");
+        await this.attach(webmBuffer, {
+          mediaType: "video/webm",
+          fileName: `${pickle.name.replaceAll(" ", "_")}.webm`,
+        });
       }
     }
   }
