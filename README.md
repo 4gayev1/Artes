@@ -42,32 +42,32 @@ npx artes [options]
 
 ### Options
 
-| Option             | Description                                                                        | Usage Example                                                         |
-| ------------------ | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| 🆘 `-h, --help`    | Show the usage options                                                             | `artes -h` or `artes --help`                                          |
-| 🏷️ `-v, --version` | Show the current version of Artes                                                  | `artes -v` or `artes --version`                                       |
-| 🏗️ `-c, --create`  | Create an example project with Artes                                               | `artes -c` or `artes --create`                                        |
-| ✅ `-y, --yes`     | Skip the confirmation prompt when creating an example project                      | `artes -c -y` or `artes --create --yes`                               |
-| 📊 `-r, --report`  | Run tests and generate Allure report                                               | `artes -r` or `artes --report`                                        |
-| `--reportSuccess`  | Add screenshots and video records for also Success test cases                      | `artes --reportSuccess`                                               |
-| `--trace`          |  Enable tracing | `artes --trace `                                                 |
-| `-rwt, --reportWithTrace` | Add trace to the report                                                     | ` artes -rwt ` or `artes --reportWithTrace`|
-| 📁 `--features`    | Specify one or more feature files' relative paths to run (comma-separated)         | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
-| 📜 `--stepDef`     | Specify one or more step definition files' relative paths to use (comma-separated) | `artes --stepDef "tests/steps/login.js,tests/steps/home.js"`          |
-| 🔖 `--tags`        | Run tests with specified Cucumber tags                                             | `artes --tags "@smoke or @wip"`                                       |
-| 🌐 `--env`         | Set the environment for the test run                                               | `artes --env "dev"`                                                   |
-| 🕶️ `--headless`    | Run browser in headless mode                                                       | `artes --headless`                                                    |
-| ⚡ `--parallel`    | Run tests in parallel mode                                                         | `artes --parallel 2`                                                  |
-| 🔁 `--retry`       | Retry failed tests                                                                 | `artes --retry 3`                                                     |
-| 🎭 `--dryRun`      | Perform a dry run without executing tests                                          | `artes --dryRun`                                                      |
-| 📈 `--percentage`  | Set minimum success percentage to pass test run (default is 0)                     | `artes --percentage 85`                                               |
-| 🌍 `--browser`     | Specify browser to use (`chromium`, `firefox`, or `webkit`)                        | `artes --browser chromium`                                            |
-| 🔗 `--baseURL`     | Set base URL for the tests                                                         | `artes --baseURL "https://example.com"`                               |
-| 🖥️ `--maxScreen`   | Maximize browser window on launch                                                  | `artes --maxScreen`                                                   |
-| 📏 `--width`       | Set browser width (default is 1280)                                                | `artes --width 1920`                                                  |
-| 📐 `--height`      | Set browser height (default is 720)                                                | `artes --height 1080`                                                 |
-| ⏱️ `--timeout`     | Set timeout for each test step in seconds (default is 30 seconds)                  | `artes --timeout 10`                                                  |
-| 🐢 `--slowMo`      | Slow down text execution for clear view (default: 0 seconds)                       | `artes --slowMo 1`                                                    |
+| Option                    | Description                                                                        | Usage Example                                                         |
+| ------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| 🆘 `-h, --help`           | Show the usage options                                                             | `artes -h` or `artes --help`                                          |
+| 🏷️ `-v, --version`        | Show the current version of Artes                                                  | `artes -v` or `artes --version`                                       |
+| 🏗️ `-c, --create`         | Create an example project with Artes                                               | `artes -c` or `artes --create`                                        |
+| ✅ `-y, --yes`            | Skip the confirmation prompt when creating an example project                      | `artes -c -y` or `artes --create --yes`                               |
+| 📊 `-r, --report`         | Run tests and generate Allure report                                               | `artes -r` or `artes --report`                                        |
+| `--reportSuccess`         | Add screenshots and video records for also Success test cases                      | `artes --reportSuccess`                                               |
+| `--trace`                 | Enable tracing                                                                     | `artes --trace `                                                      |
+| `-rwt, --reportWithTrace` | Add trace to the report                                                            | `artes -rwt` or `artes --reportWithTrace`                             |
+| 📁 `--features`           | Specify one or more feature files' relative paths to run (comma-separated)         | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
+| 📜 `--stepDef`            | Specify one or more step definition files' relative paths to use (comma-separated) | `artes --stepDef "tests/steps/login.js,tests/steps/home.js"`          |
+| 🔖 `--tags`               | Run tests with specified Cucumber tags                                             | `artes --tags "@smoke or @wip"`                                       |
+| 🌐 `--env`                | Set the environment for the test run                                               | `artes --env "dev"`                                                   |
+| 🕶️ `--headless`           | Run browser in headless mode                                                       | `artes --headless`                                                    |
+| ⚡ `--parallel`           | Run tests in parallel mode                                                         | `artes --parallel 2`                                                  |
+| 🔁 `--retry`              | Retry failed tests                                                                 | `artes --retry 3`                                                     |
+| 🎭 `--dryRun`             | Perform a dry run without executing tests                                          | `artes --dryRun`                                                      |
+| 📈 `--percentage`         | Set minimum success percentage to pass test run (default is 0)                     | `artes --percentage 85`                                               |
+| 🌍 `--browser`            | Specify browser to use (`chromium`, `firefox`, or `webkit`)                        | `artes --browser chromium`                                            |
+| 🔗 `--baseURL`            | Set base URL for the tests                                                         | `artes --baseURL "https://example.com"`                               |
+| 🖥️ `--maxScreen`          | Maximize browser window on launch                                                  | `artes --maxScreen`                                                   |
+| 📏 `--width`              | Set browser width (default is 1280)                                                | `artes --width 1920`                                                  |
+| 📐 `--height`             | Set browser height (default is 720)                                                | `artes --height 1080`                                                 |
+| ⏱️ `--timeout`            | Set timeout for each test step in seconds (default is 30 seconds)                  | `artes --timeout 10`                                                  |
+| 🐢 `--slowMo`             | Slow down text execution for clear view (default: 0 seconds)                       | `artes --slowMo 1`                                                    |
 
 \*\* To just run the tests: <br>
 Globally: artes <br>
@@ -172,6 +172,86 @@ Feature: Searching on Google 🔍
 - 🐍 It is good to use snake_case for element names
 - ⏳ "waitTime" is to define custom wait for elements, but the feature currently under development
   "selector" must be used if "waitTime" is used, but when using only selector is not needed mention in "selector"
+
+---
+
+## 🌍 Environment Variables Configuration
+
+Artes now supports environment-specific configurations through environment variables. This feature allows you to manage different settings for development, staging, and production environments.
+
+### Setting Up Environment Variables
+
+1. **Configure Environment in artes.config.js:**
+
+   ```javascript
+   module.exports = {
+     baseURL: {
+       dev: "https://dev.dlp.az",
+       pre: "https://pre.dlp.az",
+       prod: "https://api.dlp.az",
+     },
+     env: "dev", // Specify which environment to use
+     // ... other configurations
+   };
+   ```
+
+   **Alternative single URL configuration:**
+
+   ```javascript
+   module.exports = {
+     baseURL: "https://api.example.com", // Direct string URL
+     env: "dev",
+     // ... other configurations
+   };
+   ```
+
+2. **Create Environment Variable Files:**
+   Create JSON files under `src/tests/environment-variables/` folder with names matching your environment:
+
+   **dev.json:**
+
+   ```json
+   {
+     "api_key": "dev-api-key-12345",
+     "auth_token": "dev-auth-token",
+     "database_url": "dev-db.example.com",
+     "timeout": 5000,
+     "headers": {
+       "Authorization": "Bearer dev-token",
+       "Content-Type": "application/json"
+     }
+   }
+   ```
+
+   **pre.json:**
+
+   ```json
+   {
+     "api_key": "pre-api-key-67890",
+     "auth_token": "pre-auth-token",
+     "database_url": "pre-db.example.com",
+     "timeout": 3000,
+     "headers": {
+       "Authorization": "Bearer pre-token",
+       "Content-Type": "application/json"
+     }
+   }
+   ```
+
+### How It Works
+
+1. **Environment Detection:** When Artes runs, it reads the `env` value from `artes.config.js`
+2. **Base URL Resolution:** If `baseURL` is an object, it uses the environment key to find the corresponding URL. If `baseURL` is a string, it uses it directly
+3. **Variable Loading:** Artes looks for a JSON file matching the environment name in `src/tests/environment-variables/`
+4. **Runtime Access:** All variables from the environment file become available during test execution
+
+### Important Notes
+
+- ⚠️ **Base URLs must be defined in `artes.config.js`** - they cannot be set in the environment variable JSON files
+- 📁 Environment variable files should be placed in `src/tests/environment-variables/`
+- 🏷️ File names must exactly match the environment name (e.g., `dev.json` for `env: "dev"`)
+- 🔄 Variables are loaded into variable storage and can be accessed during test runs
+- 🌐 Use environment variables for headers, API keys, timeouts, and other environment-specific configurations
 
 ---
 
@@ -300,7 +380,7 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 | `report`          | `false`                                                                      | Generate report                                               |
 | `reportSuccess`   | `false`                                                                      | Add screenshots and video records for also success test cases |
 | `trace`           | `false`                                                                      | Enable trace                                                  |
-| `reportWithTrace` | `false`                                                                      | Add trace to the report                                       | 
+| `reportWithTrace` | `false`                                                                      | Add trace to the report                                       |
 | `format`          | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]`                         | Formatter names/paths.                                        |
 | `formatOptions`   | `{ "resultsDir": "allure-result" }`                                          | Formatter options.                                            |
 | `parallel`        | `1`                                                                          | Number of parallel workers.                                   |

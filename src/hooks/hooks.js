@@ -21,9 +21,9 @@ const { moduleConfig } = require("artes/src/helper/imports/commons");
 const statusDir = path.join(process.cwd(), "testsStatus");
 const HTTP_METHODS = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"];
 
-setDefaultTimeout(cucumberConfig.default.timeout);
-
 /* ------------------- Helpers ------------------- */
+
+setDefaultTimeout(cucumberConfig.default.timeout);
 
 async function attachResponse(attachFn) {
   if (!context.response) return;
@@ -54,6 +54,23 @@ BeforeAll(() => {
 
 Before(async function () {
   context.vars = {};
+
+  const envFilePath = path.join(
+    moduleConfig.projectPath,
+    "tests",
+    "environment_variables",
+    `${cucumberConfig.env}.env.json`,
+  );
+
+  if (fs.existsSync(envFilePath)) {
+    let env_vars = fs.readFileSync(envFilePath, "utf-8");
+    try {
+      env_vars = JSON.parse(env_vars);
+      context.vars = { ...context.vars, ...env_vars };
+    } catch (err) {
+      console.log("Error parsing environment variables JSON:", err);
+    }
+  }
 
   const { browser, context: browserContext } = await invokeBrowser();
   const requestInstance = await invokeRequest();

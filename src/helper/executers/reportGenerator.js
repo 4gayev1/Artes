@@ -8,7 +8,7 @@ function generateReport() {
     spawnSync("npm", ["run", "testWithReport", moduleConfig.reportPath], {
       cwd: moduleConfig.modulePath,
       stdio: "ignore",
-      shell: true
+      shell: true,
     });
 
     console.log(

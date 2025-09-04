@@ -9,7 +9,11 @@ function pomCollector() {
           `${cucumberConfig.default.pomPath}/${file}`,
           "utf-8",
           (err, content) => {
-            addElements(JSON.parse(content));
+            try {
+              addElements(JSON.parse(content));
+            } catch (error) {
+              console.log(`Error parsing POM file ${file}:`, error.message);
+            }
           },
         );
       });
