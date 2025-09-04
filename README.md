@@ -175,86 +175,6 @@ Feature: Searching on Google 🔍
 
 ---
 
-## 🌍 Environment Variables Configuration
-
-Artes now supports environment-specific configurations through environment variables. This feature allows you to manage different settings for development, staging, and production environments.
-
-### Setting Up Environment Variables
-
-1. **Configure Environment in artes.config.js:**
-
-   ```javascript
-   module.exports = {
-     baseURL: {
-       dev: "https://dev.dlp.az",
-       pre: "https://pre.dlp.az",
-       prod: "https://api.dlp.az",
-     },
-     env: "dev", // Specify which environment to use
-     // ... other configurations
-   };
-   ```
-
-   **Alternative single URL configuration:**
-
-   ```javascript
-   module.exports = {
-     baseURL: "https://api.example.com", // Direct string URL
-     env: "dev",
-     // ... other configurations
-   };
-   ```
-
-2. **Create Environment Variable Files:**
-   Create JSON files under `src/tests/environment-variables/` folder with names matching your environment:
-
-   **dev.json:**
-
-   ```json
-   {
-     "api_key": "dev-api-key-12345",
-     "auth_token": "dev-auth-token",
-     "database_url": "dev-db.example.com",
-     "timeout": 5000,
-     "headers": {
-       "Authorization": "Bearer dev-token",
-       "Content-Type": "application/json"
-     }
-   }
-   ```
-
-   **pre.json:**
-
-   ```json
-   {
-     "api_key": "pre-api-key-67890",
-     "auth_token": "pre-auth-token",
-     "database_url": "pre-db.example.com",
-     "timeout": 3000,
-     "headers": {
-       "Authorization": "Bearer pre-token",
-       "Content-Type": "application/json"
-     }
-   }
-   ```
-
-### How It Works
-
-1. **Environment Detection:** When Artes runs, it reads the `env` value from `artes.config.js`
-2. **Base URL Resolution:** If `baseURL` is an object, it uses the environment key to find the corresponding URL. If `baseURL` is a string, it uses it directly
-3. **Variable Loading:** Artes looks for a JSON file matching the environment name in `src/tests/environment-variables/`
-4. **Runtime Access:** All variables from the environment file become available during test execution
-
-### Important Notes
-
-- ⚠️ **Base URLs must be defined in `artes.config.js`** - they cannot be set in the environment variable JSON files
-- 📁 Environment variable files should be placed in `src/tests/environment-variables/`
-- 🏷️ File names must exactly match the environment name (e.g., `dev.json` for `env: "dev"`)
-- 🔄 Variables are loaded into variable storage and can be accessed during test runs
-- 🌐 Use environment variables for headers, API keys, timeouts, and other environment-specific configurations
-
----
-
 ## 🛠️ Customization
 
 ## ✍️ Writing Custom Step Definitions
@@ -400,12 +320,75 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 | `publish`         | `false`                                                                      | Publish to cucumber.io.                                       |
 | `worldParameters` | `{}`                                                                         | Custom world parameters.                                      |
 
-### Environment Configuration
+---
+
+## 🌍 Environment Configuration
 
 | **Option** | **Default Value** | **Description**                                                                                              |
 | ---------- | ----------------- | ------------------------------------------------------------------------------------------------------------ |
 | `env`      | `""`              | Environment configuration. Should match the name with the baseURL object, like "dev"                         |
 | `baseURL`  | `""`              | Base URL for API requests. Can be object {"dev":"dev-api.com", "pre":"pre-api.com"}, or string "dev-api.com" |
+
+
+###  Environment Variables Configuration
+
+Artes now supports environment-specific configurations through environment variables. This feature allows you to manage different settings for development, staging, and production environments.
+
+### Setting Up Environment Variables
+
+1. **Configure Environment in artes.config.js:**
+   ```javascript
+   module.exports = {
+     baseURL: {
+       dev: "https://dev.dlp.az",
+       pre: "https://pre.dlp.az", 
+       prod: "https://api.dlp.az"
+     },
+     env: "dev", // Specify which environment to use
+     // ... other configurations
+   };
+   ```
+
+   **Alternative single URL configuration:**
+   ```javascript
+   module.exports = {
+     baseURL: "https://api.example.com", // Direct string URL
+     env: "dev",
+     // ... other configurations
+   };
+   ```
+
+2. **Create Environment Variable Files:**
+   Create JSON files under `src/tests/environment-variables/` folder with names matching your environment:
+
+   **dev.json:**
+   ```json
+   {
+     "api_key": "dev-api-key-12345",
+     "auth_token": "dev-auth-token",
+     "database_url": "dev-db.example.com",
+     "timeout": 5000,
+     "headers": {
+       "Authorization": "Bearer dev-token",
+       "Content-Type": "application/json"
+     }
+   }
+   ```
+
+### How It Works
+
+1. **Environment Detection:** When Artes runs, it reads the `env` value from `artes.config.js`
+2. **Base URL Resolution:** If `baseURL` is an object, it uses the environment key to find the corresponding URL. If `baseURL` is a string, it uses it directly
+3. **Variable Loading:** Artes looks for a JSON file matching the environment name in `src/tests/environment-variables/`
+4. **Runtime Access:** All variables from the environment file become available during test execution
+
+### Important Notes
+
+- ⚠️ **Base URLs must be defined in `artes.config.js`** - they cannot be set in the environment variable JSON files
+- 📁 Environment variable files should be placed in `src/tests/environment-variables/` 
+- 🏷️ File names must follow the format `{env}.env.json` (e.g., `dev.env.json` for `env: "dev"`)
+- 🔄 Variables are loaded into variable storage and can be accessed during test runs
+- 🌐 Use environment variables for headers, API keys, timeouts, and other environment-specific configurations
 
 ---
 
