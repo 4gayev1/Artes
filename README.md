@@ -332,7 +332,7 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 
 ###  Environment Variables Configuration
 
-Artes now supports environment-specific configurations through environment variables. This feature allows you to manage different settings for development, staging, and production environments.
+Artes supports environment-specific configurations through environment variables. This feature allows to manage different settings for environments.
 
 ### Setting Up Environment Variables
 
@@ -340,28 +340,25 @@ Artes now supports environment-specific configurations through environment varia
    ```javascript
    module.exports = {
      baseURL: {
-       dev: "https://dev.dlp.az",
-       pre: "https://pre.dlp.az", 
-       prod: "https://api.dlp.az"
+       dev: "https://dev.alma.az",
+       pre: "https://pre.alma.az", 
+       prod: "https://api.alma.az"
      },
      env: "dev", // Specify which environment to use
-     // ... other configurations
    };
    ```
 
    **Alternative single URL configuration:**
    ```javascript
    module.exports = {
-     baseURL: "https://api.example.com", // Direct string URL
-     env: "dev",
-     // ... other configurations
+     baseURL: "https://api.alma.az", // Direct string URL
    };
    ```
 
 2. **Create Environment Variable Files:**
    Create JSON files under `src/tests/environment-variables/` folder with names matching your environment:
 
-   **dev.json:**
+   **dev.env.json:**
    ```json
    {
      "api_key": "dev-api-key-12345",
