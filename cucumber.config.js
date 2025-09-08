@@ -117,11 +117,14 @@ module.exports = {
     worldParameters: artesConfig.worldParameters || {}, // Custom world parameters
   },
   env: process.env.ENV
-    ? JSON.parse(process.env.ENV)
-    : artesConfig.env ||
-      (typeof artesConfig.baseURL === "object" && artesConfig.baseURL !== null
-        ? Object.keys(artesConfig.baseURL)[0]
-        : ""),
+  ? JSON.parse(process.env.ENV)
+  : (typeof artesConfig.baseURL === "object" && artesConfig.baseURL !== null
+      ? (
+          artesConfig.env && artesConfig.baseURL.hasOwnProperty(artesConfig.env.trim())
+            ? artesConfig.env.trim()
+            : Object.keys(artesConfig.baseURL)[0]
+        )
+      : (artesConfig.env || "")),
   baseURL: process.env.BASE_URL
     ? JSON.parse(process.env.BASE_URL)
     : artesConfig?.baseURL
