@@ -4,15 +4,12 @@ const cucumberConfig = require("../../../cucumber.config.js");
 let baseURL = "";
 
 if (typeof cucumberConfig.baseURL === "object") {
-  if (
-    cucumberConfig.env != "" ||
-    cucumberConfig.env != undefined ||
-    cucumberConfig.env != null
-  ) {
-    baseURL = cucumberConfig.baseURL[cucumberConfig.env.trim()];
+  const env = (cucumberConfig.env || "").trim();
+  if (env && cucumberConfig.baseURL.hasOwnProperty(env)) {
+    baseURL = cucumberConfig.baseURL[env];
   } else {
-    baseURL =
-      cucumberConfig.baseURL[Object.keys(cucumberConfig.baseURL)[0].trim()];
+    const firstKey = Object.keys(cucumberConfig.baseURL)[0];
+    baseURL = cucumberConfig.baseURL[firstKey];
   }
 } else {
   baseURL = cucumberConfig.baseURL;

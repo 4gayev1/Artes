@@ -70,8 +70,6 @@ Before(async function () {
     } catch (err) {
       console.error("Error parsing environment variables JSON:", err);
     }
-  }else{
-    console.error(`Environment file not found: ${envFilePath}`);
   }
 
   const { browser, context: browserContext } = await invokeBrowser();
