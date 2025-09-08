@@ -20,6 +20,7 @@ if (typeof cucumberConfig.baseURL === "object") {
 
 const requestContextOptions = {
   baseURL: baseURL,
+  ignoreHTTPSErrors: true
 };
 
 async function invokeRequest() {
