@@ -356,7 +356,7 @@ Artes supports environment-specific configurations through environment variables
    ```
 
 2. **Create Environment Variable Files:**
-   Create JSON files under `src/tests/environment-variables/` folder with names matching your environment:
+   Create JSON files under `src/tests/environment_variables/` folder with names matching your environment:
 
    **dev.env.json:**
    ```json
@@ -376,13 +376,13 @@ Artes supports environment-specific configurations through environment variables
 
 1. **Environment Detection:** When Artes runs, it reads the `env` value from `artes.config.js`
 2. **Base URL Resolution:** If `baseURL` is an object, it uses the environment key to find the corresponding URL. If `baseURL` is a string, it uses it directly
-3. **Variable Loading:** Artes looks for a JSON file matching the environment name in `src/tests/environment-variables/`
+3. **Variable Loading:** Artes looks for a JSON file matching the environment name in `src/tests/environment_variables/`
 4. **Runtime Access:** All variables from the environment file become available during test execution
 
 ### Important Notes
 
 - ⚠️ **Base URLs must be defined in `artes.config.js`** - they cannot be set in the environment variable JSON files
-- 📁 Environment variable files should be placed in `src/tests/environment-variables/` 
+- 📁 Environment variable files should be placed in `src/tests/environment_variables/` 
 - 🏷️ File names must follow the format `{env}.env.json` (e.g., `dev.env.json` for `env: "dev"`)
 - 🔄 Variables are loaded into variable storage and can be accessed during test runs
 - 🌐 Use environment variables for headers, API keys, timeouts, and other environment-specific configurations
