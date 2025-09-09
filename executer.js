@@ -56,7 +56,7 @@ const timeout = args[args.indexOf("--timeout") + 1];
 const slowMo = args[args.indexOf("--slowMo") + 1];
 
 if (flags.env) {
-  const envCandidate = flags.env.trim();
+  const envCandidate = env.trim();
   if (typeof artesConfig.baseURL === "object" && artesConfig.baseURL !== null) {
     if (artesConfig.baseURL.hasOwnProperty(envCandidate)) {
       process.env.ENV = JSON.stringify(envCandidate);
