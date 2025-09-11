@@ -67,7 +67,7 @@ Given(
   },
 );
 
-Given("User sets email as {string}", (key) => {
+Given("User sets random email as {string}", (key) => {
   const email = random.internet.email();
   context.vars[key] = email;
 });
