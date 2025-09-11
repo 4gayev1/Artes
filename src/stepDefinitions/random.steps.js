@@ -52,7 +52,7 @@ Given(
 );
 
 Given(
-  "User sends GET request to {string} and save {string} variable from {string} array as a {string} randomly",
+  "User sends GET request to {string} and save {string} variable from {string} array as {string} randomly",
   async (endPoint, varName, fromArray, variableKey) => {
     await api.get(endPoint);
     let responseBody;
@@ -67,12 +67,12 @@ Given(
   },
 );
 
-Given("User sets email as a {string}", (key) => {
+Given("User sets email as {string}", (key) => {
   const email = random.internet.email();
   context.vars[key] = email;
 });
 
-Given('User sets url as a {string}', (urlName) => {
+Given('User sets random url as {string}', (urlName) => {
   const randomUrl = random.internet.url();
   context.vars[urlName] = randomUrl;
 })
