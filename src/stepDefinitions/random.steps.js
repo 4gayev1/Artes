@@ -1,13 +1,13 @@
 const { Given, context, random } = require("../helper/imports/commons");
 const { api } = require("../helper/stepFunctions/exporter");
 
-Given("User sets random word as {string} variable", async (key) => {
+Given("User sets random word as {string}", async (key) => {
   const word = random.lorem.word();
   context.vars[key] = word;
 });
 
 Given(
-  "User sets random word that has {int} character as {string} variable",
+  "User sets random word that has {int} character as {string}",
   async (key, count) => {
     const word = random.lorem.word(count);
     context.vars[key] = word;
@@ -15,20 +15,20 @@ Given(
 );
 
 Given(
-  "User sets random word that has character between {int} and {int} as {string} variable",
+  "User sets random word that has character between {int} and {int} as {string}",
   async (key, from, to) => {
     const word = random.lorem.word({ length: { min: from, max: to } });
     context.vars[key] = word;
   },
 );
 
-Given("User sets random words as {string} variable", async (key) => {
+Given("User sets random words as {string}", async (key) => {
   const words = random.lorem.words();
   context.vars[key] = words;
 });
 
 Given(
-  "User sets random {int} words as {string} variable",
+  "User sets random {int} words as {string}",
   async (key, count) => {
     const words = random.lorem.words({ wordCount: count });
     context.vars[key] = words;
@@ -36,7 +36,7 @@ Given(
 );
 
 Given(
-  "User sets random words that range between {int} and {int} as {string} variable",
+  "User sets random words that range between {int} and {int} as {string}",
   async (key, from, to) => {
     const words = random.lorem.words({ min: from, max: to });
     context.vars[key] = words;
@@ -44,7 +44,7 @@ Given(
 );
 
 Given(
-  "User sets random number from {int} to {int} as {string} variable",
+  "User sets random number from {int} to {int} as {string}",
   async (from, to, key) => {
     const number = random.number.int({ min: from, max: to });
     context.vars[key] = number;
@@ -66,3 +66,24 @@ Given(
     context.vars[variableKey] = randomContent[varName];
   },
 );
+
+Given("User sets email as a {string}", (key) => {
+  const email = random.internet.email();
+  context.vars[key] = email;
+});
+
+Given('User sets url as a {string}', (urlName) => {
+  const randomUrl = random.internet.url();
+  context.vars[urlName] = randomUrl;
+})
+
+Given('User sets random sentences that has {int} paragraph as {string}', (count, variable) => {
+  const sentences = random.lorem.paragraph(count);
+  context.vars[variable] = sentences;
+})
+
+Given("User sets random value from given {string} array as {string}", async (array, key) => {
+  const parsedArray = JSON.parse(array.replace(/'/g, '"'));
+  const randomValue = parsedArray[Math.floor(Math.random() * parsedArray.length)];
+  context.vars[key] = randomValue;
+});

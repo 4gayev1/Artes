@@ -71,6 +71,21 @@ When(
 );
 
 When(
+  "User sends x-www-form-urlencoded POST request to {string} with payload:",
+  async (url, payload) => {
+    await api.post(url, payload, "application/x-www-form-urlencoded");
+  },
+);
+
+When(
+  "User sends x-www-form-urlencoded POST request to {string} with payload and saves {string} variables",
+  async (url, vars, payload) => {
+    await api.post(url, payload, "application/x-www-form-urlencoded");
+    await extractVarsFromResponse(context.response["Response Body"], vars);
+  },
+);
+
+When(
   "User sends PUT request to {string} with payload:",
   async function (url, payload) {
     await api.put(url, payload);
@@ -96,6 +111,21 @@ When(
   "User sends multipart PUT request to {string} with payload and saves {string} variables",
   async function (url, vars, payload) {
     await api.put(url, payload, "multipart");
+    await extractVarsFromResponse(context.response["Response Body"], vars);
+  },
+);
+
+When(
+  "User sends x-www-form-urlencoded PUT request to {string} with payload:",
+  async (url, payload) => {
+    await api.put(url, payload, "application/x-www-form-urlencoded");
+  },
+);
+
+When(
+  "User sends x-www-form-urlencoded PUT request to {string} with payload and saves {string} variables",
+  async (url, vars, payload) => {
+    await api.put(url, payload, "application/x-www-form-urlencoded");
     await extractVarsFromResponse(context.response["Response Body"], vars);
   },
 );
@@ -130,6 +160,21 @@ When(
   },
 );
 
+When(
+  "User sends x-www-form-urlencoded PATCH request to {string} with payload:",
+  async (url,  payload) => {
+    await api.patch(url, payload, "application/x-www-form-urlencoded");
+  },
+);
+
+When(
+  "User sends x-www-form-urlencoded PATCH request to {string} with payload and saves {string} variables",
+  async (url, vars, payload) => {
+    await api.patch(url, payload, "application/x-www-form-urlencoded");
+    await extractVarsFromResponse(context.response["Response Body"], vars);
+  },
+);
+
 When("User sends DELETE request to {string}", async function (url) {
   await api.delete(url);
 });
@@ -150,7 +195,7 @@ When(
 );
 
 When(
-  "User sends DELETE request to {string} with payload and saves {string} variables",
+  "User sends DELETE request to {string} with payload and saves {string}",
   async function (url, vars, payload) {
     await api.delete(url, payload);
     await extractVarsFromResponse(context.response["Response Body"], vars);

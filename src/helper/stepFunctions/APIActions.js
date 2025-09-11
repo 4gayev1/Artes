@@ -89,6 +89,14 @@ async function requestMaker(headers, data, requestDataType) {
     case "multipart":
       Object.assign(request, { multipart: data });
       break;
+    case "urlencoded":
+    case "application/x-www-form-urlencoded":
+      const urlEncodedData = new URLSearchParams(data).toString();
+      Object.assign(request, { data: urlEncodedData });
+      break;
+    case "form":
+      Object.assign(request, { form: data });
+      break;
     default:
       Object.assign(request, { data: data });
   }
@@ -180,6 +188,24 @@ const api = {
           requestDataType,
         );
         break;
+      case "urlencoded":
+      case "application/x-www-form-urlencoded":
+        req = await requestMaker(
+          {
+            ...payloadJSON?.headers,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          payloadJSON?.body || {},
+          requestDataType,
+        );
+        break;
+      case "form":
+        req = await requestMaker(
+          payloadJSON?.headers || {},
+          payloadJSON?.body || {},
+          requestDataType,
+        );
+        break;
       default:
         req = await requestMaker(
           payloadJSON?.headers || {},
@@ -214,7 +240,24 @@ const api = {
           formRequest || {},
           requestDataType,
         );
-
+        break;
+      case "urlencoded":
+      case "application/x-www-form-urlencoded":
+        req = await requestMaker(
+          {
+            ...payloadJSON?.headers,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          payloadJSON?.body || {},
+          requestDataType,
+        );
+        break;
+      case "form":
+        req = await requestMaker(
+          payloadJSON?.headers || {},
+          payloadJSON?.body || {},
+          requestDataType,
+        );
         break;
       default:
         req = await requestMaker(
@@ -250,7 +293,24 @@ const api = {
           formRequest || {},
           requestDataType,
         );
-
+        break;
+      case "urlencoded":
+      case "application/x-www-form-urlencoded":
+        req = await requestMaker(
+          {
+            ...payloadJSON?.headers,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          payloadJSON?.body || {},
+          requestDataType,
+        );
+        break;
+      case "form":
+        req = await requestMaker(
+          payloadJSON?.headers || {},
+          payloadJSON?.body || {},
+          requestDataType,
+        );
         break;
       default:
         req = await requestMaker(
