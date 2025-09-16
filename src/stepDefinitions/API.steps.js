@@ -272,7 +272,7 @@ When(
 );
 
 Given(
-  "User sends GET request to {string} and save {string} variable from {string} array as a {string} randomly with payload:",
+  "User sends GET request to {string} and save {string} variable from {string} array as {string} randomly with payload:",
   async (endPoint, varName, fromArray, variableKey, payload) => {
     await api.get(endPoint, payload);
     let responseBody;
