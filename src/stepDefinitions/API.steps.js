@@ -288,7 +288,7 @@ When(
 );
 
 
-Given(
+When(
   "User sets {string} date {int} days from today",
   async function (dateName, days) {
     const expiresAt =
