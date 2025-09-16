@@ -829,7 +829,7 @@ Then('User expects that {string} should match {string}', async (value1, value2) 
   await expect(resolveVariable(value1)).toBe(value2)
 })
 
-When(
+Then(
   "User expects that response body should match {string} schema",
   async function (expectedSchema) {
     if(expectedSchema !="" ){
@@ -844,7 +844,7 @@ When(
 );
 
 
-When(
+Then(
   "User expects that request should have {int} status code",
   async function (expectedStatusCode) {
     const actualStatusCode = await context.response.Response.status();
