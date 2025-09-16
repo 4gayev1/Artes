@@ -17,7 +17,7 @@ When(
   "User sends GET request to {string} with payload:",
   async function (url, payload) {
     await api.get(url, payload);
-  },
+  }
 );
 
 When(
@@ -25,7 +25,7 @@ When(
   async function (url, vars) {
     await api.get(url);
     await extractVarsFromResponse(context.response["Response Body"], vars);
-  },
+  }
 );
 
 When(
@@ -33,7 +33,7 @@ When(
   async function (url, vars, payload) {
     await api.get(url, payload);
     await extractVarsFromResponse(context.response["Response Body"], vars);
-  },
+  }
 );
 
 When("User sends HEAD request to {string}", async function (url) {
@@ -44,7 +44,7 @@ When(
   "User sends POST request to {string} with payload:",
   async function (url, payload) {
     await api.post(url, payload);
-  },
+  }
 );
 
 When(
@@ -52,14 +52,14 @@ When(
   async function (url, vars, payload) {
     await api.post(url, payload);
     await extractVarsFromResponse(context.response["Response Body"], vars);
-  },
+  }
 );
 
 When(
   "User sends multipart POST request to {string} with payload:",
   async (url, payload) => {
     await api.post(url, payload, "multipart");
-  },
+  }
 );
 
 When(
@@ -67,14 +67,14 @@ When(
   async (url, vars, payload) => {
     await api.post(url, payload, "multipart");
     await extractVarsFromResponse(context.response["Response Body"], vars);
-  },
+  }
 );
 
 When(
   "User sends x-www-form-urlencoded POST request to {string} with payload:",
   async (url, payload) => {
     await api.post(url, payload, "application/x-www-form-urlencoded");
-  },
+  }
 );
 
 When(
@@ -82,14 +82,14 @@ When(
   async (url, vars, payload) => {
     await api.post(url, payload, "application/x-www-form-urlencoded");
     await extractVarsFromResponse(context.response["Response Body"], vars);
-  },
+  }
 );
 
 When(
   "User sends PUT request to {string} with payload:",
   async function (url, payload) {
     await api.put(url, payload);
-  },
+  }
 );
 
 When(
@@ -97,14 +97,14 @@ When(
   async function (url, vars, payload) {
     await api.put(url, payload);
     await extractVarsFromResponse(context.response["Response Body"], vars);
-  },
+  }
 );
 
 When(
   "User sends multipart PUT request to {string} with payload:",
   async function (url, payload) {
     await api.put(url, payload, "multipart");
-  },
+  }
 );
 
 When(
@@ -112,14 +112,14 @@ When(
   async function (url, vars, payload) {
     await api.put(url, payload, "multipart");
     await extractVarsFromResponse(context.response["Response Body"], vars);
-  },
+  }
 );
 
 When(
   "User sends x-www-form-urlencoded PUT request to {string} with payload:",
   async (url, payload) => {
     await api.put(url, payload, "application/x-www-form-urlencoded");
-  },
+  }
 );
 
 When(
@@ -127,14 +127,14 @@ When(
   async (url, vars, payload) => {
     await api.put(url, payload, "application/x-www-form-urlencoded");
     await extractVarsFromResponse(context.response["Response Body"], vars);
-  },
+  }
 );
 
 When(
   "User sends PATCH request to {string} with payload:",
   async function (url, payload) {
     await api.patch(url, payload);
-  },
+  }
 );
 
 When(
@@ -142,14 +142,14 @@ When(
   async function (url, vars, payload) {
     await api.patch(url, payload);
     await extractVarsFromResponse(context.response["Response Body"], vars);
-  },
+  }
 );
 
 When(
   "User sends multipart PATCH request to {string} with payload:",
   async function (url, payload) {
     await api.patch(url, payload, "multipart");
-  },
+  }
 );
 
 When(
@@ -157,14 +157,14 @@ When(
   async function (url, vars, payload) {
     await api.patch(url, payload, "multipart");
     await extractVarsFromResponse(context.response["Response Body"], vars);
-  },
+  }
 );
 
 When(
   "User sends x-www-form-urlencoded PATCH request to {string} with payload:",
   async (url,  payload) => {
     await api.patch(url, payload, "application/x-www-form-urlencoded");
-  },
+  }
 );
 
 When(
@@ -172,7 +172,7 @@ When(
   async (url, vars, payload) => {
     await api.patch(url, payload, "application/x-www-form-urlencoded");
     await extractVarsFromResponse(context.response["Response Body"], vars);
-  },
+  }
 );
 
 When("User sends DELETE request to {string}", async function (url) {
@@ -184,14 +184,14 @@ When(
   async function (url, vars) {
     await api.delete(url);
     await extractVarsFromResponse(context.response["Response Body"], vars);
-  },
+  }
 );
 
 When(
   "User sends DELETE request to {string} with payload:",
   async function (url, payload) {
     await api.delete(url, payload);
-  },
+  }
 );
 
 When(
@@ -199,7 +199,7 @@ When(
   async function (url, vars, payload) {
     await api.delete(url, payload);
     await extractVarsFromResponse(context.response["Response Body"], vars);
-  },
+  }
 );
 
 When(
@@ -210,14 +210,14 @@ When(
       vars,
       customVarName,
     );
-  },
+  }
 );
 
 When(
   "User saves {string} variable as {string}",
   async function (value, customVarName) {
     saveVar(value, customVarName);
-  },
+  }
 );
 
 When("User wants to see saved variables", async function () {
@@ -268,25 +268,34 @@ When(
       default:
         throw new Error(`Unsupported HTTP method: ${httpMethod}`);
     }
+  }
+);
+
+Given(
+  "User sends GET request to {string} and save {string} variable from {string} array as a {string} randomly with payload:",
+  async (endPoint, varName, fromArray, variableKey, payload) => {
+    await api.get(endPoint, payload);
+    let responseBody;
+    if (fromArray == "[]") {
+      responseBody = await context.response["Response Body"];
+    } else {
+      responseBody = await context.response["Response Body"][fromArray];
+    }
+    const randomContent =
+      responseBody[random.number.int({ min: 0, max: responseBody.length - 1 })];
+    context.vars[variableKey] = randomContent[varName];
   },
 );
 
-When(
-  "User expects that request should have {int} status code",
-  async function (expectedStatusCode) {
-    const actualStatusCode = await context.response.Response.status();
-    expect(actualStatusCode).toBe(expectedStatusCode);
-  },
-);
 
-When(
-  "User expects that response body should match {string} schema",
-  async function (expectedSchema) {
-    const schema = await selector(expectedSchema);
-    const ajv = await new Ajv();
-    const validate = await ajv.compile(schema);
-    const responseBody = await context.response["Response Body"];
-    const valid = await validate(responseBody);
-    await expect(valid).toBe(true);
+Given(
+  "User sets {string} date {int} days from today",
+  async function (dateName, days) {
+    const expiresAt =
+      days < 0
+        ? time().subtract(Math.abs(days), "day").toISOString()
+        : time().add(days, "day").toISOString();
+
+    context.vars[dateName] = expiresAt;
   },
 );
