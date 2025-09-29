@@ -1,4 +1,4 @@
-const { When, random, element, selector } = require("../helper/imports/commons");
+const { When, random, element, selector, time } = require("../helper/imports/commons");
 const { keyboard, frame } = require("../helper/stepFunctions/exporter");
 
 // User presses a key on a specific selector
@@ -195,4 +195,16 @@ When('User types random date between {int} and {int} in {string}', async (fromYe
   const pad = (num) => num.toString().padStart(2, '0')
   const dateStr = `${pad(day)}.${pad(month)}.${year}`
   await element(input).fill(dateStr)
+})
+
+When('User types date {int} days after today in {string}', async (day, input) => {
+  const now = new time();
+  const afterDate = now.add(day, 'day').format("DD-MM-YYYY");
+  await element(input).fill(afterDate)
+})
+
+When('User types date {int} days before today in {string}', async (day, input) => {
+  const now = new time();
+  const beforeDate = now.subtract(day, 'day').format("DD-MM-YYYY");
+  await element(input).fill(beforeDate)
 })

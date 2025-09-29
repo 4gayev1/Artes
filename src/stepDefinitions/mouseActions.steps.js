@@ -1,5 +1,6 @@
-const { When } = require("../helper/imports/commons");
+const { When, element, selector } = require("../helper/imports/commons");
 const { mouse, frame } = require("../helper/stepFunctions/exporter");
+
 
 // User clicks on a selector
 When("User clicks {string}", async function (selector) {
