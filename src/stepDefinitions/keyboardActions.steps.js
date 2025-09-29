@@ -183,12 +183,12 @@ When('User types random alphanumeric in range from {int} to {int} in {string}', 
    await element(input).fill(randomWords)
 })
 
-Given('User types random fullname in {string}', async (input) => {
+When('User types random fullname in {string}', async (input) => {
   const randomFullname = await random.person.fullName()
   await element(input).fill(randomFullname)
 })
 
-Given('User types random date between {int} and {int} in {string}', async (fromYear, toYear, input) => {
+When('User types random date between {int} and {int} in {string}', async (fromYear, toYear, input) => {
   const year = Math.floor(Math.random() * (toYear - fromYear + 1)) + fromYear
   const month = Math.floor(Math.random() * 12) + 1
   const day = Math.floor(Math.random() * 28) + 1
