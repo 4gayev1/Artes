@@ -167,8 +167,32 @@ const randomWord = random.lorem.word({min:from, max:to});
 await nthElement.fill(randomWord);
 });
 
-When('User types random {string} given characters in {string}', async (chars, input) => {
+When('User types random characters from {string}  in {string}', async (chars, input) => {
       const randomCharacters = random.string.fromCharacters(chars,10);
       input = await element(selector(input))
       await input.fill(randomCharacters)
+})
+
+When('User types random number by hand in range from {int} to {int} in {string} with {int} ms delay', async (from,to, input, delay) => {
+const randomNumber = Math.floor(Math.random() * (to - from + 1)) + from;
+await keyboard.pressSequentiallyDelay(input, randomNumber.toString(), delay);
+})
+
+When('User types random alphanumeric in range from {int} to {int} in {string}', async (from,to, input) => {
+  const randomWords = await random.string.alphanumeric({length: { min: from, max: to }})
+   await element(input).fill(randomWords)
+})
+
+Given('User types random fullname in {string}', async (input) => {
+  const randomFullname = await random.person.fullName()
+  await element(input).fill(randomFullname)
+})
+
+Given('User types random date between {int} and {int} in {string}', async (fromYear, toYear, input) => {
+  const year = Math.floor(Math.random() * (toYear - fromYear + 1)) + fromYear
+  const month = Math.floor(Math.random() * 12) + 1
+  const day = Math.floor(Math.random() * 28) + 1
+  const pad = (num) => num.toString().padStart(2, '0')
+  const dateStr = `${pad(day)}.${pad(month)}.${year}`
+  await element(input).fill(dateStr)
 })

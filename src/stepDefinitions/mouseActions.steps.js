@@ -254,3 +254,22 @@ When("User scrolls {string} into view", async function (selector) {
 When("User uploads {string} file to {string}", async (filePath, fileInput) => {
   await mouse.upload(filePath, fileInput);
 });
+
+
+When('User selects by text from {string} randomly', async ( select) => {
+  const optionsArray = await element(`${selector(select)} option`).evaluateAll(
+      options => options.map(option => option.text)
+    );
+  const randomOption = await optionsArray[Math.floor(Math.random() * optionsArray.length)];
+
+  await mouse.selectByText(select, randomOption);
+})
+
+When('User selects by value from {string} randomly', async ( select) => {
+  const optionsArray = await element(`${selector(select)} option`).evaluateAll(
+      options => options.map(option => option.value)
+    );
+  const randomOption = await optionsArray[Math.floor(Math.random() * optionsArray.length)];
+
+  await mouse.selectByValue(select, randomOption);
+})
