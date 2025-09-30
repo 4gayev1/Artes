@@ -184,8 +184,10 @@ When('User types random alphanumeric in range from {int} to {int} in {string}', 
 })
 
 When('User types random fullname in {string}', async (input) => {
-  const randomFullname = await random.person.fullName()
-  await element(input).fill(randomFullname)
+  const randomFirstName = await random.person.firstName()
+  const randomLastName = await random.person.lastName()
+
+  await element(input).fill(`${randomFirstName} ${randomLastName}`)
 })
 
 When('User types random date between {int} and {int} in {string}', async (fromYear, toYear, input) => {
