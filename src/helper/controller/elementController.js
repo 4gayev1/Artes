@@ -134,17 +134,42 @@ function saveVar(value, customName, path) {
 }
 
 function resolveVariable(template) {
-  if (typeof template !== "string") return template;
-  return template.replace(/{{\s*(\w+)\s*}}/g, (_, varName) => {
-    let value = context.vars[varName];
-    if (typeof value === "string") {
-      value = value
-        .replace(/\n/g, "\\n")
-        .replace(/\r/g, "\\r")
-        .replace(/\t/g, "\\t");
+  if (typeof template === "string") {
+    return template.replace(/{{\s*(\w+)\s*}}/g, (_, varName) => {
+      let value = context.vars[varName];
+
+      if (value !== undefined) {
+        if (typeof value !== "string") {
+          try {
+            value = JSON.stringify(value);
+          } catch {
+            value = String(value);
+          }
+        }
+
+        return value
+          .replace(/\n/g, "\\n")
+          .replace(/\r/g, "\\r")
+          .replace(/\t/g, "\\t");
+      }
+
+      return `{{${varName}}}`;
+    });
+  }
+
+  if (Array.isArray(template)) {
+    return template.map((item) => resolveVariable(item));
+  }
+
+  if (template && typeof template === "object") {
+    const result = {};
+    for (const key in template) {
+      result[key] = resolveVariable(template[key]);
     }
-    return value !== undefined ? value : `{{${varName}}}`;
-  });
+    return result;
+  }
+
+  return template;
 }
 
 module.exports = {

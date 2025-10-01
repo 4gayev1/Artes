@@ -55,22 +55,8 @@ const height = args[args.indexOf("--height") + 1];
 const timeout = args[args.indexOf("--timeout") + 1];
 const slowMo = args[args.indexOf("--slowMo") + 1];
 
-if (flags.env) {
-  const envCandidate = env.trim();
-  if (typeof artesConfig.baseURL === "object" && artesConfig.baseURL !== null) {
-    if (artesConfig.baseURL.hasOwnProperty(envCandidate)) {
-      process.env.ENV = JSON.stringify(envCandidate);
-      console.log("Running env:", envCandidate);
-    } else {
-      const firstKey = Object.keys(artesConfig.baseURL)[0];
-      process.env.ENV = JSON.stringify(firstKey);
-      console.log(`Env "${envCandidate}" not found, falling back to:`, firstKey);
-    }
-  } else {
-    process.env.ENV = JSON.stringify(envCandidate);
-    console.log("Running env:", envCandidate);
-  }
-}
+
+flags.env ? (process.env.ENV = env) : ""
 
 flags.reportWithTrace ||
 artesConfig.reportWithTrace ||

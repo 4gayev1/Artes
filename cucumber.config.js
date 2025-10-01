@@ -30,6 +30,21 @@ const finalFormats = [
   ]),
 ];
 
+function resolveEnv(artesConfig) {
+  if (typeof artesConfig.baseURL === "object" && artesConfig.baseURL !== null) {
+    if (process.env.ENV && artesConfig.baseURL.hasOwnProperty(process.env.ENV.trim())) {
+      return process.env.ENV.trim();
+    } else if (artesConfig.env && artesConfig.baseURL.hasOwnProperty(artesConfig.env.trim())) {
+      return artesConfig.env.trim();
+    } else {
+      return Object.keys(artesConfig.baseURL)[0];
+    }
+  }
+
+  return process.env.ENV || artesConfig.env || "";
+}
+const env = resolveEnv(artesConfig);
+
 module.exports = {
   default: {
     // File paths and patterns
@@ -116,17 +131,7 @@ module.exports = {
     // World parameters
     worldParameters: artesConfig.worldParameters || {}, // Custom world parameters
   },
-  env: (typeof artesConfig.baseURL === "object" && artesConfig.baseURL !== null
-    ? (
-        process.env.ENV && artesConfig.baseURL.hasOwnProperty(process.env.ENV.trim())
-          ? process.env.ENV.trim()
-          : (
-              artesConfig.env && artesConfig.baseURL.hasOwnProperty(artesConfig.env.trim())
-                ? artesConfig.env.trim()
-                : Object.keys(artesConfig.baseURL)[0]
-            )
-      )
-    : (process.env.ENV || artesConfig.env || "")),
+  env: env,
   baseURL: process.env.BASE_URL
     ? JSON.parse(process.env.BASE_URL)
     : artesConfig?.baseURL

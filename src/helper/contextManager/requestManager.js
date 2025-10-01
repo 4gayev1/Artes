@@ -5,12 +5,7 @@ let baseURL = "";
 
 if (typeof cucumberConfig.baseURL === "object") {
   const env = (cucumberConfig.env || "").trim();
-  if (env && cucumberConfig.baseURL.hasOwnProperty(env)) {
     baseURL = cucumberConfig.baseURL[env];
-  } else {
-    const firstKey = Object.keys(cucumberConfig.baseURL)[0];
-    baseURL = cucumberConfig.baseURL[firstKey];
-  }
 } else {
   baseURL = cucumberConfig.baseURL;
 }
