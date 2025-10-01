@@ -190,6 +190,21 @@ When('User types random fullname in {string}', async (input) => {
   await element(input).fill(`${randomFirstName} ${randomLastName}`)
 })
 
+When('User types random first name in {string}', async (input) => {
+  const randomFirstName = await random.person.firstName()
+  await element(input).fill(randomFirstName)
+})
+
+When('User types random last name in {string}', async (input) => {
+  const randomLastName = await random.person.lastName()
+  await element(input).fill(randomLastName)
+})
+
+When('User types random middle name in {string}', async (input) => {
+  const randomMiddleName = await random.person.middleName()
+  await element(input).fill(randomMiddleName)
+})
+
 When('User types random date between {int} and {int} in {string}', async (fromYear, toYear, input) => {
   const year = Math.floor(Math.random() * (toYear - fromYear + 1)) + fromYear
   const month = Math.floor(Math.random() * 12) + 1
