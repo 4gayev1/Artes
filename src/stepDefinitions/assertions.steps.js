@@ -821,8 +821,8 @@ Then(
   "User expects that response has {string} field with {string} value",
   async (field, value) => {
     extractVarsFromResponse(context.response["Response Body"], field);
-
-    expect(context.vars[field]).toBe(value);
+    const varToString = JSON.stringify(context.vars[field]);
+    expect(varToString).toBe(value);
   },
 );
 
