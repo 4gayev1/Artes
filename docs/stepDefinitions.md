@@ -348,5 +348,5 @@
 - User expects `{string}` should not contain `{string}` object properties
 - User expects `{string}` should not contain `{string}` substring
 - User expects `{string}` should not match `{string}` regex
-- User expects that request should have `{int}` status code
+- User expects that response should have `{int}` status code
 - User expects that response body should match `{string}` schema

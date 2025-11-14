@@ -852,3 +852,11 @@ Then(
     expect(actualStatusCode).toBe(expectedStatusCode);
   }
 );
+
+Then(
+  "User expects that response should have {int} status code",
+  async function (expectedStatusCode) {
+    const actualStatusCode = await context.response.Response.status();
+    expect(actualStatusCode).toBe(expectedStatusCode);
+  }
+);
