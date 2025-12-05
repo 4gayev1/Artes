@@ -31,6 +31,11 @@ function getMimeType(filePath) {
 function processForm(requestBody) {
   let formData = {};
   for (const [key, value] of Object.entries(requestBody)) {
+    
+    if (value === null || value === undefined) {
+      continue; 
+    }
+
     if (typeof value === "object") {
       if (value.contentType) {
         const content =

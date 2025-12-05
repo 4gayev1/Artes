@@ -418,12 +418,6 @@ To achieve the best video recording quality, use the following command:
 xvfb-run -a --server-args="-screen 0 3840x1180x24" --auto-servernum npx artes --width 1600 --height 900
 ```
 
-### Playwright Version
-
-The Docker image uses Playwright version `1.52.0`.
-
-This setup ensures smooth execution of tests CI/CD environments.
-
 ---
 
 ## 👍 Good To Use
