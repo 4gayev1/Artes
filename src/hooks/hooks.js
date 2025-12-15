@@ -64,13 +64,13 @@ if (fs.existsSync(projectHooksPath)) {
 /* ------------------- Hooks ------------------- */
 
 BeforeAll(() => {
-  pomCollector();
- 
   typeof projectHooks.BeforeAll == "function" && projectHooks.BeforeAll()
 
+  pomCollector();
 });
 
 Before(async function () {
+
   context.vars = {};
 
   const envFilePath = path.join(
@@ -123,14 +123,16 @@ BeforeStep(({ pickleStep }) => {
 });
 
 AfterStep(async function ({ pickleStep }) {
+  typeof projectHooks.AfterStep == "function" && projectHooks.AfterStep()
+
   if (HTTP_METHODS.some((method) => pickleStep.text.includes(method))) {
     await attachResponse(this.attach);
   }
-
-  typeof projectHooks.AfterStep == "function" && projectHooks.AfterStep()
 });
 
 After(async function ({ pickle, result }) {
+  typeof projectHooks.After == "function" && projectHooks.After()
+
   const shouldReport =
     (cucumberConfig.default.successReport ||
       result?.status !== Status.PASSED) &&
@@ -212,10 +214,11 @@ After(async function ({ pickle, result }) {
     }
   }
 
-  typeof projectHooks.After == "function" && projectHooks.After()
 });
 
 AfterAll(() => {
+  typeof projectHooks.AfterAll == "function" && projectHooks.AfterAll()
+
   if (!fs.existsSync(statusDir)) return;
 
   const files = fs.readdirSync(statusDir);
@@ -239,6 +242,4 @@ AfterAll(() => {
       fs.writeFileSync(path.join(process.cwd(), "EXIT_CODE.txt"), "1");
     }
   }
-
-  typeof projectHooks.AfterAll == "function" && projectHooks.AfterAll()
 });
