@@ -65,8 +65,9 @@ if (fs.existsSync(projectHooksPath)) {
 
 BeforeAll(() => {
   pomCollector();
-  
-  projectHooks.BeforeAll()
+ 
+  typeof projectHooks.BeforeAll == "function" && projectHooks.BeforeAll()
+
 });
 
 Before(async function () {
@@ -110,7 +111,7 @@ Before(async function () {
     });
   }
 
-  projectHooks.Before()
+  typeof projectHooks.Before == "function" && projectHooks.Before();
 });
 
 BeforeStep(({ pickleStep }) => {
@@ -118,7 +119,7 @@ BeforeStep(({ pickleStep }) => {
     context.response = {};
   }
 
-  projectHooks.BeforeStep()
+  typeof projectHooks.BeforeStep == "function" && projectHooks.BeforeStep()
 });
 
 AfterStep(async function ({ pickleStep }) {
@@ -126,7 +127,7 @@ AfterStep(async function ({ pickleStep }) {
     await attachResponse(this.attach);
   }
 
-  projectHooks.AfterStep()
+  typeof projectHooks.AfterStep == "function" && projectHooks.AfterStep()
 });
 
 After(async function ({ pickle, result }) {
@@ -211,7 +212,7 @@ After(async function ({ pickle, result }) {
     }
   }
 
-  projectHooks.After()
+  typeof projectHooks.After == "function" && projectHooks.After()
 });
 
 AfterAll(() => {
@@ -239,5 +240,5 @@ AfterAll(() => {
     }
   }
 
-  projectHooks.AfterAll()
+  typeof projectHooks.AfterAll == "function" && projectHooks.AfterAll()
 });
