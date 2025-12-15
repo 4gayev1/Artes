@@ -266,7 +266,7 @@ For a detailed explanation of each function, please refer to the [function defin
 
 ---
 
-### Example of a Custom Step Definition
+### Example of Custom Step Definition
 
 ```javascript
 const { Given, When, Then, expect, element, page } = require("artes");
@@ -283,6 +283,85 @@ Then("User should see the login form", async () => {
   expect(element("#loginForm")).toBeVisible(true);
 });
 ```
+
+## 🪝 Hooks (Lifecycle Hooks)
+
+Artes supports **hooks** that allow you to execute custom logic **before and after tests, scenarios, and steps**.
+
+Hooks are **user-defined**.  
+
+---
+
+### 📁 Hooks File Location
+
+Create the following file **inside your project** (optional):
+```
+tests/steps/hooks.js
+```
+
+---
+
+### ✍️ Writing Hooks
+
+You can define **only the hooks you need** in hooks.js under the steps folder.  
+Undefined hooks are automatically skipped.
+```js
+// tests/steps/hooks.js
+
+export function BeforeStep() {
+  console.log("BeforeStep");
+}
+
+export function Before() {
+  console.log("Before");
+}
+
+export function BeforeAll() {
+  console.log("BeforeAll");
+}
+
+export function AfterStep() {
+  console.log("AfterStep");
+}
+
+export function After() {
+  console.log("After");
+}
+
+export function AfterAll() {
+  console.log("AfterAll");
+}
+```
+
+---
+
+### 🔁 Supported Hook Types
+
+| Hook Name    | Execution Time                |
+| ------------ | ----------------------------- |
+| `BeforeAll`  | Once before **all scenarios** |
+| `Before`     | Before **each scenario**      |
+| `BeforeStep` | Before **each step**          |
+| `AfterStep`  | After **each step**           |
+| `After`      | After **each scenario**       |
+| `AfterAll`   | Once after **all scenarios**  |
+
+---
+
+### ▶️ Execution Order Example
+
+For a scenario with steps:
+```
+BeforeAll
+Before
+BeforeStep
+(step executes)
+AfterStep
+After
+AfterAll
+```
+
+---
 
 ## ⚙️ Configuration
 

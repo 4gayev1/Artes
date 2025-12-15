@@ -46,10 +46,27 @@ function saveTestStatus(result, pickle) {
   );
 }
 
+
+const projectHooksPath = path.resolve(moduleConfig.projectPath, "tests/steps/hooks.js");
+
+let projectHooks = {};
+
+if (fs.existsSync(projectHooksPath)) {
+  try {
+    projectHooks = require(projectHooksPath);
+  } catch (err) {
+    console.warn("⚠️ Failed to load project hooks.js:", err.message);
+  }
+} else {
+  projectHooks = {};
+}
+
 /* ------------------- Hooks ------------------- */
 
 BeforeAll(() => {
   pomCollector();
+  
+  projectHooks.BeforeAll()
 });
 
 Before(async function () {
@@ -92,18 +109,24 @@ Before(async function () {
       snapshots: true,
     });
   }
+
+  projectHooks.Before()
 });
 
 BeforeStep(({ pickleStep }) => {
   if (HTTP_METHODS.some((method) => pickleStep.text.includes(method))) {
     context.response = {};
   }
+
+  projectHooks.BeforeStep()
 });
 
 AfterStep(async function ({ pickleStep }) {
   if (HTTP_METHODS.some((method) => pickleStep.text.includes(method))) {
     await attachResponse(this.attach);
   }
+
+  projectHooks.AfterStep()
 });
 
 After(async function ({ pickle, result }) {
@@ -187,6 +210,8 @@ After(async function ({ pickle, result }) {
       }
     }
   }
+
+  projectHooks.After()
 });
 
 AfterAll(() => {
@@ -213,4 +238,6 @@ AfterAll(() => {
       fs.writeFileSync(path.join(process.cwd(), "EXIT_CODE.txt"), "1");
     }
   }
+
+  projectHooks.AfterAll()
 });

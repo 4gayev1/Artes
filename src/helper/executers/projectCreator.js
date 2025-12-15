@@ -125,6 +125,32 @@ await context.page.goto("https://www.saucedemo.com/");
 });
 `;
 
+const hooksContent = `
+export function BeforeStep() {
+    console.log("BeforeStep")
+}
+
+export function Before() {
+    console.log("Before")
+}
+
+export function BeforeAll() {
+    console.log("BeforeAll")
+}
+
+export function AfterStep() {
+    console.log("AfterStep")
+}
+
+export function After() {
+    console.log("After")
+}
+
+export function AfterAll() {
+    console.log("AfterAll")
+}
+`;
+
   const vsCodeExtension = JSON.stringify({
     recommendations: ["CucumberOpen.cucumber-official"],
   });
@@ -148,6 +174,7 @@ await context.page.goto("https://www.saucedemo.com/");
   );
   fs.writeFileSync(path.join(srcDir, "POMs", "example.pom.json"), pomContent);
   fs.writeFileSync(path.join(srcDir, "steps", "common.steps.js"), stepsContent);
+  fs.writeFileSync(path.join(srcDir, "steps", "common.steps.js"), hooksContent);
 
   fs.writeFileSync(
     path.join(projectDir, ".vscode", "settings.json"),
