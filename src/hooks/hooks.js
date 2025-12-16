@@ -63,8 +63,10 @@ if (fs.existsSync(projectHooksPath)) {
 
 /* ------------------- Hooks ------------------- */
 
-BeforeAll(() => {
-  typeof projectHooks.BeforeAll == "function" && projectHooks.BeforeAll()
+BeforeAll(async () => {
+  if (typeof projectHooks.BeforeAll === "function") {
+    await projectHooks.BeforeAll();
+  }
 
   pomCollector();
 });
@@ -111,19 +113,25 @@ Before(async function () {
     });
   }
 
-  typeof projectHooks.Before == "function" && projectHooks.Before();
+  if (typeof projectHooks.Before === "function") {
+    await projectHooks.Before();
+  }
 });
 
-BeforeStep(({ pickleStep }) => {
+BeforeStep(async ({ pickleStep }) => {
   if (HTTP_METHODS.some((method) => pickleStep.text.includes(method))) {
     context.response = {};
   }
 
-  typeof projectHooks.BeforeStep == "function" && projectHooks.BeforeStep()
+  if (typeof projectHooks.BeforeStep === "function") {
+    await projectHooks.BeforeStep();
+  }
 });
 
 AfterStep(async function ({ pickleStep }) {
-  typeof projectHooks.AfterStep == "function" && projectHooks.AfterStep()
+  if (typeof projectHooks.AfterStep === "function") {
+    await projectHooks.AfterStep();
+  }
 
   if (HTTP_METHODS.some((method) => pickleStep.text.includes(method))) {
     await attachResponse(this.attach);
@@ -131,7 +139,9 @@ AfterStep(async function ({ pickleStep }) {
 });
 
 After(async function ({ pickle, result }) {
-  typeof projectHooks.After == "function" && projectHooks.After()
+  if (typeof projectHooks.After === "function") {
+    await projectHooks.After();
+  }
 
   const shouldReport =
     (cucumberConfig.default.successReport ||
@@ -216,8 +226,10 @@ After(async function ({ pickle, result }) {
 
 });
 
-AfterAll(() => {
-  typeof projectHooks.AfterAll == "function" && projectHooks.AfterAll()
+AfterAll(async () => {
+  if (typeof projectHooks.AfterAll === "function") {
+    await projectHooks.AfterAll();
+  }
 
   if (!fs.existsSync(statusDir)) return;
 
