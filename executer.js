@@ -7,9 +7,16 @@ const {
   generateReport,
   cleanUp,
 } = require("./src/helper/executers/exporter");
-const artesConfig = require("../../artes.config");
 const fs = require("fs");
 const path = require("path");
+
+const configPath = path.resolve(process.cwd(), "artes.config.js");
+
+let artesConfig = {};
+
+if (fs.existsSync(configPath)) {
+  artesConfig = require(configPath);
+}
 
 const args = process.argv.slice(2);
 

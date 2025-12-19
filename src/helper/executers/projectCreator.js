@@ -174,7 +174,7 @@ export function AfterAll() {
   );
   fs.writeFileSync(path.join(srcDir, "POMs", "example.pom.json"), pomContent);
   fs.writeFileSync(path.join(srcDir, "steps", "common.steps.js"), stepsContent);
-  fs.writeFileSync(path.join(srcDir, "steps", "common.steps.js"), hooksContent);
+  fs.writeFileSync(path.join(srcDir, "steps", "hooks.js"), hooksContent);
 
   fs.writeFileSync(
     path.join(projectDir, ".vscode", "settings.json"),
