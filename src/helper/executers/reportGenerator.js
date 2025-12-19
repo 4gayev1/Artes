@@ -2,10 +2,11 @@ const { spawnSync } = require("child_process");
 const { moduleConfig } = require("../imports/commons");
 
 function generateReport() {
+  
   try {
     console.log("📊 Generating report...");
 
-    spawnSync("npm", ["run", "testWithReport", moduleConfig.reportPath], {
+    spawnSync("allure", [ "generate", "--clean", `${process.env.SINGLE_FILE_REPORT ? "--single-file allure-result" : "" }`, "--output", moduleConfig.reportPath], {
       cwd: moduleConfig.modulePath,
       stdio: "ignore",
       shell: true,

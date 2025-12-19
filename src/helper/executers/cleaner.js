@@ -3,7 +3,7 @@ const { spawnSync } = require("child_process");
 
 function cleanUp() {
   try {
-    spawnSync("npm", ["run", "clean", moduleConfig.cleanUpPaths], {
+    spawnSync("rimraf", [moduleConfig.cleanUpPaths], {
       cwd: moduleConfig.modulePath,
       stdio: "ignore",
       shell: true,

@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js --config=cucumber.config.js",
-    "testWithReport": "allure generate --clean --single-file allure-result --output",
     "createProject": "node ./src/helper/executers/projectCreator.js",
     "clean": "rimraf",
     "publishOnly": "prettier -w . && npm version patch && npm publish"

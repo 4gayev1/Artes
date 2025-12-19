@@ -28,11 +28,14 @@ function showHelp() {
             ✅ --reportSuccess Generate screenshot and video record with also successful tests
                 Usage:   artes --reportSuccess
 
-            --trace         Enable tracing for all tests
+            ⚡ --trace         Enable tracing for all tests
                 Usage:   artes --trace
             
-            -rwt, --reportWithTrace Include trace in the report
+            🔍 -rwt, --reportWithTrace Include trace in the report
                 Usage:   artes --reportWithTrace
+            
+            📄 --singleFileReport   Generate single file Allure report
+                Usage:   artes --singleFileReport
       
             📁 --features      Specify one or more feature files' relative paths to run (comma-separated)
                 Usage:   artes --features "tests/features/Alma, tests/features/Banan.feature"

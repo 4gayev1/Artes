@@ -29,6 +29,7 @@ const flags = {
   reportSuccess: args.includes("--reportSuccess"),
   trace: args.includes("-t") || args.includes("--trace"),
   reportWithTrace: args.includes("-rwt") || args.includes("--reportWithTrace"),
+  singleFileReport: args.includes("--singleFileReport"),
   features: args.includes("--features"),
   stepDef: args.includes("--stepDef"),
   tags: args.includes("--tags"),
@@ -89,7 +90,9 @@ flags.report ? (process.env.REPORT = true) : "";
 
 flags.trace ? (process.env.TRACE = true) : "";
 
-flags.reportWithTrace ? (process.env.REPORT_WITH_TRACE = true) : "";
+flags.reportWithTrace ? (process.env.REPORT_WITH_TRACE = true) : false;
+
+flags.singleFileReport ? (process.env.SINGLE_FILE_REPORT = true) : false;
 
 flags.headless &&
   console.log("Running mode:", flags.headless ? "headless" : "headed");

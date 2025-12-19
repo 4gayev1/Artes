@@ -131,6 +131,9 @@ module.exports = {
     // World parameters
     worldParameters: artesConfig.worldParameters || {}, // Custom world parameters
   },
+  report:{
+    singleFileReport: process.env.SINGLE_FILE_REPORT ? process.env.SINGLE_FILE_REPORT : artesConfig.singleFileReport ? process.env.SINGLE_FILE_REPORT = artesConfig.singleFileReport : process.env.SINGLE_FILE_REPORT = false
+  },
   env: env,
   baseURL: process.env.BASE_URL
     ? JSON.parse(process.env.BASE_URL)
