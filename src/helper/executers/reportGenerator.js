@@ -6,7 +6,7 @@ function generateReport() {
   try {
     console.log("📊 Generating report...");
 
-    spawnSync("allure", [ "generate", "--clean", `${process.env.SINGLE_FILE_REPORT ? "--single-file allure-result" : "" }`, "--output", moduleConfig.reportPath], {
+    spawnSync("allure", [ "generate", "--clean", `${process.env.SINGLE_FILE_REPORT == "true" ? "--single-file allure-result" : "" }`, "--output", moduleConfig.reportPath], {
       cwd: moduleConfig.modulePath,
       stdio: "ignore",
       shell: true,
