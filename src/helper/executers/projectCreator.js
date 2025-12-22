@@ -16,8 +16,6 @@ function createProject(createYes) {
     path.join(projectDir, ".vscode"),
   ].forEach((dir) => fs.mkdirSync(dir, { recursive: true }));
 
-  process.chdir(projectDir);
-
   console.log("🚀 Initializing project...");
   execSync(`npm init ${createYes ? "-y" : ""}`, { stdio: "inherit" });
   execSync("npm i artes", { stdio: "inherit" });
@@ -52,7 +50,6 @@ function createProject(createYes) {
     // reportSuccess: false,         // boolean - Add screenshots and video records to report also for success test cases
     // trace: false,                 // boolean - Enable tracing
     // reportWithTrace: false,       // boolean - Include trace in report
-    // singleFileReport: false,      // boolean - Generate single file allure report
     // format: [],                   // string[] - Formatter names/paths
     // formatOptions: {},            // object - Formatter options    
     // retry: 0,                     // number - Retry attempts for failing tests

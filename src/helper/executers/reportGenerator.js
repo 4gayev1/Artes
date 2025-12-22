@@ -12,9 +12,7 @@ function generateReport() {
       shell: true,
     });
 
-    console.log(
-      `📋 Report generated successfully in ${moduleConfig.reportPath}!`,
-    );
+    console.log(`📋 Report generated successfully in ${moduleConfig.reportPath}!`,);
   } catch (error) {
     console.error("❌ Report generation failed:", error);
     process.env.EXIT_CODE = 1;

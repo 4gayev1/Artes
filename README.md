@@ -381,7 +381,6 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 | `reportSuccess`   | `false`                                                                      | Add screenshots and video records for also success test cases |
 | `trace`           | `false`                                                                      | Enable trace                                                  |
 | `reportWithTrace` | `false`                                                                      | Add trace to the report                                       |
-| `singleFileReport`| `false`                                                                      | Generate single file allure report                            |
 | `format`          | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]`                         | Formatter names/paths.                                        |
 | `formatOptions`   | `{ "resultsDir": "allure-result" }`                                          | Formatter options.                                            |
 | `parallel`        | `1`                                                                          | Number of parallel workers.                                   |

@@ -90,9 +90,9 @@ flags.report ? (process.env.REPORT = true) : "";
 
 flags.trace ? (process.env.TRACE = true) : "";
 
-flags.reportWithTrace ? (process.env.REPORT_WITH_TRACE = true) : false;
+flags.reportWithTrace ? (process.env.REPORT_WITH_TRACE = true) : (process.env.REPORT_WITH_TRACE=false);
 
-flags.singleFileReport ? (process.env.SINGLE_FILE_REPORT = true) : false;
+flags.singleFileReport ? (process.env.SINGLE_FILE_REPORT = true) : (process.env.SINGLE_FILE_REPORT=false);
 
 flags.headless &&
   console.log("Running mode:", flags.headless ? "headless" : "headed");
