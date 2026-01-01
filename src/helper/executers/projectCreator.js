@@ -16,12 +16,13 @@ function createProject(createYes) {
     path.join(projectDir, ".vscode"),
   ].forEach((dir) => fs.mkdirSync(dir, { recursive: true }));
 
+  
   console.log("🚀 Initializing project...");
-  execSync(`npm init ${createYes ? "-y" : ""}`, { stdio: "inherit" });
-  execSync("npm i artes", { stdio: "inherit" });
+  execSync(`npm init ${createYes ? "-y" : ""}`, {cwd: projectDir,  stdio: "inherit" });
+  execSync("npm i artes", {cwd: projectDir, stdio: "inherit" });
 
   console.log("📦 Setting up browsers...");
-  execSync("npx playwright install", { stdio: "inherit" });
+  execSync("npx playwright install", {cwd: projectDir, stdio: "inherit" });
 
   const packageJsonPath = path.join(projectDir, "package.json");
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
@@ -129,27 +130,27 @@ await context.page.goto("https://www.saucedemo.com/");
 
 const hooksContent = `
 export function BeforeStep() {
-    # hook for before each step
+  // hook for before each step
 }
 
 export function Before() {
-    # hook for before each test
+  // hook for before each test
 }
 
 export function BeforeAll() {
-    # hook for before all tests
+  // hook for before all tests
 }
 
 export function AfterStep() {
-    # hook for after each step
+  // hook for after each step
 }
 
 export function After() {
-    # hook for after each test
+  // hook for after each test
 }
 
 export function AfterAll() {
-    # hook for after all tests
+  // hook for after all tests
 }
 `;
 
