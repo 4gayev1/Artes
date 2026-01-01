@@ -310,27 +310,27 @@ Undefined hooks are automatically skipped.
 // tests/steps/hooks.js
 
 export function BeforeStep() {
-  console.log("BeforeStep");
+      # hook for before each step
 }
 
 export function Before() {
-  console.log("Before");
+    # hook for before each test
 }
 
 export function BeforeAll() {
-  console.log("BeforeAll");
+    # hook for before all tests
 }
 
 export function AfterStep() {
-  console.log("AfterStep");
+    # hook for after each step
 }
 
 export function After() {
-  console.log("After");
+    # hook for after each test
 }
 
 export function AfterAll() {
-  console.log("AfterAll");
+    # hook for after all tests
 }
 ```
 

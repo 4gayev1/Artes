@@ -26,6 +26,10 @@ function createProject(createYes) {
   const packageJsonPath = path.join(projectDir, "package.json");
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
 
+  if (packageJson.type) {
+    delete packageJson.type;
+  }
+
   packageJson.scripts = {
     test: "npx artes",
     testWithReport: "npx artes -r",
