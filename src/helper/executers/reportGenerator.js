@@ -15,6 +15,8 @@ function generateReport() {
       shell: true,
     });
 
+    console.log(`📋 Report generated successfully in ${moduleConfig.reportPath}!`);
+
     if (fs.existsSync(moduleConfig.reportPath) && process.env.ZIP) {
       console.log(`🗜️ Zipping report folder`);
 
@@ -47,7 +49,6 @@ function generateReport() {
       console.warn(`⚠️ Report folder does not exist: ${moduleConfig.reportPath}`);
     }
 
-    console.log(`📋 Report generated successfully in ${moduleConfig.reportPath}!`);
   } catch (err) {
     console.error("❌ Report generation failed:", err);
     process.env.EXIT_CODE = 1;
