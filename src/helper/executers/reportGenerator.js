@@ -27,7 +27,6 @@ function generateReport() {
       const archive = archiver("zip", { zlib: { level: 9 } });
 
       output.on("close", () => {
-        console.log(`✅ Report folder zipped successfully: ${zipPath} (${archive.pointer()} total bytes)`);
         done = true;
       });
 
