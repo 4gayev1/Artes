@@ -1,7 +1,8 @@
-const { spawnSync } = require("child_process");
-const { moduleConfig } = require("../imports/commons");
 const fs = require("fs");
 const path = require("path");
+const archiver = require("archiver");
+const { spawnSync } = require("child_process");
+const { moduleConfig } = require("../imports/commons");
 
 function generateReport() {
   
@@ -14,39 +15,44 @@ function generateReport() {
       shell: true,
     });
 
-    if (fs.existsSync(moduleConfig.reportPath)) {
+    if (fs.existsSync(moduleConfig.reportPath) && process.env.ZIP) {
+      console.log(`🗜️ Zipping report folder`);
 
-      console.log(`🗜️ Zipping report folder to report.zip...`);
+      const zipPath = path.join(path.dirname(moduleConfig.reportPath), "report.zip");
 
-      const zipResult = spawnSync("zip", ["-r", "report.zip", path.basename(moduleConfig.reportPath)], {
-        cwd: path.dirname(moduleConfig.reportPath),
-        stdio: "ignore"
-        });
+      let done = false;
+      let error = null;
 
-      if (zipResult.status === 0) {
-        const trueZipPath = path.join(path.dirname(moduleConfig.reportPath), 'true.zip');
-        const reportZipPath = path.join(path.dirname(moduleConfig.reportPath), 'report.zip');
-        
-        if (fs.existsSync(trueZipPath)) {
-          fs.renameSync(trueZipPath, reportZipPath);
-        }
-        
-        console.log(`✅ Report folder zipped successfully in ${moduleConfig.reportPath}/report.zip!`);
-      } else {
-        console.error("❌ Failed to zip report folder");
-        process.env.EXIT_CODE = 1;
-      }
+      const output = fs.createWriteStream(zipPath);
+      const archive = archiver("zip", { zlib: { level: 9 } });
+
+      output.on("close", () => {
+        console.log(`✅ Report folder zipped successfully: ${zipPath} (${archive.pointer()} total bytes)`);
+        done = true;
+      });
+
+      archive.on("error", (err) => {
+        error = err;
+        done = true;
+      });
+
+      archive.pipe(output);
+      archive.directory(moduleConfig.reportPath, false);
+      archive.finalize();
+
+      require("deasync").loopWhile(() => !done);
+
+      console.log(`🗜️ Zipped in ${moduleConfig.reportPath}/report.zip!`);
+      if (error) throw error;
     } else {
       console.warn(`⚠️ Report folder does not exist: ${moduleConfig.reportPath}`);
     }
 
     console.log(`📋 Report generated successfully in ${moduleConfig.reportPath}!`);
-  } catch (error) {
-    console.error("❌ Report generation failed:", error);
+  } catch (err) {
+    console.error("❌ Report generation failed:", err);
     process.env.EXIT_CODE = 1;
   }
 }
 
-module.exports = {
-  generateReport,
-};
+module.exports = { generateReport };
