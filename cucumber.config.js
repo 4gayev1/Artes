@@ -132,7 +132,8 @@ module.exports = {
     worldParameters: artesConfig.worldParameters || {}, // Custom world parameters
   },
   report:{
-    singleFileReport: process.env.SINGLE_FILE_REPORT == "true" ? true : artesConfig.singleFileReport ? true : false
+    singleFileReport: process.env.SINGLE_FILE_REPORT == "true" ? true : artesConfig.singleFileReport ? true : false,
+    zip: process.env.ZIP == "true" ? true : artesConfig.zip ? true : false
   },
   env: env,
   baseURL: process.env.BASE_URL

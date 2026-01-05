@@ -35,7 +35,10 @@ function showHelp() {
                 Usage:   artes --reportWithTrace
             
             📄 --singleFileReport   Generate single file Allure report
-                Usage:   artes --singleFileReport
+                Usage:   artes -r --singleFileReport
+
+            🗜️ --zip            Zip the report folder after generation
+                Usage:   artes -r --zip
       
             📁 --features      Specify one or more feature files' relative paths to run (comma-separated)
                 Usage:   artes --features "tests/features/Alma, tests/features/Banan.feature"

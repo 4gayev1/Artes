@@ -52,7 +52,8 @@ npx artes [options]
 | `--reportSuccess`         | Add screenshots and video records for also Success test cases                      | `artes --reportSuccess`                                               |
 | `--trace`                 | Enable tracing                                                                     | `artes --trace `                                                      |
 | `-rwt, --reportWithTrace` | Add trace to the report                                                            | `artes -rwt` or `artes --reportWithTrace`                             |
-| `--singleFileReport`      | Generate single file allure report                                                 | ` artes --singleFileReport`                                |
+| `--singleFileReport`      | Generate single file allure report                                                 | ` artes -r --singleFileReport`                                |
+| `--zip`      | Zip the report folder after generation                                                 | ` artes -r --zip`                                |
 | 📁 `--features`           | Specify one or more feature files' relative paths to run (comma-separated)         | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
 | 📜 `--stepDef`            | Specify one or more step definition files' relative paths to use (comma-separated) | `artes --stepDef "tests/steps/login.js,tests/steps/home.js"`          |
 | 🔖 `--tags`               | Run tests with specified Cucumber tags                                             | `artes --tags "@smoke or @wip"`                                       |
