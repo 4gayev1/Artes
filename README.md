@@ -10,9 +10,61 @@ Artes is a test runner for Playwright that executes [predefined Cucumber tests](
 
 ![artes demonstration](https://github.com/user-attachments/assets/c46172f7-103d-45d1-a37d-8d4267df0967)
 
+---
+
+## 🌟 Artes Benefits
+
+### 🚀 Fast Setup & Smooth Onboarding
+- Install in minutes and create a test project effortlessly
+- Well-structured, easy-to-follow documentation for a smooth learning curve
+- Designed for long-term maintainability and scalability
+
+### 🧩 Powerful & Developer-Friendly Architecture
+- Intuitive API for writing custom step definitions
+- Rich set of ready-to-use step definitions to speed up test creation
+- Fully extensible — add your own step definitions anytime
+
+### 🌐 Advanced API Testing
+- Schema validation to ensure API response correctness
+- Rich assertion library for precise validations
+- Support for all HTTP methods
+- Environment-based API configuration for flexible testing
+
+### 🔁 Smart Variable & Data Handling
+- Page Object Model (POM) support for structured data management
+- Save, reuse, and share variables across steps
+- Built-in data randomization for dynamic and realistic test data
+- Environment-specific variables for clean environment separation
+
+### 🖥️ Modern UI Automation
+- Wide locator strategy support (CSS, XPath, text-based, and more)
+- Built-in browser actions
+- Cookie management
+- Local & session storage handling
+
+### ⚙️ Flexible Configuration & Hooks
+- Environment-based configuration system
+- Powerful and customizable configuration files
+- Full hook support:
+  - Before / After
+  - Step-level and scenario-level hooks
+
+### 🧪 CLI, CI/CD & Containerization
+- Powerful CLI for full control from the command line
+- Official [Artes Docker image](https://hub.docker.com/r/vahidaghayev/artes) for seamless containerized execution
+- CI/CD-ready — integrate easily with any pipeline
+
+### 📊 Artes Reporting System
+- Easy installation with docker compose (For detailed info: [Artes Reporting System](https://github.com/4gayev1/artes-reporting-system))
+- Multiple reporting formats supported
+- Native Allure reporting integration
+- Customizable Artes Reporting System
+
+---
+
 ## 🧑‍💻 Installation
 
-You can install **Artes** via npm. To install it globally**(RECOMMENDED)**, run the following command:
+You can install **Artes** via npm. To install it globally **(RECOMMENDED)**, run the following command:
 
 ```bash
 npm install -g artes
@@ -50,10 +102,10 @@ npx artes [options]
 | ✅ `-y, --yes`            | Skip the confirmation prompt when creating an example project                      | `artes -c -y` or `artes --create --yes`                               |
 | 📊 `-r, --report`         | Run tests and generate Allure report                                               | `artes -r` or `artes --report`                                        |
 | `--reportSuccess`         | Add screenshots and video records for also Success test cases                      | `artes --reportSuccess`                                               |
-| `--trace`                 | Enable tracing                                                                     | `artes --trace `                                                      |
+| `--trace`                 | Enable tracing                                                                     | `artes --trace`                                                       |
 | `-rwt, --reportWithTrace` | Add trace to the report                                                            | `artes -rwt` or `artes --reportWithTrace`                             |
-| `--singleFileReport`      | Generate single file allure report                                                 | ` artes -r --singleFileReport`                                |
-| `--zip`      | Zip the report folder after generation                                                 | ` artes -r --zip`                                |
+| `--singleFileReport`      | Generate single file allure report                                                 | `artes -r --singleFileReport`                                         |
+| `--zip`                   | Zip the report folder after generation                                             | `artes -r --zip`                                                      |
 | 📁 `--features`           | Specify one or more feature files' relative paths to run (comma-separated)         | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
 | 📜 `--stepDef`            | Specify one or more step definition files' relative paths to use (comma-separated) | `artes --stepDef "tests/steps/login.js,tests/steps/home.js"`          |
 | 🔖 `--tags`               | Run tests with specified Cucumber tags                                             | `artes --tags "@smoke or @wip"`                                       |
@@ -172,8 +224,52 @@ Feature: Searching on Google 🔍
   When User types "alma" in "#APjFqb"
   ```
 - 🐍 It is good to use snake_case for element names
-- ⏳ "waitTime" is to define custom wait for elements, but the feature currently under development
+- ⏳ "waitTime" is to define custom wait for elements, but the feature currently under development.
   "selector" must be used if "waitTime" is used, but when using only selector is not needed mention in "selector"
+
+---
+
+## 🔄 Variable Management
+
+Artes provides powerful variable management capabilities that allow you to save, reuse, and share variables across test steps.
+
+### Saving Variables from API Responses
+
+You can save variables directly from API responses, even using dot notation to extract nested values:
+
+```gherkin
+When User sends GET request to "https://www.test.com" and saves "id" variables
+ And User sends GET request to "https://www.test.com/items/{{id}}"
+Then User expects that response should have 200 status code
+```
+
+### Manual Variable Assignment
+
+Save variables manually using the dedicated step:
+
+```gherkin
+And User saves "15" variable as "id"
+```
+
+### Variable Randomization
+
+Artes includes built-in randomization for generating dynamic test data:
+
+```gherkin
+And User sets random email as "email"
+And User sets random 5 words as "description"
+And User sets random fullname as "fullName"
+```
+
+### Using Variables in Tests
+
+Reference saved variables anywhere in your tests using double curly braces:
+
+```gherkin
+When User types "{{email}}" in "email_input"
+```
+
+📚 **For detailed information and complete step definitions**, visit the [Variable Management Documentation](https://github.com/4gayev1/Artes/blob/main/docs/stepDefinitions.md#variable-management).
 
 ---
 
@@ -290,7 +386,7 @@ Then("User should see the login form", async () => {
 
 Artes supports **hooks** that allow you to execute custom logic **before and after tests, scenarios, and steps**.
 
-Hooks are **user-defined**.  
+Hooks are **user-defined**.
 
 ---
 
@@ -307,6 +403,7 @@ tests/steps/hooks.js
 
 You can define **only the hooks you need** in hooks.js under the steps folder.  
 Undefined hooks are automatically skipped.
+
 ```js
 // tests/steps/hooks.js
 
@@ -410,8 +507,7 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 | `env`      | `""`              | Environment configuration. Should match the name with the baseURL object, like "dev"                         |
 | `baseURL`  | `""`              | Base URL for API requests. Can be object {"dev":"dev-api.com", "pre":"pre-api.com"}, or string "dev-api.com" |
 
-
-###  Environment Variables Configuration
+### Environment Variables Configuration
 
 Artes supports environment-specific configurations through environment variables. This feature allows to manage different settings for environments.
 
