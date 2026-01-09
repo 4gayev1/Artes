@@ -5,14 +5,14 @@ let baseURL = "";
 
 if (typeof cucumberConfig.baseURL === "object") {
   const env = (cucumberConfig.env || "").trim();
-    baseURL = cucumberConfig.baseURL[env];
+  baseURL = cucumberConfig.baseURL[env];
 } else {
   baseURL = cucumberConfig.baseURL;
 }
 
 const requestContextOptions = {
   baseURL: baseURL,
-  ignoreHTTPSErrors: true
+  ignoreHTTPSErrors: true,
 };
 
 async function invokeRequest() {

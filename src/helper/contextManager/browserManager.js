@@ -8,7 +8,7 @@ const invokeBrowser = async () => {
 
   if (typeof cucumberConfig.baseURL === "object") {
     const env = (cucumberConfig.env || "").trim();
-      baseURL = cucumberConfig.baseURL[env];
+    baseURL = cucumberConfig.baseURL[env];
   } else {
     baseURL = cucumberConfig.baseURL;
   }

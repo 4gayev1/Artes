@@ -65,8 +65,7 @@ const height = args[args.indexOf("--height") + 1];
 const timeout = args[args.indexOf("--timeout") + 1];
 const slowMo = args[args.indexOf("--slowMo") + 1];
 
-
-flags.env ? (process.env.ENV = env) : ""
+flags.env ? (process.env.ENV = env) : "";
 
 flags.reportWithTrace ||
 artesConfig.reportWithTrace ||
@@ -92,11 +91,15 @@ flags.report ? (process.env.REPORT = true) : "";
 
 flags.trace ? (process.env.TRACE = true) : "";
 
-flags.reportWithTrace ? (process.env.REPORT_WITH_TRACE = true) : (process.env.REPORT_WITH_TRACE=false);
+flags.reportWithTrace
+  ? (process.env.REPORT_WITH_TRACE = true)
+  : (process.env.REPORT_WITH_TRACE = false);
 
-flags.singleFileReport ? (process.env.SINGLE_FILE_REPORT = true) : (process.env.SINGLE_FILE_REPORT=false);
+flags.singleFileReport
+  ? (process.env.SINGLE_FILE_REPORT = true)
+  : (process.env.SINGLE_FILE_REPORT = false);
 
-flags.zip ? (process.env.ZIP = true) : (process.env.ZIP=false);
+flags.zip ? (process.env.ZIP = true) : (process.env.ZIP = false);
 
 flags.headless &&
   console.log("Running mode:", flags.headless ? "headless" : "headed");

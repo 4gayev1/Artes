@@ -16,14 +16,16 @@ function createProject(createYes, noDeps) {
     path.join(projectDir, ".vscode"),
   ].forEach((dir) => fs.mkdirSync(dir, { recursive: true }));
 
-  
   console.log("🚀 Initializing project...");
-  execSync(`npm init ${createYes ? "-y" : ""}`, {cwd: projectDir,  stdio: "inherit" });
+  execSync(`npm init ${createYes ? "-y" : ""}`, {
+    cwd: projectDir,
+    stdio: "inherit",
+  });
 
-  !noDeps ? execSync("npm i artes", {cwd: projectDir, stdio: "inherit" }) : ""
+  !noDeps ? execSync("npm i artes", { cwd: projectDir, stdio: "inherit" }) : "";
 
   console.log("📦 Setting up browsers...");
-  execSync("npx playwright install", {cwd: projectDir, stdio: "inherit" });
+  execSync("npx playwright install", { cwd: projectDir, stdio: "inherit" });
 
   const packageJsonPath = path.join(projectDir, "package.json");
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
@@ -129,7 +131,7 @@ await context.page.goto("https://www.saucedemo.com/");
 });
 `;
 
-const hooksContent = `
+  const hooksContent = `
 export function BeforeStep() {
   // hook for before each step
 }

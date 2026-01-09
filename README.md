@@ -15,34 +15,40 @@ Artes is a test runner for Playwright that executes [predefined Cucumber tests](
 ## 🌟 Artes Benefits
 
 ### 🚀 Fast Setup & Smooth Onboarding
+
 - Install in minutes and create a test project effortlessly
 - Well-structured, easy-to-follow documentation for a smooth learning curve
 - Designed for long-term maintainability and scalability
 
 ### 🧩 Powerful & Developer-Friendly Architecture
+
 - Intuitive API for writing custom step definitions
 - Rich set of ready-to-use step definitions to speed up test creation
 - Fully extensible — add your own step definitions anytime
 
 ### 🌐 Advanced API Testing
+
 - Schema validation to ensure API response correctness
 - Rich assertion library for precise validations
 - Support for all HTTP methods
 - Environment-based API configuration for flexible testing
 
 ### 🔁 Smart Variable & Data Handling
+
 - Page Object Model (POM) support for structured data management
 - Save, reuse, and share variables across steps
 - Built-in data randomization for dynamic and realistic test data
 - Environment-specific variables for clean environment separation
 
 ### 🖥️ Modern UI Automation
+
 - Wide locator strategy support (CSS, XPath, text-based, and more)
 - Built-in browser actions
 - Cookie management
 - Local & session storage handling
 
 ### ⚙️ Flexible Configuration & Hooks
+
 - Environment-based configuration system
 - Powerful and customizable configuration files
 - Full hook support:
@@ -50,11 +56,13 @@ Artes is a test runner for Playwright that executes [predefined Cucumber tests](
   - Step-level and scenario-level hooks
 
 ### 🧪 CLI, CI/CD & Containerization
+
 - Powerful CLI for full control from the command line
 - Official [Artes Docker image](https://hub.docker.com/r/vahidaghayev/artes) for seamless containerized execution
 - CI/CD-ready — integrate easily with any pipeline
 
 ### 📊 Artes Reporting System
+
 - Easy installation with docker compose (For detailed info: [Artes Reporting System](https://github.com/4gayev1/artes-reporting-system))
 - Multiple reporting formats supported
 - Native Allure reporting integration
@@ -100,7 +108,7 @@ npx artes [options]
 | 🏷️ `-v, --version`        | Show the current version of Artes                                                  | `artes -v` or `artes --version`                                       |
 | 🏗️ `-c, --create`         | Create an example project with Artes                                               | `artes -c` or `artes --create`                                        |
 | ✅ `-y, --yes`            | Skip the confirmation prompt when creating an example project                      | `artes -c -y` or `artes --create --yes`                               |
-| 🚫 --noDeps |              Skip installing dependencies when creating example project | `artes -c --noDeps` |
+| 🚫 --noDeps               | Skip installing dependencies when creating example project                         | `artes -c --noDeps`                                                   |
 | 📊 `-r, --report`         | Run tests and generate Allure report                                               | `artes -r` or `artes --report`                                        |
 | `--reportSuccess`         | Add screenshots and video records for also Success test cases                      | `artes --reportSuccess`                                               |
 | `--trace`                 | Enable tracing                                                                     | `artes --trace`                                                       |
@@ -394,6 +402,7 @@ Hooks are **user-defined**.
 ### 📁 Hooks File Location
 
 Create the following file **inside your project** (optional):
+
 ```
 tests/steps/hooks.js
 ```
@@ -409,27 +418,27 @@ Undefined hooks are automatically skipped.
 // tests/steps/hooks.js
 
 export function BeforeStep() {
-    // hook for before each step
+  // hook for before each step
 }
 
 export function Before() {
-    // hook for before each test
+  // hook for before each test
 }
 
 export function BeforeAll() {
-    // hook for before all tests
+  // hook for before all tests
 }
 
 export function AfterStep() {
-    // hook for after each step
+  // hook for after each step
 }
 
 export function After() {
-    // hook for after each test
+  // hook for after each test
 }
 
 export function AfterAll() {
-    // hook for after all tests
+  // hook for after all tests
 }
 ```
 
@@ -451,6 +460,7 @@ export function AfterAll() {
 ### ▶️ Execution Order Example
 
 For a scenario with steps:
+
 ```
 BeforeAll
 Before
@@ -515,18 +525,20 @@ Artes supports environment-specific configurations through environment variables
 ### Setting Up Environment Variables
 
 1. **Configure Environment in artes.config.js:**
+
    ```javascript
    module.exports = {
      baseURL: {
        dev: "https://dev.alma.az",
-       pre: "https://pre.alma.az", 
-       prod: "https://api.alma.az"
+       pre: "https://pre.alma.az",
+       prod: "https://api.alma.az",
      },
      env: "dev", // Specify which environment to use
    };
    ```
 
    **Alternative single URL configuration:**
+
    ```javascript
    module.exports = {
      baseURL: "https://api.alma.az", // Direct string URL
@@ -537,6 +549,7 @@ Artes supports environment-specific configurations through environment variables
    Create JSON files under `src/tests/environment_variables/` folder with names matching your environment:
 
    **dev.env.json:**
+
    ```json
    {
      "api_key": "dev-api-key-12345",
@@ -560,7 +573,7 @@ Artes supports environment-specific configurations through environment variables
 ### Important Notes
 
 - ⚠️ **Base URLs must be defined in `artes.config.js`** - they cannot be set in the environment variable JSON files
-- 📁 Environment variable files should be placed in `src/tests/environment_variables/` 
+- 📁 Environment variable files should be placed in `src/tests/environment_variables/`
 - 🏷️ File names must follow the format `{env}.env.json` (e.g., `dev.env.json` for `env: "dev"`)
 - 🔄 Variables are loaded into variable storage and can be accessed during test runs
 - 🌐 Use environment variables for headers, API keys, timeouts, and other environment-specific configurations

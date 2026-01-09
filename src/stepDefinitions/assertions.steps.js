@@ -826,31 +826,33 @@ Then(
   },
 );
 
-Then('User expects that {string} should match {string}', async (value1, value2) => {
-  await expect(resolveVariable(value1)).toBe(value2)
-})
+Then(
+  "User expects that {string} should match {string}",
+  async (value1, value2) => {
+    await expect(resolveVariable(value1)).toBe(value2);
+  },
+);
 
 Then(
   "User expects that response body should match {string} schema",
   async function (expectedSchema) {
-    if(expectedSchema !="" ){
-    const schema = await selector(expectedSchema);
-    const ajv = await new Ajv();
-    const validate = await ajv.compile(schema);
-    const responseBody = await context.response["Response Body"];
-    const valid = await validate(responseBody);
-    await expect(valid).toBe(true);
+    if (expectedSchema != "") {
+      const schema = await selector(expectedSchema);
+      const ajv = await new Ajv();
+      const validate = await ajv.compile(schema);
+      const responseBody = await context.response["Response Body"];
+      const valid = await validate(responseBody);
+      await expect(valid).toBe(true);
     }
-  }
+  },
 );
-
 
 Then(
   "User expects that request should have {int} status code",
   async function (expectedStatusCode) {
     const actualStatusCode = await context.response.Response.status();
     expect(actualStatusCode).toBe(expectedStatusCode);
-  }
+  },
 );
 
 Then(
@@ -858,5 +860,5 @@ Then(
   async function (expectedStatusCode) {
     const actualStatusCode = await context.response.Response.status();
     expect(actualStatusCode).toBe(expectedStatusCode);
-  }
+  },
 );

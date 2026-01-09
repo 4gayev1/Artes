@@ -46,8 +46,10 @@ function saveTestStatus(result, pickle) {
   );
 }
 
-
-const projectHooksPath = path.resolve(moduleConfig.projectPath, "tests/steps/hooks.js");
+const projectHooksPath = path.resolve(
+  moduleConfig.projectPath,
+  "tests/steps/hooks.js",
+);
 
 let projectHooks = {};
 
@@ -72,7 +74,6 @@ BeforeAll(async () => {
 });
 
 Before(async function () {
-
   context.vars = {};
 
   const envFilePath = path.join(
@@ -223,7 +224,6 @@ After(async function ({ pickle, result }) {
       }
     }
   }
-
 });
 
 AfterAll(async () => {

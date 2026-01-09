@@ -208,12 +208,14 @@
 # Variable Management
 
 ## Manual Variable Assignment
+
 - User saves `{string}` variable from response as `{string}`
 - User saves `{string}` variable as `{string}`
 
 ## Random Variable Management
 
 ### Random Words
+
 - User sets random word as `{string}`
 - User sets random word that has `{int}` character as `{string}`
 - User sets random word that has character between `{int}` and `{int}` as `{string}`
@@ -222,19 +224,23 @@
 - User sets random words that range between `{int}` and `{int}` as `{string}`
 
 ### Random Numbers
+
 - User sets random number as `{string}`
 - User sets random number from `{int}` to `{int}` as `{string}`
 
 ### Random Text Content
+
 - User sets random paragraph as `{string}`
 - User sets random paragraph that range between `{int}` and `{int}` as `{string}`
 - User sets random sentences that has `{int}` paragraph as `{string}`
 
 ### Random Characters & Alphanumeric
+
 - User sets random characters from `{string}` as `{string}`
 - User sets random alphanumeric in range from `{int}` to `{int}` as `{string}`
 
 ### Random Personal Information
+
 - User sets random email as `{string}`
 - User sets random fullname as `{string}`
 - User sets random first name as `{string}`
@@ -242,18 +248,23 @@
 - User sets random middle name as `{string}`
 
 ### Random Internet Data
+
 - User sets random url as `{string}`
 
 ### Random Dates
+
 - User sets random date between `{int}` and `{int}` as `{string}`
 - User sets date `{int}` days after today as `{string}`
 - User sets date `{int}` days before today as `{string}`
 
 ### Random from API Response
+
 - User sends GET request to `{string}` and save `{string}` variable from `{string}` array as `{string}` randomly
 
 ### Random from Array
+
 - User sets random value from given `{string}` array as `{string}`
+
 ---
 
 # Debugging / Console Output
@@ -263,7 +274,6 @@
 - User wants to see response body
 
 ---
-
 
 # Random Data Generation
 

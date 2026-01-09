@@ -32,9 +32,15 @@ const finalFormats = [
 
 function resolveEnv(artesConfig) {
   if (typeof artesConfig.baseURL === "object" && artesConfig.baseURL !== null) {
-    if (process.env.ENV && artesConfig.baseURL.hasOwnProperty(process.env.ENV.trim())) {
+    if (
+      process.env.ENV &&
+      artesConfig.baseURL.hasOwnProperty(process.env.ENV.trim())
+    ) {
       return process.env.ENV.trim();
-    } else if (artesConfig.env && artesConfig.baseURL.hasOwnProperty(artesConfig.env.trim())) {
+    } else if (
+      artesConfig.env &&
+      artesConfig.baseURL.hasOwnProperty(artesConfig.env.trim())
+    ) {
       return artesConfig.env.trim();
     } else {
       return Object.keys(artesConfig.baseURL)[0];
@@ -131,9 +137,14 @@ module.exports = {
     // World parameters
     worldParameters: artesConfig.worldParameters || {}, // Custom world parameters
   },
-  report:{
-    singleFileReport: process.env.SINGLE_FILE_REPORT == "true" ? true : artesConfig.singleFileReport ? true : false,
-    zip: process.env.ZIP == "true" ? true : artesConfig.zip ? true : false
+  report: {
+    singleFileReport:
+      process.env.SINGLE_FILE_REPORT == "true"
+        ? true
+        : artesConfig.singleFileReport
+          ? true
+          : false,
+    zip: process.env.ZIP == "true" ? true : artesConfig.zip ? true : false,
   },
   env: env,
   baseURL: process.env.BASE_URL

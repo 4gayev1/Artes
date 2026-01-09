@@ -434,7 +434,6 @@ await getURL();
 ```
 
 - **Returns**:
-
   - _(string)_: The current page URL.
 
   ***
@@ -656,7 +655,6 @@ await shouldHaveId("#element-id", "unique-id");
 ```
 
 - **Parameters**:
-
   - `id` _(string)_: The expected ID.
 
   Got it! Here’s the refined format for the assertion methods:
@@ -1544,7 +1542,6 @@ await shouldObjectContaining(".element", { key: "value" });
 ```
 
 - **Parameters**:
-
   - `selector` _(string)_: The CSS selector for the element.
   - `properties` _(object)_: The object properties to check for.
 
