@@ -25,6 +25,7 @@ const flags = {
   version: args.includes("-v") || args.includes("--version"),
   create: args.includes("-c") || args.includes("--create"),
   createYes: args.includes("-y") || args.includes("--yes"),
+  noDeps: args.includes("--noDeps"),
   report: args.includes("-r") || args.includes("--report"),
   reportSuccess: args.includes("--reportSuccess"),
   trace: args.includes("-t") || args.includes("--trace"),
@@ -131,7 +132,7 @@ flags.slowMo ? (process.env.SLOWMO = slowMo) : "";
 function main() {
   if (flags.help) return showHelp();
   if (flags.version) return showVersion();
-  if (flags.create) return createProject(flags.createYes);
+  if (flags.create) return createProject(flags.createYes, flags.noDeps);
 
   runTests();
   if (

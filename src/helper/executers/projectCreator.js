@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
 
-function createProject(createYes) {
+function createProject(createYes, noDeps) {
   const projectDir = path.join(process.cwd(), "artes");
   const srcDir = path.join(projectDir, "tests");
 
@@ -19,7 +19,8 @@ function createProject(createYes) {
   
   console.log("🚀 Initializing project...");
   execSync(`npm init ${createYes ? "-y" : ""}`, {cwd: projectDir,  stdio: "inherit" });
-  execSync("npm i artes", {cwd: projectDir, stdio: "inherit" });
+
+  !noDeps ? execSync("npm i artes", {cwd: projectDir, stdio: "inherit" }) : ""
 
   console.log("📦 Setting up browsers...");
   execSync("npx playwright install", {cwd: projectDir, stdio: "inherit" });

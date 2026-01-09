@@ -21,6 +21,9 @@ function showHelp() {
       
             ✅ -y, --yes       Skip confirmation prompt for creating example project
                 Usage:  artes -c -y or artes --create --yes
+
+            🚫 --noDeps       Skip installing dependencies when creating example project
+                Usage:  artes -c --noDeps or artes --create --noDeps
       
             📊 -r, --report    Run tests and generate Allure report
                 Usage:   artes -r or artes --report

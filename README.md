@@ -100,6 +100,7 @@ npx artes [options]
 | 🏷️ `-v, --version`        | Show the current version of Artes                                                  | `artes -v` or `artes --version`                                       |
 | 🏗️ `-c, --create`         | Create an example project with Artes                                               | `artes -c` or `artes --create`                                        |
 | ✅ `-y, --yes`            | Skip the confirmation prompt when creating an example project                      | `artes -c -y` or `artes --create --yes`                               |
+| 🚫 --noDeps |              Skip installing dependencies when creating example project | `artes -c --noDeps` |
 | 📊 `-r, --report`         | Run tests and generate Allure report                                               | `artes -r` or `artes --report`                                        |
 | `--reportSuccess`         | Add screenshots and video records for also Success test cases                      | `artes --reportSuccess`                                               |
 | `--trace`                 | Enable tracing                                                                     | `artes --trace`                                                       |
