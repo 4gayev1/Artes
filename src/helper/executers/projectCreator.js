@@ -22,10 +22,11 @@ function createProject(createYes, noDeps) {
     stdio: "inherit",
   });
 
-  !noDeps ? execSync("npm i artes", { cwd: projectDir, stdio: "inherit" }) : "";
-
-  console.log("📦 Setting up browsers...");
-  execSync("npx playwright install", { cwd: projectDir, stdio: "inherit" });
+  if (!noDeps) {
+    execSync("npm i artes", { cwd: projectDir, stdio: "inherit" });
+    console.log("📦 Setting up browsers...");
+    execSync("npx playwright install", { cwd: projectDir, stdio: "inherit" });
+  }
 
   const packageJsonPath = path.join(projectDir, "package.json");
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
