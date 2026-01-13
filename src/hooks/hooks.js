@@ -103,10 +103,7 @@ Before(async function () {
 
   await context.page.setDefaultTimeout(cucumberConfig.default.timeout);
 
-  if (
-    (cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace) &&
-    !context.response
-  ) {
+  if ( cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace) {
     await browserContext.tracing.start({
       sources: true,
       screenshots: true,
@@ -146,8 +143,7 @@ After(async function ({ pickle, result }) {
 
   const shouldReport =
     (cucumberConfig.default.successReport ||
-      result?.status !== Status.PASSED) &&
-    !context.response;
+      result?.status !== Status.PASSED) 
 
   if (shouldReport) {
     const screenshotPath = path.join(
@@ -168,16 +164,16 @@ After(async function ({ pickle, result }) {
   }
 
   saveTestStatus(result, pickle);
-
-  const tracePath = path.join(
+if((cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace)){
+  var tracePath = path.join(
     moduleConfig.projectPath,
-    `./${pickle.name.replaceAll(" ", "_")}.zip`,
+    `./traces/${pickle.name.replaceAll(" ", "_")}.zip`,
   );
+}
+
 
   if (
-    (cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace) &&
-    !context.response &&
-    shouldReport
+    (cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace) && shouldReport
   ) {
     await context.browserContext.tracing.stop({
       path: tracePath,
@@ -192,10 +188,10 @@ After(async function ({ pickle, result }) {
       });
 
       if (!cucumberConfig.default.trace) {
-        spawnSync("npx", ["rimraf", tracePath], {
+        spawnSync("npx", ["rimraf", "--no-glob", path.join(moduleConfig.projectPath, "./traces")], {
           cwd: moduleConfig.projectPath,
           stdio: "inherit",
-          shell: true,
+          shell: false,
         });
       }
     }
