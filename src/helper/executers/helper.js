@@ -63,6 +63,9 @@ function showHelp() {
       
             🔁 --retry         Retry failed tests
                 Usage:   artes --retry 2
+
+            🔄 --rerun         Rerun only the failed tests from previous run
+                Usage:   artes --rerun @rerun.txt
       
             🎭 --dryRun        Perform a dry run without executing tests
                 Usage:   artes --dryRun

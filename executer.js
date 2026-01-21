@@ -39,6 +39,7 @@ const flags = {
   headless: args.includes("--headless"),
   parallel: args.includes("--parallel"),
   retry: args.includes("--retry"),
+  rerun: args.includes("--rerun"),
   dryRun: args.includes("--dryRun"),
   percentage: args.includes("--percentage"),
   browser: args.includes("--browser"),
@@ -57,6 +58,7 @@ const stepDef = args[args.indexOf("--stepDef") + 1];
 const tags = args[args.indexOf("--tags") + 1];
 const parallel = args[args.indexOf("--parallel") + 1];
 const retry = args[args.indexOf("--retry") + 1];
+const rerun = args[args.indexOf("--rerun") + 1];
 const percentage = args[args.indexOf("--percentage") + 1];
 const browser = args[args.indexOf("--browser") + 1];
 const baseURL = args[args.indexOf("--baseURL") + 1];
@@ -108,6 +110,8 @@ flags.headless ? (process.env.MODE = JSON.stringify(true)) : false;
 flags.parallel ? (process.env.PARALLEL = parallel) : "";
 
 flags.retry ? (process.env.RETRY = retry) : "";
+
+flags.rerun ? ( process.env.RERUN = rerun) : "";
 
 flags.dryRun ? (process.env.DRYRUN = flags.dryRun) : "";
 

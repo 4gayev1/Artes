@@ -35,7 +35,7 @@ const moduleConfig = {
   stepsPath: path.join(projectPath, "/tests/steps/*.js"),
   pomPath: path.join(projectPath, "/tests/POMs"),
   cleanUpPaths:
-    "allure-result allure-results test-results @rerun.txt testsStatus EXIT_CODE.txt",
+    "allure-result allure-results test-results testsStatus EXIT_CODE.txt",
 };
 
 module.exports = {

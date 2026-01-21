@@ -173,7 +173,7 @@ if((cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace)){
 
 
   if (
-    (cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace) && shouldReport
+    (cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace) && shouldReport && context.page.url() !== "about:blank"
   ) {
     await context.browserContext.tracing.stop({
       path: tracePath,
@@ -234,19 +234,24 @@ AfterAll(async () => {
   const totalTests = files.length;
   const successPercentage = (passedCount / totalTests) * 100;
 
+  const failed = files.filter((f) => f.split("-")[0] === "FAILED").length;
+
+  if (failed  > 0 ){
+    spawnSync("mv", ["@rerun.txt", moduleConfig.projectPath], {
+      cwd: path.join(moduleConfig.projectPath, "node_modules", "artes"),
+      stdio: "ignore",
+      shell: true,
+    });
+  }
+  
+
   if (cucumberConfig.default.testPercentage !== undefined) {
-    const meetsThreshold =
-      successPercentage >= cucumberConfig.default.testPercentage;
+    const meetsThreshold = successPercentage >= cucumberConfig.default.testPercentage;
 
     if (meetsThreshold) {
-      console.log(
-        `✅ Tests passed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`,
-      );
+      console.log(`✅ Tests passed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`);
       fs.writeFileSync(path.join(process.cwd(), "EXIT_CODE.txt"), "0");
-    } else {
-      console.log(
-        `❌ Tests failed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`,
-      );
+    } else {console.log(`❌ Tests failed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`,);
       fs.writeFileSync(path.join(process.cwd(), "EXIT_CODE.txt"), "1");
     }
   }
