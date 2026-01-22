@@ -90,11 +90,15 @@ module.exports = {
       ? true
       : artesConfig.reportSuccess || false, // Include successful tests in report
 
-    trace: process.env.TRACE === "true" ? process.env.TRACE : artesConfig.trace || false, // Enable tracing
+    trace:
+      process.env.TRACE === "true"
+        ? process.env.TRACE
+        : artesConfig.trace || false, // Enable tracing
 
-    reportWithTrace: process.env.REPORT_WITH_TRACE === "true"
-      ? process.env.REPORT_WITH_TRACE
-      : artesConfig.reportWithTrace || false, // Include trace in report
+    reportWithTrace:
+      process.env.REPORT_WITH_TRACE === "true"
+        ? process.env.REPORT_WITH_TRACE
+        : artesConfig.reportWithTrace || false, // Include trace in report
 
     format: finalFormats, // Formatter names/paths
     formatOptions: artesConfig.formatOptions || {

@@ -23,7 +23,7 @@ function createProject(createYes, noDeps) {
   });
 
   if (!noDeps) {
-    execSync("npm i artes", { cwd: projectDir, stdio: "inherit" });
+    execSync("npm i artes@latest", { cwd: projectDir, stdio: "inherit" });
     console.log("📦 Setting up browsers...");
     execSync("npx playwright install", { cwd: projectDir, stdio: "inherit" });
   }
@@ -38,10 +38,6 @@ function createProject(createYes, noDeps) {
   packageJson.scripts = {
     test: "npx artes",
     testWithReport: "npx artes -r",
-  };
-
-  packageJson.dependencies = {
-    artes: "1.2.21",
   };
 
   fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));

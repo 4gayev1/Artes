@@ -122,7 +122,7 @@ npx artes [options]
 | 🕶️ `--headless`           | Run browser in headless mode                                                       | `artes --headless`                                                    |
 | ⚡ `--parallel`           | Run tests in parallel mode                                                         | `artes --parallel 2`                                                  |
 | 🔁 `--retry`              | Retry failed tests                                                                 | `artes --retry 3`                                                     |
-| 🔁 `--rerun`              | Rerun only the failed tests from previous run                                                                 | `artes --rerun @rerun.txt`|
+| 🔁 `--rerun`              | Rerun only the failed tests from previous run                                      | `artes --rerun @rerun.txt`                                            |
 | 🎭 `--dryRun`             | Perform a dry run without executing tests                                          | `artes --dryRun`                                                      |
 | 📈 `--percentage`         | Set minimum success percentage to pass test run (default is 0)                     | `artes --percentage 85`                                               |
 | 🌍 `--browser`            | Specify browser to use (`chromium`, `firefox`, or `webkit`)                        | `artes --browser chromium`                                            |

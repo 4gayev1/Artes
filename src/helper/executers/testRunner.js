@@ -8,17 +8,24 @@ function runTests() {
     process.env.FORCE_COLOR = "1";
     process.env.FORCE_STDIO_TTY = "1";
 
-    spawnSync("cucumber-js", ["--config=cucumber.config.js", `${process.env.RERUN ? path.join("../../", process.env.RERUN) : ""}`], {
-      cwd: moduleConfig.modulePath,
-      stdio: "inherit",
-      shell: true,
-      env: {
-        ...process.env,
-        FORCE_TTY: "1",
-        FORCE_COLOR: "1",
-        CI: "false",
+    spawnSync(
+      "cucumber-js",
+      [
+        "--config=cucumber.config.js",
+        `${process.env.RERUN ? path.join("../../", process.env.RERUN) : ""}`,
+      ],
+      {
+        cwd: moduleConfig.modulePath,
+        stdio: "inherit",
+        shell: true,
+        env: {
+          ...process.env,
+          FORCE_TTY: "1",
+          FORCE_COLOR: "1",
+          CI: "false",
+        },
       },
-    });
+    );
     console.log("✅ Tests running completed successfully!");
   } catch (error) {
     console.error("❌ Test execution failed:", error);

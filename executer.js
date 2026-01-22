@@ -111,7 +111,7 @@ flags.parallel ? (process.env.PARALLEL = parallel) : "";
 
 flags.retry ? (process.env.RETRY = retry) : "";
 
-flags.rerun ? ( process.env.RERUN = rerun) : "";
+flags.rerun ? (process.env.RERUN = rerun) : "";
 
 flags.dryRun ? (process.env.DRYRUN = flags.dryRun) : "";
 
