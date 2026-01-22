@@ -28,6 +28,58 @@ function getMimeType(filePath) {
   return mimeTypes[ext] || "application/octet-stream";
 }
 
+function curlExtractor(url, method, headers, body, requestDataType) {
+  let curlCommand = `curl -X ${method} '${url}'`;
+
+  if (headers && Object.keys(headers).length > 0) {
+    for (const [key, value] of Object.entries(headers)) {
+      curlCommand += ` \\\n  -H '${key}: ${value}'`;
+    }
+  }
+
+  if (body && Object.keys(body).length > 0) {
+    switch (requestDataType) {
+      case "multipart":
+        for (const [key, value] of Object.entries(body)) {
+          if (typeof value === "object" && value.buffer) {
+            curlCommand += ` \\\n  -F '${key}=@${value.name}'`;
+          } else {
+            curlCommand += ` \\\n  -F '${key}=${value}'`;
+          }
+        }
+        break;
+
+      case "urlencoded":
+      case "application/x-www-form-urlencoded":
+        const urlEncodedData = new URLSearchParams(body).toString();
+        curlCommand += ` \\\n  --data-urlencode '${urlEncodedData}'`;
+        break;
+
+      case "form":
+        for (const [key, value] of Object.entries(body)) {
+          curlCommand += ` \\\n  -F '${key}=${value}'`;
+        }
+        break;
+
+      default:
+        const hasContentType =
+          headers &&
+          Object.keys(headers).some(
+            (key) => key.toLowerCase() === "content-type",
+          );
+
+        if (!hasContentType) {
+          curlCommand += ` \\\n  -H 'Content-Type: application/json'`;
+        }
+
+        curlCommand += ` \\\n  --data-raw '${JSON.stringify(body)}'`;
+        break;
+    }
+  }
+
+  return curlCommand;
+}
+
 function processForm(requestBody) {
   let formData = {};
   for (const [key, value] of Object.entries(requestBody)) {
@@ -108,7 +160,7 @@ async function requestMaker(headers, data, requestDataType) {
   return request;
 }
 
-async function responseMaker(request, response, duration) {
+async function responseMaker(request, response, duration, curlCommand) {
   const responseObject = {};
 
   response &&
@@ -139,6 +191,8 @@ async function responseMaker(request, response, duration) {
     }
   }
 
+  curlCommand && Object.assign(responseObject, { "cURL Command": curlCommand });
+
   return responseObject;
 }
 
@@ -157,7 +211,15 @@ const api = {
 
     const duration = performance.now() - requestStarts;
 
-    const response = responseMaker(payloadJSON, res, duration);
+    const curlCommand = curlExtractor(
+      res.url(),
+      "GET",
+      payloadJSON?.headers || {},
+      null,
+      null,
+    );
+
+    const response = responseMaker(payloadJSON, res, duration, curlCommand);
 
     context.response = await response;
   },
@@ -170,7 +232,9 @@ const api = {
 
     const duration = performance.now() - requestStarts;
 
-    const response = responseMaker(payloadJSON, res, duration);
+    const curlCommand = curlExtractor(res.url(), "HEAD", {}, null, null);
+
+    const response = responseMaker(null, res, duration, curlCommand);
 
     context.response = await response;
   },
@@ -181,6 +245,7 @@ const api = {
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
 
     let req;
+    let bodyForCurl = payloadJSON?.body || {};
 
     switch (requestDataType) {
       case "multipart":
@@ -191,6 +256,7 @@ const api = {
           formRequest || {},
           requestDataType,
         );
+        bodyForCurl = formRequest;
         break;
       case "urlencoded":
       case "application/x-www-form-urlencoded":
@@ -223,7 +289,20 @@ const api = {
 
     const duration = performance.now() - requestStarts;
 
-    const response = await responseMaker(payloadJSON, res, duration);
+    const curlCommand = curlExtractor(
+      res.url(),
+      "POST",
+      req.headers,
+      bodyForCurl,
+      requestDataType,
+    );
+
+    const response = await responseMaker(
+      payloadJSON,
+      res,
+      duration,
+      curlCommand,
+    );
 
     context.response = response;
   },
@@ -234,6 +313,7 @@ const api = {
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
 
     let req;
+    let bodyForCurl = payloadJSON?.body || {};
 
     switch (requestDataType) {
       case "multipart":
@@ -244,6 +324,7 @@ const api = {
           formRequest || {},
           requestDataType,
         );
+        bodyForCurl = formRequest;
         break;
       case "urlencoded":
       case "application/x-www-form-urlencoded":
@@ -276,7 +357,20 @@ const api = {
 
     const duration = performance.now() - requestStarts;
 
-    const response = await responseMaker(payloadJSON, res, duration);
+    const curlCommand = curlExtractor(
+      res.url(),
+      "PUT",
+      req.headers,
+      bodyForCurl,
+      requestDataType,
+    );
+
+    const response = await responseMaker(
+      payloadJSON,
+      res,
+      duration,
+      curlCommand,
+    );
 
     context.response = response;
   },
@@ -287,6 +381,7 @@ const api = {
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
 
     let req;
+    let bodyForCurl = payloadJSON?.body || {};
 
     switch (requestDataType) {
       case "multipart":
@@ -297,6 +392,7 @@ const api = {
           formRequest || {},
           requestDataType,
         );
+        bodyForCurl = formRequest;
         break;
       case "urlencoded":
       case "application/x-www-form-urlencoded":
@@ -329,7 +425,20 @@ const api = {
 
     const duration = performance.now() - requestStarts;
 
-    const response = await responseMaker(payloadJSON, res, duration);
+    const curlCommand = curlExtractor(
+      res.url(),
+      "PATCH",
+      req.headers,
+      bodyForCurl,
+      requestDataType,
+    );
+
+    const response = await responseMaker(
+      payloadJSON,
+      res,
+      duration,
+      curlCommand,
+    );
 
     context.response = response;
   },
@@ -350,7 +459,15 @@ const api = {
 
     const duration = performance.now() - requestStarts;
 
-    const response = responseMaker(payloadJSON, res, duration);
+    const curlCommand = curlExtractor(
+      res.url(),
+      "DELETE",
+      payloadJSON?.headers || {},
+      payloadJSON?.body || {},
+      null,
+    );
+
+    const response = responseMaker(payloadJSON, res, duration, curlCommand);
 
     context.response = await response;
   },

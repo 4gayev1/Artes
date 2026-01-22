@@ -144,7 +144,7 @@ After(async function ({ pickle, result }) {
   const shouldReport =
     cucumberConfig.default.successReport || result?.status !== Status.PASSED;
 
-  if (shouldReport) {
+  if (shouldReport & (context.page.url() !== "about:blank")) {
     const screenshotPath = path.join(
       "test-results",
       "visualReport",
@@ -212,7 +212,11 @@ After(async function ({ pickle, result }) {
   await context.browser?.close();
   await context.request?.dispose();
 
-  if (shouldReport && context.page.video) {
+  if (
+    shouldReport &&
+    context.page.video &&
+    context.page.url() !== "about:blank"
+  ) {
     const video = context.page.video();
     if (video) {
       const videoPath = await video.path();
