@@ -5,15 +5,10 @@ const path = require("path");
 function runTests() {
   try {
     console.log("🧪 Running tests...");
-    process.env.FORCE_COLOR = "1";
-    process.env.FORCE_STDIO_TTY = "1";
 
     spawnSync(
       "cucumber-js",
-      [
-        "--config=cucumber.config.js",
-        `${process.env.RERUN ? path.join("../../", process.env.RERUN) : ""}`,
-      ],
+      [ "--config=cucumber.config.js"],
       {
         cwd: moduleConfig.modulePath,
         stdio: "inherit",

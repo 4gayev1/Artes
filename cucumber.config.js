@@ -60,11 +60,13 @@ module.exports = {
     timeout: process.env.TIMEOUT
       ? Number(process.env.TIMEOUT) * 1000
       : artesConfig.timeout * 1000 || 30 * 1000, // Default timeout in seconds
-    paths: process.env.FEATURES
-      ? [path.join(moduleConfig.projectPath, process.env.FEATURES)]
-      : artesConfig.features
-        ? path.join(moduleConfig.projectPath, artesConfig.features)
-        : [moduleConfig.featuresPath], // Paths to feature files
+    paths: process.env.RERUN
+      ? [`${path.join("../../", process.env.RERUN)}`]
+      : process.env.FEATURES
+        ? [path.join(moduleConfig.projectPath, process.env.FEATURES)]
+        : artesConfig.features
+          ? [path.join(moduleConfig.projectPath, artesConfig.features)]
+          : [moduleConfig.featuresPath], // Paths to feature files
     require: [
       process.env.STEP_DEFINITIONS
         ? [path.join(moduleConfig.projectPath, process.env.STEP_DEFINITIONS)]
