@@ -12,7 +12,7 @@ function addElements(newElements) {
 //   return locatorCount ==0 ? false : true;
 // }
 
-function selectorSeperator(element) {
+function selectorSeparator(element) {
   if (typeof element !== "string") return element;
 
   const selector = element?.split("=");
@@ -41,7 +41,7 @@ function selectorSeperator(element) {
 function getSelector(element) {
   const selector =
     elements?.[element]?.selector || elements?.[element] || element;
-  return resolveVariable(selectorSeperator(selector));
+  return resolveVariable(selectorSeparator(selector));
 }
 
 function getElement(element) {

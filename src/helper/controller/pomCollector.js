@@ -1,25 +1,53 @@
 const { addElements } = require("./elementController");
 const cucumberConfig = require("../../../cucumber.config");
 const fs = require("fs");
+const path = require("path");
+
+const duplicateWarnings = [];
+const keyRegistry = {};
 
 function pomCollector() {
-  if (fs.existsSync(cucumberConfig.default.pomPath)) {
-    fs.readdir(`${cucumberConfig.default.pomPath}`, (err, files) => {
-      files.forEach((file) => {
-        fs.readFile(
-          `${cucumberConfig.default.pomPath}/${file}`,
-          "utf-8",
-          (err, content) => {
-            try {
-              addElements(JSON.parse(content));
-            } catch (error) {
-              console.log(`Error parsing POM file ${file}:`, error.message);
-            }
-          },
+  const pomPath = cucumberConfig.default.pomPath;
+
+  if (!fs.existsSync(pomPath)) return;
+
+  fs.readdirSync(pomPath).forEach((file) => {
+    const filePath = path.join(pomPath, file);
+
+    let parsed;
+    try {
+      parsed = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    } catch (error) {
+      console.log(`Error parsing POM file ${file}: ${error.message}`);
+      return;
+    }
+
+    Object.keys(parsed).forEach((key) => {
+      if (keyRegistry[key]) {
+        duplicateWarnings.push(
+          `${key} in ${file} has the same key with ${key} in ${keyRegistry[key]}`
         );
-      });
+      } else {
+        keyRegistry[key] = file;
+      }
     });
-  }
+
+    addElements(parsed);
+  });
 }
 
-module.exports = { pomCollector };
+function logPomWarnings() {
+  if (duplicateWarnings.length === 0) return;
+
+  console.warn(
+    "\n\x1b[33m[WARNING] POM DUPLICATE KEY WARNINGS:  This may break your tests or cause flaky behavior."
+  ); 
+  
+  duplicateWarnings.forEach((warning) => {
+    console.warn(`- ${warning}`);
+  });
+
+  console.log("\x1b[0m")
+}
+
+module.exports = { pomCollector, logPomWarnings };

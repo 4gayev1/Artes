@@ -11,7 +11,7 @@ const {
 const { spawnSync } = require("child_process");
 const { invokeBrowser } = require("../helper/contextManager/browserManager");
 const { invokeRequest } = require("../helper/contextManager/requestManager");
-const { pomCollector } = require("../helper/controller/pomCollector");
+const { pomCollector, logPomWarnings } = require("../helper/controller/pomCollector");
 const cucumberConfig = require("../../cucumber.config");
 const { context } = require("./context");
 const fs = require("fs");
@@ -156,9 +156,10 @@ After(async function ({ pickle, result }) {
       path: screenshotPath,
       type: "png",
     });
+
     await this.attach(img, {
       mediaType: "image/png",
-      fileName: `${pickle.name.replaceAll(" ", "_")}.png`,
+      fileName: "Screenshot",
     });
   }
 
@@ -184,7 +185,7 @@ After(async function ({ pickle, result }) {
 
       await this.attach(trace, {
         mediaType: "application/zip",
-        fileName: `${pickle.name.replace(/\s+/g, "_")}_trace.zip`,
+        fileName: "Trace",
       });
 
       if (!cucumberConfig.default.trace) {
@@ -227,7 +228,7 @@ After(async function ({ pickle, result }) {
         const webmBuffer = fs.readFileSync(videoPath);
         await this.attach(webmBuffer, {
           mediaType: "video/webm",
-          fileName: `${pickle.name.replaceAll(" ", "_")}.webm`,
+          fileName: "Screenrecord",
         });
       }
     }
@@ -238,6 +239,8 @@ AfterAll(async () => {
   if (typeof projectHooks.AfterAll === "function") {
     await projectHooks.AfterAll();
   }
+
+  logPomWarnings();
 
   if (!fs.existsSync(statusDir)) return;
 
@@ -256,9 +259,8 @@ AfterAll(async () => {
     });
   }
 
-  if (cucumberConfig.default.testPercentage !== undefined) {
-    const meetsThreshold =
-      successPercentage >= cucumberConfig.default.testPercentage;
+  if (cucumberConfig.default.testPercentage>0) {
+    const meetsThreshold = successPercentage >= cucumberConfig.default.testPercentage;
 
     if (meetsThreshold) {
       console.log(

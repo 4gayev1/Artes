@@ -1,6 +1,6 @@
 {
   "name": "artes",
-  "version": "1.2.26",
+  "version": "1.2.27",
   "description": "The simplest way to automate UI and API tests using Cucumber-style steps.",
   "main": "index.js",
   "scripts": {
@@ -23,9 +23,9 @@
     "@faker-js/faker": "9.8.0",
     "@types/node": "22.9.0",
     "ajv": "8.17.1",
-    "allure-commandline": "2.30.0",
-    "allure-cucumberjs": "3.0.5",
-    "allure-js-commons": "3.0.5",
+    "allure-commandline": "2.36.0",
+    "allure-cucumberjs": "3.4.5",
+    "allure-js-commons": "3.4.5",
     "archiver": "^7.0.1",
     "dayjs": "1.11.13",
     "deasync": "^0.1.31",
