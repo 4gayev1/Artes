@@ -17,6 +17,8 @@ const { context } = require("./context");
 const fs = require("fs");
 const path = require("path");
 const { moduleConfig } = require("artes/src/helper/imports/commons");
+require("allure-cucumberjs");
+const allure = require("allure-js-commons");
 
 const statusDir = path.join(process.cwd(), "testsStatus");
 const HTTP_METHODS = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"];
@@ -34,7 +36,7 @@ async function attachResponse(attachFn) {
         ? `${key}:\n${JSON.stringify(value, null, 2)}`
         : `${key}:\n${value}`;
 
-    await attachFn(text, "text/plain");
+    await attachFn(key, text, "text/plain");
   }
 }
 
@@ -132,7 +134,7 @@ AfterStep(async function ({ pickleStep }) {
   }
 
   if (HTTP_METHODS.some((method) => pickleStep.text.includes(method))) {
-    await attachResponse(this.attach);
+    await attachResponse(allure.attachment);
   }
 });
 
@@ -145,25 +147,19 @@ After(async function ({ pickle, result }) {
     cucumberConfig.default.successReport || result?.status !== Status.PASSED;
 
   if (shouldReport & (context.page.url() !== "about:blank")) {
-    const screenshotPath = path.join(
-      "test-results",
-      "visualReport",
-      pickle.name,
-      `${pickle.name}.png`,
+
+    const screenshotBuffer = await context.page.screenshot({ type: "png" });
+
+    await allure.attachment(
+      pickle.name.replaceAll(" ", "_"), 
+      screenshotBuffer,                             
+      "image/png"
     );
 
-    const img = await context.page.screenshot({
-      path: screenshotPath,
-      type: "png",
-    });
-
-    await this.attach(img, {
-      mediaType: "image/png",
-      fileName: "Screenshot",
-    });
   }
 
   saveTestStatus(result, pickle);
+
   if (cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace) {
     var tracePath = path.join(
       moduleConfig.projectPath,
@@ -176,17 +172,14 @@ After(async function ({ pickle, result }) {
     shouldReport &&
     context.page.url() !== "about:blank"
   ) {
-    await context.browserContext.tracing.stop({
+
+     await context.browserContext.tracing.stop({
       path: tracePath,
     });
 
     if (cucumberConfig.default.reportWithTrace) {
-      const trace = fs.readFileSync(tracePath);
 
-      await this.attach(trace, {
-        mediaType: "application/zip",
-        fileName: "Trace",
-      });
+      await allure.attachTrace("Trace", tracePath);
 
       if (!cucumberConfig.default.trace) {
         spawnSync(
@@ -203,11 +196,13 @@ After(async function ({ pickle, result }) {
           },
         );
       }
+      
     }
   }
 
-  await attachResponse(this.attach);
-
+  await attachResponse(allure.attachment);
+  context.response = await {}
+  
   await context.page?.close();
   await context.browserContext?.close();
   await context.browser?.close();
@@ -224,23 +219,19 @@ After(async function ({ pickle, result }) {
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      if (fs.existsSync(videoPath)) {
+     if (fs.existsSync(videoPath)) {
         const webmBuffer = fs.readFileSync(videoPath);
-        await this.attach(webmBuffer, {
-          mediaType: "video/webm",
-          fileName: "Screenrecord",
-        });
+        await allure.attachment("Screenrecord", webmBuffer, "video/webm");
       }
     }
   }
+
 });
 
 AfterAll(async () => {
   if (typeof projectHooks.AfterAll === "function") {
     await projectHooks.AfterAll();
   }
-
-  logPomWarnings();
 
   if (!fs.existsSync(statusDir)) return;
 
