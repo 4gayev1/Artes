@@ -151,7 +151,7 @@ After(async function ({ pickle, result }) {
     const screenshotBuffer = await context.page.screenshot({ type: "png" });
 
     await allure.attachment(
-      pickle.name.replaceAll(" ", "_"), 
+      "Screenshot", 
       screenshotBuffer,                             
       "image/png"
     );
