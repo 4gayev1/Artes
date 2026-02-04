@@ -1,4 +1,6 @@
 const { element, resolveVariable } = require("../imports/commons");
+const { frame } = require("./frameActions");
+
 
 const keyboard = {
   press: async (selector, key) => {

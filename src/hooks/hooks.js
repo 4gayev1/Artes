@@ -233,6 +233,8 @@ AfterAll(async () => {
     await projectHooks.AfterAll();
   }
 
+  logPomWarnings();
+  
   if (!fs.existsSync(statusDir)) return;
 
   const files = fs.readdirSync(statusDir);

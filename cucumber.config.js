@@ -163,6 +163,9 @@ module.exports = {
     browserType: process.env.BROWSER
       ? JSON.parse(process.env.BROWSER)
       : artesConfig?.browser || "chrome",
+    device: process.env.DEVICE
+    ? JSON.parse(process.env.DEVICE)
+    : artesConfig?.device || null,
     viewport: {
       width: process.env.WIDTH
         ? Number(process.env.WIDTH)

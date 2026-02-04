@@ -43,11 +43,11 @@ function createProject(createYes, noDeps) {
   fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
   const config = `module.exports = {
-    headless: false, // Set to true for headless browser mode
+    headless: false,                 // Set to true for headless browser mode
 
     // Configuration options:
     // env: "",                      // string - Environment name for tests
-    // testPercentage: 0, // number - Minimum success rate percentage(Default: 0)
+    // testPercentage: 0,            // number - Minimum success rate percentage(Default: 0)
     // baseURL: "",                  // string - Base URL for API tests
     // paths: [],                    // string[] - Paths to feature files
     // steps: "",                    // string - Step definitions files
@@ -55,7 +55,7 @@ function createProject(createYes, noDeps) {
     // timeout : 0,                  // number - Test timeout in seconds
     // slowMo: 0,                    // number - Slow down test execution (Default: 0 seconds)
     // parallel: 0,                  // number - Number of parallel workers
-    // report: true                   / boolean - Generate report
+    // report: true                  // boolean - Generate report
     // reportSuccess: false,         // boolean - Add screenshots and video records to report also for success test cases
     // trace: false,                 // boolean - Enable tracing
     // reportWithTrace: false,       // boolean - Include trace in report
@@ -66,6 +66,7 @@ function createProject(createYes, noDeps) {
     // backtrace: false,             // boolean - Show full backtrace for errors
     // dryRun: false,                // boolean - Prepare test run without execution
     // browser: "chrome",            // "chrome", "firefox", "webkit"
+    // device: "",                   // string - Emulate specific device (e.g., "iPhone 13", for more devices look at the documentation)
     // width: 1280,                  // number - Browser width
     // height: 720,                  // number - Browser height
     // maximizeScreen: true          // boolean - Maximize browser window

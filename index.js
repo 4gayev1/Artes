@@ -39,7 +39,6 @@ module.exports = {
   time,
   page,
   request,
-  api,
   keyboard,
   mouse,
   frame,

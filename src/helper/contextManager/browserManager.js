@@ -1,4 +1,4 @@
-const { chromium, firefox, webkit } = require("playwright");
+const { chromium, firefox, webkit, devices } = require("playwright");
 const cucumberConfig = require("../../../cucumber.config.js");
 
 const invokeBrowser = async () => {
@@ -19,14 +19,17 @@ const invokeBrowser = async () => {
     args: [cucumberConfig.browser.maximizeScreen ? "--start-maximized" : ""],
   };
 
-  const browserType =
-    cucumberConfig.browser.browserType.toLowerCase() || "chrome";
+  const browserType = cucumberConfig.browser.device ? "webkit" : cucumberConfig.browser.browserType.toLowerCase() || "chrome";
 
   const browserContextOptions = {
     baseURL: baseURL,
-    viewport: cucumberConfig.browser.maximizeScreen
-      ? null
-      : cucumberConfig.browser.viewport,
+    ...(cucumberConfig.browser.device
+      ? {}
+      : {
+          viewport: cucumberConfig.browser.maximizeScreen
+            ? null
+            : cucumberConfig.browser.viewport,
+        }),
     recordVideo: {
       dir: "./test-results/visualReport/",
       size: cucumberConfig.browser.viewport,
@@ -50,7 +53,11 @@ const invokeBrowser = async () => {
       );
   }
 
-  const context = await browser.newContext(browserContextOptions);
+
+  const context = await browser.newContext({
+    ...(cucumberConfig.browser.device ? devices[cucumberConfig.browser.device] : {}),
+    ...browserContextOptions,
+  });
 
   return {
     browser: browser,

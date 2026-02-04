@@ -126,6 +126,7 @@ npx artes [options]
 | 🎭 `--dryRun`             | Perform a dry run without executing tests                                          | `artes --dryRun`                                                      |
 | 📈 `--percentage`         | Set minimum success percentage to pass test run (default is 0)                     | `artes --percentage 85`                                               |
 | 🌍 `--browser`            | Specify browser to use (`chromium`, `firefox`, or `webkit`)                        | `artes --browser chromium`                                            |
+| 📱 `--device`             | Emulate specific device (e.g., "iPhone 13")                                        | `artes --device "iPhone 13"`   |
 | 🔗 `--baseURL`            | Set base URL for the tests                                                         | `artes --baseURL "https://example.com"`                               |
 | 🖥️ `--maxScreen`          | Maximize browser window on launch                                                  | `artes --maxScreen`                                                   |
 | 📏 `--width`              | Set browser width (default is 1280)                                                | `artes --width 1920`                                                  |
@@ -588,6 +589,13 @@ Artes supports environment-specific configurations through environment variables
 | `browserType` | `"chrome"`                     | Browser type (`"chrome"`, `"firefox"`, or `"webkit"`). |
 | `viewport`    | `{ width: 1280, height: 720 }` | Browser viewport size.                                 |
 | `headless`    | `true`                         | Run browser in headless mode (`true` or `false`).      |
+
+### Device Configuration
+
+| Option        | Default Value                  | Description                                            |
+| ------------- | ------------------------------ | ------------------------------------------------------ |
+| `device`      | `""`                     | [Device List](./docs/emulationDevicesList.md) |
+
 
 ## 📊 Report Generation
 

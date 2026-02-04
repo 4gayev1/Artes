@@ -76,6 +76,9 @@ function showHelp() {
             🌐 --browser       Specify browser to use (chromium, firefox, webkit)
                 Usage:   artes --browser chromium
 
+            📱 --device       Emulate specific device (e.g., "iPhone 13")
+                Usage:   artes --device "iPhone 13"
+
             🌐 --baseURL       Set base URL for the tests
                 Usage:   artes --baseURL "https://example.com"
 

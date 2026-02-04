@@ -1,6 +1,5 @@
 const { spawnSync } = require("child_process");
 const { moduleConfig } = require("../imports/commons");
-const path = require("path");
 
 function runTests() {
   try {

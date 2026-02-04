@@ -43,6 +43,7 @@ const flags = {
   dryRun: args.includes("--dryRun"),
   percentage: args.includes("--percentage"),
   browser: args.includes("--browser"),
+  device: args.includes("--device"),
   baseURL: args.includes("--baseURL"),
   maximizeScreen: args.includes("--maxScreen"),
   width: args.includes("--width"),
@@ -61,6 +62,7 @@ const retry = args[args.indexOf("--retry") + 1];
 const rerun = args[args.indexOf("--rerun") + 1];
 const percentage = args[args.indexOf("--percentage") + 1];
 const browser = args[args.indexOf("--browser") + 1];
+const device = args[args.indexOf("--device") + 1];
 const baseURL = args[args.indexOf("--baseURL") + 1];
 const width = args[args.indexOf("--width") + 1];
 const height = args[args.indexOf("--height") + 1];
@@ -119,6 +121,9 @@ flags.percentage ? (process.env.PERCENTAGE = percentage) : "";
 
 flags.browser && console.log("Running browser:", browser);
 flags.browser ? (process.env.BROWSER = JSON.stringify(browser)) : "";
+
+flags.device && console.log("Running device:", device);
+flags.device ? (process.env.DEVICE = JSON.stringify(device)) : "";
 
 flags.baseURL ? (process.env.BASE_URL = JSON.stringify(baseURL)) : "";
 

@@ -336,7 +336,7 @@ const assert = {
     expect(elementInteractions.textContent(selector)).toContain(substring);
   },
   shouldContainEqual: (selector, expected) => {
-    expect(elementInteractions.textContent(selector)).toContainEqual(element);
+    expect(elementInteractions.textContent(selector)).toContainEqual(expected);
   },
   shouldEqual: (selector, expected) => {
     expect(Number(elementInteractions.textContent(selector))).toEqual(expected);
@@ -455,7 +455,7 @@ const assert = {
   shouldNotContainEqual: (selector, expected) => {
     expect(
       Number(elementInteractions.textContent(selector)),
-    ).not.toContainEqual(element);
+    ).not.toContainEqual(expected);
   },
   shouldNotEqual: (selector, expected) => {
     expect(Number(elementInteractions.textContent(selector))).not.toEqual(
