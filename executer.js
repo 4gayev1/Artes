@@ -7,6 +7,7 @@ const {
   generateReport,
   cleanUp,
 } = require("./src/helper/executers/exporter");
+const { logPomWarnings }  = require("./src/helper/controller/pomCollector");
 const fs = require("fs");
 const path = require("path");
 
@@ -147,6 +148,9 @@ function main() {
   if (flags.create) return createProject(flags.createYes, flags.noDeps);
 
   runTests();
+  
+  logPomWarnings();
+
   if (
     flags.reportWithTrace ||
     artesConfig.reportWithTrace ||
