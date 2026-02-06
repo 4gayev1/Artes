@@ -483,8 +483,12 @@ const api = {
 
     context.response = await response;
   },
-  vars: () => {
-    return context.vars;
+  vars: (variable) => {
+    if(!variable){
+      return context.vars;
+    }else{
+      return { [variable]: context.vars[variable] };
+    }
   },
 };
 

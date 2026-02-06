@@ -270,6 +270,7 @@
 # Debugging / Console Output
 
 - User wants to see saved variables
+- User wants to see {string} variable
 - User wants to see request body
 - User wants to see response body
 

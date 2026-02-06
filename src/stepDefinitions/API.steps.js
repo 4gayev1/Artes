@@ -5,6 +5,7 @@ const {
   saveVar,
   time,
   random,
+  moduleConfig,
 } = require("../helper/imports/commons");
 const { api } = require("../helper/stepFunctions/exporter");
 const path = require("path");
@@ -222,7 +223,11 @@ When(
 );
 
 When("User wants to see saved variables", async function () {
-  console.log("\nVariables:", api.vars(), "\n");
+  console.log("\nVariables:", api.vars(null), "\n");
+});
+
+When("User wants to see {string} variable", async function (variable) {
+  console.log(api.vars(variable), "\n");
 });
 
 When("User wants to see request body", async function () {
