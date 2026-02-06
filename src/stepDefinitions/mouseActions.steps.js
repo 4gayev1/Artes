@@ -1,5 +1,10 @@
-const { When, element, selector } = require("../helper/imports/commons");
-const { mouse, frame } = require("../helper/stepFunctions/exporter");
+const {
+  When,
+  element,
+  selector,
+  context,
+} = require("../helper/imports/commons");
+const { mouse, frame, page } = require("../helper/stepFunctions/exporter");
 
 // User clicks on a selector
 When("User clicks {string}", async function (selector) {
@@ -18,19 +23,23 @@ When("User clicks {int} th of {string}", async (order, elements) => {
 });
 
 When("User clicks multiple {string}", async (elements) => {
-  await mouse.multipleElementClick(elements);
+  const elementCount = await frame.count(elements);
+
+  for (let i = 0; i < elementCount; i++) {
+    await frame.nth(elements, i).click();
+  }
 });
 
 // User clicks on a selector with force
 When("User clicks {string} with force", async function (selector) {
-  await mouse.click(selector, true);
+  await mouse.click(selector, { force: true });
 });
 
 // User clicks on a selector at a specific position
 When(
   "User clicks {string} at {int}, {int} position",
   async function (selector, x, y) {
-    await mouse.clickPosition(selector, x, y);
+    await mouse.click(selector, { position: { x: x, y: y } });
   },
 );
 
@@ -38,20 +47,24 @@ When(
 When(
   "User clicks {string} at {int}, {int} position with force",
   async function (selector, x, y) {
-    await mouse.clickPosition(selector, x, y, true);
+    await mouse.click(selector, { force: true, position: { x: x, y: y } });
   },
 );
 
 // User clicks at specific coordinates
 When("User clicks at {int}, {int} coordinates", async function (x, y) {
-  await mouse.mouseClickPosition(x, y);
+  await context.page.click({ position: { x: x, y: y } });
 });
 
 // User clicks at specific coordinates with click count and delay
 When(
   "User clicks at {int}, {int} coordinates with click count {int} and delay {int}",
   async function (x, y, clickCount, delay) {
-    await mouse.mouseClickPosition(x, y, clickCount, delay);
+    await context.page.click({
+      position: { x: x, y: y },
+      clickCount: clickCount,
+      delay: delay,
+    });
   },
 );
 
@@ -59,23 +72,34 @@ When(
 When(
   "User clicks at {int}, {int} coordinates with force",
   async function (x, y) {
-    await mouse.mouseClickPosition(x, y, 1, 0, true); // Defaulting clickCount and delay
+    context.page.click({ position: { x: x, y: y }, force: true });
   },
 );
 
 // User clicks on a selector with a specific mouse button
 When(
-  "User clicks {string} with button {string}",
+  "User clicks {string} with {string} button",
   async function (selector, button) {
-    await mouse.clickByBtn(selector, button);
+    await mouse.click(selector, { button: button });
   },
 );
 
 // User clicks on a selector with a specific mouse button and force
 When(
-  "User clicks {string} with button {string} and force",
+  "User clicks {string} with {string} button and force",
   async function (selector, button) {
-    await mouse.clickByBtn(selector, button, true);
+    await mouse.click(selector, { button: button, force: true });
+  },
+);
+
+When(
+  "User clicks multiple {string} with {string} button",
+  async function (selector, button) {
+    const elementCount = await frame.count(selector);
+
+    for (let i = 0; i < elementCount; i++) {
+      await frame.nth(selector, i).click({ button: button });
+    }
   },
 );
 
@@ -84,20 +108,38 @@ When("User double clicks {string}", async function (selector) {
   await mouse.doubleClick(selector);
 });
 
+When(
+  "User double clicks {string} with {string} button",
+  async function (selector, button) {
+    await mouse.doubleClick(selector, { button: button });
+  },
+);
+
+When(
+  "User double clicks {string} with {string} button and force",
+  async function (selector, button) {
+    await mouse.doubleClick(selector, { button: button, force: true });
+  },
+);
+
 When("User double clicks multiple {string}", async (elements) => {
-  await mouse.multipleElementDoubleClick(elements);
+  const elementCount = await frame.count(elements);
+
+  for (let i = 0; i < elementCount; i++) {
+    await frame.nth(elements, i).dblclick();
+  }
 });
 
 // User double clicks on a selector with force
 When("User double clicks {string} with force", async function (selector) {
-  await mouse.doubleClick(selector, true);
+  await mouse.doubleClick(selector, { force: true });
 });
 
 // User double clicks on a selector at a specific position
 When(
   "User double clicks {string} at {int}, {int} position",
   async function (selector, x, y) {
-    await mouse.doubleClickPosition(selector, x, y);
+    await mouse.doubleClick(selector, { position: { x: x, y: y } });
   },
 );
 
@@ -105,20 +147,27 @@ When(
 When(
   "User double clicks {string} at {int}, {int} position with force",
   async function (selector, x, y) {
-    await mouse.doubleClickPosition(selector, x, y, true);
+    await mouse.doubleClick(selector, {
+      position: { x: x, y: y },
+      force: true,
+    });
   },
 );
 
 // User double clicks at specific coordinates
 When("User double clicks at {int}, {int} coordinates", async function (x, y) {
-  await mouse.mouseDoubleClickPosition(x, y);
+  await context.page.doubleClick({ position: { x: x, y: y } });
 });
 
 // User double clicks at specific coordinates with click count and delay
 When(
   "User double clicks at {int}, {int}  coordinates with click count {int} and delay {int}",
   async function (x, y, clickCount, delay) {
-    await mouse.mouseDoubleClickPosition(x, y, clickCount, delay);
+    await context.page.doubleClick({
+      position: { x: x, y: y },
+      clickCount: clickCount,
+      delay: delay,
+    });
   },
 );
 
@@ -126,20 +175,20 @@ When(
 When(
   "User double clicks at {int}, {int} coordinates  with force",
   async function (x, y) {
-    await mouse.mouseDoubleClickPosition(x, y, 1, 0, true); // Defaulting clickCount and delay
+    await context.page.doubleClick({ position: { x: x, y: y }, force: true });
   },
 );
 
 // User moves the mouse to specific coordinates
 When("User moves to {int}, {int} coordinates", async function (x, y) {
-  await mouse.move(x, y);
+  await context.page.move({ position: { x: x, y: y } });
 });
 
 // User scrolls the mouse wheel at specific coordinates
 When(
   "User scrolls the mouse wheel at {int}, {int} coordinates",
   async function (x, y) {
-    await mouse.wheel(x, y);
+    await context.page.wheel({ position: { x: x, y: y } });
   },
 );
 
@@ -150,14 +199,14 @@ When("User hovers over {string}", async function (selector) {
 
 // User hovers over a selector with force
 When("User hovers over {string} with force", async function (selector) {
-  await mouse.hover(selector, true);
+  await mouse.hover(selector, { force: true });
 });
 
 // User hovers over a selector at a specific position
 When(
   "User hovers over {string} at {int}, {int} position",
   async function (selector, x, y) {
-    await mouse.hoverPosition(selector, x, y);
+    await mouse.hover(selector, { position: { x: x, y: y } });
   },
 );
 
@@ -165,7 +214,7 @@ When(
 When(
   "User hovers over {string} at {int}, {int} position with force",
   async function (selector, x, y) {
-    await mouse.hoverPosition(selector, x, y, true);
+    await mouse.hover(selector, { position: { x: x, y: y }, force: true });
   },
 );
 
@@ -176,14 +225,14 @@ When("User focuses on {string}", async function (selector) {
 
 // User focuses on a selector with force
 When("User focuses on {string} with force", async function (selector) {
-  await mouse.focus(selector, true);
+  await mouse.focus(selector, { force: true });
 });
 
 // User focuses on a selector at a specific position
 When(
   "User focuses on {string} at {int}, {int} position",
   async function (selector, x, y) {
-    await mouse.focusPosition(selector, x, y);
+    await mouse.focus(selector, { position: { x: x, y: y } });
   },
 );
 
@@ -191,7 +240,7 @@ When(
 When(
   "User focuses on {string} at {int}, {int} position with force",
   async function (selector, x, y) {
-    await mouse.focusPosition(selector, x, y, true);
+    await mouse.focus(selector, { position: { x: x, y: y }, force: true });
   },
 );
 
@@ -207,7 +256,7 @@ When(
 When(
   "User drags {string} to {int}, {int} position",
   async function (sourceSelector, x, y) {
-    await mouse.dragAndDropPosition(sourceSelector, x, y);
+    await mouse.dragAndDrop(sourceSelector, { position: { x: x, y: y } });
   },
 );
 
@@ -233,7 +282,11 @@ When("User checks {string}", async function (selector) {
 });
 
 When("User checks multiple {string}", async function (selectors) {
-  await mouse.multipleElementCheck(selectors);
+  const elementCount = await frame.count(selectors);
+
+  for (let i = 0; i < elementCount; i++) {
+    await frame.nth(selectors, i).check();
+  }
 });
 
 // User unchecks a checkbox or radio button
@@ -242,7 +295,11 @@ When("User unchecks {string}", async function (selector) {
 });
 
 When("User unchecks multiple {string}", async function (selectors) {
-  await mouse.multipleElementUncheck(selectors);
+  const elementCount = await frame.count(selectors);
+
+  for (let i = 0; i < elementCount; i++) {
+    await frame.nth(selectors, i).uncheck();
+  }
 });
 
 // User scrolls into view if needed for a selector
@@ -273,4 +330,14 @@ When("User selects by value from {string} randomly", async (select) => {
     await optionsArray[Math.floor(Math.random() * optionsArray.length)];
 
   await mouse.selectByValue(select, randomOption);
+});
+
+When("User clicks either {string} or {string}", async (element, element2) => {
+  await page.wait(1000);
+  const countOfElement = await frame.count(element);
+  if (countOfElement > 0) {
+    await mouse.click(element);
+  } else {
+    await mouse.click(element2);
+  }
 });

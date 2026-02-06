@@ -4,518 +4,825 @@ const { frame } = require("../stepFunctions/frameActions");
 
 const assert = {
   // Element Assertion
-  shouldBeAttached: async (selector) => {
+  shouldBeAttached: async (selector, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toBeAttached();
+    ).toBeAttached(options);
   },
-  shouldBeChecked: async (selector) => {
+  shouldBeChecked: async (selector, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toBeChecked();
+    ).toBeChecked(options);
   },
-  shouldBeDisabled: async (selector) => {
+  shouldBeDisabled: async (selector, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toBeDisabled();
+    ).toBeDisabled(options);
   },
-  shouldBeEditable: async (selector) => {
+  shouldBeEditable: async (selector, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toBeEditable();
+    ).toBeEditable(options);
   },
-  shouldBeEmpty: async (selector) => {
+  shouldBeEmpty: async (selector, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toBeEmpty();
+    ).toBeEmpty(options);
   },
-  shouldBeEnabled: async (selector) => {
+  shouldBeEnabled: async (selector, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toBeEnabled();
+    ).toBeEnabled(options);
   },
-  shouldBeFocused: async (selector) => {
+  shouldBeFocused: async (selector, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toBeFocused();
+    ).toBeFocused(options);
   },
-  shouldBeHidden: async (selector) => {
+  shouldBeHidden: async (selector, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toBeHidden();
+    ).toBeHidden(options);
   },
-  shouldBeInViewport: async (selector) => {
+  shouldBeInViewport: async (selector, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toBeInViewport();
+    ).toBeInViewport(options);
   },
-  shouldBeVisible: async (selector) => {
+  shouldBeVisible: async (selector, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toBeVisible();
+    ).toBeVisible(options);
   },
-  shouldContainText: async (selector, text) => {
+  shouldContainText: async (selector, text, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toContainText(text);
+    ).toContainText(text, options);
   },
-  multipleElementsShouldContainText: async (elements, expectedText) => {
+  multipleElementsShouldContainText: async (
+    elements,
+    expectedText,
+    options,
+  ) => {
+    options = options ?? {};
+
     const count = await frame.count(elements);
 
     for (let i = 0; i < count; i++) {
-      await assert.shouldContainText(frame.nth(elements, i), expectedText);
+      await assert.shouldContainText(
+        frame.nth(elements, i),
+        expectedText,
+        options,
+      );
     }
   },
-  shouldHaveAccessibleDescription: async (selector, description) => {
+  shouldHaveAccessibleDescription: async (selector, description, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveAccessibleDescription(description);
+    ).toHaveAccessibleDescription(description, options);
   },
-  shouldHaveAccessibleName: async (selector, name) => {
+  shouldHaveAccessibleName: async (selector, name, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveAccessibleName(name);
+    ).toHaveAccessibleName(name, options);
   },
-  shouldHaveAttribute: async (selector, attribute, value) => {
+  shouldHaveAttribute: async (selector, attribute, value, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveAttribute(attribute, value);
+    ).toHaveAttribute(attribute, value, options);
   },
-  shouldHaveClass: async (selector, className) => {
+  shouldHaveClass: async (selector, className, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveClass(className);
+    ).toHaveClass(className, options);
   },
-  shouldHaveCount: async (selector, count) => {
+  shouldHaveCount: async (selector, count, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveCount(count);
+    ).toHaveCount(count, options);
   },
-  shouldHaveCSS: async (selector, property, value) => {
+  shouldHaveCSS: async (selector, property, value, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveCSS(property, value);
+    ).toHaveCSS(property, value, options);
   },
-  shouldHaveId: async (selector, id) => {
+  shouldHaveId: async (selector, id, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveId(id);
+    ).toHaveId(id, options);
   },
-  shouldHaveJSProperty: async (selector, property, value) => {
+  shouldHaveJSProperty: async (selector, property, value, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveJSProperty(property, value);
+    ).toHaveJSProperty(property, value, options);
   },
-  shouldHaveRole: async (selector, role) => {
+  shouldHaveRole: async (selector, role, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveRole(role);
+    ).toHaveRole(role, options);
   },
-  shouldHaveScreenshot: async (selector) => {
+  shouldHaveScreenshot: async (selector, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveScreenshot();
+    ).toHaveScreenshot(options);
   },
-  shouldHaveText: async (selector, text) => {
+  shouldHaveText: async (selector, text, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveText(text);
+    ).toHaveText(text, options);
   },
-  shouldHaveValue: async (selector, value) => {
+  shouldHaveValue: async (selector, value, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveValue(value);
+    ).toHaveValue(value, options);
   },
-  shouldHaveValues: async (selector, values) => {
+  shouldHaveValues: async (selector, values, options) => {
+    options = options ?? {};
+
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveValues(values);
+    ).toHaveValues(values, options);
   },
-  shouldPageHaveScreenshot: async () => {
-    await expect(context.page).toHaveScreenshot();
+  shouldPageHaveScreenshot: async (options) => {
+    options = options ?? {};
+
+    await expect(context.page).toHaveScreenshot(options);
   },
-  shouldPageHaveTitle: async (title) => {
-    await expect(context.page).toHaveTitle(title);
+  shouldPageHaveTitle: async (title, options) => {
+    options = options ?? {};
+
+    await expect(context.page).toHaveTitle(title, options);
   },
-  shouldPageHaveURL: async (url) => {
-    await expect(context.page).toHaveURL(url);
+  shouldPageHaveURL: async (url, options) => {
+    options = options ?? {};
+
+    await expect(context.page).toHaveURL(url, options);
   },
-  shouldResponseBeOK: async (response) => {
-    await expect(response).toBeOK();
+  shouldResponseBeOK: async (response, options) => {
+    options = options ?? {};
+
+    await expect(response).toBeOK(options);
   },
 
   // Negative Element Assertion
-  shouldNotBeAttached: async (selector) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toBeAttached();
-  },
-  shouldNotBeChecked: async (selector) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toBeChecked();
-  },
-  shouldNotBeDisabled: async (selector) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toBeDisabled();
-  },
-  shouldNotBeEditable: async (selector) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toBeEditable();
-  },
-  shouldNotBeEmpty: async (selector) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toBeEmpty();
-  },
-  shouldNotBeEnabled: async (selector) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toBeEnabled();
-  },
-  shouldNotBeFocused: async (selector) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toBeFocused();
-  },
-  shouldNotBeHidden: async (selector) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toBeHidden();
-  },
-  shouldNotBeInViewport: async (selector) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toBeInViewport();
-  },
-  shouldNotBeVisible: async (selector) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toBeVisible();
-  },
-  shouldNotContainText: async (selector, text) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toContainText(text);
-  },
-  shouldNotHaveAccessibleDescription: async (selector, description) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toHaveAccessibleDescription(description);
-  },
-  shouldNotHaveAccessibleName: async (selector, name) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toHaveAccessibleName(name);
-  },
-  shouldNotHaveAttribute: async (selector, attribute, value) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toHaveAttribute(attribute, value);
-  },
-  shouldNotHaveClass: async (selector, className) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toHaveClass(className);
-  },
-  shouldNotHaveCount: async (selector, count) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toHaveCount(count);
-  },
-  shouldNotHaveCSS: async (selector, property, value) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toHaveCSS(property, value);
-  },
-  shouldNotHaveId: async (selector, id) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toHaveId(id);
-  },
-  shouldNotHaveJSProperty: async (selector, property, value) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toHaveJSProperty(property, value);
-  },
-  shouldNotHaveRole: async (selector, role) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toHaveRole(role);
-  },
-  shouldNotHaveScreenshot: async (selector) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toHaveScreenshot();
-  },
-  shouldNotHaveText: async (selector, text) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toHaveText(text);
-  },
-  shouldNotHaveValue: async (selector, value) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toHaveValue(value);
-  },
-  shouldNotHaveValues: async (selector, values) => {
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).not.toHaveValues(values);
-  },
-  shouldNotPageHaveScreenshot: async () => {
-    await expect(context.page).not.toHaveScreenshot();
-  },
-  shouldNotPageHaveTitle: async (title) => {
-    await expect(context.page).not.toHaveTitle(title);
-  },
-  shouldNotPageHaveURL: async (url) => {
-    await expect(context.page).not.toHaveURL(url);
-  },
-  shouldNotResponseBeOK: async (response) => {
-    await expect(response).not.toBeOK();
-  },
+  shouldNotBeAttached: async (selector, options) => {
+    options = options ?? {};
 
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeAttached(options);
+  },
+  shouldNotBeChecked: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeChecked(options);
+  },
+  shouldNotBeDisabled: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeDisabled(options);
+  },
+  shouldNotBeEditable: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeEditable(options);
+  },
+  shouldNotBeEmpty: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeEmpty(options);
+  },
+  shouldNotBeEnabled: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeEnabled(options);
+  },
+  shouldNotBeFocused: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeFocused(options);
+  },
+  shouldNotBeHidden: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeHidden(options);
+  },
+  shouldNotBeInViewport: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeInViewport(options);
+  },
+  shouldNotBeVisible: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toBeVisible(options);
+  },
+  shouldNotContainText: async (selector, text, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toContainText(text, options);
+  },
+  shouldNotHaveAccessibleDescription: async (
+    selector,
+    description,
+    options,
+  ) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveAccessibleDescription(description, options);
+  },
+  shouldNotHaveAccessibleName: async (selector, name, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveAccessibleName(name, options);
+  },
+  shouldNotHaveAttribute: async (selector, attribute, value, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveAttribute(attribute, value, options);
+  },
+  shouldNotHaveClass: async (selector, className, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveClass(className, options);
+  },
+  shouldNotHaveCount: async (selector, count, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveCount(count, options);
+  },
+  shouldNotHaveCSS: async (selector, property, value, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveCSS(property, value, options);
+  },
+  shouldNotHaveId: async (selector, id, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveId(id, options);
+  },
+  shouldNotHaveJSProperty: async (selector, property, value, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveJSProperty(property, value, options);
+  },
+  shouldNotHaveRole: async (selector, role, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveRole(role, options);
+  },
+  shouldNotHaveScreenshot: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveScreenshot(options);
+  },
+  shouldNotHaveText: async (selector, text, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveText(text, options);
+  },
+  shouldNotHaveValue: async (selector, value, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveValue(value, options);
+  },
+  shouldNotHaveValues: async (selector, values, options) => {
+    options = options ?? {};
+
+    await expect(
+      typeof selector === "string" ? element(selector) : await selector,
+    ).not.toHaveValues(values, options);
+  },
+  shouldNotPageHaveScreenshot: async (options) => {
+    options = options ?? {};
+
+    await expect(context.page).not.toHaveScreenshot(options);
+  },
+  shouldNotPageHaveTitle: async (title, options) => {
+    options = options ?? {};
+
+    await expect(context.page).not.toHaveTitle(title, options);
+  },
+  shouldNotPageHaveURL: async (url, options) => {
+    options = options ?? {};
+
+    await expect(context.page).not.toHaveURL(url, options);
+  },
+  shouldNotResponseBeOK: async (response, options) => {
+    options = options ?? {};
+
+    await expect(response).not.toBeOK(options);
+  },
   // Value Assertion
 
-  shouldBe: (selector, expected) => {
-    expect(elementInteractions.textContent(selector)).toBe(expected);
-  },
-  shouldBeCloseTo: (selector, expected, precision) => {
-    expect(Number(elementInteractions.textContent(selector))).toBeCloseTo(
+  shouldBe: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toBe(
       expected,
-      precision,
+      options,
     );
   },
-  shouldBeDefined: (selector) => {
-    expect(elementInteractions.textContent(selector)).toBeDefined();
+  shouldBeCloseTo: async (selector, expected, precision, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).toBeCloseTo(expected, precision, options);
   },
-  shouldBeFalsy: (selector) => {
-    expect(elementInteractions.textContent(selector)).toBeFalsy();
-  },
-  shouldBeGreaterThan: (selector, expected) => {
-    expect(Number(elementInteractions.textContent(selector))).toBeGreaterThan(
-      expected,
+  shouldBeDefined: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toBeDefined(
+      options,
     );
   },
-  shouldBeGreaterThanOrEqual: (selector, expected) => {
-    expect(
-      Number(elementInteractions.textContent(selector)),
-    ).toBeGreaterThanOrEqual(expected);
-  },
-  shouldBeInstanceOf: (selector, constructor) => {
-    expect(elementInteractions.textContent(selector)).toBeInstanceOf(
-      constructor,
+  shouldBeFalsy: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toBeFalsy(
+      options,
     );
   },
-  shouldBeLessThan: (selector, expected) => {
-    expect(Number(elementInteractions.textContent(selector))).toBeLessThan(
-      expected,
+  shouldBeGreaterThan: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).toBeGreaterThan(expected, options);
+  },
+  shouldBeGreaterThanOrEqual: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).toBeGreaterThanOrEqual(expected, options);
+  },
+  shouldBeInstanceOf: async (selector, constructor, options) => {
+    options = options ?? {};
+
+    await expect(
+      await elementInteractions.textContent(selector),
+    ).toBeInstanceOf(constructor, options);
+  },
+  shouldBeLessThan: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).toBeLessThan(expected, options);
+  },
+  shouldBeLessThanOrEqual: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).toBeLessThanOrEqual(expected, options);
+  },
+  shouldBeNaN: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).toBeNaN(options);
+  },
+  shouldBeNull: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toBeNull(
+      options,
     );
   },
-  shouldBeLessThanOrEqual: (selector, expected) => {
-    expect(
-      Number(elementInteractions.textContent(selector)),
-    ).toBeLessThanOrEqual(expected);
-  },
-  shouldBeNaN: (selector) => {
-    expect(Number(elementInteractions.textContent(selector))).toBeNaN();
-  },
-  shouldBeNull: (selector) => {
-    expect(elementInteractions.textContent(selector)).toBeNull();
-  },
-  shouldBeTruthy: (selector) => {
-    expect(elementInteractions.textContent(selector)).toBeTruthy();
-  },
-  shouldBeUndefined: (selector) => {
-    expect(elementInteractions.textContent(selector)).toBeUndefined();
-  },
-  shouldContain: (selector, substring) => {
-    expect(elementInteractions.textContent(selector)).toContain(substring);
-  },
-  shouldContainEqual: (selector, expected) => {
-    expect(elementInteractions.textContent(selector)).toContainEqual(expected);
-  },
-  shouldEqual: (selector, expected) => {
-    expect(Number(elementInteractions.textContent(selector))).toEqual(expected);
-  },
-  shouldHaveLength: (selector, length) => {
-    expect(elementInteractions.textContent(selector)).toHaveLength(length);
-  },
-  shouldHaveProperty: (selector, property) => {
-    expect(elementInteractions.textContent(selector)).toHaveProperty(property);
-  },
-  shouldMatch: (selector, regex) => {
-    expect(elementInteractions.textContent(selector)).toMatch(regex);
-  },
-  shouldMatchObject: (selector, object) => {
-    expect(elementInteractions.textContent(selector)).toMatchObject(object);
-  },
-  shouldStrictEqual: (selector, expected) => {
-    expect(Number(elementInteractions.textContent(selector))).toStrictEqual(
-      expected,
+  shouldBeTruthy: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toBeTruthy(
+      options,
     );
   },
-  shouldThrow: (fn) => {
-    expect(fn).toThrow();
-  },
-  shouldAny: (selector, constructor) => {
-    expect(elementInteractions.textContent(selector)).any.toBeInstanceOf(
-      constructor,
+  shouldBeUndefined: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toBeUndefined(
+      options,
     );
   },
-  shouldAnything: (selector) => {
-    expect(elementInteractions.textContent(selector)).anything();
+  shouldContain: async (selector, substring, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toContain(
+      substring,
+      options,
+    );
   },
-  shouldArrayContaining: (selector, elements) => {
-    expect(elementInteractions.textContent(selector)).toEqual(
+  shouldContainEqual: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      await elementInteractions.textContent(selector),
+    ).toContainEqual(expected, options);
+  },
+  shouldEqual: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).toEqual(expected, options);
+  },
+  shouldHaveLength: async (selector, length, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toHaveLength(
+      length,
+      options,
+    );
+  },
+  shouldHaveProperty: async (selector, property, options) => {
+    options = options ?? {};
+
+    await expect(
+      await elementInteractions.textContent(selector),
+    ).toHaveProperty(property, options);
+  },
+  shouldMatch: async (selector, regex, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toMatch(
+      regex,
+      options,
+    );
+  },
+  shouldMatchObject: async (selector, object, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toMatchObject(
+      object,
+      options,
+    );
+  },
+  shouldStrictEqual: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).toStrictEqual(expected, options);
+  },
+  shouldThrow: async (fn, options) => {
+    options = options ?? {};
+
+    await expect(fn).toThrow(options);
+  },
+  shouldAny: async (selector, constructor, options) => {
+    options = options ?? {};
+
+    await expect(
+      await elementInteractions.textContent(selector),
+    ).any.toBeInstanceOf(constructor, options);
+  },
+  shouldAnything: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).anything(
+      options,
+    );
+  },
+  shouldArrayContaining: async (selector, elements, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toEqual(
       expect.arrayContaining(elements),
+      options,
     );
   },
-  shouldCloseTo: (selector, expected, precision) => {
-    expect(Number(elementInteractions.textContent(selector))).toBeCloseTo(
-      expected,
-      precision,
-    );
+  shouldCloseTo: async (selector, expected, precision, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).toBeCloseTo(expected, precision, options);
   },
-  shouldObjectContaining: (selector, properties) => {
-    expect(elementInteractions.textContent(selector)).toEqual(
+  shouldObjectContaining: async (selector, properties, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toEqual(
       expect.objectContaining(properties),
+      options,
     );
   },
-  shouldStringContaining: (selector, substring) => {
-    expect(elementInteractions.textContent(selector)).toEqual(
+  shouldStringContaining: async (selector, substring, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toEqual(
       expect.stringContaining(substring),
+      options,
     );
   },
-  shouldStringMatching: (selector, regex) => {
-    expect(elementInteractions.textContent(selector)).toEqual(
+  shouldStringMatching: async (selector, regex, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).toEqual(
       expect.stringMatching(regex),
+      options,
     );
   },
 
   // Negative Value Assertion
-  shouldNotBe: (selector, expected) => {
-    expect(elementInteractions.textContent(selector)).not.toBe(expected);
-  },
-  shouldNotBeCloseTo: (selector, expected, precision) => {
-    expect(Number(elementInteractions.textContent(selector))).not.toBeCloseTo(
+  shouldNotBe: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).not.toBe(
       expected,
-      precision,
+      options,
     );
   },
-  shouldNotBeDefined: (selector) => {
-    expect(elementInteractions.textContent(selector)).not.toBeDefined();
+  shouldNotBeCloseTo: async (selector, expected, precision, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).not.toBeCloseTo(expected, precision, options);
   },
-  shouldNotBeFalsy: (selector) => {
-    expect(elementInteractions.textContent(selector)).not.toBeFalsy();
+  shouldNotBeDefined: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      await elementInteractions.textContent(selector),
+    ).not.toBeDefined(options);
   },
-  shouldNotBeGreaterThan: (selector, expected) => {
-    expect(elementInteractions.textContent(selector)).not.toBeGreaterThan(
-      expected,
+  shouldNotBeFalsy: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).not.toBeFalsy(
+      options,
     );
   },
-  shouldNotBeGreaterThanOrEqual: (selector, expected) => {
-    expect(
-      Number(elementInteractions.textContent(selector)),
-    ).not.toBeGreaterThanOrEqual(expected);
+  shouldNotBeGreaterThan: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      await elementInteractions.textContent(selector),
+    ).not.toBeGreaterThan(expected, options);
   },
-  shouldNotBeInstanceOf: (selector, constructor) => {
-    expect(elementInteractions.textContent(selector)).not.toBeInstanceOf(
-      constructor,
+  shouldNotBeGreaterThanOrEqual: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).not.toBeGreaterThanOrEqual(expected, options);
+  },
+  shouldNotBeInstanceOf: async (selector, constructor, options) => {
+    options = options ?? {};
+
+    await expect(
+      await elementInteractions.textContent(selector),
+    ).not.toBeInstanceOf(constructor, options);
+  },
+  shouldNotBeLessThan: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).not.toBeLessThan(expected, options);
+  },
+  shouldNotBeLessThanOrEqual: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).not.toBeLessThanOrEqual(expected, options);
+  },
+  shouldNotBeNaN: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).not.toBeNaN(options);
+  },
+  shouldNotBeNull: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).not.toBeNull(
+      options,
     );
   },
-  shouldNotBeLessThan: (selector, expected) => {
-    expect(Number(elementInteractions.textContent(selector))).not.toBeLessThan(
-      expected,
+  shouldNotBeTruthy: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      await elementInteractions.textContent(selector),
+    ).not.toBeTruthy(options);
+  },
+  shouldNotBeUndefined: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(
+      await elementInteractions.textContent(selector),
+    ).not.toBeUndefined(options);
+  },
+  shouldNotContain: async (selector, substring, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).not.toContain(
+      substring,
+      options,
     );
   },
-  shouldNotBeLessThanOrEqual: (selector, expected) => {
-    expect(
-      Number(elementInteractions.textContent(selector)),
-    ).not.toBeLessThanOrEqual(expected);
+  shouldNotContainEqual: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).not.toContainEqual(expected, options);
   },
-  shouldNotBeNaN: (selector) => {
-    expect(Number(elementInteractions.textContent(selector))).not.toBeNaN();
+  shouldNotEqual: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).not.toEqual(expected, options);
   },
-  shouldNotBeNull: (selector) => {
-    expect(elementInteractions.textContent(selector)).not.toBeNull();
+  shouldNotHaveLength: async (selector, length, options) => {
+    options = options ?? {};
+
+    await expect(
+      await elementInteractions.textContent(selector),
+    ).not.toHaveLength(length, options);
   },
-  shouldNotBeTruthy: (selector) => {
-    expect(elementInteractions.textContent(selector)).not.toBeTruthy();
+  shouldNotHaveProperty: async (selector, property, options) => {
+    options = options ?? {};
+
+    await expect(
+      await elementInteractions.textContent(selector),
+    ).not.toHaveProperty(property, options);
   },
-  shouldNotBeUndefined: (selector) => {
-    expect(elementInteractions.textContent(selector)).not.toBeUndefined();
-  },
-  shouldNotContain: (selector, substring) => {
-    expect(elementInteractions.textContent(selector)).not.toContain(substring);
-  },
-  shouldNotContainEqual: (selector, expected) => {
-    expect(
-      Number(elementInteractions.textContent(selector)),
-    ).not.toContainEqual(expected);
-  },
-  shouldNotEqual: (selector, expected) => {
-    expect(Number(elementInteractions.textContent(selector))).not.toEqual(
-      expected,
+  shouldNotMatch: async (selector, regex, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).not.toMatch(
+      regex,
+      options,
     );
   },
-  shouldNotHaveLength: (selector, length) => {
-    expect(elementInteractions.textContent(selector)).not.toHaveLength(length);
+  shouldNotMatchObject: async (selector, object, options) => {
+    options = options ?? {};
+
+    await expect(
+      await elementInteractions.textContent(selector),
+    ).not.toMatchObject(object, options);
   },
-  shouldNotHaveProperty: (selector, property) => {
-    expect(elementInteractions.textContent(selector)).not.toHaveProperty(
-      property,
+  shouldNotStrictEqual: async (selector, expected, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).not.toStrictEqual(expected, options);
+  },
+  shouldNotThrow: async (fn, options) => {
+    options = options ?? {};
+
+    await expect(fn).not.toThrow(options);
+  },
+  shouldNotAny: async (selector, constructor, options) => {
+    options = options ?? {};
+
+    await expect(
+      await elementInteractions.textContent(selector),
+    ).any.toBeInstanceOf(constructor, options);
+  },
+  shouldNotAnything: async (selector, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).not.anything(
+      options,
     );
   },
-  shouldNotMatch: (selector, regex) => {
-    expect(elementInteractions.textContent(selector)).not.toMatch(regex);
-  },
-  shouldNotMatchObject: (selector, object) => {
-    expect(elementInteractions.textContent(selector)).not.toMatchObject(object);
-  },
-  shouldNotStrictEqual: (selector, expected) => {
-    expect(Number(elementInteractions.textContent(selector))).not.toStrictEqual(
-      expected,
-    );
-  },
-  shouldNotThrow: (fn) => {
-    expect(fn).not.toThrow();
-  },
-  shouldNotAny: (selector, constructor) => {
-    expect(elementInteractions.textContent(selector)).any.toBeInstanceOf(
-      constructor,
-    );
-  },
-  shouldNotAnything: (selector) => {
-    expect(elementInteractions.textContent(selector)).not.anything();
-  },
-  shouldNotArrayContaining: (selector, elements) => {
-    expect(elementInteractions.textContent(selector)).not.toEqual(
+  shouldNotArrayContaining: async (selector, elements, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).not.toEqual(
       expect.arrayContaining(elements),
+      options,
     );
   },
-  shouldNotCloseTo: (selector, expected, precision) => {
-    expect(Number(elementInteractions.textContent(selector))).not.toBeCloseTo(
-      expected,
-      precision,
-    );
+  shouldNotCloseTo: async (selector, expected, precision, options) => {
+    options = options ?? {};
+
+    await expect(
+      Number(await elementInteractions.textContent(selector)),
+    ).not.toBeCloseTo(expected, precision, options);
   },
-  shouldNotObjectContaining: (selector, properties) => {
-    expect(elementInteractions.textContent(selector)).not.toEqual(
+  shouldNotObjectContaining: async (selector, properties, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).not.toEqual(
       expect.objectContaining(properties),
+      options,
     );
   },
-  shouldNotStringContaining: (selector, substring) => {
-    expect(elementInteractions.textContent(selector)).not.toEqual(
+  shouldNotStringContaining: async (selector, substring, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).not.toEqual(
       expect.stringContaining(substring),
+      options,
     );
   },
-  shouldNotStringMatching: (selector, regex) => {
-    expect(elementInteractions.textContent(selector)).not.toEqual(
-      expect.stringMatchingStringMatching(regex),
+  shouldNotStringMatching: async (selector, regex, options) => {
+    options = options ?? {};
+
+    await expect(await elementInteractions.textContent(selector)).not.toEqual(
+      expect.stringMatching(regex),
+      options,
     );
   },
 };

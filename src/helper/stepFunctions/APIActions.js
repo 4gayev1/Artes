@@ -197,8 +197,10 @@ async function responseMaker(request, response, duration, curlCommand) {
 }
 
 const api = {
-  get: async (url, payload) => {
+  get: async (url, payload, options) => {
     const URL = await selector(url);
+
+    options = options ?? {};
 
     const resolvedPayload = (await payload) && resolveVariable(payload);
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
@@ -207,7 +209,7 @@ const api = {
 
     const requestStarts = performance.now();
 
-    const res = await context.request.get(URL, req);
+    const res = await context.request.get(URL, req, options);
 
     const duration = performance.now() - requestStarts;
 
@@ -223,12 +225,14 @@ const api = {
 
     context.response = await response;
   },
-  head: async (url) => {
+  head: async (url, options) => {
     const URL = await selector(url);
+
+    options = options ?? {};
 
     const requestStarts = performance.now();
 
-    const res = await context.request.head(URL);
+    const res = await context.request.head(URL, options);
 
     const duration = performance.now() - requestStarts;
 
@@ -238,8 +242,10 @@ const api = {
 
     context.response = await response;
   },
-  post: async (url, payload, requestDataType) => {
+  post: async (url, payload, requestDataType, options) => {
     const URL = await selector(url);
+
+    options = options ?? {};
 
     const resolvedPayload = (await payload) && resolveVariable(payload);
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
@@ -285,7 +291,7 @@ const api = {
 
     const requestStarts = performance.now();
 
-    const res = await context.request.post(URL, req);
+    const res = await context.request.post(URL, req, options);
 
     const duration = performance.now() - requestStarts;
 
@@ -306,8 +312,10 @@ const api = {
 
     context.response = response;
   },
-  put: async (url, payload, requestDataType) => {
+  put: async (url, payload, requestDataType, options) => {
     const URL = await selector(url);
+
+    options = options ?? {};
 
     const resolvedPayload = (await payload) && resolveVariable(payload);
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
@@ -353,7 +361,7 @@ const api = {
 
     const requestStarts = performance.now();
 
-    const res = await context.request.put(URL, req);
+    const res = await context.request.put(URL, req, options);
 
     const duration = performance.now() - requestStarts;
 
@@ -374,8 +382,10 @@ const api = {
 
     context.response = response;
   },
-  patch: async (url, payload, requestDataType) => {
+  patch: async (url, payload, requestDataType, options) => {
     const URL = await selector(url);
+
+    options = options ?? {};
 
     const resolvedPayload = (await payload) && resolveVariable(payload);
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
@@ -421,7 +431,7 @@ const api = {
 
     const requestStarts = performance.now();
 
-    const res = await context.request.patch(URL, req);
+    const res = await context.request.patch(URL, req, options);
 
     const duration = performance.now() - requestStarts;
 
@@ -442,8 +452,10 @@ const api = {
 
     context.response = response;
   },
-  delete: async (url, payload) => {
+  delete: async (url, payload, options) => {
     const URL = await selector(url);
+
+    options = options ?? {};
 
     const resolvedPayload = (await payload) && resolveVariable(payload);
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
@@ -455,7 +467,7 @@ const api = {
 
     const requestStarts = performance.now();
 
-    const res = await context.request.delete(URL, req);
+    const res = await context.request.delete(URL, req, options);
 
     const duration = performance.now() - requestStarts;
 

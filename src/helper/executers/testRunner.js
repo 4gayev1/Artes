@@ -5,21 +5,17 @@ function runTests() {
   try {
     console.log("🧪 Running tests...");
 
-    spawnSync(
-      "cucumber-js",
-      [ "--config=cucumber.config.js"],
-      {
-        cwd: moduleConfig.modulePath,
-        stdio: "inherit",
-        shell: true,
-        env: {
-          ...process.env,
-          FORCE_TTY: "1",
-          FORCE_COLOR: "1",
-          CI: "false",
-        },
+    spawnSync("cucumber-js", ["--config=cucumber.config.js"], {
+      cwd: moduleConfig.modulePath,
+      stdio: "inherit",
+      shell: true,
+      env: {
+        ...process.env,
+        FORCE_TTY: "1",
+        FORCE_COLOR: "1",
+        CI: "false",
       },
-    );
+    });
     console.log("✅ Tests running completed successfully!");
   } catch (error) {
     console.error("❌ Test execution failed:", error);

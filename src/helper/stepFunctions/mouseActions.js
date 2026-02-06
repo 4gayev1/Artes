@@ -5,138 +5,71 @@ const {
   selector,
   moduleConfig,
 } = require("../imports/commons");
-const { frame } = require("../stepFunctions/frameActions");
 
 const mouse = {
-  click: async (selector) => {
-    await element(selector).click();
-  },
-  multipleElementClick: async (selectors) => {
-    const elementCount = await frame.count(selectors);
+  click: async (selector, options) => {
+    options = options ?? {};
 
-    for (let i = 0; i < elementCount; i++) {
-      await frame.nth(selectors, i).click();
-    }
+    await element(selector).click(options);
   },
-  forceClick: async (selector) => {
-    await element(selector).click({ force: true });
-  },
-  clickPosition: async (selector, x, y) => {
-    await element(selector).click({ position: { x: x, y: y } });
-  },
-  forceClickPosition: async (selector, x, y) => {
-    await element(selector).click({ force: true, position: { x: x, y: y } });
-  },
-  rightClick: async (selector) => {
-    await element(selector).click({ button: "right" });
-  },
-  multipleElementRightClick: async (elements) => {
-    const elementCount = await frame.count(elements);
+  doubleClick: async (selector, options) => {
+    options = options ?? {};
 
-    for (let i = 0; i < elementCount; i++) {
-      await frame.nth(elements, i).click({ button: "right" });
-    }
+    await element(selector).dblclick(options);
   },
-  forceRightClick: async (selector) => {
-    await element(selector).click({ force: true, button: "right" });
-  },
-  leftClick: async (selector) => {
-    await element(selector).click({ button: "left" });
-  },
-  multipleElementLeftClick: async (elements) => {
-    const elementCount = await frame.count(elements);
+  hover: async (selector, options) => {
+    options = options ?? {};
 
-    for (let i = 0; i < elementCount; i++) {
-      await frame.nth(elements, i).click({ button: "left" });
-    }
+    await element(selector).hover(options);
   },
-  forceLeftClick: async (selector) => {
-    await element(selector).click({ force: true, button: "left" });
-  },
-  doubleClick: async (selector) => {
-    await element(selector).dblclick();
-  },
-  multipleElementDoubleClick: async (elements) => {
-    const elementCount = await frame.count(elements);
+  focus: async (selector, options) => {
+    options = options ?? {};
 
-    for (let i = 0; i < elementCount; i++) {
-      await frame.nth(elements, i).dblclick();
-    }
+    await element(selector).focus(options);
   },
-  forceDoubleClick: async (selector) => {
-    await element(selector).dblclick({ force: true });
-  },
-  forceDoubleClickPosition: async (selector, x, y) => {
-    await element(selector).dblclick({ force: true, position: { x: x, y: y } });
-  },
-  hover: async (selector) => {
-    await element(selector).hover();
-  },
-  forceHover: async (selector) => {
-    await element(selector).hover({ force: true });
-  },
-  hoverPosition: async (selector, x, y) => {
-    await element(selector).hover({ x: x, y: y });
-  },
-  forceHoverPosition: async (selector, x, y) => {
-    await element(selector).hover({ force: true, x: x, y: y });
-  },
-  focus: async (selector) => {
-    await element(selector).focus();
-  },
-  forceFocus: async (selector) => {
-    await element(selector).focus({ force: true });
-  },
-  focusPosition: async (selector, x, y) => {
-    await element(selector).focus({ x: x, y: y });
-  },
-  forceFocusPosition: async (selector, x, y) => {
-    await element(selector).focus({ force: true, x: x, y: y });
-  },
-  dragAndDrop: async (sourceSelector, targetSelector) => {
+  dragAndDrop: async (sourceSelector, targetSelector, options) => {
+    options = options ?? {};
+
     const source = await element(sourceSelector);
     const target = await element(targetSelector);
-    await source.dragTo(target);
+    await source.dragTo(target, options);
   },
-  dragAndDropPosition: async (sourceSelector, x, y) => {
-    await element(sourceSelector).dragTo({ targetPosition: { x: x, y: y } });
-  },
-  selectByValue: async (selector, value) => {
-    const valueArray = value.split(",");
-    value !== "" ? await element(selector).selectOption(valueArray) : "";
-  },
-  selectByText: async (selector, value) => {
-    value !== "" ? await element(selector).selectOption(value) : "";
-  },
-  check: async (selector) => {
-    await element(selector).check();
-  },
-  multipleElementCheck: async (selectors) => {
-    const elementCount = await frame.count(selectors);
+  selectByValue: async (selector, value, options) => {
+    options = options ?? {};
 
-    for (let i = 0; i < elementCount; i++) {
-      await frame.nth(selectors, i).check();
-    }
+    value !== "" ? await element(selector).selectOption(value, options) : "";
   },
-  uncheck: async (selector) => {
-    await element(selector).uncheck();
-  },
-  multipleElementUncheck: async (selectors) => {
-    const elementCount = await frame.count(selectors);
+  selectByText: async (selector, text, options) => {
+    options = options ?? {};
 
-    for (let i = 0; i < elementCount; i++) {
-      await frame.nth(selectors, i).uncheck();
-    }
+    text !== "" ? await element(selector).selectOption(text, options) : "";
   },
-  scrollIntoViewIfNeeded: async (selector) => {
-    await element(selector).scrollIntoViewIfNeeded();
+  check: async (selector, options) => {
+    options = options ?? {};
+
+    await element(selector).check(options);
   },
-  upload: async (filePath, fileInput) => {
+  uncheck: async (selector, options) => {
+    options = options ?? {};
+
+    await element(selector).uncheck(options);
+  },
+  scrollIntoViewIfNeeded: async (selector, options) => {
+    options = options ?? {};
+
+    await element(selector).scrollIntoViewIfNeeded(options);
+  },
+  upload: async (filePath, fileInput, options) => {
+    options = options ?? {};
+
     const file = selector(filePath);
     const fileChooserPromise = context.page.waitForEvent("filechooser");
     await element(fileInput).click();
     const fileChooser = await fileChooserPromise;
-    await fileChooser.setFiles(path.join(moduleConfig.projectPath, file));
+    await fileChooser.setFiles(
+      path.join(moduleConfig.projectPath, file),
+      options,
+    );
   },
 };
 

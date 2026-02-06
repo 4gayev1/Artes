@@ -7,7 +7,7 @@ const {
   generateReport,
   cleanUp,
 } = require("./src/helper/executers/exporter");
-const { logPomWarnings }  = require("./src/helper/controller/pomCollector");
+const { logPomWarnings } = require("./src/helper/controller/pomCollector");
 const fs = require("fs");
 const path = require("path");
 
@@ -44,6 +44,7 @@ const flags = {
   dryRun: args.includes("--dryRun"),
   percentage: args.includes("--percentage"),
   browser: args.includes("--browser"),
+  offline: args.includes("--offline"),
   device: args.includes("--device"),
   baseURL: args.includes("--baseURL"),
   maximizeScreen: args.includes("--maxScreen"),
@@ -123,6 +124,9 @@ flags.percentage ? (process.env.PERCENTAGE = percentage) : "";
 flags.browser && console.log("Running browser:", browser);
 flags.browser ? (process.env.BROWSER = JSON.stringify(browser)) : "";
 
+flags.browser && console.log("Running mode:", flags.offline && "Offline");
+flags.offline ? (process.env.OFFLINE = true) : "";
+
 flags.device && console.log("Running device:", device);
 flags.device ? (process.env.DEVICE = JSON.stringify(device)) : "";
 
@@ -148,7 +152,7 @@ function main() {
   if (flags.create) return createProject(flags.createYes, flags.noDeps);
 
   runTests();
-  
+
   logPomWarnings();
 
   if (

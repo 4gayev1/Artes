@@ -1,24 +1,36 @@
 const { context, selector } = require("../imports/commons");
 
 const page = {
-  navigateTo: async (url) => {
+  navigateTo: async (url, options) => {
+    options = options ?? {};
+
     url = selector(url);
-    return await context.page.goto(url);
+    return await context.page.goto(url, options);
   },
-  getURL: async () => {
-    return await context.page.url();
+  getURL: async (options) => {
+    options = options ?? {};
+
+    return await context.page.url(options);
   },
-  navigateBack: async () => {
-    return await context.page.goBack();
+  navigateBack: async (options) => {
+    options = options ?? {};
+
+    return await context.page.goBack(options);
   },
-  navigateForward: async () => {
-    return await context.page.goForward();
+  navigateForward: async (options) => {
+    options = options ?? {};
+
+    return await context.page.goForward(options);
   },
-  reload: async () => {
-    page.reload();
+  reload: async (options) => {
+    options = options ?? {};
+
+    return await context.page.reload(options);
   },
-  wait: async (time) => {
-    return await context.page.waitForTimeout(time);
+  wait: async (time, options) => {
+    options = options ?? {};
+
+    return await context.page.waitForTimeout(time, options);
   },
 };
 

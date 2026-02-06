@@ -32,7 +32,17 @@ When(
 When(
   "User types {string} by hand with delay {int} in {string}",
   async function (keys, delay, selector) {
-    await keyboard.pressSequentiallyDelay(selector, keys, delay);
+    await keyboard.pressSequentially(selector, keys, { delay: delay });
+  },
+);
+
+When(
+  "User types random number by hand in range from {int} to {int} in {string} with {int} ms delay",
+  async (from, to, input, delay) => {
+    const randomNumber = Math.floor(Math.random() * (to - from + 1)) + from;
+    await keyboard.pressSequentially(input, randomNumber.toString(), {
+      delay: delay,
+    });
   },
 );
 
@@ -52,7 +62,11 @@ When(
 When(
   "User types {string} in multiple {string}",
   async function (value, selectors) {
-    await keyboard.multipleElementFill(selectors, value);
+    const elementCount = await frame.count(selectors);
+    value = await resolveVariable(value);
+    for (let i = 0; i < elementCount; i++) {
+      await frame.nth(selectors, i).fill(value);
+    }
   },
 );
 
@@ -86,18 +100,8 @@ When("User releases {string}", async function (key) {
 });
 
 // User inserts text
-When("User inserts text {string}", async function (text) {
-  await keyboard.insertText(text);
-});
-
-// User presses a key
-When("User presses {string}", async function (key) {
-  await keyboard.keyboardPress(key);
-});
-
-// User types a key with a delay
-When("User types {string} with delay {int}", async function (key, delay) {
-  await keyboard.keyboardType(key, delay);
+When("User inserts {string} in {string}", async function (text, input) {
+  await keyboard.insertText(input, text);
 });
 
 When("User types random word in {string}", async (input) => {
@@ -183,18 +187,6 @@ When(
     const randomCharacters = random.string.fromCharacters(chars, 10);
     input = await element(selector(input));
     await input.fill(randomCharacters);
-  },
-);
-
-When(
-  "User types random number by hand in range from {int} to {int} in {string} with {int} ms delay",
-  async (from, to, input, delay) => {
-    const randomNumber = Math.floor(Math.random() * (to - from + 1)) + from;
-    await keyboard.pressSequentiallyDelay(
-      input,
-      randomNumber.toString(),
-      delay,
-    );
   },
 );
 

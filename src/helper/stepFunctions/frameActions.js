@@ -2,16 +2,22 @@ const { element, moduleConfig } = require("../imports/commons");
 const path = require("path");
 
 const frame = {
-  screenshot: async (selector) => {
+  screenshot: async (selector, options) => {
+    options = options ?? {};
+
     return await element(selector).screenshot({
       path: path.join(moduleConfig.projectPath, `${selector}.png`),
     });
   },
-  contentFrame: async (selector) => {
-    return await element(selector).contentFrame();
+  contentFrame: async (selector, options) => {
+    options = options ?? {};
+
+    return await element(selector, options).contentFrame(options);
   },
-  frameLocator: async (selector) => {
-    return await element(selector).frameLocator();
+  frameLocator: async (selector, options) => {
+    options = options ?? {};
+
+    return await element(selector, options).frameLocator(options);
   },
   nth: async (selector, index) => {
     return await element(selector).nth(index - 1);
@@ -19,29 +25,45 @@ const frame = {
   first: async (selector) => {
     return await element(selector).first();
   },
-  last: async (selector) => {
-    return await element(selector).last();
+  last: async (selector, options) => {
+    options = options ?? {};
+
+    return await element(selector).last(options);
   },
-  filter: async (selector, filter) => {
-    return await element(selector).filter(filter);
+  filter: async (selector, filter, options) => {
+    options = options ?? {};
+
+    return await element(selector).filter(filter, options);
   },
-  count: async (selector) => {
-    return await element(selector).count();
+  count: async (selector, options) => {
+    options = options ?? {};
+
+    return await element(selector).count(options);
   },
-  getByAltText: async (text) => {
-    return await element(text).getByAltText();
+  getByAltText: async (text, options) => {
+    options = options ?? {};
+
+    return await element(text).getByAltText(options);
   },
-  getByLabel: async (label) => {
-    return await element(label).getByLabel();
+  getByLabel: async (label, options) => {
+    options = options ?? {};
+
+    return await element(label).getByLabel(options);
   },
-  getByPlaceholder: async (placeholder) => {
-    return await element(placeholder).getByPlaceholder();
+  getByPlaceholder: async (placeholder, options) => {
+    options = options ?? {};
+
+    return await element(placeholder).getByPlaceholder(options);
   },
-  getByRole: async (role) => {
-    return await element(role).getByRole();
+  getByRole: async (role, options) => {
+    options = options ?? {};
+
+    return await element(role).getByRole(options);
   },
-  getByTestId: async (testId) => {
-    return await element(testId).getByTestId();
+  getByTestId: async (testId, options) => {
+    options = options ?? {};
+
+    return await element(testId).getByTestId(options);
   },
 };
 

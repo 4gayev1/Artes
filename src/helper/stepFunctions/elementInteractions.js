@@ -1,35 +1,55 @@
 const { element } = require("../imports/commons");
 
 const elementInteractions = {
-  isChecked: async (selector) => {
-    return await element(selector).isChecked();
+  isChecked: async (selector, options) => {
+    options = options ?? {};
+
+    return await element(selector).isChecked(options);
   },
-  isDisabled: async (selector) => {
-    return await element(selector).isDisabled();
+  isDisabled: async (selector, options) => {
+    options = options ?? {};
+
+    return await element(selector, options).isDisabled(options);
   },
-  isEditable: async (selector) => {
-    return await element(selector).isEditable();
+  isEditable: async (selector, options) => {
+    options = options ?? {};
+
+    return await element(selector).isEditable(options);
   },
-  isEnabled: async (selector) => {
-    return await element(selector).isEnabled();
+  isEnabled: async (selector, options) => {
+    options = options ?? {};
+
+    return await element(selector).isEnabled(options);
   },
-  isHidden: async (selector) => {
-    return await element(selector).isHidden();
+  isHidden: async (selector, options) => {
+    options = options ?? {};
+
+    return await element(selector).isHidden(options);
   },
-  isVisible: async (selector) => {
-    return await element(selector).isVisible();
+  isVisible: async (selector, options) => {
+    options = options ?? {};
+
+    return await element(selector).isVisible(options);
   },
-  getAttribute: async (selector, attribute) => {
-    return await element(selector).getAttribute(attribute);
+  getAttribute: async (selector, attribute, options) => {
+    options = options ?? {};
+
+    return await element(selector).getAttribute(attribute, options);
   },
-  innerHTML: async (selector) => {
-    return await element(selector).innerHTML();
+  innerHTML: async (selector, options) => {
+    options = options ?? {};
+
+    return await element(selector).innerHTML(options);
   },
-  innerText: async (selector) => {
-    return await element(selector).innerText();
+  innerText: async (selector, options) => {
+    options = options ?? {};
+
+    return await element(selector).innerText(options);
   },
-  textContent: async (selector) => {
-    return await element(selector).textContent();
+  textContent: async (selector, options) => {
+    options = options ?? {};
+
+    return await element(selector).textContent(options);
   },
 };
 

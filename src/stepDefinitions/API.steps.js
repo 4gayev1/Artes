@@ -7,6 +7,8 @@ const {
   random,
 } = require("../helper/imports/commons");
 const { api } = require("../helper/stepFunctions/exporter");
+const path = require("path");
+const fs = require("fs");
 
 When("User sends GET request to {string}", async function (url) {
   await api.get(url);
@@ -295,5 +297,15 @@ When(
         : time().add(days, "day").toISOString();
 
     context.vars[dateName] = expiresAt;
+  },
+);
+
+When(
+  "User convert {string} into base64 as {string}",
+  async (file, variable) => {
+    const filePath = await path.join(moduleConfig.projectPath, file);
+    const fileData = await fs.readFileSync(filePath);
+    const base64Data = await fileData.toString("base64");
+    context.vars[variable] = await base64Data;
   },
 );

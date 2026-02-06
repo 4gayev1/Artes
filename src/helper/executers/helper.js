@@ -75,6 +75,9 @@ function showHelp() {
 
             🌐 --browser       Specify browser to use (chromium, firefox, webkit)
                 Usage:   artes --browser chromium
+            
+            --offline       Run browser in offline mode
+                Usage:   artes --offline
 
             📱 --device       Emulate specific device (e.g., "iPhone 13")
                 Usage:   artes --device "iPhone 13"

@@ -1,40 +1,58 @@
 const { element, resolveVariable } = require("../imports/commons");
 const { frame } = require("./frameActions");
 
-
 const keyboard = {
-  press: async (selector, key) => {
+  press: async (selector, key, options) => {
+    options = options ?? {};
+
     key = await resolveVariable(key);
-    await element(selector).press(key);
+    await element(selector).press(key, options);
   },
-  pressSequentially: async (selector, keys) => {
+  pressSequentially: async (selector, keys, options) => {
+    options = options ?? {};
+
     keys = await resolveVariable(keys);
-    await element(selector).pressSequentially(keys);
+    await element(selector).pressSequentially(keys, options);
   },
-  pressSequentiallyDelay: async (selector, keys, delay) => {
-    keys = await resolveVariable(keys);
-    await element(selector).pressSequentially(keys, { delay: delay });
-  },
-  fill: async (selector, value) => {
+  fill: async (selector, value, options) => {
+    options = options ?? {};
+
     value = await resolveVariable(value);
-    value !== "" ? await element(selector).fill(value) : "";
+    value !== "" ? await element(selector).fill(value, options) : "";
   },
-  multipleElementFill: async (selectors, value) => {
-    const elementCount = await frame.count(selectors);
-    value = await resolveVariable(value);
-    for (let i = 0; i < elementCount; i++) {
-      await frame.nth(selectors, i).fill(value);
-    }
+  keyDown: async (selector, key, options) => {
+    options = options ?? {};
+
+    key = await resolveVariable(key);
+    await element(selector).down(key, options);
   },
-  clear: async (selector) => {
-    await element(selector).clear();
+  keyUp: async (selector, key, options) => {
+    options = options ?? {};
+
+    key = await resolveVariable(key);
+    await element(selector).up(key, options);
   },
-  selectText: async (selector) => {
-    await element(selector).selectText();
+  insertText: async (selector, text, options) => {
+    options = options ?? {};
+
+    text = await resolveVariable(text);
+    await element(selector).insertText(text, options);
   },
-  setInputFiles: async (selector, files) => {
+  clear: async (selector, options) => {
+    options = options ?? {};
+
+    await element(selector).clear(options);
+  },
+  selectText: async (selector, options) => {
+    options = options ?? {};
+
+    await element(selector).selectText(options);
+  },
+  setInputFiles: async (selector, files, options) => {
+    options = options ?? {};
+
     files = await resolveVariable(files);
-    await element(selector).setInputFiles(files);
+    await element(selector).setInputFiles(files, options);
   },
 };
 

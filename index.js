@@ -8,12 +8,13 @@ const {
   selector,
   saveVar,
   extractVarsFromResponse,
-  page,
+  browserPage,
   request,
   random,
   time,
   resolveVariable,
 } = require("./src/helper/imports/commons");
+
 const {
   keyboard,
   mouse,
@@ -21,6 +22,7 @@ const {
   assert,
   elementInteractions,
   api,
+  page,
 } = require("./src/helper/stepFunctions/exporter");
 
 module.exports = {
@@ -34,6 +36,7 @@ module.exports = {
   extractVarsFromResponse,
   resolveVariable,
   context,
+  browserPage,
   api,
   random,
   time,

@@ -11,7 +11,10 @@ const {
 const { spawnSync } = require("child_process");
 const { invokeBrowser } = require("../helper/contextManager/browserManager");
 const { invokeRequest } = require("../helper/contextManager/requestManager");
-const { pomCollector, logPomWarnings } = require("../helper/controller/pomCollector");
+const {
+  pomCollector,
+  logPomWarnings,
+} = require("../helper/controller/pomCollector");
 const cucumberConfig = require("../../cucumber.config");
 const { context } = require("./context");
 const fs = require("fs");
@@ -147,15 +150,9 @@ After(async function ({ pickle, result }) {
     cucumberConfig.default.successReport || result?.status !== Status.PASSED;
 
   if (shouldReport & (context.page.url() !== "about:blank")) {
-
     const screenshotBuffer = await context.page.screenshot({ type: "png" });
 
-    await allure.attachment(
-      "Screenshot", 
-      screenshotBuffer,                             
-      "image/png"
-    );
-
+    await allure.attachment("Screenshot", screenshotBuffer, "image/png");
   }
 
   saveTestStatus(result, pickle);
@@ -172,13 +169,11 @@ After(async function ({ pickle, result }) {
     shouldReport &&
     context.page.url() !== "about:blank"
   ) {
-
-     await context.browserContext.tracing.stop({
+    await context.browserContext.tracing.stop({
       path: tracePath,
     });
 
     if (cucumberConfig.default.reportWithTrace) {
-
       await allure.attachTrace("Trace", tracePath);
 
       if (!cucumberConfig.default.trace) {
@@ -196,13 +191,12 @@ After(async function ({ pickle, result }) {
           },
         );
       }
-      
     }
   }
 
   await attachResponse(allure.attachment);
-  context.response = await {}
-  
+  context.response = await {};
+
   await context.page?.close();
   await context.browserContext?.close();
   await context.browser?.close();
@@ -219,13 +213,12 @@ After(async function ({ pickle, result }) {
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-     if (fs.existsSync(videoPath)) {
+      if (fs.existsSync(videoPath)) {
         const webmBuffer = fs.readFileSync(videoPath);
         await allure.attachment("Screenrecord", webmBuffer, "video/webm");
       }
     }
   }
-
 });
 
 AfterAll(async () => {
@@ -234,7 +227,7 @@ AfterAll(async () => {
   }
 
   logPomWarnings();
-  
+
   if (!fs.existsSync(statusDir)) return;
 
   const files = fs.readdirSync(statusDir);
@@ -252,8 +245,9 @@ AfterAll(async () => {
     });
   }
 
-  if (cucumberConfig.default.testPercentage>0) {
-    const meetsThreshold = successPercentage >= cucumberConfig.default.testPercentage;
+  if (cucumberConfig.default.testPercentage > 0) {
+    const meetsThreshold =
+      successPercentage >= cucumberConfig.default.testPercentage;
 
     if (meetsThreshold) {
       console.log(

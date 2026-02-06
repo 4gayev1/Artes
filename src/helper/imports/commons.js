@@ -14,7 +14,7 @@ const dayjs = require("dayjs");
 
 const element = getElement;
 const selector = getSelector;
-const page = context.page;
+const browserPage = context.page;
 const request = context.request;
 
 const random = faker;
@@ -50,7 +50,7 @@ module.exports = {
   resolveVariable,
   random,
   time,
-  page,
+  browserPage,
   request,
   context,
   moduleConfig,

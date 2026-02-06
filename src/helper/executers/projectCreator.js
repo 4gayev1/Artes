@@ -66,6 +66,7 @@ function createProject(createYes, noDeps) {
     // backtrace: false,             // boolean - Show full backtrace for errors
     // dryRun: false,                // boolean - Prepare test run without execution
     // browser: "chrome",            // "chrome", "firefox", "webkit"
+    // offline: false,               // boolean - Run browser in offline mode
     // device: "",                   // string - Emulate specific device (e.g., "iPhone 13", for more devices look at the documentation)
     // width: 1280,                  // number - Browser width
     // height: 720,                  // number - Browser height

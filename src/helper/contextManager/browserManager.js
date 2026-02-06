@@ -19,7 +19,9 @@ const invokeBrowser = async () => {
     args: [cucumberConfig.browser.maximizeScreen ? "--start-maximized" : ""],
   };
 
-  const browserType = cucumberConfig.browser.device ? "webkit" : cucumberConfig.browser.browserType.toLowerCase() || "chrome";
+  const browserType = cucumberConfig.browser.device
+    ? "webkit"
+    : cucumberConfig.browser.browserType.toLowerCase() || "chrome";
 
   const browserContextOptions = {
     baseURL: baseURL,
@@ -35,6 +37,7 @@ const invokeBrowser = async () => {
       size: cucumberConfig.browser.viewport,
     },
     ignoreHTTPSErrors: true,
+    offline: cucumberConfig.browser.offline,
   };
 
   switch (browserType) {
@@ -53,9 +56,10 @@ const invokeBrowser = async () => {
       );
   }
 
-
   const context = await browser.newContext({
-    ...(cucumberConfig.browser.device ? devices[cucumberConfig.browser.device] : {}),
+    ...(cucumberConfig.browser.device
+      ? devices[cucumberConfig.browser.device]
+      : {}),
     ...browserContextOptions,
   });
 
