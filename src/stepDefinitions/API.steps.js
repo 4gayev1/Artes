@@ -5,7 +5,7 @@ const {
   saveVar,
   time,
   random,
-  moduleConfig,
+  moduleConfig, resolveVariable
 } = require("../helper/imports/commons");
 const { api } = require("../helper/stepFunctions/exporter");
 const path = require("path");
@@ -239,37 +239,29 @@ When("User wants to see response body", async function () {
 });
 
 When(
-  "User sends {string} request to {string}",
-  async function (method, url, reqParams) {
+  "User sends {string} request to {string} with payload:",
+  async function (method, url, payload) {
     const httpMethod = method.toUpperCase();
 
-    let headers = {};
-    let body;
-
-    if (["POST", "PUT", "PATCH"].includes(httpMethod)) {
-      const payload = JSON.parse(reqParams);
-      headers = payload.headers || {};
-      body = payload.body || {};
-    }
 
     switch (httpMethod) {
       case "GET":
-        await api.get(url);
+        await api.get(url, payload);
         break;
       case "HEAD":
-        await api.head(url);
+        await api.head(url, payload);
         break;
       case "POST":
-        await api.post(url, headers, body);
+        await api.post(url, payload);
         break;
       case "PUT":
-        await api.put(url, headers, body);
+        await api.put(url, payload);
         break;
       case "PATCH":
-        await api.patch(url, headers, body);
+        await api.patch(url, payload);
         break;
       case "DELETE":
-        await api.delete(url);
+        await api.delete(url, payload);
         break;
       default:
         throw new Error(`Unsupported HTTP method: ${httpMethod}`);
@@ -308,6 +300,8 @@ When(
 When(
   "User convert {string} into base64 as {string}",
   async (file, variable) => {
+    file = await resolveVariable(file);
+    
     const filePath = await path.join(moduleConfig.projectPath, file);
     const fileData = await fs.readFileSync(filePath);
     const base64Data = await fileData.toString("base64");

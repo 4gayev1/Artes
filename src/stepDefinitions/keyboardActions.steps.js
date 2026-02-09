@@ -3,7 +3,7 @@ const {
   random,
   element,
   selector,
-  time,
+  time, resolveVariable
 } = require("../helper/imports/commons");
 const { keyboard, frame } = require("../helper/stepFunctions/exporter");
 
@@ -225,6 +225,9 @@ When("User types random middle name in {string}", async (input) => {
 When(
   "User types random date between {int} and {int} in {string}",
   async (fromYear, toYear, input) => {
+      fromYear = await resolveVariable(fromYear);
+      toYear = await resolveVariable(toYear);
+
     const year = Math.floor(Math.random() * (toYear - fromYear + 1)) + fromYear;
     const month = Math.floor(Math.random() * 12) + 1;
     const day = Math.floor(Math.random() * 28) + 1;
@@ -237,6 +240,9 @@ When(
 When(
   "User types date {int} days after today in {string}",
   async (day, input) => {
+
+    day = await resolveVariable(day);
+
     const now = new time();
     const afterDate = now.add(day, "day").format("DD-MM-YYYY");
     await element(input).fill(afterDate);
@@ -246,6 +252,9 @@ When(
 When(
   "User types date {int} days before today in {string}",
   async (day, input) => {
+
+     day = await resolveVariable(day);
+
     const now = new time();
     const beforeDate = now.subtract(day, "day").format("DD-MM-YYYY");
     await element(input).fill(beforeDate);

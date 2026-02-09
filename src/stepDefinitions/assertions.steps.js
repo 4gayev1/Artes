@@ -5,7 +5,7 @@ const {
   element,
   extractVarsFromResponse,
   context,
-  resolveVariable,
+  resolveVariable
 } = require("../helper/imports/commons");
 const { assert, frame } = require("../helper/stepFunctions/exporter");
 const Ajv = require("ajv");
@@ -837,6 +837,7 @@ Then(
 Then(
   "User expects that response body should match {string} schema",
   async function (expectedSchema) {
+    expectedSchema = await resolveVariable(expectedSchema);
     if (expectedSchema != "") {
       const schema = await selector(expectedSchema);
       const ajv = await new Ajv();
@@ -851,6 +852,7 @@ Then(
 Then(
   "User expects that request should have {int} status code",
   async function (expectedStatusCode) {
+    expectedStatusCode = await resolveVariable(expectedStatusCode);
     const actualStatusCode = await context.response.Response.status();
     expect(actualStatusCode).toBe(expectedStatusCode);
   },
@@ -859,6 +861,7 @@ Then(
 Then(
   "User expects that response should have {int} status code",
   async function (expectedStatusCode) {
+    expectedStatusCode = await resolveVariable(expectedStatusCode);
     const actualStatusCode = await context.response.Response.status();
     expect(actualStatusCode).toBe(expectedStatusCode);
   },

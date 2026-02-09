@@ -1,4 +1,4 @@
-const { Given, context, random, time } = require("../helper/imports/commons");
+const { Given, context, random, time, resolveVariable } = require("../helper/imports/commons");
 const { api } = require("../helper/stepFunctions/exporter");
 
 Given("User sets random word as {string}", async (key) => {
@@ -153,6 +153,10 @@ Given("User sets random middle name as {string}", async (key) => {
 Given(
   "User sets random date between {int} and {int} as {string}",
   async (fromYear, toYear, key) => {
+
+    fromYear = await resolveVariable(fromYear);
+    toYear = await resolveVariable(toYear);
+
     const year = Math.floor(Math.random() * (toYear - fromYear + 1)) + fromYear;
     const month = Math.floor(Math.random() * 12) + 1;
     const day = Math.floor(Math.random() * 28) + 1;
@@ -163,6 +167,9 @@ Given(
 );
 
 Given("User sets date {int} days after today as {string}", async (day, key) => {
+
+  day = await resolveVariable(day);
+
   const now = new time();
   const afterDate = now.add(day, "day").format("DD-MM-YYYY");
   context.vars[key] = afterDate;
@@ -171,6 +178,9 @@ Given("User sets date {int} days after today as {string}", async (day, key) => {
 Given(
   "User sets date {int} days before today as {string}",
   async (day, key) => {
+
+    day = await resolveVariable(day);
+
     const now = new time();
     const beforeDate = now.subtract(day, "day").format("DD-MM-YYYY");
     context.vars[key] = beforeDate;

@@ -3,7 +3,7 @@ const {
   element,
   context,
   selector,
-  moduleConfig,
+  moduleConfig, resolveVariable
 } = require("../imports/commons");
 
 const mouse = {
@@ -37,10 +37,14 @@ const mouse = {
   selectByValue: async (selector, value, options) => {
     options = options ?? {};
 
+    value = await resolveVariable(value);
+
     value !== "" ? await element(selector).selectOption(value, options) : "";
   },
   selectByText: async (selector, text, options) => {
     options = options ?? {};
+
+    text = await resolveVariable(text);
 
     text !== "" ? await element(selector).selectOption(text, options) : "";
   },
@@ -62,6 +66,7 @@ const mouse = {
   upload: async (filePath, fileInput, options) => {
     options = options ?? {};
 
+    filePath = await resolveVariable(filePath);
     const file = selector(filePath);
     const fileChooserPromise = context.page.waitForEvent("filechooser");
     await element(fileInput).click();

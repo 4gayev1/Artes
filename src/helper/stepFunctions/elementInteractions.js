@@ -1,4 +1,4 @@
-const { element } = require("../imports/commons");
+const { element, resolveVariable } = require("../imports/commons");
 
 const elementInteractions = {
   isChecked: async (selector, options) => {
@@ -33,6 +33,8 @@ const elementInteractions = {
   },
   getAttribute: async (selector, attribute, options) => {
     options = options ?? {};
+
+    attribute = await resolveVariable(attribute)
 
     return await element(selector).getAttribute(attribute, options);
   },

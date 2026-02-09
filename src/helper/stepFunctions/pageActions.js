@@ -1,10 +1,12 @@
-const { context, selector } = require("../imports/commons");
+const { context, selector, resolveVariable } = require("../imports/commons");
 
 const page = {
   navigateTo: async (url, options) => {
     options = options ?? {};
 
-    url = selector(url);
+    url = await resolveVariable(url);
+    url = await selector(url);
+
     return await context.page.goto(url, options);
   },
   getURL: async (options) => {
@@ -29,6 +31,8 @@ const page = {
   },
   wait: async (time, options) => {
     options = options ?? {};
+
+    time = await resolveVariable(time);
 
     return await context.page.waitForTimeout(time, options);
   },

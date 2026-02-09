@@ -38,7 +38,10 @@ function selectorSeparator(element) {
   }
 }
 
-function getSelector(element) {
+ function getSelector(element) {
+
+  element = resolveVariable(element)
+
   const selector =
     elements?.[element]?.selector || elements?.[element] || element;
   return resolveVariable(selectorSeparator(selector));

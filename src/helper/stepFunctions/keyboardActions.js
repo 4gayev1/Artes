@@ -1,41 +1,46 @@
 const { element, resolveVariable } = require("../imports/commons");
-const { frame } = require("./frameActions");
 
 const keyboard = {
   press: async (selector, key, options) => {
     options = options ?? {};
 
     key = await resolveVariable(key);
+
     await element(selector).press(key, options);
   },
   pressSequentially: async (selector, keys, options) => {
     options = options ?? {};
 
     keys = await resolveVariable(keys);
+
     await element(selector).pressSequentially(keys, options);
   },
   fill: async (selector, value, options) => {
     options = options ?? {};
 
     value = await resolveVariable(value);
+
     value !== "" ? await element(selector).fill(value, options) : "";
   },
   keyDown: async (selector, key, options) => {
     options = options ?? {};
 
     key = await resolveVariable(key);
+
     await element(selector).down(key, options);
   },
   keyUp: async (selector, key, options) => {
     options = options ?? {};
 
     key = await resolveVariable(key);
+
     await element(selector).up(key, options);
   },
   insertText: async (selector, text, options) => {
     options = options ?? {};
 
     text = await resolveVariable(text);
+
     await element(selector).insertText(text, options);
   },
   clear: async (selector, options) => {
