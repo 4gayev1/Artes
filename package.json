@@ -1,6 +1,6 @@
 {
   "name": "artes",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "The simplest way to automate UI and API tests using Cucumber-style steps.",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "author": "VhdAghyv",
   "license": "ISC",
   "dependencies": {
-    "@cucumber/cucumber": "11.0.1",
+    "@cucumber/cucumber": "^11.3.0",
     "@cucumber/messages": "26.0.1",
     "@faker-js/faker": "9.8.0",
     "@types/node": "22.9.0",
@@ -29,7 +29,7 @@
     "archiver": "^7.0.1",
     "dayjs": "1.11.13",
     "deasync": "^0.1.31",
-    "playwright": "1.52.0",
+    "playwright": "^1.58.2",
     "rimraf": "6.0.1"
   },
   "repository": {

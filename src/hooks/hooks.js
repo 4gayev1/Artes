@@ -176,21 +176,6 @@ After(async function ({ pickle, result }) {
     if (cucumberConfig.default.reportWithTrace) {
       await allure.attachTrace("Trace", tracePath);
 
-      if (!cucumberConfig.default.trace) {
-        spawnSync(
-          "npx",
-          [
-            "rimraf",
-            "--no-glob",
-            path.join(moduleConfig.projectPath, "./traces"),
-          ],
-          {
-            cwd: moduleConfig.projectPath,
-            stdio: "inherit",
-            shell: false,
-          },
-        );
-      }
     }
   }
 
@@ -227,6 +212,22 @@ AfterAll(async () => {
   }
 
   logPomWarnings();
+
+  if (!cucumberConfig.default.trace) {
+    spawnSync(
+      "npx",
+      [
+        "rimraf",
+        "--no-glob",
+        path.join(moduleConfig.projectPath, "./traces"),
+      ],
+      {
+        cwd: moduleConfig.projectPath,
+        stdio: "inherit",
+        shell: false,
+      },
+    );
+  }
 
   if (!fs.existsSync(statusDir)) return;
 
