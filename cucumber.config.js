@@ -51,6 +51,15 @@ function resolveEnv(artesConfig) {
 }
 const env = resolveEnv(artesConfig);
 
+const resolveFeaturePaths = (basePath, value) => {
+  return value
+    .split(',')
+    .map(p => p.trim())
+    .filter(Boolean)
+    .map(p => path.join(basePath, p));
+};
+
+
 module.exports = {
   default: {
     // File paths and patterns
@@ -60,13 +69,13 @@ module.exports = {
     timeout: process.env.TIMEOUT
       ? Number(process.env.TIMEOUT) * 1000
       : artesConfig.timeout * 1000 || 30 * 1000, // Default timeout in seconds
-    paths: process.env.RERUN
-      ? [`${path.join("../../", process.env.RERUN)}`]
+      paths: process.env.RERUN
+      ? [path.join("../../", process.env.RERUN)]
       : process.env.FEATURES
-        ? [path.join(moduleConfig.projectPath, process.env.FEATURES)]
+        ? resolveFeaturePaths(moduleConfig.projectPath, process.env.FEATURES)
         : artesConfig.features
-          ? [path.join(moduleConfig.projectPath, artesConfig.features)]
-          : [moduleConfig.featuresPath], // Paths to feature files
+          ? resolveFeaturePaths(moduleConfig.projectPath, artesConfig.features)
+          : [moduleConfig.featuresPath], // Paths to feature files    
     require: [
       process.env.STEP_DEFINITIONS
         ? [path.join(moduleConfig.projectPath, process.env.STEP_DEFINITIONS)]
