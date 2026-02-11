@@ -58,7 +58,7 @@ function generateReport() {
 
       require("deasync").loopWhile(() => !done);
 
-      console.log(`🗜️ Zipped in ${moduleConfig.projectPath}/report.zip!`);
+      console.log(`🗜️ Zipped in ${path.join( path.dirname(moduleConfig.reportPath),  "report.zip" )}!`);
       if (error) throw error;
     }
   } catch (err) {
