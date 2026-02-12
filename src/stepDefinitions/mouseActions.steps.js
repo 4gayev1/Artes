@@ -3,6 +3,7 @@ const {
   element,
   selector,
   context,
+ resolveVariable
 } = require("../helper/imports/commons");
 const { mouse, frame, page } = require("../helper/stepFunctions/exporter");
 
@@ -39,6 +40,8 @@ When("User clicks {string} with force", async function (selector) {
 When(
   "User clicks {string} at {int}, {int} position",
   async function (selector, x, y) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     await mouse.click(selector, { position: { x: x, y: y } });
   },
 );
@@ -47,12 +50,16 @@ When(
 When(
   "User clicks {string} at {int}, {int} position with force",
   async function (selector, x, y) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     await mouse.click(selector, { force: true, position: { x: x, y: y } });
   },
 );
 
 // User clicks at specific coordinates
 When("User clicks at {int}, {int} coordinates", async function (x, y) {
+  x = await resolveVariable(x)
+  y = await resolveVariable(y)
   await context.page.click({ position: { x: x, y: y } });
 });
 
@@ -60,6 +67,8 @@ When("User clicks at {int}, {int} coordinates", async function (x, y) {
 When(
   "User clicks at {int}, {int} coordinates with click count {int} and delay {int}",
   async function (x, y, clickCount, delay) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     await context.page.click({
       position: { x: x, y: y },
       clickCount: clickCount,
@@ -72,6 +81,8 @@ When(
 When(
   "User clicks at {int}, {int} coordinates with force",
   async function (x, y) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     context.page.click({ position: { x: x, y: y }, force: true });
   },
 );
@@ -139,6 +150,8 @@ When("User double clicks {string} with force", async function (selector) {
 When(
   "User double clicks {string} at {int}, {int} position",
   async function (selector, x, y) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     await mouse.doubleClick(selector, { position: { x: x, y: y } });
   },
 );
@@ -147,6 +160,8 @@ When(
 When(
   "User double clicks {string} at {int}, {int} position with force",
   async function (selector, x, y) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     await mouse.doubleClick(selector, {
       position: { x: x, y: y },
       force: true,
@@ -156,6 +171,8 @@ When(
 
 // User double clicks at specific coordinates
 When("User double clicks at {int}, {int} coordinates", async function (x, y) {
+  x = await resolveVariable(x)
+  y = await resolveVariable(y)
   await context.page.doubleClick({ position: { x: x, y: y } });
 });
 
@@ -163,6 +180,8 @@ When("User double clicks at {int}, {int} coordinates", async function (x, y) {
 When(
   "User double clicks at {int}, {int}  coordinates with click count {int} and delay {int}",
   async function (x, y, clickCount, delay) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     await context.page.doubleClick({
       position: { x: x, y: y },
       clickCount: clickCount,
@@ -175,12 +194,16 @@ When(
 When(
   "User double clicks at {int}, {int} coordinates  with force",
   async function (x, y) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     await context.page.doubleClick({ position: { x: x, y: y }, force: true });
   },
 );
 
 // User moves the mouse to specific coordinates
 When("User moves to {int}, {int} coordinates", async function (x, y) {
+  x = await resolveVariable(x)
+  y = await resolveVariable(y)
   await context.page.move({ position: { x: x, y: y } });
 });
 
@@ -188,6 +211,8 @@ When("User moves to {int}, {int} coordinates", async function (x, y) {
 When(
   "User scrolls the mouse wheel at {int}, {int} coordinates",
   async function (x, y) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     await context.page.wheel({ position: { x: x, y: y } });
   },
 );
@@ -206,6 +231,8 @@ When("User hovers over {string} with force", async function (selector) {
 When(
   "User hovers over {string} at {int}, {int} position",
   async function (selector, x, y) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     await mouse.hover(selector, { position: { x: x, y: y } });
   },
 );
@@ -214,6 +241,8 @@ When(
 When(
   "User hovers over {string} at {int}, {int} position with force",
   async function (selector, x, y) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     await mouse.hover(selector, { position: { x: x, y: y }, force: true });
   },
 );
@@ -232,6 +261,8 @@ When("User focuses on {string} with force", async function (selector) {
 When(
   "User focuses on {string} at {int}, {int} position",
   async function (selector, x, y) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     await mouse.focus(selector, { position: { x: x, y: y } });
   },
 );
@@ -240,6 +271,8 @@ When(
 When(
   "User focuses on {string} at {int}, {int} position with force",
   async function (selector, x, y) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     await mouse.focus(selector, { position: { x: x, y: y }, force: true });
   },
 );
@@ -256,6 +289,8 @@ When(
 When(
   "User drags {string} to {int}, {int} position",
   async function (sourceSelector, x, y) {
+    x = await resolveVariable(x)
+    y = await resolveVariable(y)
     await mouse.dragAndDrop(sourceSelector, { position: { x: x, y: y } });
   },
 );
