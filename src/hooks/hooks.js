@@ -78,7 +78,7 @@ BeforeAll(async () => {
   pomCollector();
 });
 
-Before(async function () {
+Before(async function ({pickle}) {
   context.vars = {};
 
   const envFilePath = path.join(
@@ -110,6 +110,7 @@ Before(async function () {
 
   if (cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace) {
     await browserContext.tracing.start({
+      title: pickle.name,
       sources: true,
       screenshots: true,
       snapshots: true,
