@@ -19,7 +19,7 @@ const cucumberConfig = require("../../cucumber.config");
 const { context } = require("./context");
 const fs = require("fs");
 const path = require("path");
-const { moduleConfig } = require("artes/src/helper/imports/commons");
+const { moduleConfig, saveVar } = require("artes/src/helper/imports/commons");
 require("allure-cucumberjs");
 const allure = require("allure-js-commons");
 
@@ -80,6 +80,15 @@ BeforeAll(async () => {
 
 Before(async function ({pickle}) {
   context.vars = {};
+
+  const vars = await cucumberConfig.variables
+
+  if (vars && typeof vars === "object") {
+    for (let [key, value] of Object.entries(vars)) {
+
+       saveVar(value, key);
+    }
+  }
 
   const envFilePath = path.join(
     moduleConfig.projectPath,

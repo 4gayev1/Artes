@@ -47,6 +47,7 @@ function createProject(createYes, noDeps) {
 
     // Configuration options:
     // env: "",                      // string - Environment name for tests
+    // variables: {}                 // object - Variables for tests
     // testPercentage: 0,            // number - Minimum success rate percentage(Default: 0)
     // baseURL: "",                  // string - Base URL for API tests
     // paths: [],                    // string[] - Paths to feature files
@@ -56,6 +57,7 @@ function createProject(createYes, noDeps) {
     // slowMo: 0,                    // number - Slow down test execution (Default: 0 seconds)
     // parallel: 0,                  // number - Number of parallel workers
     // report: true                  // boolean - Generate report
+    // zip: false                    // boolean - Generate zip of report
     // reportSuccess: false,         // boolean - Add screenshots and video records to report also for success test cases
     // trace: false,                 // boolean - Enable tracing
     // reportWithTrace: false,       // boolean - Include trace in report

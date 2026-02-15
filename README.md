@@ -119,6 +119,7 @@ npx artes [options]
 | 📜 `--stepDef`            | Specify one or more step definition files' relative paths to use (comma-separated) | `artes --stepDef "tests/steps/login.js,tests/steps/home.js"`          |
 | 🔖 `--tags`               | Run tests with specified Cucumber tags                                             | `artes --tags "@smoke or @wip"`                                       |
 | 🌐 `--env`                | Set the environment for the test run                                               | `artes --env "dev"`                                                   |
+| `--saveVar`              |  Set the variables from CLI                                                         | `artes --saveVar '{"armud":20,"banana":200}'` |  
 | 🕶️ `--headless`           | Run browser in headless mode                                                       | `artes --headless`                                                    |
 | ⚡ `--parallel`           | Run tests in parallel mode                                                         | `artes --parallel 2`                                                  |
 | 🔁 `--retry`              | Retry failed tests                                                                 | `artes --retry 3`                                                     |
@@ -482,23 +483,35 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 
 | **Option**        | **Default Value**                                                            | **Description**                                               |
 | ----------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `headless`        | `false`                                                                      | Run browser in headless mode.                                 |
+| `env`             | `""`                                                                         | Environment name for tests.                                   |
+| `variables`       | `{}`                                                                         | Variables for tests.                                          |
+| `baseURL`         | `""`                                                                         | Base URL for API or web tests.                                |
 | `timeout`         | `30`                                                                         | Default timeout in seconds.                                   |
-| `slowMo`          | `0`                                                                          | Default slow motion in seconds                                |
+| `slowMo`          | `0`                                                                          | Default slow motion in seconds.                               |
 | `paths`           | `[moduleConfig.featuresPath]`                                                | Paths to feature files.                                       |
 | `require`         | `[moduleConfig.stepsPath, "src/stepDefinitions/*.js", "src/hooks/hooks.js"]` | Support code paths (CommonJS).                                |
 | `pomPath`         | `moduleConfig.pomPath`                                                       | Path to Page Object Models.                                   |
+| `steps`           | `""`                                                                         | Step definitions files path.                                  |
 | `import`          | `[]`                                                                         | Support code paths.                                           |
 | `testPercentage`  | `0`                                                                          | Define test coverage percentage                               |
 | `report`          | `false`                                                                      | Generate report                                               |
-| `reportSuccess`   | `false`                                                                      | Add screenshots and video records for also success test cases |
-| `trace`           | `false`                                                                      | Enable trace                                                  |
-| `reportWithTrace` | `false`                                                                      | Add trace to the report                                       |
+| `zip`             |  `false`                                                                     | Generate zip of report |
+| `reportSuccess`   | `false`                                                                      | Add screenshots and video records also for success test cases |
+| `trace`           | `false`                                                                      | Enable tracing                                                |
+| `reportWithTrace` | `false`                                                                      | Include trace in report                                       |
 | `format`          | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]`                         | Formatter names/paths.                                        |
 | `formatOptions`   | `{ "resultsDir": "allure-result" }`                                          | Formatter options.                                            |
 | `parallel`        | `1`                                                                          | Number of parallel workers.                                   |
+| `browser`         | `"chrome"`                                                                   | Browser to use: "chrome", "firefox", "webkit".                |
+| `offline`         | `false`                                                                      | Run browser in offline mode.                                  |
+| `device`          | `""`                                                                         | Emulate specific device (e.g., "iPhone 13").                  |
+| `width`           | `1280`                                                                       | Browser width in pixels.                                      |
+| `height`          | `720`                                                                        | Browser height in pixels.                                     |
+| `maximizeScreen`  | `true`                                                                       | Maximize browser window on start.                             |
 | `dryRun`          | `false`                                                                      | Prepare test run without execution.                           |
 | `failFast`        | `false`                                                                      | Stop on first test failure.                                   |
-| `forceExit`       | `false`                                                                      | Force `process.exit()` after tests.                           |
+| `forceExit`       | `false`                                                                      | Force `process.exit()` after tests                            |
 | `strict`          | `true`                                                                       | Fail on pending steps.                                        |
 | `backtrace`       | `false`                                                                      | Show full backtrace for errors.                               |
 | `tags`            | `""`                                                                         | Tag expression to filter scenarios.                           |

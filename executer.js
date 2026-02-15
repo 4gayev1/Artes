@@ -37,6 +37,7 @@ const flags = {
   stepDef: args.includes("--stepDef"),
   tags: args.includes("--tags"),
   env: args.includes("--env"),
+  saveVar: args.includes("--saveVar"),
   headless: args.includes("--headless"),
   parallel: args.includes("--parallel"),
   retry: args.includes("--retry"),
@@ -55,6 +56,7 @@ const flags = {
 };
 
 const env = args[args.indexOf("--env") + 1];
+const vars = args[args.indexOf("--saveVar") + 1]
 const featureFiles = args[args.indexOf("--features") + 1];
 const features = flags.features && featureFiles;
 const stepDef = args[args.indexOf("--stepDef") + 1];
@@ -72,6 +74,8 @@ const timeout = args[args.indexOf("--timeout") + 1];
 const slowMo = args[args.indexOf("--slowMo") + 1];
 
 flags.env ? (process.env.ENV = env) : "";
+
+vars ? (process.env.VARS = vars) : "";
 
 flags.reportWithTrace ||
 artesConfig.reportWithTrace ||

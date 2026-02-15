@@ -54,6 +54,9 @@ function showHelp() {
       
             🌐 --env           Set environment for the test run
                 Usage:   artes --env "dev"
+
+            --saveVar         Set variables from cli
+                        artes --saveVar '{"armud":20,"banana":200}'
       
             🕶️ --headless      Run browser in headless mode
                 Usage:   artes --headless

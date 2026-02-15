@@ -51,6 +51,25 @@ function resolveEnv(artesConfig) {
 }
 const env = resolveEnv(artesConfig);
 
+function loadVariables(cliVariables, artesConfigVariables) {
+
+  if (cliVariables) {
+    try {
+      cliVariables = JSON.parse(process.env.VARS);
+    } catch (err) {
+      console.error("Invalid JSON in process.env.VARS:", process.env.VARS);
+      envVars = {};
+    }
+  }
+
+  const mergedVars = {
+    ...(artesConfigVariables || {}),
+    ...cliVariables,
+  };
+
+  return mergedVars;
+}
+
 const resolveFeaturePaths = (basePath, value) => {
   return value
     .split(',')
@@ -162,6 +181,7 @@ module.exports = {
     zip: process.env.ZIP == "true" ? true : artesConfig.zip ? true : false,
   },
   env: env,
+  variables: loadVariables(process.env.VARS, artesConfig.variables),
   baseURL: process.env.BASE_URL
     ? JSON.parse(process.env.BASE_URL)
     : artesConfig?.baseURL
