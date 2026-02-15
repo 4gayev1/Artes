@@ -8,12 +8,10 @@ const {
   BeforeStep,
   AfterAll,
 } = require("@cucumber/cucumber");
-const { spawnSync } = require("child_process");
 const { invokeBrowser } = require("../helper/contextManager/browserManager");
 const { invokeRequest } = require("../helper/contextManager/requestManager");
 const {
-  pomCollector,
-  logPomWarnings,
+  pomCollector
 } = require("../helper/controller/pomCollector");
 const cucumberConfig = require("../../cucumber.config");
 const { context } = require("./context");
@@ -44,11 +42,26 @@ async function attachResponse(attachFn) {
 }
 
 function saveTestStatus(result, pickle) {
+
   fs.mkdirSync(statusDir, { recursive: true });
-  fs.writeFileSync(
-    path.join(statusDir, `${result.status}-${pickle.id}.txt`),
-    "",
-  );
+  
+   const now = new Date();
+   const YYYY = now.getFullYear();
+   const MM = String(now.getMonth() + 1).padStart(2, '0');
+   const DD = String(now.getDate()).padStart(2, '0');
+   const hh = String(now.getHours()).padStart(2, '0');
+   const mm = String(now.getMinutes()).padStart(2, '0');
+   const ss = String(now.getSeconds()).padStart(2, '0');
+   const ms = String(now.getMilliseconds()).padStart(3, '0');
+
+   const timestamp = `${YYYY}${MM}${DD}-${hh}${mm}${ss}-${ms}`;
+
+   const fileName = `${result.status}-${pickle.name}-${pickle.id}-${timestamp}.txt`;
+
+   const filePath = path.join(statusDir, fileName);
+
+  fs.writeFileSync(filePath, "");
+
 }
 
 const projectHooksPath = path.resolve(
@@ -151,7 +164,7 @@ AfterStep(async function ({ pickleStep }) {
   }
 });
 
-After(async function ({ pickle, result }) {
+After(async function ({result, pickle}) {
   if (typeof projectHooks.After === "function") {
     await projectHooks.After();
   }
@@ -165,12 +178,12 @@ After(async function ({ pickle, result }) {
     await allure.attachment("Screenshot", screenshotBuffer, "image/png");
   }
 
-  saveTestStatus(result, pickle);
+  if(cucumberConfig.default.testPercentage>0) saveTestStatus(result, pickle);
 
   if (cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace) {
     var tracePath = path.join(
       moduleConfig.projectPath,
-      `./traces/${pickle.name.replaceAll(" ", "_")}.zip`,
+      `./traces/${pickle.name.replaceAll(" ", "_")}-${pickle.id}.zip`,
     );
   }
 
@@ -221,55 +234,4 @@ AfterAll(async () => {
     await projectHooks.AfterAll();
   }
 
-  logPomWarnings();
-
-  if (!cucumberConfig.default.trace) {
-    spawnSync(
-      "npx",
-      [
-        "rimraf",
-        "--no-glob",
-        path.join(moduleConfig.projectPath, "./traces"),
-      ],
-      {
-        cwd: moduleConfig.projectPath,
-        stdio: "inherit",
-        shell: false,
-      },
-    );
-  }
-
-  if (!fs.existsSync(statusDir)) return;
-
-  const files = fs.readdirSync(statusDir);
-  const passedCount = files.filter((f) => f.split("-")[0] === "PASSED").length;
-  const totalTests = files.length;
-  const successPercentage = (passedCount / totalTests) * 100;
-
-  const failed = files.filter((f) => f.split("-")[0] === "FAILED").length;
-
-  if (failed > 0) {
-    spawnSync("mv", ["@rerun.txt", moduleConfig.projectPath], {
-      cwd: path.join(moduleConfig.projectPath, "node_modules", "artes"),
-      stdio: "ignore",
-      shell: true,
-    });
-  }
-
-  if (cucumberConfig.default.testPercentage > 0) {
-    const meetsThreshold =
-      successPercentage >= cucumberConfig.default.testPercentage;
-
-    if (meetsThreshold) {
-      console.log(
-        `✅ Tests passed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`,
-      );
-      fs.writeFileSync(path.join(process.cwd(), "EXIT_CODE.txt"), "0");
-    } else {
-      console.log(
-        `❌ Tests failed required ${cucumberConfig.default.testPercentage}% success rate with ${successPercentage.toFixed(2)}%!`,
-      );
-      fs.writeFileSync(path.join(process.cwd(), "EXIT_CODE.txt"), "1");
-    }
-  }
 });

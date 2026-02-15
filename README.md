@@ -492,7 +492,6 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 | `paths`           | `[moduleConfig.featuresPath]`                                                | Paths to feature files.                                       |
 | `require`         | `[moduleConfig.stepsPath, "src/stepDefinitions/*.js", "src/hooks/hooks.js"]` | Support code paths (CommonJS).                                |
 | `pomPath`         | `moduleConfig.pomPath`                                                       | Path to Page Object Models.                                   |
-| `steps`           | `""`                                                                         | Step definitions files path.                                  |
 | `import`          | `[]`                                                                         | Support code paths.                                           |
 | `testPercentage`  | `0`                                                                          | Define test coverage percentage                               |
 | `report`          | `false`                                                                      | Generate report                                               |

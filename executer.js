@@ -10,13 +10,14 @@ const {
 const { logPomWarnings } = require("./src/helper/controller/pomCollector");
 const fs = require("fs");
 const path = require("path");
+const { spawnSync } = require("child_process");
 
-const configPath = path.resolve(process.cwd(), "artes.config.js");
+const artesConfigPath = path.resolve(process.cwd(), "artes.config.js");
 
 let artesConfig = {};
 
-if (fs.existsSync(configPath)) {
-  artesConfig = require(configPath);
+if (fs.existsSync(artesConfigPath)) {
+  artesConfig = require(artesConfigPath);
 }
 
 const args = process.argv.slice(2);
@@ -150,6 +151,83 @@ flags.timeout ? (process.env.TIMEOUT = timeout) : "";
 
 flags.slowMo ? (process.env.SLOWMO = slowMo) : "";
 
+
+function testCoverageCalculation(testStatusDir){
+  if(fs.existsSync(testStatusDir)){
+    const files = fs.readdirSync(testStatusDir);
+
+    const map = {};
+    const retriedTests = [];
+    const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+  
+    files.forEach(file => {
+     const match = file.match(uuidRegex);
+     if (!match) return;
+ 
+     const id = match[0];
+ 
+     const beforeId = file.substring(0, file.indexOf(id) - 1);
+     const afterId = file.substring(file.indexOf(id) + id.length + 1);
+ 
+     const status = beforeId.split('-')[0];
+     const scenario = beforeId.substring(status.length + 1);
+     const timestamp = afterId;
+ 
+     if (!map[id]) {
+       map[id] = {
+         count: 1,
+         latest: { status, scenario, timestamp }
+       };
+     } else {
+       map[id].count++;
+       if (timestamp > map[id].latest.timestamp) {
+         map[id].latest = { status, scenario, timestamp };
+       }
+     }
+   });
+ 
+   let total = 0;
+   let notPassed = 0;
+ 
+   Object.entries(map).forEach(([id, data]) => {
+     total++;
+ 
+     if (data.count > 1) {
+       retriedTests.push({
+         scenario: data.latest.scenario,
+         id,
+         count: data.count
+       });
+     }
+ 
+     if (data.latest.status !== 'PASSED') {
+      notPassed++;
+     }
+   });
+ 
+   if (retriedTests.length > 0) {
+     console.warn('\n\x1b[33mRetried test cases:');
+     retriedTests.forEach(t => {
+       console.warn(`- "${t.scenario}" ran ${t.count} times`);
+     });
+     console.log("\x1b[0m");
+   }
+ 
+   return {
+     percentage : (total - notPassed)/total*100,
+     totalTests: total,
+     notPassed,
+     passed: total - notPassed,
+     latestStatuses: Object.fromEntries(
+       Object.entries(map).map(([id, data]) => [
+         id,
+         data.latest.status
+       ])
+     )
+   };
+  }
+}
+
 function main() {
   if (flags.help) return showHelp();
   if (flags.version) return showVersion();
@@ -159,6 +237,35 @@ function main() {
 
   logPomWarnings();
 
+  const testCoverage = testCoverageCalculation(path.join(process.cwd(), "node_modules", "artes" , "testsStatus"))
+
+  const testPercentage = (process.env.PERCENTAGE  ? Number(process.env.PERCENTAGE)  : artesConfig.testPercentage || 0)
+
+  if (testPercentage > 0) {
+
+    const meetsThreshold = testCoverage.percentage >= testPercentage
+
+    if (meetsThreshold) {
+      console.log(
+        `✅ Tests passed required ${testPercentage}% success rate with ${testCoverage.percentage.toFixed(2)}%!`,
+      );
+      process.env.EXIT_CODE = parseInt(0, 10);
+    } else {
+      console.log(
+        `❌ Tests failed required ${testPercentage}% success rate with ${testCoverage.percentage.toFixed(2)}%!`,
+      );
+      process.env.EXIT_CODE = parseInt(1, 10);
+    }
+  }
+
+if (fs.existsSync(path.join(process.cwd(), "node_modules", "artes" , "@rerun.txt"))) {
+  spawnSync("mv", ["@rerun.txt", process.cwd()], {
+    cwd: path.join(process.cwd(), "node_modules", "artes"),
+    stdio: "inherit",
+    shell: true,
+  });
+}
+
   if (
     flags.reportWithTrace ||
     artesConfig.reportWithTrace ||
@@ -167,18 +274,25 @@ function main() {
   )
     generateReport();
 
-  if (
-    fs.existsSync(
-      path.join(process.cwd(), "node_modules", "artes", "EXIT_CODE.txt"),
-    )
-  ) {
-    const data = fs.readFileSync(
-      path.join(process.cwd(), "node_modules", "artes", "EXIT_CODE.txt"),
-      "utf8",
-    );
-    process.env.EXIT_CODE = parseInt(data, 10);
-  }
 
+    if (!( process.env.TRACE === "true"
+      ? process.env.TRACE
+      : artesConfig.trace || false)) {
+      spawnSync(
+        "npx",
+        [
+          "rimraf",
+          "--no-glob",
+          path.join(process.cwd(), "traces"),
+        ],
+        {
+          cwd: process.cwd(),
+          stdio: "inherit",
+          shell: false,
+        },
+      );
+    }
+    
   cleanUp();
   process.exit(process.env.EXIT_CODE);
 }
