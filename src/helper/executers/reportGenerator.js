@@ -30,7 +30,7 @@ function generateReport() {
     );
 
     if (fs.existsSync(moduleConfig.reportPath) && process.env.ZIP === "true") {
-      console.log(`🗜️ Zipping report folder`);
+      console.log(`🗜️ Zipping report folder...`);
 
       const zipPath = path.join(
         path.dirname(moduleConfig.reportPath),

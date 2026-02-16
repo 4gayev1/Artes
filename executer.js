@@ -22,6 +22,11 @@ if (fs.existsSync(artesConfigPath)) {
 
 const args = process.argv.slice(2);
 
+const getArgValue = (flag) => {
+  const index = args.indexOf(flag);
+  return index >= 0 ? args[index + 1] : undefined;
+};
+
 const flags = {
   help: args.includes("-h") || args.includes("--help"),
   version: args.includes("-v") || args.includes("--version"),
@@ -56,23 +61,25 @@ const flags = {
   slowMo: args.includes("--slowMo"),
 };
 
-const env = args[args.indexOf("--env") + 1];
-const vars = args[args.indexOf("--saveVar") + 1]
-const featureFiles = args[args.indexOf("--features") + 1];
+
+const env = getArgValue("--env");
+const vars = getArgValue("--saveVar");
+const featureFiles = getArgValue("--features");
 const features = flags.features && featureFiles;
-const stepDef = args[args.indexOf("--stepDef") + 1];
-const tags = args[args.indexOf("--tags") + 1];
-const parallel = args[args.indexOf("--parallel") + 1];
-const retry = args[args.indexOf("--retry") + 1];
-const rerun = args[args.indexOf("--rerun") + 1];
-const percentage = args[args.indexOf("--percentage") + 1];
-const browser = args[args.indexOf("--browser") + 1];
-const device = args[args.indexOf("--device") + 1];
-const baseURL = args[args.indexOf("--baseURL") + 1];
-const width = args[args.indexOf("--width") + 1];
-const height = args[args.indexOf("--height") + 1];
-const timeout = args[args.indexOf("--timeout") + 1];
-const slowMo = args[args.indexOf("--slowMo") + 1];
+const stepDef = getArgValue("--stepDef");
+const tags = getArgValue("--tags");
+const parallel = getArgValue("--parallel");
+const retry = getArgValue("--retry");
+const rerun = getArgValue("--rerun");
+const percentage = getArgValue("--percentage");
+const browser = getArgValue("--browser");
+const device = getArgValue("--device");
+const baseURL = getArgValue("--baseURL");
+const width = getArgValue("--width");
+const height = getArgValue("--height");
+const timeout = getArgValue("--timeout");
+const slowMo = getArgValue("--slowMo");
+
 
 flags.env ? (process.env.ENV = env) : "";
 
@@ -152,80 +159,137 @@ flags.timeout ? (process.env.TIMEOUT = timeout) : "";
 flags.slowMo ? (process.env.SLOWMO = slowMo) : "";
 
 
-function testCoverageCalculation(testStatusDir){
-  if(fs.existsSync(testStatusDir)){
-    const files = fs.readdirSync(testStatusDir);
-
-    const map = {};
-    const retriedTests = [];
-    const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+function findDuplicateTestNames() {
+  const testStatusFile = path.join(process.cwd(), "node_modules", "artes" , "test-status", 'test-status.txt');
   
-    files.forEach(file => {
-     const match = file.match(uuidRegex);
-     if (!match) return;
- 
-     const id = match[0];
- 
-     const beforeId = file.substring(0, file.indexOf(id) - 1);
-     const afterId = file.substring(file.indexOf(id) + id.length + 1);
- 
-     const status = beforeId.split('-')[0];
-     const scenario = beforeId.substring(status.length + 1);
-     const timestamp = afterId;
- 
-     if (!map[id]) {
-       map[id] = {
-         count: 1,
-         latest: { status, scenario, timestamp }
-       };
-     } else {
-       map[id].count++;
-       if (timestamp > map[id].latest.timestamp) {
-         map[id].latest = { status, scenario, timestamp };
-       }
-     }
-   });
- 
-   let total = 0;
-   let notPassed = 0;
- 
-   Object.entries(map).forEach(([id, data]) => {
-     total++;
- 
-     if (data.count > 1) {
-       retriedTests.push({
-         scenario: data.latest.scenario,
-         id,
-         count: data.count
-       });
-     }
- 
-     if (data.latest.status !== 'PASSED') {
-      notPassed++;
-     }
-   });
- 
-   if (retriedTests.length > 0) {
-     console.warn('\n\x1b[33mRetried test cases:');
-     retriedTests.forEach(t => {
-       console.warn(`- "${t.scenario}" ran ${t.count} times`);
-     });
-     console.log("\x1b[0m");
-   }
- 
-   return {
-     percentage : (total - notPassed)/total*100,
-     totalTests: total,
-     notPassed,
-     passed: total - notPassed,
-     latestStatuses: Object.fromEntries(
-       Object.entries(map).map(([id, data]) => [
-         id,
-         data.latest.status
-       ])
-     )
-   };
+  if (!fs.existsSync(testStatusFile)) {
+    console.error('test-status.txt not found');
+    return;
   }
+
+  const content = fs.readFileSync(testStatusFile, 'utf8');
+  const lines = content.split('\n').filter(line => line.trim());
+
+  const testNameToFiles = {};
+
+  lines.forEach(line => {
+    const parts = line.split(' | ');
+    if (parts.length < 5) return;
+
+    const testName = parts[2].trim();
+    const filePath = parts[4].trim();
+
+    if (!testNameToFiles[testName]) {
+      testNameToFiles[testName] = new Set();
+    }
+    
+    testNameToFiles[testName].add(filePath);
+  });
+
+  const duplicates = {};
+  
+  Object.entries(testNameToFiles).forEach(([testName, files]) => {
+    if (files.size > 1) {
+      duplicates[testName] = Array.from(files);
+    }
+  });
+
+  if (Object.keys(duplicates).length > 0) {
+    console.warn('\n\x1b[33m[WARNING] Duplicate scenarios names found: This will effect your reporting');    
+    Object.entries(duplicates).forEach(([testName, files]) => {
+      console.log(`\x1b[33m"${testName}" exists in:`);
+      files.forEach(file => {
+        console.log(`  - ${file}`);
+      });
+      console.log('');
+    });
+    console.log("\x1b[0m");
+  } 
+
+  return duplicates;
+}
+
+
+function testCoverageCalculation() {
+
+  const testStatusFile = path.join(process.cwd(), "node_modules", "artes" , "test-status", 'test-status.txt');
+  
+  if (!fs.existsSync(testStatusFile)) {
+    console.error('test-status.txt not found');
+    return null;
+  }
+
+  const content = fs.readFileSync(testStatusFile, 'utf8');
+  const lines = content.split('\n').filter(line => line.trim());
+
+  const map = {};
+  const retriedTests = [];
+  const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+
+  lines.forEach(line => {
+    const parts = line.split(' | ');
+    if (parts.length < 5) return;
+
+    const timestamp = parts[0].trim();
+    const status = parts[1].trim();
+    const scenario = parts[2].trim();
+    const id = parts[3].trim();
+    const uri = parts[4].trim();
+
+    if (!uuidRegex.test(id)) return;
+
+    if (!map[id]) {
+      map[id] = {
+        count: 1,
+        latest: { status, scenario, timestamp, uri }
+      };
+    } else {
+      map[id].count++;
+      if (timestamp > map[id].latest.timestamp) {
+        map[id].latest = { status, scenario, timestamp, uri };
+      }
+    }
+  });
+
+  let total = 0;
+  let notPassed = 0;
+
+  Object.entries(map).forEach(([id, data]) => {
+    total++;
+
+    if (data.count > 1) {
+      retriedTests.push({
+        scenario: data.latest.scenario,
+        id,
+        count: data.count
+      });
+    }
+
+    if (data.latest.status !== 'PASSED') {
+      notPassed++;
+    }
+  });
+
+  if (retriedTests.length > 0) {
+    console.warn('\n\x1b[33mRetried test cases:');
+    retriedTests.forEach(t => {
+      console.warn(`- "${t.scenario}" ran ${t.count} times`);
+    });
+    console.log("\x1b[0m");
+  }
+
+  return {
+    percentage: (total - notPassed) / total * 100,
+    totalTests: total,
+    notPassed,
+    passed: total - notPassed,
+    latestStatuses: Object.fromEntries(
+      Object.entries(map).map(([id, data]) => [
+        id,
+        data.latest.status
+      ])
+    )
+  };
 }
 
 function main() {
@@ -237,7 +301,9 @@ function main() {
 
   logPomWarnings();
 
-  const testCoverage = testCoverageCalculation(path.join(process.cwd(), "node_modules", "artes" , "testsStatus"))
+  findDuplicateTestNames();
+
+  const testCoverage = testCoverageCalculation()
 
   const testPercentage = (process.env.PERCENTAGE  ? Number(process.env.PERCENTAGE)  : artesConfig.testPercentage || 0)
 

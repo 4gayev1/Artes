@@ -14,7 +14,7 @@ try {
   console.log("Proceeding with default config.");
 }
 
-const defaultFormats = ["rerun:@rerun.txt", "progress-bar"];
+const defaultFormats = ["rerun:@rerun.txt",  "progress-bar", './status-formatter.js:null'];
 
 const userFormatsFromEnv = process.env.REPORT_FORMAT
   ? JSON.parse(process.env.REPORT_FORMAT)
@@ -55,7 +55,7 @@ function loadVariables(cliVariables, artesConfigVariables) {
 
   if (cliVariables) {
     try {
-      cliVariables = JSON.parse(process.env.VARS);
+      cliVariables = JSON.parse(cliVariables);
     } catch (err) {
       console.error("Invalid JSON in process.env.VARS:", process.env.VARS);
       envVars = {};
