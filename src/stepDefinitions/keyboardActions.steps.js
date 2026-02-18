@@ -24,6 +24,7 @@ When(
   "User types {string} by hand in {int} th of {string}",
   async (text, order, elements) => {
     const nthElement = await frame.nth(elements, order);
+    text = resolveVariable(text)
     await nthElement.pressSequentially(text);
   },
 );
@@ -55,6 +56,7 @@ When(
   "User types {string} in {int} th of {string}",
   async (text, order, elements) => {
     const nthElement = await frame.nth(elements, order);
+    text = resolveVariable(text)
     await nthElement.fill(text);
   },
 );
@@ -65,6 +67,7 @@ When(
     const elementCount = await frame.count(selectors);
     value = await resolveVariable(value);
     for (let i = 0; i < elementCount; i++) {
+      value = resolveVariable(value)
       await frame.nth(selectors, i).fill(value);
     }
   },

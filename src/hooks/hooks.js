@@ -37,7 +37,7 @@ async function attachResponse(attachFn) {
         ? `${key}:\n${JSON.stringify(value, null, 2)}`
         : `${key}:\n${value}`;
 
-    await attachFn(key, text, "text/plain");
+    await attachFn(key, text, "application/json");
   }
 }
 
@@ -146,6 +146,10 @@ After(async function ({result, pickle}) {
     await projectHooks.After();
   }
 
+  await attachResponse(allure.attachment);
+  context.response = await {};
+  allure.attachment('Variables', JSON.stringify(context.vars, null, 2), 'application/json')
+
   const shouldReport =
     cucumberConfig.default.successReport || result?.status !== Status.PASSED;
 
@@ -178,8 +182,6 @@ After(async function ({result, pickle}) {
     }
   }
 
-  await attachResponse(allure.attachment);
-  context.response = await {};
 
   await context.page?.close();
   await context.browserContext?.close();
