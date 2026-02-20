@@ -94,12 +94,13 @@ function getElement(element) {
   return locator;
 }
 
-function extractVarsFromResponse(responseBody, vars, customVarName) {
+function extractVarsFromResponse(responseBody, vars, customVarNames) {
+
   function getValueByPath(obj, path) {
     const keys = path.split(".");
     let current = obj;
 
-    if (typeof obj == "string") return obj;
+    if (typeof obj === "string") return obj;
 
     for (const key of keys) {
       if (current && typeof current === "object" && key in current) {
@@ -112,11 +113,28 @@ function extractVarsFromResponse(responseBody, vars, customVarName) {
     return current;
   }
 
-  vars.split(",").forEach((v) => {
-    const path = v.trim();
+
+  const varPaths = vars.split(",").map(v => v.trim());
+  let customNames = [];
+
+  if (typeof customVarNames === "string") {
+    customNames = customVarNames.split(",").map(n => n.trim());
+  } else if (Array.isArray(customVarNames)) {
+    customNames = customVarNames;
+  } else {
+    throw new Error("customVarNames must be a string or an array");
+  }
+
+
+  if (customNames.length !== varPaths.length) {
+    customNames = varPaths;
+  }
+
+
+  varPaths.forEach((path, index) => {
     const value = getValueByPath(responseBody, path);
     if (value !== undefined) {
-      saveVar(value, customVarName, path);
+      saveVar(value, customNames[index], path);
     }
   });
 }
@@ -136,43 +154,43 @@ function saveVar(value, customName, path) {
   }
 }
 
-function resolveVariable(template) {
-  if (typeof template === "string") {
-    return template.replace(/{{\s*(\w+)\s*}}/g, (_, varName) => {
-      let value = context.vars[varName];
+function extractVarsFromResponse(responseBody, vars, customVarName) {
+  function getValueByPath(obj, path) {
+    const keys = path.split(".");
+    let current = obj;
 
-      if (value !== undefined) {
-        if (typeof value !== "string") {
-          try {
-            value = JSON.stringify(value);
-          } catch {
-            value = String(value);
-          }
-        }
+    if (typeof obj == "string") return obj;
 
-        return value
-          .replace(/\n/g, "\\n")
-          .replace(/\r/g, "\\r")
-          .replace(/\t/g, "\\t");
+    for (const key of keys) {
+      if (current && typeof current === "object" && key in current) {
+        current = current[key];
+      } else {
+        return undefined;
       }
-
-      return `{{${varName}}}`;
-    });
-  }
-
-  if (Array.isArray(template)) {
-    return template.map((item) => resolveVariable(item));
-  }
-
-  if (template && typeof template === "object") {
-    const result = {};
-    for (const key in template) {
-      result[key] = resolveVariable(template[key]);
     }
-    return result;
+
+    return current;
   }
 
-  return template;
+  const varList = vars.split(",").map((v) => v.trim());
+  const customVarNames = customVarName
+    ? customVarName.split(",").map((n) => n.trim())
+    : [];
+
+  varList.forEach((path, index) => {
+    const value = getValueByPath(responseBody, path);
+    if (value !== undefined) {
+      let resolvedName;
+      if (customVarNames.length === 0) {
+        resolvedName = undefined;          
+      } else if (customVarNames.length === 1) {
+        resolvedName = customVarNames[0]; 
+      } else {
+        resolvedName = customVarNames[index] ?? path; 
+      }
+      saveVar(value, resolvedName, path);
+    }
+  });
 }
 
 module.exports = {

@@ -21,7 +21,6 @@ const { moduleConfig, saveVar } = require("artes/src/helper/imports/commons");
 require("allure-cucumberjs");
 const allure = require("allure-js-commons");
 
-const statusDir = path.join(process.cwd(), "testsStatus");
 const HTTP_METHODS = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"];
 
 /* ------------------- Helpers ------------------- */
@@ -57,6 +56,23 @@ if (fs.existsSync(projectHooksPath)) {
 } else {
   projectHooks = {};
 }
+
+// const mergedParams = {};
+
+// function mergeObjects(target, source) {
+//   for (const key in source) {
+//       if (
+//           source[key] &&
+//           typeof source[key] === 'object' &&
+//           !Array.isArray(source[key])
+//       ) {
+//           if (!target[key]) target[key] = {};
+//           mergeObjects(target[key], source[key]);
+//       } else {
+//           target[key] = source[key];
+//       }
+//   }
+// }
 
 /* ------------------- Hooks ------------------- */
 
@@ -126,6 +142,12 @@ BeforeStep(async ({ pickleStep }) => {
     context.response = {};
   }
 
+//   if (pickleStep.argument?.docString?.content) {
+//     const resolvedParams = (await pickleStep.argument.docString.content) && resolveVariable(pickleStep.argument.docString.content)
+//     const parsedParams = JSON.parse(resolvedParams);
+//     mergeObjects(mergedParams, parsedParams);
+// }
+
   if (typeof projectHooks.BeforeStep === "function") {
     await projectHooks.BeforeStep();
   }
@@ -146,7 +168,6 @@ After(async function ({result, pickle}) {
     await projectHooks.After();
   }
 
-  await attachResponse(allure.attachment);
   context.response = await {};
   allure.attachment('Variables', JSON.stringify(context.vars, null, 2), 'application/json')
 
