@@ -10,7 +10,6 @@ const {
 const { logPomWarnings } = require("./src/helper/controller/pomCollector");
 const fs = require("fs");
 const path = require("path");
-const { spawnSync } = require("child_process");
 
 const artesConfigPath = path.resolve(process.cwd(), "artes.config.js");
 
@@ -293,7 +292,7 @@ function testCoverageCalculation() {
 }
 
 function getExecutor() {
-  // GitHub Actions
+
   if (process.env.GITHUB_RUN_ID) {
     return {
       name: "GitHub Actions",
@@ -303,7 +302,7 @@ function getExecutor() {
       buildUrl: `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
     };
 
-  // Jenkins
+
   } else if (process.env.JENKINS_HOME) {
     return {
       name: "Jenkins",
@@ -313,7 +312,7 @@ function getExecutor() {
       buildUrl: process.env.BUILD_URL || ""
     };
 
-  // GitLab CI
+
   } else if (process.env.CI_PIPELINE_ID) {
     return {
       name: "GitLab CI",
@@ -323,7 +322,7 @@ function getExecutor() {
       buildUrl: process.env.CI_PIPELINE_URL || ""
     };
 
-  // Bitbucket Pipelines
+
   } else if (process.env.BITBUCKET_BUILD_NUMBER) {
     return {
       name: "Bitbucket Pipelines",
@@ -333,7 +332,7 @@ function getExecutor() {
       buildUrl: process.env.BITBUCKET_BUILD_URL || ""
     };
 
-  // CircleCI
+
   } else if (process.env.CIRCLE_WORKFLOW_ID) {
     return {
       name: "CircleCI",
@@ -343,7 +342,7 @@ function getExecutor() {
       buildUrl: process.env.CIRCLE_BUILD_URL || ""
     };
 
-  // Azure Pipelines
+
   } else if (process.env.BUILD_BUILDID) {
     return {
       name: "Azure Pipelines",
@@ -353,7 +352,7 @@ function getExecutor() {
       buildUrl: process.env.BUILD_BUILDURI || ""
     };
 
-  // TeamCity
+
   } else if (process.env.BUILD_NUMBER && process.env.TEAMCITY_VERSION) {
     return {
       name: "TeamCity",
@@ -363,7 +362,7 @@ function getExecutor() {
       buildUrl: process.env.BUILD_URL || ""
     };
 
-  // Travis CI
+
   } else if (process.env.TRAVIS_BUILD_NUMBER) {
     return {
       name: "Travis CI",
@@ -373,7 +372,7 @@ function getExecutor() {
       buildUrl: process.env.TRAVIS_BUILD_WEB_URL || ""
     };
 
-  // Bamboo
+
   } else if (process.env.bamboo_buildNumber) {
     return {
       name: "Bamboo",
@@ -383,7 +382,7 @@ function getExecutor() {
       buildUrl: process.env.bamboo_resultsUrl || ""
     };
 
-  // Default fallback (local/manual)
+
   } else {
     return {
       name: "Local Run",
@@ -428,15 +427,13 @@ function main() {
     }
   }
 
-if (fs.existsSync(path.join(process.cwd(), "node_modules", "artes" , "@rerun.txt"))) {
-  spawnSync("mv", ["@rerun.txt", process.cwd()], {
-    cwd: path.join(process.cwd(), "node_modules", "artes"),
-    stdio: "inherit",
-    shell: true,
-  });
+
+const source = path.join(process.cwd(), "node_modules", "artes", "@rerun.txt");
+const destination = path.join(process.cwd(), "@rerun.txt");
+
+if (fs.existsSync(source)) {
+  fs.renameSync(source, destination);
 }
-
-
 
   if (
     flags.reportWithTrace ||
@@ -450,26 +447,18 @@ fs.writeFileSync(
   path.join(process.cwd(), "node_modules", "artes",'allure-result',"executor.json"),
   JSON.stringify(executor, null, 2)
 );
-generateReport();
-  }
 
+generateReport();
+
+  }
 
     if (!( process.env.TRACE === "true"
       ? process.env.TRACE
       : artesConfig.trace || false)) {
-      spawnSync(
-        "npx",
-        [
-          "rimraf",
-          "--no-glob",
-          path.join(process.cwd(), "traces"),
-        ],
-        {
-          cwd: process.cwd(),
-          stdio: "inherit",
-          shell: false,
-        },
-      );
+          fs.rmSync(path.join(process.cwd(), "traces"), {
+            recursive: true,
+            force: true,
+          });
     }
     
   cleanUp();

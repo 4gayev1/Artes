@@ -1,13 +1,19 @@
 const { moduleConfig } = require("../imports/commons");
-const { spawnSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 function cleanUp() {
   try {
-    spawnSync("rimraf", [moduleConfig.cleanUpPaths], {
-      cwd: moduleConfig.modulePath,
-      stdio: "ignore",
-      shell: true,
-    });
+
+   for (const p of moduleConfig.cleanUpPaths) {
+      const fullPath = path.join(moduleConfig.modulePath, p);
+
+      fs.rmSync(fullPath, {
+        recursive: true,
+        force: true,
+      });
+}
+
   } catch (error) {
     console.error("❌ Error in cleanup:", error.message);
     process.env.EXIT_CODE = 1;
@@ -15,5 +21,5 @@ function cleanUp() {
 }
 
 module.exports = {
-  cleanUp,
+  cleanUp
 };

@@ -26,16 +26,22 @@ const projectPath = modulePath.split(/[/\\]/).slice(0, -2).join("/");
 
 const moduleConfig = {
   projectPath: projectPath,
-  modulePackageJsonPath: path.join(modulePath, "/package.json"),
-  modulePath: path.join(modulePath, "/node_modules/artes"),
-  reportPath: path.join(modulePath, "/report"),
-  tracerPath: path.join(projectPath, "/trace.zip"),
-  cucumberConfigPath: path.join(projectPath, "/artes.config.js"),
-  featuresPath: path.join(projectPath, "/tests/features/"),
-  stepsPath: path.join(projectPath, "/tests/steps/*.js"),
-  pomPath: path.join(projectPath, "/tests/POMs"),
-  cleanUpPaths:
-    "allure-result allure-results test-results @rerun.txt test-status null pomDuplicateWarnings.json",
+  modulePackageJsonPath: path.join(modulePath, "package.json"),
+  modulePath: path.join(modulePath, "node_modules", "artes"),
+  reportPath: path.join(modulePath, "report"),
+  tracerPath: path.join(projectPath, "trace.zip"),
+  cucumberConfigPath: path.join(projectPath, "artes.config.js"),
+  featuresPath: path.join(projectPath, "tests","features"),
+  stepsPath: path.join(projectPath, "tests", "steps","*.js"),
+  pomPath: path.join(projectPath, "tests","POMs"),
+  cleanUpPaths: [
+  "allure-result",
+  "allure-results",
+  "test-results",
+  "@rerun.txt",
+  "test-status",
+  "null",
+  "pomDuplicateWarnings.json"]
 };
 
 module.exports = {
