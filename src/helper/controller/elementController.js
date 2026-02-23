@@ -94,6 +94,7 @@ function getElement(element) {
   return locator;
 }
 
+
 function extractVarsFromResponse(responseBody, vars, customVarNames) {
 
   function getValueByPath(obj, path) {
@@ -113,11 +114,12 @@ function extractVarsFromResponse(responseBody, vars, customVarNames) {
     return current;
   }
 
-
   const varPaths = vars.split(",").map(v => v.trim());
   let customNames = [];
 
-  if (typeof customVarNames === "string") {
+  if (!customVarNames) {
+    customNames = varPaths;
+  } else if (typeof customVarNames === "string") {
     customNames = customVarNames.split(",").map(n => n.trim());
   } else if (Array.isArray(customVarNames)) {
     customNames = customVarNames;
@@ -125,11 +127,9 @@ function extractVarsFromResponse(responseBody, vars, customVarNames) {
     throw new Error("customVarNames must be a string or an array");
   }
 
-
   if (customNames.length !== varPaths.length) {
     customNames = varPaths;
   }
-
 
   varPaths.forEach((path, index) => {
     const value = getValueByPath(responseBody, path);
