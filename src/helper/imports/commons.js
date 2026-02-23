@@ -21,27 +21,28 @@ const random = faker;
 const time = dayjs;
 
 const path = require("path");
-const modulePath = process.cwd();
-const projectPath = modulePath.split(/[/\\]/).slice(0, -2).join("/");
+const projectPath = path.resolve(__dirname, "../../../../../");
+const modulePath = path.join(projectPath, "node_modules", "artes");
 
 const moduleConfig = {
   projectPath: projectPath,
   modulePackageJsonPath: path.join(modulePath, "package.json"),
-  modulePath: path.join(modulePath, "node_modules", "artes"),
-  reportPath: path.join(modulePath, "report"),
+  modulePath: modulePath,
+  reportPath: path.join(projectPath, "report"),
   tracerPath: path.join(projectPath, "trace.zip"),
   cucumberConfigPath: path.join(projectPath, "artes.config.js"),
-  featuresPath: path.join(projectPath, "tests","features"),
-  stepsPath: path.join(projectPath, "tests", "steps","*.js"),
-  pomPath: path.join(projectPath, "tests","POMs"),
+  featuresPath: path.join(projectPath, "tests", "features"),
+  stepsPath: path.join(projectPath, "tests", "steps", "*.js"),
+  pomPath: path.join(projectPath, "tests", "POMs"),
   cleanUpPaths: [
-  "allure-result",
-  "allure-results",
-  "test-results",
-  "@rerun.txt",
-  "test-status",
-  "null",
-  "pomDuplicateWarnings.json"]
+    "allure-result",
+    "allure-results",
+    "test-results",
+    "@rerun.txt",
+    "test-status",
+    "null",
+    "pomDuplicateWarnings.json"
+  ]
 };
 
 module.exports = {

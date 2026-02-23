@@ -443,10 +443,12 @@ if (fs.existsSync(source)) {
   ){
     const executor = getExecutor();
 
-fs.writeFileSync(
-  path.join(process.cwd(), "node_modules", "artes",'allure-result',"executor.json"),
-  JSON.stringify(executor, null, 2)
-);
+if(fs.existsSync(path.join(process.cwd(), "node_modules", "artes",'allure-result',"executor.json"))){
+  fs.writeFileSync(
+    path.join(process.cwd(), "node_modules", "artes",'allure-result',"executor.json"),
+    JSON.stringify(executor, null, 2)
+  );
+}
 
 generateReport();
 
