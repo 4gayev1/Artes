@@ -6,7 +6,6 @@
   "scripts": {
     "test": "cucumber-js --config=cucumber.config.js",
     "createProject": "node ./src/helper/executers/projectCreator.js",
-    "clean": "rimraf",
     "publishOnly": "prettier -w . && npm version patch && npm publish"
   },
   "bin": {
@@ -29,8 +28,7 @@
     "archiver": "^7.0.1",
     "dayjs": "1.11.13",
     "deasync": "^0.1.31",
-    "playwright": "^1.58.2",
-    "rimraf": "6.0.1"
+    "playwright": "^1.58.2"
   },
   "repository": {
     "type": "git",

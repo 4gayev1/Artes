@@ -21,7 +21,6 @@ const { moduleConfig, saveVar } = require("artes/src/helper/imports/commons");
 require("allure-cucumberjs");
 const allure = require("allure-js-commons");
 
-const statusDir = path.join(process.cwd(), "testsStatus");
 const HTTP_METHODS = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"];
 
 /* ------------------- Helpers ------------------- */
