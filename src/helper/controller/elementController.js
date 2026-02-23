@@ -114,11 +114,21 @@ function extractVarsFromResponse(responseBody, vars, customVarNames) {
     return current;
   }
 
+  function pathToCamelCase(path) {
+    const parts = path.split(".");
+    return parts
+      .map((part, index) => {
+        if (index === 0) return part;
+        return part.charAt(0).toUpperCase() + part.slice(1);
+      })
+      .join("");
+  }
+
   const varPaths = vars.split(",").map(v => v.trim());
   let customNames = [];
 
   if (!customVarNames) {
-    customNames = varPaths;
+    customNames = varPaths.map(pathToCamelCase);
   } else if (typeof customVarNames === "string") {
     customNames = customVarNames.split(",").map(n => n.trim());
   } else if (Array.isArray(customVarNames)) {
@@ -128,7 +138,7 @@ function extractVarsFromResponse(responseBody, vars, customVarNames) {
   }
 
   if (customNames.length !== varPaths.length) {
-    customNames = varPaths;
+    customNames = varPaths.map(pathToCamelCase);
   }
 
   varPaths.forEach((path, index) => {
