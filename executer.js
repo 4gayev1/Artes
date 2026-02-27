@@ -37,6 +37,9 @@ const flags = {
   trace: args.includes("-t") || args.includes("--trace"),
   reportWithTrace: args.includes("-rwt") || args.includes("--reportWithTrace"),
   singleFileReport: args.includes("--singleFileReport"),
+  customLogo: args.includes("--logo"),
+  customBrandName:args.includes("--brandName"),
+  customReportName:args.includes("--reportName"),
   zip: args.includes("--zip"),
   features: args.includes("--features"),
   stepDef: args.includes("--stepDef"),
@@ -63,6 +66,9 @@ const flags = {
 
 const env = getArgValue("--env");
 const vars = getArgValue("--saveVar");
+const logo = getArgValue("--logo");
+const brandName = getArgValue("--brandName");
+const reportName = getArgValue("--reportName");
 const featureFiles = getArgValue("--features");
 const features = flags.features && featureFiles;
 const stepDef = getArgValue("--stepDef");
@@ -92,6 +98,10 @@ artesConfig.report
       "allure-cucumberjs/reporter:./allure-results",
     ]))
   : "";
+
+flags.customLogo ? (process.env.LOGO = logo) : "";
+flags.customBrandName ? (process.env.BRAND_NAME = brandName) : "";
+flags.customReportName ? (process.env.REPORT_NAME = reportName) : "";
 
 flags.reportSuccess ? (process.env.REPORT_SUCCESS = true) : "";
 
@@ -443,10 +453,12 @@ if (fs.existsSync(source)) {
   ){
     const executor = getExecutor();
 
+if(fs.existsSync(path.join(process.cwd(), "node_modules", "artes",'allure-result'))){
   fs.writeFileSync(
     path.join(process.cwd(), "node_modules", "artes",'allure-result',"executor.json"),
     JSON.stringify(executor, null, 2)
   );
+}
 
 generateReport();
 

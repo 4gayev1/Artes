@@ -172,6 +172,15 @@ module.exports = {
     worldParameters: artesConfig.worldParameters || {}, // Custom world parameters
   },
   report: {
+    logo: process.env.LOGO
+    ? process.env.LOGO
+    : artesConfig?.logo || "./logo.png",
+      brandName: process.env.BRAND_NAME
+      ? process.env.BRAND_NAME
+      : artesConfig?.brandName || "ARTES",
+      reportName: process.env.REPORT_NAME
+        ? process.env.REPORT_NAME
+        : artesConfig?.reportName || "ARTES REPORT",
     singleFileReport:
       process.env.SINGLE_FILE_REPORT == "true"
         ? true

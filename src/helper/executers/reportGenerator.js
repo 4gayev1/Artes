@@ -3,6 +3,7 @@ const path = require("path");
 const archiver = require("archiver");
 const { spawnSync } = require("child_process");
 const { moduleConfig } = require("../imports/commons");
+const { reportCustomizer } = require("../../helper/controller/reportCustomizer");
 
 function generateReport() {
   try {
@@ -28,6 +29,8 @@ function generateReport() {
     console.log(
       `📋 Report generated successfully in ${moduleConfig.reportPath}!`,
     );
+
+    reportCustomizer();
 
     if (fs.existsSync(moduleConfig.reportPath) && process.env.ZIP === "true") {
       console.log(`🗜️ Zipping report folder...`);
