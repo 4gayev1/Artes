@@ -115,6 +115,9 @@ npx artes [options]
 | `-rwt, --reportWithTrace` | Add trace to the report                                                            | `artes -rwt` or `artes --reportWithTrace`                             |
 | `--singleFileReport`      | Generate single file allure report                                                 | `artes -r --singleFileReport`                                         |
 | `--zip`                   | Zip the report folder after generation                                             | `artes -r --zip`                                                      |
+| 🖼️ `--logo`               | Set a custom logo in the report sidebar. Accepts an absolute path, a relative path, or a direct image URL | `artes --logo /abs/path/logo.png`<br>`artes --logo logo.png`<br>`artes --logo 'https://example.com/logo.png'` |
+| 🏢 `--brandName`          | Set the brand name displayed next to the logo in the report sidebar                | `artes --brandName 'My Company'`                                      |
+| 📄 `--reportName`         | Set the report name displayed on the summary widget                                | `artes --reportName 'Alma UI'`  
 | 📁 `--features`           | Specify one or more feature files' relative paths to run (comma-separated)         | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
 | 📜 `--stepDef`            | Specify one or more step definition files' relative paths to use (comma-separated) | `artes --stepDef "tests/steps/login.js,tests/steps/home.js"`          |
 | 🔖 `--tags`               | Run tests with specified Cucumber tags                                             | `artes --tags "@smoke or @wip"`                                       |
@@ -499,6 +502,9 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 | `reportSuccess`   | `false`                                                                      | Add screenshots and video records also for success test cases |
 | `trace`           | `false`                                                                      | Enable tracing                                                |
 | `reportWithTrace` | `false`                                                                      | Include trace in report                                       |
+| `logo`     | `""` (uses default Artes logo)                                               | Custom logo for the report sidebar. Accepts an absolute path, a relative path, or a direct image URL |
+| `brandName`| `""`                                                                         | Brand name displayed next to the logo in the report sidebar  |
+| `reportName`| `""`                                                                        | Report name displayed on the summary widget                  |
 | `format`          | `["rerun:@rerun.txt", "allure-cucumberjs/reporter"]`                         | Formatter names/paths.                                        |
 | `formatOptions`   | `{ "resultsDir": "allure-result" }`                                          | Formatter options.                                            |
 | `parallel`        | `1`                                                                          | Number of parallel workers.                                   |
@@ -628,10 +634,17 @@ A Docker image `vahidaghayev/artes` is available for running Artes in CI/CD pipe
 ### Recommended Settings for Best Quality
 
 To achieve the best video recording quality, use the following command:
-
 ```bash
 xvfb-run -a --server-args="-screen 0 3840x1180x24" --auto-servernum npx artes --width 1600 --height 900
 ```
+
+### 🔬 CI/CD Executor on Report
+
+Artes automatically detects your CI/CD environment and displays executor information — pipeline name, build number, and a direct link to the build — on the generated report.
+
+**No configuration needed.** Artes reads the standard environment variables that each CI platform sets automatically. Supported platforms include GitHub Actions, Jenkins, GitLab CI, Bitbucket Pipelines, CircleCI, Azure Pipelines, TeamCity, Travis CI, and Bamboo. When running locally, the executor is shown as "Local Run".
+
+For full details, platform-specific examples, and the list of detected environment variables, see the [CI/CD Executor Integration guide](./docs/ciExecutors.md).
 
 ---
 

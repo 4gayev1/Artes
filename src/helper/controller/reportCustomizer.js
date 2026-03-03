@@ -1,5 +1,7 @@
 const fs = require("fs");
 const path = require("path");
+const https = require("https");
+const http = require("http");
 
 const CSS_START_MARKER = "/* ARTES_DYNAMIC_START */";
 const CSS_END_MARKER = "/* ARTES_DYNAMIC_END */";
@@ -12,10 +14,29 @@ function reportCustomizer() {
   const today = new Date().toLocaleDateString("en-US", { month: "numeric", day: "numeric", year: "numeric" });
   const reportName = typeof report.reportName === "string" ? report.reportName : report.reportName.name || "";
 
-  const logoSrc = path.resolve(process.cwd(), "node_modules", "artes", "assets", path.basename(report.logo));
-  const logoBase64 = fs.readFileSync(logoSrc).toString("base64");
-  const logoExt = path.extname(report.logo).replace(".", "");
+  const { buffer: faviconBuffer, mime: faviconMime } = readFileAsBuffer(defaultLogoPath());
+  const faviconDataUrl = `data:${faviconMime};base64,${faviconBuffer.toString("base64")}`;
+
+  if (isRemoteUrl(report.logo)) {
+    return fetchRemoteLogo(report.logo)
+      .catch((err) => {
+        console.warn(`[artes] Warning: failed to fetch logo from "${report.logo}": ${err.message}. Falling back to default logo.`);
+        return readFileAsBuffer(defaultLogoPath());
+      })
+      .then(({ buffer, mime, filename }) => {
+        applyLogo(cucumberConfig, report, today, reportName, buffer, mime, filename, faviconDataUrl);
+      });
+  }
+
+  const logoSrc = resolveLogoPath(report.logo);
+  const logoExt = path.extname(logoSrc).replace(".", "").toLowerCase();
   const logoMime = logoExt === "svg" ? "image/svg+xml" : `image/${logoExt}`;
+  const logoBuffer = fs.readFileSync(logoSrc);
+  applyLogo(cucumberConfig, report, today, reportName, logoBuffer, logoMime, path.basename(logoSrc), faviconDataUrl);
+}
+
+function applyLogo(cucumberConfig, report, today, reportName, logoBuffer, logoMime, logoFilename, faviconDataUrl) {
+  const logoBase64 = logoBuffer.toString("base64");
   const logoDataUrl = `data:${logoMime};base64,${logoBase64}`;
 
   if (cucumberConfig.report.singleFileReport) {
@@ -27,7 +48,8 @@ function reportCustomizer() {
     const cssBase64 = Buffer.from(modifiedCss).toString("base64");
     const cssDataUrl = `data:text/css;base64,${cssBase64}`;
 
-    updateSingleFileHtml(htmlPath, report, reportName, logoDataUrl, cssDataUrl);
+
+    updateSingleFileHtml(htmlPath, report, reportName, faviconDataUrl, cssDataUrl);
 
   } else {
     const htmlPath = path.resolve(__dirname, "../../../../../report/index.html");
@@ -35,15 +57,93 @@ function reportCustomizer() {
     const reportDir = path.resolve(__dirname, "../../../../../report");
     const reportCssPath = path.join(reportDir, "styles.css");
 
-    const logoDest = path.join(reportDir, "logo.png");
-    fs.copyFileSync(logoSrc, logoDest);
 
-    const dynamicCss = generateCss(report, today, reportName, path.basename(report.logo));
-    injectCss(srcCssPath, dynamicCss);
-    fs.copyFileSync(srcCssPath, reportCssPath);
+    const logoDest = path.join(reportDir, logoFilename);
+    fs.writeFileSync(logoDest, logoBuffer);
 
-    updateHtml(htmlPath, report, reportName, logoDataUrl);
+
+    const dynamicCss = generateCss(report, today, reportName, logoFilename);
+
+    const modifiedCss = injectCssAndReturn(srcCssPath, dynamicCss);
+    fs.writeFileSync(reportCssPath, modifiedCss, "utf8");
+
+    updateHtml(htmlPath, report, reportName, faviconDataUrl);
+  }
 }
+
+function resolveLogoPath(logoConfig) {
+  if (!logoConfig) {
+    return defaultLogoPath();
+  }
+
+  const resolved = path.isAbsolute(logoConfig)
+    ? logoConfig
+    : path.resolve(process.cwd(), logoConfig);
+
+  if (!fs.existsSync(resolved)) {
+    console.warn(`[artes] Warning: logo not found at "${resolved}". Falling back to default logo.`);
+    return defaultLogoPath();
+  }
+
+  return resolved;
+}
+
+function defaultLogoPath() {
+  return path.resolve(process.cwd(), "node_modules", "artes", "assets", "logo.png");
+}
+
+function isRemoteUrl(logoConfig) {
+  return typeof logoConfig === "string" && (logoConfig.startsWith("http://") || logoConfig.startsWith("https://"));
+}
+
+function readFileAsBuffer(filePath) {
+  const buffer = fs.readFileSync(filePath);
+  const ext = path.extname(filePath).replace(".", "").toLowerCase();
+  const mime = ext === "svg" ? "image/svg+xml" : `image/${ext}`;
+  const filename = path.basename(filePath);
+  return { buffer, mime, filename };
+}
+
+function fetchRemoteLogo(url, redirectCount = 0) {
+  return new Promise((resolve, reject) => {
+    if (redirectCount > 5) return reject(new Error("Too many redirects"));
+
+    const client = url.startsWith("https://") ? https : http;
+
+    client.get(url, (res) => {
+
+      if ([301, 302, 303, 307, 308].includes(res.statusCode) && res.headers.location) {
+        return fetchRemoteLogo(res.headers.location, redirectCount + 1).then(resolve).catch(reject);
+      }
+
+      if (res.statusCode !== 200) {
+        res.resume();
+        return reject(new Error(`HTTP ${res.statusCode}`));
+      }
+
+      const contentType = res.headers["content-type"] || "";
+      const mime = contentType.split(";")[0].trim();
+
+      if (!mime.startsWith("image/")) {
+        res.resume(); 
+        return reject(new Error(`URL did not return an image (Content-Type: "${mime || "unknown"}"). Make sure the URL points directly to an image file.`));
+      }
+
+      const urlPath = new URL(url).pathname;
+      const ext = path.extname(urlPath) || inferExtFromMime(mime);
+      const filename = path.basename(urlPath) || `logo${ext}`;
+
+      const chunks = [];
+      res.on("data", (chunk) => chunks.push(chunk));
+      res.on("end", () => resolve({ buffer: Buffer.concat(chunks), mime, filename }));
+      res.on("error", reject);
+    }).on("error", reject);
+  });
+}
+
+function inferExtFromMime(mime) {
+  const map = { "image/png": ".png", "image/jpeg": ".jpg", "image/gif": ".gif", "image/svg+xml": ".svg", "image/webp": ".webp" };
+  return map[mime] || ".png";
 }
 
 function generateCss(report, today, reportName, logoUrl) {
@@ -59,23 +159,19 @@ function injectCssAndReturn(cssPath, dynamicCss) {
     css = css.slice(0, startIdx) + css.slice(endIdx + CSS_END_MARKER.length);
   }
 
-  css += `\n${CSS_START_MARKER}\n${dynamicCss}\n${CSS_END_MARKER}`;
+  css = css.trimEnd();
+  css += `\n${CSS_START_MARKER}\n${dynamicCss}\n${CSS_END_MARKER}\n`;
   return css;
 }
 
-function injectCss(cssPath, dynamicCss) {
-  const css = injectCssAndReturn(cssPath, dynamicCss);
-  fs.writeFileSync(cssPath, css, "utf8");
-}
-
-function updateSingleFileHtml(htmlPath, report, reportName, logoDataUrl, cssDataUrl) {
+function updateSingleFileHtml(htmlPath, report, reportName, faviconDataUrl, cssDataUrl) {
   let html = fs.readFileSync(htmlPath, "utf8");
 
   html = html.replace(/<title>.*?<\/title>/, `<title>ARTES REPORT</title>`);
 
   html = html.replace(
     /<link rel="icon" href="data:image\/[^"]+"/,
-    `<link rel="icon" href="${logoDataUrl}"`
+    `<link rel="icon" href="${faviconDataUrl}"`
   );
 
   html = html.replace(
@@ -86,12 +182,12 @@ function updateSingleFileHtml(htmlPath, report, reportName, logoDataUrl, cssData
   fs.writeFileSync(htmlPath, html, "utf8");
 }
 
-function updateHtml(htmlPath, report, reportName, logoDataUrl) {
-    let html = fs.readFileSync(htmlPath, "utf8");
-    html = html.replace(/<title>.*?<\/title>/, `<title>ARTES REPORT</title>`);
-    html = html.replace(/<link rel="icon" href=".*?">/, `<link rel="icon" href="${logoDataUrl}">`);
-    fs.writeFileSync(htmlPath, html, "utf8");
-  }
+function updateHtml(htmlPath, report, reportName, faviconDataUrl) {
+  let html = fs.readFileSync(htmlPath, "utf8");
+  html = html.replace(/<title>.*?<\/title>/, `<title>ARTES REPORT</title>`);
+
+  html = html.replace(/<link rel="icon" href=".*?">/, `<link rel="icon" href="${faviconDataUrl}">`);
+  fs.writeFileSync(htmlPath, html, "utf8");
+}
 
 module.exports = { reportCustomizer };
-

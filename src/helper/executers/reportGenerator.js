@@ -30,8 +30,17 @@ function generateReport() {
       `📋 Report generated successfully in ${moduleConfig.reportPath}!`,
     );
 
-    reportCustomizer();
-
+    let customizerDone = false;
+    let customizerError = null;
+    
+    Promise.resolve(reportCustomizer())
+      .then(() => { customizerDone = true; })
+      .catch((err) => { customizerError = err; customizerDone = true; });
+    
+    require("deasync").loopWhile(() => !customizerDone);
+    
+    if (customizerError) throw customizerError;
+    
     if (fs.existsSync(moduleConfig.reportPath) && process.env.ZIP === "true") {
       console.log(`🗜️ Zipping report folder...`);
 

@@ -58,6 +58,9 @@ function createProject(createYes, noDeps) {
     // parallel: 0,                  // number - Number of parallel workers
     // report: true                  // boolean - Generate report
     // zip: false                    // boolean - Generate zip of report
+    // logo: ""                      // string - Custom logo for the report sidebar. Accepts an absolute path, a relative path, or a direct image URL
+    // brandName: ""                 // string - Brand name displayed next to the logo in the report sidebar
+    // reportName: ""                // string - Report name displayed on the summary widget
     // reportSuccess: false,         // boolean - Add screenshots and video records to report also for success test cases
     // trace: false,                 // boolean - Enable tracing
     // reportWithTrace: false,       // boolean - Include trace in report

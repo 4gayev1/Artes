@@ -42,6 +42,15 @@ function showHelp() {
 
             🗜️ --zip            Zip the report folder after generation
                 Usage:   artes -r --zip
+
+            🖼️ --logo           Set a custom logo in the report sidebar  
+                Usage:  artes --logo logo.png
+
+            🏢 --brandName      Set the brand name displayed next to the logo in the report sidebar
+                Usage:  artes --brandName 'My Company' 
+
+            📄 --reportName      Set the report name displayed on the summary widget
+                Usage:  artes --reportName 'Alma UI' 
       
             📁 --features      Specify one or more feature files' relative paths to run (comma-separated)
                 Usage:   artes --features "tests/features/Alma, tests/features/Banan.feature"
