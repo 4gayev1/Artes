@@ -8,20 +8,20 @@ This document describes the environment variables used to identify which CI/CD r
 
 The reporter inspects environment variables at runtime to detect the current CI/CD platform. **No configuration is needed** — simply ensure the variables below are present in your environment, and the correct runner will be shown in the report automatically.
 
-### ✅ Supported Platforms
+### Supported Platforms
 
 | Platform              | Auto-detected via                  |
 | --------------------- | ---------------------------------- |
-| **GitHub Actions**    | `GITHUB_RUN_ID`                    |
-| **Jenkins**           | `JENKINS_HOME`                     |
-| **GitLab CI**         | `CI_PIPELINE_ID`                   |
-| **Bitbucket Pipelines** | `BITBUCKET_BUILD_NUMBER`         |
-| **CircleCI**          | `CIRCLE_WORKFLOW_ID`               |
-| **Azure Pipelines**   | `BUILD_BUILDID`                    |
-| **TeamCity**          | `BUILD_NUMBER` + `TEAMCITY_VERSION`|
-| **Travis CI**         | `TRAVIS_BUILD_NUMBER`              |
-| **Bamboo**            | `bamboo_buildNumber`               |
-| **Local / Other**     | Fallback — shown as "Local Run"    |
+| [**GitHub Actions**](#github-actions)    | `GITHUB_RUN_ID`                    |
+| [**Jenkins**](#jenkins)           | `JENKINS_HOME`                     |
+| [**GitLab CI**](#gitlab-ci)         | `CI_PIPELINE_ID`                   |
+| [**Bitbucket Pipelines**](#bitbucket-pipelines) | `BITBUCKET_BUILD_NUMBER`         |
+| [**CircleCI**](#circleci)          | `CIRCLE_WORKFLOW_ID`               |
+| [**Azure Pipelines**](#azure-pipelines)   | `BUILD_BUILDID`                    |
+| [**TeamCity**](#teamcity)          | `BUILD_NUMBER` + `TEAMCITY_VERSION`|
+| [**Travis CI**](#travis-ci)         | `TRAVIS_BUILD_NUMBER`              |
+| [**Bamboo**](#bamboo)            | `bamboo_buildNumber`               |
+| [**Local Manual Run**](#local-manual-run)     | Fallback — shown as "Local Run"    |
 
 When none of the above variables are present, the executor is shown as **Manual Execution** in the report.
 
@@ -42,7 +42,7 @@ When none of the above variables are present, the executor is shown as **Manual 
 
 ## Supported CI/CD Platforms
 
-### ✅ GitHub Actions
+### GitHub Actions
 
 Automatically detected when running inside a GitHub Actions workflow.
 
@@ -57,7 +57,7 @@ Automatically detected when running inside a GitHub Actions workflow.
 
 ---
 
-### ✅ Jenkins
+### Jenkins
 
 Detected when `JENKINS_HOME` is set in the environment.
 
@@ -72,7 +72,7 @@ Detected when `JENKINS_HOME` is set in the environment.
 
 ---
 
-### ✅ GitLab CI
+### GitLab CI
 
 Detected when `CI_PIPELINE_ID` is set in the environment.
 
@@ -86,7 +86,7 @@ Detected when `CI_PIPELINE_ID` is set in the environment.
 
 ---
 
-### ✅ Bitbucket Pipelines
+### Bitbucket Pipelines
 
 Detected when `BITBUCKET_BUILD_NUMBER` is set in the environment.
 
@@ -99,7 +99,7 @@ Detected when `BITBUCKET_BUILD_NUMBER` is set in the environment.
 
 ---
 
-### ✅ CircleCI
+### CircleCI
 
 Detected when `CIRCLE_WORKFLOW_ID` is set in the environment.
 
@@ -113,7 +113,7 @@ Detected when `CIRCLE_WORKFLOW_ID` is set in the environment.
 
 ---
 
-### ✅ Azure Pipelines
+### Azure Pipelines
 
 Detected when `BUILD_BUILDID` is set in the environment.
 
@@ -126,7 +126,7 @@ Detected when `BUILD_BUILDID` is set in the environment.
 
 ---
 
-### ✅ TeamCity
+### TeamCity
 
 Detected when **both** `BUILD_NUMBER` and `TEAMCITY_VERSION` are set.
 
@@ -140,7 +140,7 @@ Detected when **both** `BUILD_NUMBER` and `TEAMCITY_VERSION` are set.
 
 ---
 
-### ✅ Travis CI
+### Travis CI
 
 Detected when `TRAVIS_BUILD_NUMBER` is set in the environment.
 
@@ -153,7 +153,7 @@ Detected when `TRAVIS_BUILD_NUMBER` is set in the environment.
 
 ---
 
-### ✅ Bamboo
+### Bamboo
 
 Detected when `bamboo_buildNumber` is set in the environment.
 
@@ -166,7 +166,7 @@ Detected when `bamboo_buildNumber` is set in the environment.
 
 ---
 
-### 🖥️ Local / Manual Run
+### Local Manual Run
 
 If **none** of the above variables are detected, the report will show **"Local Run"** with build name `"Manual Execution"`. This is the default fallback for local development.
 
