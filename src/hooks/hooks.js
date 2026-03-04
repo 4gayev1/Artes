@@ -197,37 +197,36 @@ After(async function ({result, pickle}) {
     context.page.url() !== "about:blank"
   ) {
     const video = context.page.video();
-    if (video) {
-      const videoPath = await video.path();
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+if (video) {
+  const videoPath = await video.path();
 
-      if (fs.existsSync(videoPath)) {
-        const trimmedPath = videoPath.replace('.webm', '-trimmed.webm');
-        
-        const isTimeoutError = result.message?.includes('Error: function timed out, ensure the promise resolves within')
-        const webmBuffer = fs.readFileSync(videoPath);
-        await allure.attachment("Screenrecord", webmBuffer, "video/webm");
-        if (isTimeoutError) {
-          const duration = parseFloat(
-            execSync(`"${ffprobe.path}" -v error -show_entries format=duration -of csv=p=0 "${videoPath}"`).toString().trim()
-          );
-        
-          const timeoutSeconds = cucumberConfig.default.timeout / 1000; 
-          const newDuration = Math.max(duration - timeoutSeconds + 3, 1);
-        
-         execSync(`"${ffmpegPath}" -loglevel quiet -i "${videoPath}" -t ${newDuration} -c copy "${trimmedPath}" -y`);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
-          const webmBuffer = fs.readFileSync(trimmedPath);
-          await allure.attachment("Screenrecord", webmBuffer, "video/webm");
-        } else {
+  if (fs.existsSync(videoPath)) {
+    const trimmedPath = videoPath.replace('.webm', '-trimmed.webm');
+    
+    const isTimeoutError = result.message?.includes('Error: function timed out, ensure the promise resolves within');
 
-          const webmBuffer = fs.readFileSync(videoPath);
-          await allure.attachment("Screenrecord", webmBuffer, "video/webm");
-        }
-      }
+    if (isTimeoutError) {
+      const duration = parseFloat(
+        execSync(`"${ffprobe.path}" -v error -show_entries format=duration -of csv=p=0 "${videoPath}"`).toString().trim()
+      );
+    
+      const timeoutSeconds = cucumberConfig.default.timeout / 1000; 
+      const newDuration = Math.max(duration - timeoutSeconds + 3, 1);
+    
+      execSync(`"${ffmpegPath}" -loglevel quiet -i "${videoPath}" -t ${newDuration} -c copy "${trimmedPath}" -y`);
 
+      const webmBuffer = fs.readFileSync(trimmedPath);
+      await allure.attachment("Screenrecord", webmBuffer, "video/webm");
+    } else {
+      const webmBuffer = fs.readFileSync(videoPath);
+      await allure.attachment("Screenrecord", webmBuffer, "video/webm");
     }
+  }
+}
+
   }
 });
 

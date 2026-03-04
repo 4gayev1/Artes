@@ -14,7 +14,7 @@ try {
   console.log("Proceeding with default config.");
 }
 
-const defaultFormats = ["rerun:@rerun.txt",  "progress-bar", './status-formatter.js:null'];
+const defaultFormats = ["rerun:@rerun.txt",  "progress-bar", './src/helper/controller/status-formatter.js:null'];
 
 const userFormatsFromEnv = process.env.REPORT_FORMAT
   ? JSON.parse(process.env.REPORT_FORMAT)

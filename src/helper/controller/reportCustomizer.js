@@ -39,15 +39,36 @@ function applyLogo(cucumberConfig, report, today, reportName, logoBuffer, logoMi
   const logoBase64 = logoBuffer.toString("base64");
   const logoDataUrl = `data:${logoMime};base64,${logoBase64}`;
 
+  const testPercentage = cucumberConfig.default?.testPercentage ?? 0;
+  let testCoverageWidgetCss = "";
+
+  if (testPercentage > 0) {
+    const { testCoverageCalculator } = require("./testCoverageCalculator");
+    const testCoverage = testCoverageCalculator();
+
+    if (testCoverage) {
+      const meetsThreshold = testCoverage.percentage >= testPercentage;
+
+      if (meetsThreshold) {
+        console.log(`✅ Tests passed required ${testPercentage}% success rate with ${testCoverage.percentage.toFixed(2)}%!`);
+        process.env.EXIT_CODE = parseInt(0, 10);
+      } else {
+        console.log(`❌ Tests failed required ${testPercentage}% success rate with ${testCoverage.percentage.toFixed(2)}%!`);
+        process.env.EXIT_CODE = parseInt(1, 10);
+      }
+
+      testCoverageWidgetCss = generateTestCoverageWidgetCss(testCoverage, testPercentage, meetsThreshold);
+    }
+  }
+
   if (cucumberConfig.report.singleFileReport) {
     const htmlPath = path.resolve(__dirname, "../../../../../report/index.html");
     const srcCssPath = path.resolve(__dirname, "../../../assets/styles.css");
 
-    const dynamicCss = generateCss(report, today, reportName, logoDataUrl);
+    const dynamicCss = generateCss(report, today, reportName, logoDataUrl) + (testCoverageWidgetCss ? "\n" + testCoverageWidgetCss : "");
     const modifiedCss = injectCssAndReturn(srcCssPath, dynamicCss);
     const cssBase64 = Buffer.from(modifiedCss).toString("base64");
     const cssDataUrl = `data:text/css;base64,${cssBase64}`;
-
 
     updateSingleFileHtml(htmlPath, report, reportName, faviconDataUrl, cssDataUrl);
 
@@ -57,18 +78,211 @@ function applyLogo(cucumberConfig, report, today, reportName, logoBuffer, logoMi
     const reportDir = path.resolve(__dirname, "../../../../../report");
     const reportCssPath = path.join(reportDir, "styles.css");
 
-
     const logoDest = path.join(reportDir, logoFilename);
     fs.writeFileSync(logoDest, logoBuffer);
 
-
-    const dynamicCss = generateCss(report, today, reportName, logoFilename);
-
+    const dynamicCss = generateCss(report, today, reportName, logoFilename) + (testCoverageWidgetCss ? "\n" + testCoverageWidgetCss : "");
     const modifiedCss = injectCssAndReturn(srcCssPath, dynamicCss);
     fs.writeFileSync(reportCssPath, modifiedCss, "utf8");
 
     updateHtml(htmlPath, report, reportName, faviconDataUrl);
   }
+}
+
+function generateTestCoverageWidgetCss(testCoverage, testPercentage, meetsThreshold) {
+  const fill        = Math.min(testCoverage.percentage, 100);
+  const fillPct     = fill.toFixed(4);
+  const pctLabel    = testCoverage.percentage.toFixed(2);
+  const statusColor = meetsThreshold ? "#4caf50" : "#f44336";
+  const statusBg    = meetsThreshold ? "rgba(76,175,80,.13)" : "rgba(244,67,54,.13)";
+  const statusVerb  = meetsThreshold ? "passed" : "failed";
+  const subtitleTxt = `${testCoverage.passed} / ${testCoverage.totalTests} passed`;
+  const statusLine  = `Tests ${statusVerb} \u2014 required ${testPercentage}% with ${pctLabel}%`;
+
+
+  const r1 = (fill * 0.35).toFixed(2);
+  const r2 = (fill * 0.60).toFixed(2);
+  const tm = testPercentage;
+
+   const barGradient = `
+    linear-gradient(to right,
+      transparent calc(${tm}% - 1.5px),
+      rgba(255,255,255,.95) calc(${tm}% - 1.5px),
+      rgba(255,255,255,.95) calc(${tm}% + 1.5px),
+      transparent calc(${tm}% + 1.5px)
+    ),
+    linear-gradient(to right, #f44336 0%, #ff9800 35%, #ffeb3b 60%, #4caf50 100%)
+  `.trim();
+
+   const pointerX = `${fillPct}%`;
+  const svgLabels = [
+    { val: "0",   x: "0%",   anchor: "start"  },
+    { val: "20",  x: "20%",  anchor: "middle" },
+    { val: "40",  x: "40%",  anchor: "middle" },
+    { val: "60",  x: "60%",  anchor: "middle" },
+    { val: "80",  x: "80%",  anchor: "middle" },
+    { val: "100", x: "100%", anchor: "end"    },
+  ];
+
+  const labelNodes = svgLabels
+    .map(l => `<text x="${l.x}" y="10" text-anchor="${l.anchor}" font-family="sans-serif" font-size="10" fill="#bbb">${l.val}</text>`)
+    .join("");
+const pointerColor = meetsThreshold ? "#4caf50" : "#f44336";
+  const px = (fill * 10).toFixed(1); // 0–1000 units mapping to 0–100%
+
+  const labelPointerSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="18">
+    <text x="${fillPct}%" y="14" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="700" fill="${pointerColor}">${pctLabel}%</text>
+  </svg>`;
+
+  const stemSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 18" preserveAspectRatio="none" width="100%" height="18">
+    <line x1="${px}" y1="0" x2="${px}" y2="10" stroke="${pointerColor}" stroke-width="6"/>
+    <polygon points="${parseFloat(px)-12},8 ${parseFloat(px)+12},8 ${parseFloat(px)},18" fill="${pointerColor}"/>
+  </svg>`;
+
+  const labelPointerB64 = Buffer.from(labelPointerSvg).toString("base64");
+  const labelPointerDataUrl = `data:image/svg+xml;base64,${labelPointerB64}`;
+  const stemB64 = Buffer.from(stemSvg).toString("base64");
+  const stemDataUrl = `data:image/svg+xml;base64,${stemB64}`;
+
+  const pointerDataUrl = stemDataUrl; 
+  const pointerLabelDataUrl = labelPointerDataUrl;
+
+  const labelSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="14">${labelNodes}</svg>`;
+
+  const svgB64 = Buffer.from(labelSvg).toString("base64");
+  const svgDataUrl = `data:image/svg+xml;base64,${svgB64}`;
+
+  const CARD_H            = 180;
+  const TITLE_PAD         = 14;
+  const POINTER_FROM_CARD = 62;
+  const BAR_FROM_CARD     = 98;
+  const LABEL_FROM_CARD   = 116;
+  const STATUS_FROM_CARD  = 138;
+
+  return `
+/* ── ARTES TEST COVERAGE WIDGET ─────────────────────────────────────────── */
+
+[data-id="summary"] {
+  margin-bottom: ${CARD_H + 22}px !important;
+  position: relative;
+}
+
+/* 1. Card shell + "TEST COVERAGE" title — 21px black */
+[data-id="summary"]::after {
+  content: 'TEST COVERAGE';
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  height: ${CARD_H}px;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
+  padding: ${TITLE_PAD}px 16px 0;
+  box-sizing: border-box;
+  font-size: 21px;
+  font-weight: 100;
+  color: #000;
+  text-transform: uppercase;
+  line-height: 1.4;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 2. "1 / 1 passed   100.00%" — subtitle + percentage on same line */
+[data-id="summary"] .widget__body > div {
+  position: relative;
+}
+
+[data-id="summary"] .widget__body > div::before {
+  content: '${subtitleTxt}     ${pctLabel}%';
+  position: absolute;
+  top: calc(100% + 10px + 46px);
+  left: 0;
+  font-size: 14px;
+  font-weight: 400;
+  color: #999;
+  line-height: 1;
+  letter-spacing: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 3. Pointer — label SVG on top, stem+triangle SVG below, layered via multiple backgrounds */
+[data-id="summary"] .widget__body > div > *:first-child {
+  position: relative;
+}
+
+[data-id="summary"] .widget__body > div > *:first-child::after {
+  content: '';
+  position: absolute;
+  top: calc(100% + 10px + ${POINTER_FROM_CARD}px);
+  left: 16px;
+  right: 16px;
+  height: 36px;
+  /* label on top (18px), stem+triangle below (18px) */
+  background-image: url("${pointerLabelDataUrl}"), url("${pointerDataUrl}");
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100% 50%, 100% 50%;
+  background-position: top, bottom;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* 4. SVG label row — perfectly aligned under bar via background-image */
+[data-id="summary"] .widget__body > div::after {
+  content: '';
+  position: absolute;
+  top: calc(100% + 10px + ${LABEL_FROM_CARD}px);
+  left: 16px;
+  right: 16px;
+  height: 14px;
+  background-image: url("${svgDataUrl}");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 5. Gradient bar */
+[data-id="summary"] .widget__body {
+  position: static;
+}
+
+[data-id="summary"] .widget__body::before {
+  content: '';
+  position: absolute;
+  top: calc(100% + 10px + ${BAR_FROM_CARD}px);
+  left: 16px;
+  right: 16px;
+  height: 14px;
+  border-radius: 7px;
+  background: ${barGradient};
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.12);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 5. Status pill */
+[data-id="summary"] .widget__body::after {
+  content: '${statusLine}';
+  position: absolute;
+  top: calc(100% + 10px + ${STATUS_FROM_CARD}px);
+  left: 16px;
+  right: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: ${statusColor};
+  background: ${statusBg};
+  padding: 5px 10px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── End ARTES TEST COVERAGE WIDGET ─────────────────────────────────────── */
+`;
 }
 
 function resolveLogoPath(logoConfig) {
@@ -111,7 +325,6 @@ function fetchRemoteLogo(url, redirectCount = 0) {
     const client = url.startsWith("https://") ? https : http;
 
     client.get(url, (res) => {
-
       if ([301, 302, 303, 307, 308].includes(res.statusCode) && res.headers.location) {
         return fetchRemoteLogo(res.headers.location, redirectCount + 1).then(resolve).catch(reject);
       }
@@ -125,7 +338,7 @@ function fetchRemoteLogo(url, redirectCount = 0) {
       const mime = contentType.split(";")[0].trim();
 
       if (!mime.startsWith("image/")) {
-        res.resume(); 
+        res.resume();
         return reject(new Error(`URL did not return an image (Content-Type: "${mime || "unknown"}"). Make sure the URL points directly to an image file.`));
       }
 
@@ -185,7 +398,6 @@ function updateSingleFileHtml(htmlPath, report, reportName, faviconDataUrl, cssD
 function updateHtml(htmlPath, report, reportName, faviconDataUrl) {
   let html = fs.readFileSync(htmlPath, "utf8");
   html = html.replace(/<title>.*?<\/title>/, `<title>ARTES REPORT</title>`);
-
   html = html.replace(/<link rel="icon" href=".*?">/, `<link rel="icon" href="${faviconDataUrl}">`);
   fs.writeFileSync(htmlPath, html, "utf8");
 }
