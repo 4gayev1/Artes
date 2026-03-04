@@ -92,12 +92,9 @@ function generateTestCoverageWidgetCss(testCoverage, testPercentage, meetsThresh
   const statusLine  = `Tests ${statusVerb} \u2014 required ${testPercentage}% with ${pctLabel}%`;
 
 
-  const r1 = (fill * 0.35).toFixed(2);
-  const r2 = (fill * 0.60).toFixed(2);
-  const tm = testPercentage;
 
   const barGradient = `linear-gradient(to right, #f44336 0%, #ff9800 35%, #ffeb3b 60%, #4caf50 100%)`;
-  const pointerX = `${fillPct}%`;
+
   const svgLabels = [
     { val: "0",   x: "0%",   anchor: "start"  },
     { val: "20",  x: "20%",  anchor: "middle" },
@@ -343,7 +340,7 @@ function inferExtFromMime(mime) {
 }
 
 function generateCss(report, today, reportName, logoUrl) {
-  return `.side-nav{max-width:200px !important}.side-nav__brand{background:url('${logoUrl}') no-repeat center left !important;background-size:contain !important;height:80px;width:200px;display:flex !important;align-items:center;padding-left:80px}.side-nav__brand img,.side-nav__brand svg{display:none !important}.side-nav__brand-text{font-size:0 !important;display:block !important;padding: 0 8px;}.side-nav__brand-text::after{content:'${report.brandName}';font-size:26px;color:white;}.widget__title{font-weight:lighter;margin-bottom:15px;margin-top:0;text-transform:uppercase}.widget__flex-line:first-child .widget__title{font-size:0}.widget__flex-line:first-child .widget__title::before{content:'${reportName} ${today}';font-size:18px;font-weight:lighter;text-transform:uppercase}.widget__flex-line:first-child .widget__subtitle{font-size:14px}.widget__flex-line:not(:first-child) .widget__title{font-size:inherit;font-weight:lighter}`;
+  return `.side-nav{background: #091628 !important; max-width:200px !important}.side-nav__brand{background:url('${logoUrl}') no-repeat center left !important;background-size:contain !important;height:80px;width:200px;display:flex !important;align-items:center;padding-left:80px}.side-nav__brand img,.side-nav__brand svg{display:none !important}.side-nav__brand-text{font-size:0 !important;display:block !important;padding: 0 8px;}.side-nav__brand-text::after{content:'${report.brandName}';font-size:23px;color:white;}.widget__title{font-weight:lighter;margin-bottom:15px;margin-top:0;text-transform:uppercase}.widget__flex-line:first-child .widget__title{font-size:0}.widget__flex-line:first-child .widget__title::before{content:'${reportName} ${today}';font-size:18px;font-weight:lighter;text-transform:uppercase}.widget__flex-line:first-child .widget__subtitle{font-size:14px}.widget__flex-line:not(:first-child) .widget__title{font-size:inherit;font-weight:lighter}`;
 }
 
 function injectCssAndReturn(cssPath, dynamicCss) {
