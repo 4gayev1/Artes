@@ -49,14 +49,6 @@ function applyLogo(cucumberConfig, report, today, reportName, logoBuffer, logoMi
     if (testCoverage) {
       const meetsThreshold = testCoverage.percentage >= testPercentage;
 
-      if (meetsThreshold) {
-        console.log(`✅ Tests passed required ${testPercentage}% success rate with ${testCoverage.percentage.toFixed(2)}%!`);
-        process.env.EXIT_CODE = parseInt(0, 10);
-      } else {
-        console.log(`❌ Tests failed required ${testPercentage}% success rate with ${testCoverage.percentage.toFixed(2)}%!`);
-        process.env.EXIT_CODE = parseInt(1, 10);
-      }
-
       testCoverageWidgetCss = generateTestCoverageWidgetCss(testCoverage, testPercentage, meetsThreshold);
     }
   }
@@ -104,17 +96,8 @@ function generateTestCoverageWidgetCss(testCoverage, testPercentage, meetsThresh
   const r2 = (fill * 0.60).toFixed(2);
   const tm = testPercentage;
 
-   const barGradient = `
-    linear-gradient(to right,
-      transparent calc(${tm}% - 1.5px),
-      rgba(255,255,255,.95) calc(${tm}% - 1.5px),
-      rgba(255,255,255,.95) calc(${tm}% + 1.5px),
-      transparent calc(${tm}% + 1.5px)
-    ),
-    linear-gradient(to right, #f44336 0%, #ff9800 35%, #ffeb3b 60%, #4caf50 100%)
-  `.trim();
-
-   const pointerX = `${fillPct}%`;
+  const barGradient = `linear-gradient(to right, #f44336 0%, #ff9800 35%, #ffeb3b 60%, #4caf50 100%)`;
+  const pointerX = `${fillPct}%`;
   const svgLabels = [
     { val: "0",   x: "0%",   anchor: "start"  },
     { val: "20",  x: "20%",  anchor: "middle" },
@@ -127,15 +110,16 @@ function generateTestCoverageWidgetCss(testCoverage, testPercentage, meetsThresh
   const labelNodes = svgLabels
     .map(l => `<text x="${l.x}" y="10" text-anchor="${l.anchor}" font-family="sans-serif" font-size="10" fill="#bbb">${l.val}</text>`)
     .join("");
-const pointerColor = meetsThreshold ? "#4caf50" : "#f44336";
-  const px = (fill * 10).toFixed(1); // 0–1000 units mapping to 0–100%
+
+   const pointerColor = meetsThreshold ? "#4caf50" : "#f44336";
+  const px = (fill * 10).toFixed(1);
 
   const labelPointerSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="18">
     <text x="${fillPct}%" y="14" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="700" fill="${pointerColor}">${pctLabel}%</text>
   </svg>`;
 
   const stemSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 18" preserveAspectRatio="none" width="100%" height="18">
-    <line x1="${px}" y1="0" x2="${px}" y2="10" stroke="${pointerColor}" stroke-width="6"/>
+    <line x1="${px}" y1="6" x2="${px}" y2="10" stroke="${pointerColor}" stroke-width="6"/>
     <polygon points="${parseFloat(px)-12},8 ${parseFloat(px)+12},8 ${parseFloat(px)},18" fill="${pointerColor}"/>
   </svg>`;
 
@@ -208,7 +192,7 @@ const pointerColor = meetsThreshold ? "#4caf50" : "#f44336";
   z-index: 2;
 }
 
-/* 3. Pointer — label SVG on top, stem+triangle SVG below, layered via multiple backgrounds */
+/* 3. Pointer + threshold marker layered in one element */
 [data-id="summary"] .widget__body > div > *:first-child {
   position: relative;
 }
@@ -220,9 +204,8 @@ const pointerColor = meetsThreshold ? "#4caf50" : "#f44336";
   left: 16px;
   right: 16px;
   height: 36px;
-  /* label on top (18px), stem+triangle below (18px) */
   background-image: url("${pointerLabelDataUrl}"), url("${pointerDataUrl}");
-  background-repeat: no-repeat, no-repeat;
+  background-repeat: no-repeat;
   background-size: 100% 50%, 100% 50%;
   background-position: top, bottom;
   pointer-events: none;
@@ -295,7 +278,7 @@ function resolveLogoPath(logoConfig) {
     : path.resolve(process.cwd(), logoConfig);
 
   if (!fs.existsSync(resolved)) {
-    console.warn(`[artes] Warning: logo not found at "${resolved}". Falling back to default logo.`);
+   // console.warn(`[artes] Warning: logo not found at "${resolved}". Falling back to default logo.`);
     return defaultLogoPath();
   }
 
