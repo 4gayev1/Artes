@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-function testCoverageCalculator() {
+function testCoverageCalculator({ silent = false } = {}) {
 
     const testStatusFile = path.join(process.cwd(), "node_modules", "artes" , "test-status", 'test-status.txt');
     
@@ -61,7 +61,7 @@ function testCoverageCalculator() {
       }
     });
   
-    if (retriedTests.length > 0) {
+    if (!silent && retriedTests.length > 0) {
       console.warn('\n\x1b[33mRetried test cases:');
       retriedTests.forEach(t => {
         console.warn(`- "${t.scenario}" ran ${t.count} times`);

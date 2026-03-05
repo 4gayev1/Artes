@@ -44,7 +44,7 @@ function applyLogo(cucumberConfig, report, today, reportName, logoBuffer, logoMi
 
   if (testPercentage > 0) {
     const { testCoverageCalculator } = require("./testCoverageCalculator");
-    const testCoverage = testCoverageCalculator();
+    const testCoverage = testCoverageCalculator({ silent: true });
 
     if (testCoverage) {
       const meetsThreshold = testCoverage.percentage >= testPercentage;
