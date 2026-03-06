@@ -41,7 +41,8 @@ const moduleConfig = {
     "@rerun.txt",
     "test-status",
     "null",
-    "pomDuplicateWarnings.json"
+    "pomDuplicateWarnings.json",
+    "browser-info.json"
   ]
 };
 

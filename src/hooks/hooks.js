@@ -107,6 +107,22 @@ Before(async function ({pickle}) {
   context.page = await browserContext.newPage();
   context.request = requestInstance;
 
+  const dimensions = await context.page.evaluate(() => {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  });
+
+  fs.writeFileSync(
+    path.join(moduleConfig.modulePath, "browser-info.json"),
+    JSON.stringify({
+      BROWSER_WIDTH: dimensions.width,
+      BROWSER_HEIGHT: dimensions.height,
+      BROWSER_VERSION: browser.version()
+    })
+  );
+
   await context.page.setDefaultTimeout(cucumberConfig.default.timeout);
 
   if (cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace) {

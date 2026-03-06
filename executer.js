@@ -13,6 +13,7 @@ const path = require("path");
 const { testCoverageCalculator } = require("./src/helper/controller/testCoverageCalculator");
 const { getExecutor } = require("./src/helper/controller/getExecutor");
 const { findDuplicateTestNames } = require("./src/helper/controller/findDuplicateTestNames");
+const { getEnvInfo } = require("artes/src/helper/controller/getEnvInfo");
 
 
 const artesConfigPath = path.resolve(process.cwd(), "artes.config.js");
@@ -219,16 +220,10 @@ if (fs.existsSync(source)) {
     flags.report ||
     artesConfig.report
   ){
-    const executor = getExecutor();
 
-if(fs.existsSync(path.join(process.cwd(), "node_modules", "artes",'allure-result'))){
-  fs.writeFileSync(
-    path.join(process.cwd(), "node_modules", "artes",'allure-result',"executor.json"),
-    JSON.stringify(executor, null, 2)
-  );
-}
-
-generateReport();
+    getExecutor();
+    getEnvInfo()
+    generateReport();
 
   }
 
