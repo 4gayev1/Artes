@@ -3,7 +3,8 @@ const {
   element,
   context,
   selector,
-  moduleConfig, resolveVariable
+  moduleConfig,
+  resolveVariable,
 } = require("../imports/commons");
 
 const mouse = {

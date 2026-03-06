@@ -10,11 +10,14 @@ const {
 const { logPomWarnings } = require("./src/helper/controller/pomCollector");
 const fs = require("fs");
 const path = require("path");
-const { testCoverageCalculator } = require("./src/helper/controller/testCoverageCalculator");
+const {
+  testCoverageCalculator,
+} = require("./src/helper/controller/testCoverageCalculator");
 const { getExecutor } = require("./src/helper/controller/getExecutor");
-const { findDuplicateTestNames } = require("./src/helper/controller/findDuplicateTestNames");
+const {
+  findDuplicateTestNames,
+} = require("./src/helper/controller/findDuplicateTestNames");
 const { getEnvInfo } = require("artes/src/helper/controller/getEnvInfo");
-
 
 const artesConfigPath = path.resolve(process.cwd(), "artes.config.js");
 
@@ -43,8 +46,8 @@ const flags = {
   reportWithTrace: args.includes("-rwt") || args.includes("--reportWithTrace"),
   singleFileReport: args.includes("--singleFileReport"),
   customLogo: args.includes("--logo"),
-  customBrandName:args.includes("--brandName"),
-  customReportName:args.includes("--reportName"),
+  customBrandName: args.includes("--brandName"),
+  customReportName: args.includes("--reportName"),
   zip: args.includes("--zip"),
   features: args.includes("--features"),
   stepDef: args.includes("--stepDef"),
@@ -68,7 +71,6 @@ const flags = {
   slowMo: args.includes("--slowMo"),
 };
 
-
 const env = getArgValue("--env");
 const vars = getArgValue("--saveVar");
 const logo = getArgValue("--logo");
@@ -89,7 +91,6 @@ const width = getArgValue("--width");
 const height = getArgValue("--height");
 const timeout = getArgValue("--timeout");
 const slowMo = getArgValue("--slowMo");
-
 
 flags.env ? (process.env.ENV = env) : "";
 
@@ -172,8 +173,6 @@ flags.timeout ? (process.env.TIMEOUT = timeout) : "";
 
 flags.slowMo ? (process.env.SLOWMO = slowMo) : "";
 
-
-
 function main() {
   if (flags.help) return showHelp();
   if (flags.version) return showVersion();
@@ -185,13 +184,14 @@ function main() {
 
   findDuplicateTestNames();
 
-  const testCoverage = testCoverageCalculator()
+  const testCoverage = testCoverageCalculator();
 
-  const testPercentage = (process.env.PERCENTAGE  ? Number(process.env.PERCENTAGE)  : artesConfig.testPercentage || 0)
+  const testPercentage = process.env.PERCENTAGE
+    ? Number(process.env.PERCENTAGE)
+    : artesConfig.testPercentage || 0;
 
   if (testPercentage > 0) {
-
-    const meetsThreshold = testCoverage.percentage >= testPercentage
+    const meetsThreshold = testCoverage.percentage >= testPercentage;
 
     if (meetsThreshold) {
       console.log(
@@ -206,36 +206,40 @@ function main() {
     }
   }
 
+  const source = path.join(
+    process.cwd(),
+    "node_modules",
+    "artes",
+    "@rerun.txt",
+  );
+  const destination = path.join(process.cwd(), "@rerun.txt");
 
-const source = path.join(process.cwd(), "node_modules", "artes", "@rerun.txt");
-const destination = path.join(process.cwd(), "@rerun.txt");
-
-if (fs.existsSync(source)) {
-  fs.renameSync(source, destination);
-}
+  if (fs.existsSync(source)) {
+    fs.renameSync(source, destination);
+  }
 
   if (
     flags.reportWithTrace ||
     artesConfig.reportWithTrace ||
     flags.report ||
     artesConfig.report
-  ){
-
+  ) {
     getExecutor();
-    getEnvInfo()
+    getEnvInfo();
     generateReport();
-
   }
 
-    if (!( process.env.TRACE === "true"
+  if (
+    !(process.env.TRACE === "true"
       ? process.env.TRACE
-      : artesConfig.trace || false)) {
-          fs.rmSync(path.join(process.cwd(), "traces"), {
-            recursive: true,
-            force: true,
-          });
-    }
-    
+      : artesConfig.trace || false)
+  ) {
+    fs.rmSync(path.join(process.cwd(), "traces"), {
+      recursive: true,
+      force: true,
+    });
+  }
+
   cleanUp();
   process.exit(process.env.EXIT_CODE);
 }

@@ -14,7 +14,11 @@ try {
   console.log("Proceeding with default config.");
 }
 
-const defaultFormats = ["rerun:@rerun.txt",  "progress-bar", './src/helper/controller/status-formatter.js:null'];
+const defaultFormats = [
+  "rerun:@rerun.txt",
+  "progress-bar",
+  "./src/helper/controller/status-formatter.js:null",
+];
 
 const userFormatsFromEnv = process.env.REPORT_FORMAT
   ? JSON.parse(process.env.REPORT_FORMAT)
@@ -52,7 +56,6 @@ function resolveEnv(artesConfig) {
 const env = resolveEnv(artesConfig);
 
 function loadVariables(cliVariables, artesConfigVariables) {
-
   if (cliVariables) {
     try {
       cliVariables = JSON.parse(cliVariables);
@@ -72,12 +75,11 @@ function loadVariables(cliVariables, artesConfigVariables) {
 
 const resolveFeaturePaths = (basePath, value) => {
   return value
-    .split(',')
-    .map(p => p.trim())
+    .split(",")
+    .map((p) => p.trim())
     .filter(Boolean)
-    .map(p => path.join(basePath, p));
+    .map((p) => path.join(basePath, p));
 };
-
 
 module.exports = {
   default: {
@@ -88,13 +90,13 @@ module.exports = {
     timeout: process.env.TIMEOUT
       ? Number(process.env.TIMEOUT) * 1000
       : artesConfig.timeout * 1000 || 30 * 1000, // Default timeout in seconds
-      paths: process.env.RERUN
+    paths: process.env.RERUN
       ? [path.join("../../", process.env.RERUN)]
       : process.env.FEATURES
         ? resolveFeaturePaths(moduleConfig.projectPath, process.env.FEATURES)
         : artesConfig.features
           ? resolveFeaturePaths(moduleConfig.projectPath, artesConfig.features)
-          : [moduleConfig.featuresPath], // Paths to feature files    
+          : [moduleConfig.featuresPath], // Paths to feature files
     require: [
       process.env.STEP_DEFINITIONS
         ? [path.join(moduleConfig.projectPath, process.env.STEP_DEFINITIONS)]
@@ -173,14 +175,14 @@ module.exports = {
   },
   report: {
     logo: process.env.LOGO
-    ? process.env.LOGO
-    : artesConfig?.logo || "./logo.png",
-      brandName: process.env.BRAND_NAME
+      ? process.env.LOGO
+      : artesConfig?.logo || "./logo.png",
+    brandName: process.env.BRAND_NAME
       ? process.env.BRAND_NAME
       : artesConfig?.brandName || "ARTES",
-      reportName: process.env.REPORT_NAME
-        ? process.env.REPORT_NAME
-        : artesConfig?.reportName || "ARTES REPORT",
+    reportName: process.env.REPORT_NAME
+      ? process.env.REPORT_NAME
+      : artesConfig?.reportName || "ARTES REPORT",
     singleFileReport:
       process.env.SINGLE_FILE_REPORT == "true"
         ? true

@@ -3,7 +3,9 @@ const path = require("path");
 const archiver = require("archiver");
 const { spawnSync } = require("child_process");
 const { moduleConfig } = require("../imports/commons");
-const { reportCustomizer } = require("../../helper/controller/reportCustomizer");
+const {
+  reportCustomizer,
+} = require("../../helper/controller/reportCustomizer");
 
 function generateReport() {
   try {
@@ -32,15 +34,20 @@ function generateReport() {
 
     let customizerDone = false;
     let customizerError = null;
-    
+
     Promise.resolve(reportCustomizer())
-      .then(() => { customizerDone = true; })
-      .catch((err) => { customizerError = err; customizerDone = true; });
-    
+      .then(() => {
+        customizerDone = true;
+      })
+      .catch((err) => {
+        customizerError = err;
+        customizerDone = true;
+      });
+
     require("deasync").loopWhile(() => !customizerDone);
-    
+
     if (customizerError) throw customizerError;
-    
+
     if (fs.existsSync(moduleConfig.reportPath) && process.env.ZIP === "true") {
       console.log(`🗜️ Zipping report folder...`);
 
@@ -70,7 +77,9 @@ function generateReport() {
 
       require("deasync").loopWhile(() => !done);
 
-      console.log(`🗜️ Zipped in ${path.join( path.dirname(moduleConfig.reportPath),  "report.zip" )}!`);
+      console.log(
+        `🗜️ Zipped in ${path.join(path.dirname(moduleConfig.reportPath), "report.zip")}!`,
+      );
       if (error) throw error;
     }
   } catch (err) {

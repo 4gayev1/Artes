@@ -42,8 +42,8 @@ const moduleConfig = {
     "test-status",
     "null",
     "pomDuplicateWarnings.json",
-    "browser-info.json"
-  ]
+    "browser-info.json",
+  ],
 };
 
 module.exports = {

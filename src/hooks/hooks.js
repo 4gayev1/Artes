@@ -10,9 +10,7 @@ const {
 } = require("@cucumber/cucumber");
 const { invokeBrowser } = require("../helper/contextManager/browserManager");
 const { invokeRequest } = require("../helper/contextManager/requestManager");
-const {
-  pomCollector
-} = require("../helper/controller/pomCollector");
+const { pomCollector } = require("../helper/controller/pomCollector");
 const cucumberConfig = require("../../cucumber.config");
 const { context } = require("./context");
 const fs = require("fs");
@@ -20,9 +18,9 @@ const path = require("path");
 const { moduleConfig, saveVar } = require("artes/src/helper/imports/commons");
 require("allure-cucumberjs");
 const allure = require("allure-js-commons");
-const ffprobe = require('ffprobe-static');
-const ffmpegPath = require('ffmpeg-static');
-const { execSync } = require('child_process');
+const ffprobe = require("ffprobe-static");
+const ffmpegPath = require("ffmpeg-static");
+const { execSync } = require("child_process");
 
 const HTTP_METHODS = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"];
 
@@ -70,15 +68,14 @@ BeforeAll(async () => {
   pomCollector();
 });
 
-Before(async function ({pickle}) {
+Before(async function ({ pickle }) {
   context.vars = {};
 
-  const vars = await cucumberConfig.variables
+  const vars = await cucumberConfig.variables;
 
   if (vars && typeof vars === "object") {
     for (let [key, value] of Object.entries(vars)) {
-
-       saveVar(value, key);
+      saveVar(value, key);
     }
   }
 
@@ -119,8 +116,8 @@ Before(async function ({pickle}) {
     JSON.stringify({
       BROWSER_WIDTH: dimensions.width,
       BROWSER_HEIGHT: dimensions.height,
-      BROWSER_VERSION: browser.version()
-    })
+      BROWSER_VERSION: browser.version(),
+    }),
   );
 
   await context.page.setDefaultTimeout(cucumberConfig.default.timeout);
@@ -159,7 +156,7 @@ AfterStep(async function ({ pickleStep }) {
   }
 });
 
-After(async function ({result, pickle}) {
+After(async function ({ result, pickle }) {
   if (typeof projectHooks.After === "function") {
     await projectHooks.After();
   }
@@ -167,7 +164,12 @@ After(async function ({result, pickle}) {
   await attachResponse(allure.attachment);
   context.response = await {};
 
-  Object.keys(context.vars).length > 0 && allure.attachment('Variables', JSON.stringify(context.vars, null, 2), 'application/json')
+  Object.keys(context.vars).length > 0 &&
+    allure.attachment(
+      "Variables",
+      JSON.stringify(context.vars, null, 2),
+      "application/json",
+    );
 
   const shouldReport =
     cucumberConfig.default.successReport || result?.status !== Status.PASSED;
@@ -177,7 +179,6 @@ After(async function ({result, pickle}) {
 
     await allure.attachment("Screenshot", screenshotBuffer, "image/png");
   }
-
 
   if (cucumberConfig.default.reportWithTrace || cucumberConfig.default.trace) {
     var tracePath = path.join(
@@ -197,10 +198,8 @@ After(async function ({result, pickle}) {
 
     if (cucumberConfig.default.reportWithTrace) {
       await allure.attachTrace("Trace", tracePath);
-
     }
   }
-
 
   await context.page?.close();
   await context.browserContext?.close();
@@ -214,35 +213,42 @@ After(async function ({result, pickle}) {
   ) {
     const video = context.page.video();
 
-if (video) {
-  const videoPath = await video.path();
+    if (video) {
+      const videoPath = await video.path();
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  if (fs.existsSync(videoPath)) {
-    const trimmedPath = videoPath.replace('.webm', '-trimmed.webm');
-    
-    const isTimeoutError = result.message?.includes('Error: function timed out, ensure the promise resolves within');
+      if (fs.existsSync(videoPath)) {
+        const trimmedPath = videoPath.replace(".webm", "-trimmed.webm");
 
-    if (isTimeoutError) {
-      const duration = parseFloat(
-        execSync(`"${ffprobe.path}" -v error -show_entries format=duration -of csv=p=0 "${videoPath}"`).toString().trim()
-      );
-    
-      const timeoutSeconds = cucumberConfig.default.timeout / 1000; 
-      const newDuration = Math.max(duration - timeoutSeconds + 3, 1);
-    
-      execSync(`"${ffmpegPath}" -loglevel quiet -i "${videoPath}" -t ${newDuration} -c copy "${trimmedPath}" -y`);
+        const isTimeoutError = result.message?.includes(
+          "Error: function timed out, ensure the promise resolves within",
+        );
 
-      const webmBuffer = fs.readFileSync(trimmedPath);
-      await allure.attachment("Screenrecord", webmBuffer, "video/webm");
-    } else {
-      const webmBuffer = fs.readFileSync(videoPath);
-      await allure.attachment("Screenrecord", webmBuffer, "video/webm");
+        if (isTimeoutError) {
+          const duration = parseFloat(
+            execSync(
+              `"${ffprobe.path}" -v error -show_entries format=duration -of csv=p=0 "${videoPath}"`,
+            )
+              .toString()
+              .trim(),
+          );
+
+          const timeoutSeconds = cucumberConfig.default.timeout / 1000;
+          const newDuration = Math.max(duration - timeoutSeconds + 3, 1);
+
+          execSync(
+            `"${ffmpegPath}" -loglevel quiet -i "${videoPath}" -t ${newDuration} -c copy "${trimmedPath}" -y`,
+          );
+
+          const webmBuffer = fs.readFileSync(trimmedPath);
+          await allure.attachment("Screenrecord", webmBuffer, "video/webm");
+        } else {
+          const webmBuffer = fs.readFileSync(videoPath);
+          await allure.attachment("Screenrecord", webmBuffer, "video/webm");
+        }
+      }
     }
-  }
-}
-
   }
 });
 
@@ -250,5 +256,4 @@ AfterAll(async () => {
   if (typeof projectHooks.AfterAll === "function") {
     await projectHooks.AfterAll();
   }
-
 });

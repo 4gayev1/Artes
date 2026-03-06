@@ -3,7 +3,8 @@ const {
   random,
   element,
   selector,
-  time, resolveVariable
+  time,
+  resolveVariable,
 } = require("../helper/imports/commons");
 const { keyboard, frame } = require("../helper/stepFunctions/exporter");
 
@@ -24,7 +25,7 @@ When(
   "User types {string} by hand in {int} th of {string}",
   async (text, order, elements) => {
     const nthElement = await frame.nth(elements, order);
-    text = resolveVariable(text)
+    text = resolveVariable(text);
     await nthElement.pressSequentially(text);
   },
 );
@@ -56,7 +57,7 @@ When(
   "User types {string} in {int} th of {string}",
   async (text, order, elements) => {
     const nthElement = await frame.nth(elements, order);
-    text = resolveVariable(text)
+    text = resolveVariable(text);
     await nthElement.fill(text);
   },
 );
@@ -67,7 +68,7 @@ When(
     const elementCount = await frame.count(selectors);
     value = await resolveVariable(value);
     for (let i = 0; i < elementCount; i++) {
-      value = resolveVariable(value)
+      value = resolveVariable(value);
       await frame.nth(selectors, i).fill(value);
     }
   },
@@ -228,8 +229,8 @@ When("User types random middle name in {string}", async (input) => {
 When(
   "User types random date between {int} and {int} in {string}",
   async (fromYear, toYear, input) => {
-      fromYear = await resolveVariable(fromYear);
-      toYear = await resolveVariable(toYear);
+    fromYear = await resolveVariable(fromYear);
+    toYear = await resolveVariable(toYear);
 
     const year = Math.floor(Math.random() * (toYear - fromYear + 1)) + fromYear;
     const month = Math.floor(Math.random() * 12) + 1;
@@ -243,7 +244,6 @@ When(
 When(
   "User types date {int} days after today in {string}",
   async (day, input) => {
-
     day = await resolveVariable(day);
 
     const now = new time();
@@ -255,8 +255,7 @@ When(
 When(
   "User types date {int} days before today in {string}",
   async (day, input) => {
-
-     day = await resolveVariable(day);
+    day = await resolveVariable(day);
 
     const now = new time();
     const beforeDate = now.subtract(day, "day").format("DD-MM-YYYY");

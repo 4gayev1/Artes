@@ -4,16 +4,14 @@ const path = require("path");
 
 function cleanUp() {
   try {
-
-   for (const p of moduleConfig.cleanUpPaths) {
+    for (const p of moduleConfig.cleanUpPaths) {
       const fullPath = path.join(moduleConfig.modulePath, p);
 
       fs.rmSync(fullPath, {
         recursive: true,
         force: true,
       });
-}
-
+    }
   } catch (error) {
     console.error("❌ Error in cleanup:", error.message);
     process.env.EXIT_CODE = 1;
@@ -21,5 +19,5 @@ function cleanUp() {
 }
 
 module.exports = {
-  cleanUp
+  cleanUp,
 };

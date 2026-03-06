@@ -5,9 +5,11 @@ const {
   element,
   extractVarsFromResponse,
   context,
-  resolveVariable
+  resolveVariable,
 } = require("../helper/imports/commons");
-const { screenComparer } = require("artes/src/helper/controller/screenComparer");
+const {
+  screenComparer,
+} = require("artes/src/helper/controller/screenComparer");
 const { assert, frame } = require("../helper/stepFunctions/exporter");
 const Ajv = require("ajv");
 
@@ -16,80 +18,104 @@ Then("User expects {string} should be attached", async function (selector) {
   await assert.shouldBeAttached(selector);
 });
 
-Then("User expects {int} th of {string} should be attached", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldBeAttached(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be attached",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldBeAttached(nthElement);
+  },
+);
 
 // Check if a selector should be checked
 Then("User expects {string} should be checked", async function (selector) {
   await assert.shouldBeChecked(selector);
 });
 
-Then("User expects {int} th of {string} should be checked", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldBeChecked(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be checked",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldBeChecked(nthElement);
+  },
+);
 
 // Check if a selector should be disabled
 Then("User expects {string} should be disabled", async function (selector) {
   await assert.shouldBeDisabled(selector);
 });
 
-Then("User expects {int} th of {string} should be disabled", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldBeDisabled(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be disabled",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldBeDisabled(nthElement);
+  },
+);
 
 // Check if a selector should be editable
 Then("User expects {string} should be editable", async function (selector) {
   await assert.shouldBeEditable(selector);
 });
 
-Then("User expects {int} th of {string} should be editable", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldBeEditable(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be editable",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldBeEditable(nthElement);
+  },
+);
 
 // Check if a selector should be empty
 Then("User expects {string} should be empty", async function (selector) {
   await assert.shouldBeEmpty(selector);
 });
 
-Then("User expects {int} th of {string} should be empty", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldBeEmpty(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be empty",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldBeEmpty(nthElement);
+  },
+);
 
 // Check if a selector should be enabled
 Then("User expects {string} should be enabled", async function (selector) {
   await assert.shouldBeEnabled(selector);
 });
 
-Then("User expects {int} th of {string} should be enabled", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldBeEnabled(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be enabled",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldBeEnabled(nthElement);
+  },
+);
 
 // Check if a selector should be focused
 Then("User expects {string} should be focused", async function (selector) {
   await assert.shouldBeFocused(selector);
 });
 
-Then("User expects {int} th of {string} should be focused", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldBeFocused(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be focused",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldBeFocused(nthElement);
+  },
+);
 
 // Check if a selector should be hidden
 Then("User expects {string} should be hidden", async function (selector) {
   await assert.shouldBeHidden(selector);
 });
 
-Then("User expects {int} th of {string} should be hidden", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldBeHidden(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be hidden",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldBeHidden(nthElement);
+  },
+);
 
 // Check if a selector should be in the viewport
 Then(
@@ -107,20 +133,26 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should be screen", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldBeInViewport(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be screen",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldBeInViewport(nthElement);
+  },
+);
 
 // Check if a selector should be visible
 Then("User expects {string} should be visible", async function (selector) {
   await assert.shouldBeVisible(selector);
 });
 
-Then("User expects {int} th of {string} should be visible", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldBeVisible(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be visible",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldBeVisible(nthElement);
+  },
+);
 
 // Check if a selector should contain specific text
 Then(
@@ -130,10 +162,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should have {string} text", async function (order, elements, text) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldContainText(nthElement, text);
-});
+Then(
+  "User expects {int} th of {string} should have {string} text",
+  async function (order, elements, text) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldContainText(nthElement, text);
+  },
+);
 
 Then(
   "User expects default value of {string} should have {string} text",
@@ -143,10 +178,13 @@ Then(
   },
 );
 
-Then("User expects default value of {int} th of {string} should have {string} text", async function (order, elements, text) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.toContain(nthElement, text);
-});
+Then(
+  "User expects default value of {int} th of {string} should have {string} text",
+  async function (order, elements, text) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.toContain(nthElement, text);
+  },
+);
 
 Then(
   "User expects multiple {string} should have {string} text",
@@ -163,10 +201,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should have {string} description", async function (order, elements, text) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldHaveAccessibleDescription(nthElement, text);
-});
+Then(
+  "User expects {int} th of {string} should have {string} description",
+  async function (order, elements, text) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldHaveAccessibleDescription(nthElement, text);
+  },
+);
 
 // Check if a selector should have an accessible name
 Then(
@@ -176,10 +217,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should have {string} name", async function (order, elements, text) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldHaveAccessibleName(nthElement, text);
-});
+Then(
+  "User expects {int} th of {string} should have {string} name",
+  async function (order, elements, text) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldHaveAccessibleName(nthElement, text);
+  },
+);
 
 // Check if a selector should have a specific attribute with a given value
 Then(
@@ -189,10 +233,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should have {string} attribute with {string} value", async function (order, elements, attribute, value) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldHaveAttribute(nthElement, attribute, value);
-});
+Then(
+  "User expects {int} th of {string} should have {string} attribute with {string} value",
+  async function (order, elements, attribute, value) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldHaveAttribute(nthElement, attribute, value);
+  },
+);
 
 // Check if a selector should have a specific class
 Then(
@@ -202,10 +249,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should have {string} class", async function (order, elements, className) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldHaveClass(nthElement, className);
-});
+Then(
+  "User expects {int} th of {string} should have {string} class",
+  async function (order, elements, className) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldHaveClass(nthElement, className);
+  },
+);
 
 // Check if a selector should have a specific count
 Then(
@@ -223,10 +273,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should have {string} CSS property with {string} value", async function (order, elements, property, value) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldHaveCSS(nthElement, property, value);
-});
+Then(
+  "User expects {int} th of {string} should have {string} CSS property with {string} value",
+  async function (order, elements, property, value) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldHaveCSS(nthElement, property, value);
+  },
+);
 
 // Check if a selector should have a specific id
 Then(
@@ -236,10 +289,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should have {string} id", async function (order, elements, id) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldHaveId(nthElement, id);
-});
+Then(
+  "User expects {int} th of {string} should have {string} id",
+  async function (order, elements, id) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldHaveId(nthElement, id);
+  },
+);
 
 // Check if a selector should have a specific JavaScript property with a given value
 Then(
@@ -249,10 +305,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should have {string} JavaScript property with {string} value", async function (order, elements, property, value) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldHaveJSProperty(nthElement, property, value);
-});
+Then(
+  "User expects {int} th of {string} should have {string} JavaScript property with {string} value",
+  async function (order, elements, property, value) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldHaveJSProperty(nthElement, property, value);
+  },
+);
 
 // Check if a selector should have a specific role
 Then(
@@ -262,55 +321,83 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should have {string} role", async function (order, elements, role) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldHaveId(nthElement, role);
-});
+Then(
+  "User expects {int} th of {string} should have {string} role",
+  async function (order, elements, role) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldHaveId(nthElement, role);
+  },
+);
 
+Then(
+  "User expects that full page match with {string} screenshot",
+  async function (baselineFilename) {
+    await screenComparer(
+      baselineFilename,
+      (actualPath) =>
+        context.page.screenshot({ path: actualPath, fullPage: true }),
+      { maxDiffPercent: 0.01 },
+    );
+  },
+);
 
-Then('User expects that full page match with {string} screenshot', async function (baselineFilename) {
-  await screenComparer( baselineFilename,
-    (actualPath) => context.page.screenshot({ path: actualPath, fullPage: true }),
-    { maxDiffPercent: 0.01 }
-  );
-});
+Then(
+  "User expects that full page match with {string} screenshot with {float}% difference",
+  async function (baselineFilename, maxDiff) {
+    await screenComparer(
+      baselineFilename,
+      (actualPath) =>
+        context.page.screenshot({ path: actualPath, fullPage: true }),
+      { maxDiffPercent: maxDiff / 100 },
+    );
+  },
+);
 
-Then('User expects that full page match with {string} screenshot with {float}% difference', async function (baselineFilename, maxDiff) {
-  await screenComparer( baselineFilename,
-    (actualPath) => context.page.screenshot({ path: actualPath, fullPage: true }),
-    { maxDiffPercent: maxDiff / 100 }
-  );
-});
+Then(
+  "User expects that page match with {string} screenshot",
+  async function (baselineFilename) {
+    await screenComparer(
+      baselineFilename,
+      (actualPath) =>
+        context.page.screenshot({ path: actualPath, fullPage: false }),
+      { maxDiffPercent: 0.01 },
+    );
+  },
+);
 
+Then(
+  "User expects that page match with {string} screenshot with {float}% difference",
+  async function (baselineFilename, maxDiff) {
+    await screenComparer(
+      baselineFilename,
+      (actualPath) =>
+        context.page.screenshot({ path: actualPath, fullPage: false }),
+      { maxDiffPercent: maxDiff / 100 },
+    );
+  },
+);
 
-Then('User expects that page match with {string} screenshot', async function (baselineFilename) {
-  await screenComparer(baselineFilename,
-    (actualPath) => context.page.screenshot({ path: actualPath, fullPage: false }),
-    { maxDiffPercent: 0.01 }
-  );
-});
+Then(
+  "User expects that {string} element match with {string} screenshot",
+  async function (selector, baselineFilename) {
+    await screenComparer(
+      baselineFilename,
+      (actualPath) => element(selector).screenshot({ path: actualPath }),
+      { maxDiffPercent: 0.01 },
+    );
+  },
+);
 
-Then('User expects that page match with {string} screenshot with {float}% difference', async function (baselineFilename, maxDiff) {
-  await screenComparer( baselineFilename,
-    (actualPath) => context.page.screenshot({ path: actualPath, fullPage: false }),
-    { maxDiffPercent: maxDiff / 100 }
-  );
-});
-
-
-Then('User expects that {string} element match with {string} screenshot', async function (selector, baselineFilename) {
-  await screenComparer( baselineFilename,
-    (actualPath) => element(selector).screenshot({ path: actualPath }),
-    { maxDiffPercent: 0.01 }
-  );
-});
-
-Then('User expects that {string} element match with {string} screenshot with {float}% difference', async function (selector, baselineFilename, maxDiff) {
-  await screenComparer( baselineFilename,
-    (actualPath) => element(selector).screenshot({ path: actualPath }),
-    { maxDiffPercent: maxDiff / 100 }
-  );
-});
+Then(
+  "User expects that {string} element match with {string} screenshot with {float}% difference",
+  async function (selector, baselineFilename, maxDiff) {
+    await screenComparer(
+      baselineFilename,
+      (actualPath) => element(selector).screenshot({ path: actualPath }),
+      { maxDiffPercent: maxDiff / 100 },
+    );
+  },
+);
 
 // Check if a selector should have specific text
 Then(
@@ -320,10 +407,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should match {string} text", async function (order, elements, text) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldHaveText(nthElement, text);
-});
+Then(
+  "User expects {int} th of {string} should match {string} text",
+  async function (order, elements, text) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldHaveText(nthElement, text);
+  },
+);
 
 // Check if a selector should have a specific value
 Then(
@@ -333,10 +423,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should have {string} value", async function (order, elements, value) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldHaveValue(nthElement, value);
-});
+Then(
+  "User expects {int} th of {string} should have {string} value",
+  async function (order, elements, value) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldHaveValue(nthElement, value);
+  },
+);
 
 // Check if a selector should have specific values
 Then(
@@ -370,80 +463,104 @@ Then("User expects {string} should not be attached", async function (selector) {
   await assert.shouldNotBeAttached(selector);
 });
 
-Then("User expects {int} th of {string} should be not be attached", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotBeAttached(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be not be attached",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotBeAttached(nthElement);
+  },
+);
 
 // Check if a selector should not be checked
 Then("User expects {string} should not be checked", async function (selector) {
   await assert.shouldNotBeChecked(selector);
 });
 
-Then("User expects {int} th of {string} should be not be checked", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotBeChecked(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be not be checked",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotBeChecked(nthElement);
+  },
+);
 
 // Check if a selector should not be disabled
 Then("User expects {string} should not be disabled", async function (selector) {
   await assert.shouldNotBeDisabled(selector);
 });
 
-Then("User expects {int} th of {string} should be not be disabled", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotBeDisabled(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be not be disabled",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotBeDisabled(nthElement);
+  },
+);
 
 // Check if a selector should not be editable
 Then("User expects {string} should not be editable", async function (selector) {
   await assert.shouldNotBeEditable(selector);
 });
 
-Then("User expects {int} th of {string} should be not be editable", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotBeEditable(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be not be editable",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotBeEditable(nthElement);
+  },
+);
 
 // Check if a selector should not be empty
 Then("User expects {string} should not be empty", async function (selector) {
   await assert.shouldNotBeEmpty(selector);
 });
 
-Then("User expects {int} th of {string} should be not be empty", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotBeEmpty(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be not be empty",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotBeEmpty(nthElement);
+  },
+);
 
 // Check if a selector should not be enabled
 Then("User expects {string} should not be enabled", async function (selector) {
   await assert.shouldNotBeEnabled(selector);
 });
 
-Then("User expects {int} th of {string} should be not be enabled", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotBeEnabled(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be not be enabled",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotBeEnabled(nthElement);
+  },
+);
 
 // Check if a selector should not be focused
 Then("User expects {string} should not be focused", async function (selector) {
   await assert.shouldNotBeFocused(selector);
 });
 
-Then("User expects {int} th of {string} should be not be focused", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotBeFocused(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be not be focused",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotBeFocused(nthElement);
+  },
+);
 
 // Check if a selector should not be hidden
 Then("User expects {string} should not be hidden", async function (selector) {
   await assert.shouldNotBeHidden(selector);
 });
 
-Then("User expects {int} th of {string} should be not be hidden", async function (order, elements) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotBeHidden(nthElement);
-});
+Then(
+  "User expects {int} th of {string} should be not be hidden",
+  async function (order, elements) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotBeHidden(nthElement);
+  },
+);
 
 // Check if a selector should not be in the viewport
 Then(
@@ -482,10 +599,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should not have {string} text", async function (order, elements, text) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotContainText(nthElement, text);
-});
+Then(
+  "User expects {int} th of {string} should not have {string} text",
+  async function (order, elements, text) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotContainText(nthElement, text);
+  },
+);
 
 // Check if a selector should not have an accessible description
 Then(
@@ -495,10 +615,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should not have {string} description", async function (order, elements, text) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotHaveAccessibleDescription(nthElement, text);
-});
+Then(
+  "User expects {int} th of {string} should not have {string} description",
+  async function (order, elements, text) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotHaveAccessibleDescription(nthElement, text);
+  },
+);
 
 // Check if a selector should not have an accessible name
 Then(
@@ -508,10 +631,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should not have {string} name", async function (order, elements, text) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotHaveAccessibleName(nthElement, text);
-});
+Then(
+  "User expects {int} th of {string} should not have {string} name",
+  async function (order, elements, text) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotHaveAccessibleName(nthElement, text);
+  },
+);
 
 // Check if a selector should not have a specific attribute with a given value
 Then(
@@ -521,10 +647,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should have {string} attribute with {string} value", async function (order, elements, attribute, value) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotHaveAttribute(nthElement, attribute, value);
-});
+Then(
+  "User expects {int} th of {string} should have {string} attribute with {string} value",
+  async function (order, elements, attribute, value) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotHaveAttribute(nthElement, attribute, value);
+  },
+);
 
 // Check if a selector should not have a specific class
 Then(
@@ -534,10 +663,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should not have {string} class", async function (order, elements, text) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotHaveClass(nthElement, text);
-});
+Then(
+  "User expects {int} th of {string} should not have {string} class",
+  async function (order, elements, text) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotHaveClass(nthElement, text);
+  },
+);
 
 // Check if a selector should not have a specific count
 Then(
@@ -555,10 +687,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should not have {string} CSS property with {string} value", async function (order, elements, property, value) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotHaveCSS(nthElement, property, value);
-});
+Then(
+  "User expects {int} th of {string} should not have {string} CSS property with {string} value",
+  async function (order, elements, property, value) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotHaveCSS(nthElement, property, value);
+  },
+);
 
 // Check if a selector should not have a specific ID
 Then(
@@ -568,10 +703,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should not have {string} id", async function (order, elements, text) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotHaveId(nthElement, text);
-});
+Then(
+  "User expects {int} th of {string} should not have {string} id",
+  async function (order, elements, text) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotHaveId(nthElement, text);
+  },
+);
 
 // Check if a selector should not have a specific JavaScript property with a given value
 Then(
@@ -581,10 +719,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should not have {string} JavaScript property with {string} value", async function (order, elements, property, value) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotHaveJSProperty(nthElement, property, value);
-});
+Then(
+  "User expects {int} th of {string} should not have {string} JavaScript property with {string} value",
+  async function (order, elements, property, value) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotHaveJSProperty(nthElement, property, value);
+  },
+);
 
 // Check if a selector should not have a specific role
 Then(
@@ -594,10 +735,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should not have {string} role", async function (order, elements, text) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotHaveRole(nthElement, text);
-});
+Then(
+  "User expects {int} th of {string} should not have {string} role",
+  async function (order, elements, text) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotHaveRole(nthElement, text);
+  },
+);
 
 // Check if a selector should not have specific text
 Then(
@@ -607,10 +751,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should not have {string} text", async function (order, elements, text) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotHaveText(nthElement, text);
-});
+Then(
+  "User expects {int} th of {string} should not have {string} text",
+  async function (order, elements, text) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotHaveText(nthElement, text);
+  },
+);
 
 // Check if a selector should not have a specific value
 Then(
@@ -620,10 +767,13 @@ Then(
   },
 );
 
-Then("User expects {int} th of {string} should not have {string} value", async function (order, elements, text) {
-  const nthElement = await frame.nth(elements, order);
-  await assert.shouldNotHaveValue(nthElement, text);
-});
+Then(
+  "User expects {int} th of {string} should not have {string} value",
+  async function (order, elements, text) {
+    const nthElement = await frame.nth(elements, order);
+    await assert.shouldNotHaveValue(nthElement, text);
+  },
+);
 
 // Check if a selector should not have specific values
 Then(

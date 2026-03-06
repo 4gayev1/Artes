@@ -34,7 +34,7 @@ const elementInteractions = {
   getAttribute: async (selector, attribute, options) => {
     options = options ?? {};
 
-    attribute = await resolveVariable(attribute)
+    attribute = await resolveVariable(attribute);
 
     return await element(selector).getAttribute(attribute, options);
   },

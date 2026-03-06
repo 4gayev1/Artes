@@ -38,9 +38,8 @@ function selectorSeparator(element) {
   }
 }
 
- function getSelector(element) {
-
-  element = resolveVariable(element)
+function getSelector(element) {
+  element = resolveVariable(element);
 
   const selector =
     elements?.[element]?.selector || elements?.[element] || element;
@@ -94,9 +93,7 @@ function getElement(element) {
   return locator;
 }
 
-
 function extractVarsFromResponse(responseBody, vars, customVarNames) {
-
   function getValueByPath(obj, path) {
     const keys = path.split(".");
     let current = obj;
@@ -124,13 +121,13 @@ function extractVarsFromResponse(responseBody, vars, customVarNames) {
       .join("");
   }
 
-  const varPaths = vars.split(",").map(v => v.trim());
+  const varPaths = vars.split(",").map((v) => v.trim());
   let customNames = [];
 
   if (!customVarNames) {
     customNames = varPaths.map(pathToCamelCase);
   } else if (typeof customVarNames === "string") {
-    customNames = customVarNames.split(",").map(n => n.trim());
+    customNames = customVarNames.split(",").map((n) => n.trim());
   } else if (Array.isArray(customVarNames)) {
     customNames = customVarNames;
   } else {

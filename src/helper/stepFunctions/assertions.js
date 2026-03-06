@@ -1,4 +1,9 @@
-const { expect, element, context, resolveVariable } = require("../imports/commons");
+const {
+  expect,
+  element,
+  context,
+  resolveVariable,
+} = require("../imports/commons");
 const { elementInteractions } = require("./elementInteractions");
 const { frame } = require("../stepFunctions/frameActions");
 
@@ -77,7 +82,7 @@ const assert = {
   shouldContainText: async (selector, text, options) => {
     options = options ?? {};
 
-    text = await resolveVariable(text)
+    text = await resolveVariable(text);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -90,7 +95,7 @@ const assert = {
   ) => {
     options = options ?? {};
 
-    expectedText = await resolveVariable(expectedText)
+    expectedText = await resolveVariable(expectedText);
 
     const count = await frame.count(elements);
 
@@ -105,7 +110,7 @@ const assert = {
   shouldHaveAccessibleDescription: async (selector, description, options) => {
     options = options ?? {};
 
-    description = await resolveVariable(description)
+    description = await resolveVariable(description);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -114,7 +119,7 @@ const assert = {
   shouldHaveAccessibleName: async (selector, name, options) => {
     options = options ?? {};
 
-    name = await resolveVariable(name)
+    name = await resolveVariable(name);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -123,8 +128,8 @@ const assert = {
   shouldHaveAttribute: async (selector, attribute, value, options) => {
     options = options ?? {};
 
-    attribute = await resolveVariable(attribute)
-    value = await resolveVariable(value)
+    attribute = await resolveVariable(attribute);
+    value = await resolveVariable(value);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -133,7 +138,7 @@ const assert = {
   shouldHaveClass: async (selector, className, options) => {
     options = options ?? {};
 
-    className = await resolveVariable(className)
+    className = await resolveVariable(className);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -142,7 +147,7 @@ const assert = {
   shouldHaveCount: async (selector, count, options) => {
     options = options ?? {};
 
-    count = await resolveVariable(count)
+    count = await resolveVariable(count);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -151,8 +156,8 @@ const assert = {
   shouldHaveCSS: async (selector, property, value, options) => {
     options = options ?? {};
 
-    property = await resolveVariable(property)
-    value = await resolveVariable(value)
+    property = await resolveVariable(property);
+    value = await resolveVariable(value);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -161,7 +166,7 @@ const assert = {
   shouldHaveId: async (selector, id, options) => {
     options = options ?? {};
 
-    id = await resolveVariable(id)
+    id = await resolveVariable(id);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -170,8 +175,8 @@ const assert = {
   shouldHaveJSProperty: async (selector, property, value, options) => {
     options = options ?? {};
 
-    property = await resolveVariable(property)
-    value = await resolveVariable(value)
+    property = await resolveVariable(property);
+    value = await resolveVariable(value);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -180,7 +185,7 @@ const assert = {
   shouldHaveRole: async (selector, role, options) => {
     options = options ?? {};
 
-    role = await resolveVariable(role)
+    role = await resolveVariable(role);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -189,7 +194,7 @@ const assert = {
   shouldHaveText: async (selector, text, options) => {
     options = options ?? {};
 
-    text = await resolveVariable(text)
+    text = await resolveVariable(text);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -198,7 +203,7 @@ const assert = {
   shouldHaveValue: async (selector, value, options) => {
     options = options ?? {};
 
-    value = await resolveVariable(value)
+    value = await resolveVariable(value);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -207,7 +212,7 @@ const assert = {
   shouldHaveValues: async (selector, values, options) => {
     options = options ?? {};
 
-    values = values.map(value => resolveVariable(value))
+    values = values.map((value) => resolveVariable(value));
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -221,14 +226,14 @@ const assert = {
   shouldPageHaveTitle: async (title, options) => {
     options = options ?? {};
 
-    title = await resolveVariable(title)
+    title = await resolveVariable(title);
 
     await expect(context.page).toHaveTitle(title, options);
   },
   shouldPageHaveURL: async (url, options) => {
     options = options ?? {};
 
-    url = await resolveVariable(url)
+    url = await resolveVariable(url);
 
     await expect(context.page).toHaveURL(url, options);
   },
@@ -312,7 +317,7 @@ const assert = {
   shouldNotContainText: async (selector, text, options) => {
     options = options ?? {};
 
-    text = await resolveVariable(text)
+    text = await resolveVariable(text);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -325,7 +330,7 @@ const assert = {
   ) => {
     options = options ?? {};
 
-    description = await resolveVariable(description)
+    description = await resolveVariable(description);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -334,7 +339,7 @@ const assert = {
   shouldNotHaveAccessibleName: async (selector, name, options) => {
     options = options ?? {};
 
-    name = await resolveVariable(name)
+    name = await resolveVariable(name);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -343,8 +348,8 @@ const assert = {
   shouldNotHaveAttribute: async (selector, attribute, value, options) => {
     options = options ?? {};
 
-    attribute = await resolveVariable(attribute)
-    value = await resolveVariable(value)
+    attribute = await resolveVariable(attribute);
+    value = await resolveVariable(value);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -353,7 +358,7 @@ const assert = {
   shouldNotHaveClass: async (selector, className, options) => {
     options = options ?? {};
 
-    className = await resolveVariable(className)
+    className = await resolveVariable(className);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -361,8 +366,8 @@ const assert = {
   },
   shouldNotHaveCount: async (selector, count, options) => {
     options = options ?? {};
-  
-    count = await resolveVariable(count)
+
+    count = await resolveVariable(count);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -371,8 +376,8 @@ const assert = {
   shouldNotHaveCSS: async (selector, property, value, options) => {
     options = options ?? {};
 
-    property = await resolveVariable(property)
-    value = await resolveVariable(value)
+    property = await resolveVariable(property);
+    value = await resolveVariable(value);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -381,7 +386,7 @@ const assert = {
   shouldNotHaveId: async (selector, id, options) => {
     options = options ?? {};
 
-    id = await resolveVariable(id)
+    id = await resolveVariable(id);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -390,8 +395,8 @@ const assert = {
   shouldNotHaveJSProperty: async (selector, property, value, options) => {
     options = options ?? {};
 
-    property = await resolveVariable(property)
-    value = await resolveVariable(value)
+    property = await resolveVariable(property);
+    value = await resolveVariable(value);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -400,7 +405,7 @@ const assert = {
   shouldNotHaveRole: async (selector, role, options) => {
     options = options ?? {};
 
-    role = await resolveVariable(role)
+    role = await resolveVariable(role);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -416,7 +421,7 @@ const assert = {
   shouldNotHaveText: async (selector, text, options) => {
     options = options ?? {};
 
-      text = await resolveVariable(text)
+    text = await resolveVariable(text);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -425,7 +430,7 @@ const assert = {
   shouldNotHaveValue: async (selector, value, options) => {
     options = options ?? {};
 
-    value = await resolveVariable(value)
+    value = await resolveVariable(value);
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -434,7 +439,7 @@ const assert = {
   shouldNotHaveValues: async (selector, values, options) => {
     options = options ?? {};
 
-    values = values.map(value => resolveVariable(value))
+    values = values.map((value) => resolveVariable(value));
 
     await expect(
       typeof selector === "string" ? element(selector) : await selector,
@@ -448,14 +453,14 @@ const assert = {
   shouldNotPageHaveTitle: async (title, options) => {
     options = options ?? {};
 
-      title = await resolveVariable(title)
+    title = await resolveVariable(title);
 
     await expect(context.page).not.toHaveTitle(title, options);
   },
   shouldNotPageHaveURL: async (url, options) => {
     options = options ?? {};
 
-      url = await resolveVariable(url)
+    url = await resolveVariable(url);
 
     await expect(context.page).not.toHaveURL(url, options);
   },
@@ -469,7 +474,7 @@ const assert = {
   shouldBe: async (selector, expected, options) => {
     options = options ?? {};
 
-    expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(await elementInteractions.textContent(selector)).toBe(
       expected,
@@ -479,9 +484,8 @@ const assert = {
   shouldBeCloseTo: async (selector, expected, precision, options) => {
     options = options ?? {};
 
-    expected = await resolveVariable(expected)
-    precision = await resolveVariable(precision)
-
+    expected = await resolveVariable(expected);
+    precision = await resolveVariable(precision);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -504,7 +508,7 @@ const assert = {
   shouldBeGreaterThan: async (selector, expected, options) => {
     options = options ?? {};
 
-        expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -513,7 +517,7 @@ const assert = {
   shouldBeGreaterThanOrEqual: async (selector, expected, options) => {
     options = options ?? {};
 
-      expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -522,7 +526,7 @@ const assert = {
   shouldBeInstanceOf: async (selector, constructor, options) => {
     options = options ?? {};
 
-        constructor = await resolveVariable(constructor)
+    constructor = await resolveVariable(constructor);
 
     await expect(
       await elementInteractions.textContent(selector),
@@ -531,7 +535,7 @@ const assert = {
   shouldBeLessThan: async (selector, expected, options) => {
     options = options ?? {};
 
-        expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -540,7 +544,7 @@ const assert = {
   shouldBeLessThanOrEqual: async (selector, expected, options) => {
     options = options ?? {};
 
-        expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -585,7 +589,7 @@ const assert = {
   shouldContainEqual: async (selector, expected, options) => {
     options = options ?? {};
 
-            expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       await elementInteractions.textContent(selector),
@@ -594,7 +598,7 @@ const assert = {
   shouldEqual: async (selector, expected, options) => {
     options = options ?? {};
 
-                expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -603,7 +607,7 @@ const assert = {
   shouldHaveLength: async (selector, length, options) => {
     options = options ?? {};
 
-      length = await resolveVariable(length)
+    length = await resolveVariable(length);
 
     await expect(await elementInteractions.textContent(selector)).toHaveLength(
       length,
@@ -613,7 +617,7 @@ const assert = {
   shouldHaveProperty: async (selector, property, options) => {
     options = options ?? {};
 
-      property = await resolveVariable(property)
+    property = await resolveVariable(property);
 
     await expect(
       await elementInteractions.textContent(selector),
@@ -622,7 +626,7 @@ const assert = {
   shouldMatch: async (selector, regex, options) => {
     options = options ?? {};
 
-regex = await resolveVariable(regex)
+    regex = await resolveVariable(regex);
 
     await expect(await elementInteractions.textContent(selector)).toMatch(
       regex,
@@ -632,7 +636,7 @@ regex = await resolveVariable(regex)
   shouldMatchObject: async (selector, object, options) => {
     options = options ?? {};
 
-      object = await resolveVariable(object)
+    object = await resolveVariable(object);
 
     await expect(await elementInteractions.textContent(selector)).toMatchObject(
       object,
@@ -642,7 +646,7 @@ regex = await resolveVariable(regex)
   shouldStrictEqual: async (selector, expected, options) => {
     options = options ?? {};
 
-      expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -651,14 +655,14 @@ regex = await resolveVariable(regex)
   shouldThrow: async (fn, options) => {
     options = options ?? {};
 
-    fn = await resolveVariable(fn)
+    fn = await resolveVariable(fn);
 
     await expect(fn).toThrow(options);
   },
   shouldAny: async (selector, constructor, options) => {
     options = options ?? {};
 
-      constructor = await resolveVariable(constructor)
+    constructor = await resolveVariable(constructor);
 
     await expect(
       await elementInteractions.textContent(selector),
@@ -674,7 +678,7 @@ regex = await resolveVariable(regex)
   shouldArrayContaining: async (selector, elements, options) => {
     options = options ?? {};
 
-      elements = elements.map(element => resolveVariable(element))
+    elements = elements.map((element) => resolveVariable(element));
 
     await expect(await elementInteractions.textContent(selector)).toEqual(
       expect.arrayContaining(elements),
@@ -684,8 +688,8 @@ regex = await resolveVariable(regex)
   shouldCloseTo: async (selector, expected, precision, options) => {
     options = options ?? {};
 
-      expected = await resolveVariable(expected)
-      precision = await resolveVariable(precision)
+    expected = await resolveVariable(expected);
+    precision = await resolveVariable(precision);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -694,7 +698,7 @@ regex = await resolveVariable(regex)
   shouldObjectContaining: async (selector, properties, options) => {
     options = options ?? {};
 
-      properties = await resolveVariable(properties)
+    properties = await resolveVariable(properties);
 
     await expect(await elementInteractions.textContent(selector)).toEqual(
       expect.objectContaining(properties),
@@ -704,7 +708,7 @@ regex = await resolveVariable(regex)
   shouldStringContaining: async (selector, substring, options) => {
     options = options ?? {};
 
-      substring = await resolveVariable(substring)
+    substring = await resolveVariable(substring);
 
     await expect(await elementInteractions.textContent(selector)).toEqual(
       expect.stringContaining(substring),
@@ -714,7 +718,7 @@ regex = await resolveVariable(regex)
   shouldStringMatching: async (selector, regex, options) => {
     options = options ?? {};
 
-      regex = await resolveVariable(regex)
+    regex = await resolveVariable(regex);
 
     await expect(await elementInteractions.textContent(selector)).toEqual(
       expect.stringMatching(regex),
@@ -726,7 +730,7 @@ regex = await resolveVariable(regex)
   shouldNotBe: async (selector, expected, options) => {
     options = options ?? {};
 
-      expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(await elementInteractions.textContent(selector)).not.toBe(
       expected,
@@ -736,8 +740,8 @@ regex = await resolveVariable(regex)
   shouldNotBeCloseTo: async (selector, expected, precision, options) => {
     options = options ?? {};
 
-      expected = await resolveVariable(expected)
-      precision = await resolveVariable(precision)
+    expected = await resolveVariable(expected);
+    precision = await resolveVariable(precision);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -760,7 +764,7 @@ regex = await resolveVariable(regex)
   shouldNotBeGreaterThan: async (selector, expected, options) => {
     options = options ?? {};
 
-      expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       await elementInteractions.textContent(selector),
@@ -769,7 +773,7 @@ regex = await resolveVariable(regex)
   shouldNotBeGreaterThanOrEqual: async (selector, expected, options) => {
     options = options ?? {};
 
-      expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -778,7 +782,7 @@ regex = await resolveVariable(regex)
   shouldNotBeInstanceOf: async (selector, constructor, options) => {
     options = options ?? {};
 
-      constructor = await resolveVariable(constructor)
+    constructor = await resolveVariable(constructor);
 
     await expect(
       await elementInteractions.textContent(selector),
@@ -787,7 +791,7 @@ regex = await resolveVariable(regex)
   shouldNotBeLessThan: async (selector, expected, options) => {
     options = options ?? {};
 
-      expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -796,7 +800,7 @@ regex = await resolveVariable(regex)
   shouldNotBeLessThanOrEqual: async (selector, expected, options) => {
     options = options ?? {};
 
-      expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -833,7 +837,7 @@ regex = await resolveVariable(regex)
   shouldNotContain: async (selector, substring, options) => {
     options = options ?? {};
 
-      substring = await resolveVariable(substring)
+    substring = await resolveVariable(substring);
 
     await expect(await elementInteractions.textContent(selector)).not.toContain(
       substring,
@@ -843,7 +847,7 @@ regex = await resolveVariable(regex)
   shouldNotContainEqual: async (selector, expected, options) => {
     options = options ?? {};
 
-      expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -852,7 +856,7 @@ regex = await resolveVariable(regex)
   shouldNotEqual: async (selector, expected, options) => {
     options = options ?? {};
 
-      expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -861,7 +865,7 @@ regex = await resolveVariable(regex)
   shouldNotHaveLength: async (selector, length, options) => {
     options = options ?? {};
 
-      length = await resolveVariable(length)
+    length = await resolveVariable(length);
 
     await expect(
       await elementInteractions.textContent(selector),
@@ -870,7 +874,7 @@ regex = await resolveVariable(regex)
   shouldNotHaveProperty: async (selector, property, options) => {
     options = options ?? {};
 
-      property = await resolveVariable(property)
+    property = await resolveVariable(property);
 
     await expect(
       await elementInteractions.textContent(selector),
@@ -879,7 +883,7 @@ regex = await resolveVariable(regex)
   shouldNotMatch: async (selector, regex, options) => {
     options = options ?? {};
 
-      regex = await resolveVariable(regex)
+    regex = await resolveVariable(regex);
 
     await expect(await elementInteractions.textContent(selector)).not.toMatch(
       regex,
@@ -889,7 +893,7 @@ regex = await resolveVariable(regex)
   shouldNotMatchObject: async (selector, object, options) => {
     options = options ?? {};
 
-      object = await resolveVariable(object)
+    object = await resolveVariable(object);
 
     await expect(
       await elementInteractions.textContent(selector),
@@ -898,7 +902,7 @@ regex = await resolveVariable(regex)
   shouldNotStrictEqual: async (selector, expected, options) => {
     options = options ?? {};
 
-      expected = await resolveVariable(expected)
+    expected = await resolveVariable(expected);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -907,14 +911,14 @@ regex = await resolveVariable(regex)
   shouldNotThrow: async (fn, options) => {
     options = options ?? {};
 
-      fn = await resolveVariable(fn)
+    fn = await resolveVariable(fn);
 
     await expect(fn).not.toThrow(options);
   },
   shouldNotAny: async (selector, constructor, options) => {
     options = options ?? {};
 
-      constructor = await await resolveVariable(constructor)
+    constructor = await await resolveVariable(constructor);
 
     await expect(
       await elementInteractions.textContent(selector),
@@ -930,7 +934,7 @@ regex = await resolveVariable(regex)
   shouldNotArrayContaining: async (selector, elements, options) => {
     options = options ?? {};
 
-      elements = elements.map(element => resolveVariable(element))
+    elements = elements.map((element) => resolveVariable(element));
 
     await expect(await elementInteractions.textContent(selector)).not.toEqual(
       expect.arrayContaining(elements),
@@ -940,8 +944,8 @@ regex = await resolveVariable(regex)
   shouldNotCloseTo: async (selector, expected, precision, options) => {
     options = options ?? {};
 
-      expected = await resolveVariable(expected)
-      precision = await resolveVariable(precision)
+    expected = await resolveVariable(expected);
+    precision = await resolveVariable(precision);
 
     await expect(
       Number(await elementInteractions.textContent(selector)),
@@ -950,7 +954,7 @@ regex = await resolveVariable(regex)
   shouldNotObjectContaining: async (selector, properties, options) => {
     options = options ?? {};
 
-      properties = await resolveVariable(properties)
+    properties = await resolveVariable(properties);
 
     await expect(await elementInteractions.textContent(selector)).not.toEqual(
       expect.objectContaining(properties),
@@ -960,7 +964,7 @@ regex = await resolveVariable(regex)
   shouldNotStringContaining: async (selector, substring, options) => {
     options = options ?? {};
 
-      substring = await resolveVariable(substring)
+    substring = await resolveVariable(substring);
 
     await expect(await elementInteractions.textContent(selector)).not.toEqual(
       expect.stringContaining(substring),
@@ -970,7 +974,7 @@ regex = await resolveVariable(regex)
   shouldNotStringMatching: async (selector, regex, options) => {
     options = options ?? {};
 
-      regex = await resolveVariable(regex)
+    regex = await resolveVariable(regex);
 
     await expect(await elementInteractions.textContent(selector)).not.toEqual(
       expect.stringMatching(regex),

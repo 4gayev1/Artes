@@ -5,7 +5,8 @@ const {
   saveVar,
   time,
   random,
-  moduleConfig, resolveVariable
+  moduleConfig,
+  resolveVariable,
 } = require("../helper/imports/commons");
 const { api } = require("../helper/stepFunctions/exporter");
 const path = require("path");
@@ -243,7 +244,6 @@ When(
   async function (method, url, payload) {
     const httpMethod = method.toUpperCase();
 
-
     switch (httpMethod) {
       case "GET":
         await api.get(url, payload);
@@ -301,7 +301,7 @@ When(
   "User convert {string} into base64 as {string}",
   async (file, variable) => {
     file = await resolveVariable(file);
-    
+
     const filePath = await path.join(moduleConfig.projectPath, file);
     const fileData = await fs.readFileSync(filePath);
     const base64Data = await fileData.toString("base64");
