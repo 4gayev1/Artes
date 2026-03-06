@@ -1,11 +1,11 @@
 
 const path = require('path');
 const fs = require('fs');
-const { PNG } = require('pngjs');
 require("allure-cucumberjs");
 const allure = require("allure-js-commons");
 const sharp = require("sharp");
 const pixelmatch = require("pixelmatch");
+const { PNG } = require('pngjs');
 const { moduleConfig } = require('artes/src/helper/imports/commons');
 
 
