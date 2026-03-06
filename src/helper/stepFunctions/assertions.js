@@ -186,13 +186,6 @@ const assert = {
       typeof selector === "string" ? element(selector) : await selector,
     ).toHaveRole(role, options);
   },
-  shouldHaveScreenshot: async (selector, options) => {
-    options = options ?? {};
-
-    await expect(
-      typeof selector === "string" ? element(selector) : await selector,
-    ).toHaveScreenshot(options);
-  },
   shouldHaveText: async (selector, text, options) => {
     options = options ?? {};
 

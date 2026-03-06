@@ -7,6 +7,7 @@ const {
   context,
   resolveVariable
 } = require("../helper/imports/commons");
+const { screenComparer } = require("artes/src/helper/controller/screenComparer");
 const { assert, frame } = require("../helper/stepFunctions/exporter");
 const Ajv = require("ajv");
 
@@ -266,13 +267,50 @@ Then("User expects {int} th of {string} should have {string} role", async functi
   await assert.shouldHaveId(nthElement, role);
 });
 
-// Check if a selector should have a screenshot
-Then(
-  "User expects {string} should have a screenshot",
-  async function (selector) {
-    await assert.shouldHaveScreenshot(selector);
-  },
-);
+
+Then('User expects that full page match with {string} screenshot', async function (baselineFilename) {
+  await screenComparer( baselineFilename,
+    (actualPath) => context.page.screenshot({ path: actualPath, fullPage: true }),
+    { maxDiffPercent: 0.01 }
+  );
+});
+
+Then('User expects that full page match with {string} screenshot with {float}% difference', async function (baselineFilename, maxDiff) {
+  await screenComparer( baselineFilename,
+    (actualPath) => context.page.screenshot({ path: actualPath, fullPage: true }),
+    { maxDiffPercent: maxDiff / 100 }
+  );
+});
+
+
+Then('User expects that page match with {string} screenshot', async function (baselineFilename) {
+  await screenComparer(baselineFilename,
+    (actualPath) => context.page.screenshot({ path: actualPath, fullPage: false }),
+    { maxDiffPercent: 0.01 }
+  );
+});
+
+Then('User expects that page match with {string} screenshot with {float}% difference', async function (baselineFilename, maxDiff) {
+  await screenComparer( baselineFilename,
+    (actualPath) => context.page.screenshot({ path: actualPath, fullPage: false }),
+    { maxDiffPercent: maxDiff / 100 }
+  );
+});
+
+
+Then('User expects that {string} element match with {string} screenshot', async function (selector, baselineFilename) {
+  await screenComparer( baselineFilename,
+    (actualPath) => element(selector).screenshot({ path: actualPath }),
+    { maxDiffPercent: 0.01 }
+  );
+});
+
+Then('User expects that {string} element match with {string} screenshot with {float}% difference', async function (selector, baselineFilename, maxDiff) {
+  await screenComparer( baselineFilename,
+    (actualPath) => element(selector).screenshot({ path: actualPath }),
+    { maxDiffPercent: maxDiff / 100 }
+  );
+});
 
 // Check if a selector should have specific text
 Then(
