@@ -195,12 +195,12 @@ function main() {
 
     if (meetsThreshold) {
       console.log(
-        `✅ Tests passed required ${testPercentage}% success rate with ${testCoverage.percentage.toFixed(2)}%!`,
+        `\x1b[32mTests passed required ${testPercentage}% success rate with ${testCoverage.percentage.toFixed(2)}%!\x1b[0m`,
       );
       process.env.EXIT_CODE = parseInt(0, 10);
     } else {
       console.log(
-        `❌ Tests failed required ${testPercentage}% success rate with ${testCoverage.percentage.toFixed(2)}%!`,
+        `\x1b[31mTests failed required ${testPercentage}% success rate with ${testCoverage.percentage.toFixed(2)}%!\x1b[0m`,
       );
       process.env.EXIT_CODE = parseInt(1, 10);
     }

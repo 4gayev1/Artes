@@ -9,9 +9,18 @@ async function getEnvInfo() {
     delete require.cache[require.resolve("../../../cucumber.config.js")];
     const cucumberConfig = require("../../../cucumber.config.js");
   
-        if (fs.existsSync(path.join(moduleConfig.modulePath, "browser-info.json"))) {
-          browserInfo = JSON.parse(fs.readFileSync(path.join(moduleConfig.modulePath, "browser-info.json"), "utf8"));
-        }
+    let baseURL = "";
+
+    if (typeof cucumberConfig.baseURL === "object") {
+      const env = (cucumberConfig.env || "").trim();
+      baseURL = cucumberConfig.baseURL[env];
+    } else {
+      baseURL = cucumberConfig.baseURL;
+    }
+
+    if (fs.existsSync(path.join(moduleConfig.modulePath, "browser-info.json"))) {
+    browserInfo = JSON.parse(fs.readFileSync(path.join(moduleConfig.modulePath, "browser-info.json"), "utf8"));
+    }
 
     const environment = {
       // ── System ──────────────────────────────
@@ -37,8 +46,9 @@ async function getEnvInfo() {
       "Headless":        cucumberConfig.browser.headless ?? "N/A",
   
       // ── Test Config ─────────────────────────
-      "Base_URL":        cucumberConfig.baseURL ||  "N/A",
+      "Base_URL":        baseURL ||  "N/A",
       "Environment":     cucumberConfig.env ||  "local",
+      "Parallel_Runner": cucumberConfig.default.parallel,
       "Timeout":         cucumberConfig.default.timeout ?? "N/A",
   
       // ── Git ─────────────────────────────────

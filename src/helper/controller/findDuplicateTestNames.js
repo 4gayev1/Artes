@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 function findDuplicateTestNames() {
-    const testStatusFile = path.join(process.cwd(), "node_modules", "artes" , "test-status", 'test-status.txt');
+    const testStatusFile = path.join(process.cwd(), "node_modules", "artes", "test-status", 'test-status.txt');
     
     if (!fs.existsSync(testStatusFile)) {
       console.error('test-status.txt not found');
@@ -12,7 +12,7 @@ function findDuplicateTestNames() {
     const content = fs.readFileSync(testStatusFile, 'utf8');
     const lines = content.split('\n').filter(line => line.trim());
   
-    const testNameToFiles = {};
+    const testNameToEntries = {};
   
     lines.forEach(line => {
       const parts = line.split(' | ');
@@ -20,24 +20,28 @@ function findDuplicateTestNames() {
   
       const testName = parts[2].trim();
       const filePath = parts[4].trim();
-  
-      if (!testNameToFiles[testName]) {
-        testNameToFiles[testName] = new Set();
+      const uuid = parts[3].trim();
+
+      if (!testNameToEntries[testName]) {
+        testNameToEntries[testName] = [];
       }
       
-      testNameToFiles[testName].add(filePath);
+      const alreadyExists = testNameToEntries[testName].some(e => e.uuid === uuid);
+      if (!alreadyExists) {
+        testNameToEntries[testName].push({ filePath, uuid });
+      }
     });
   
     const duplicates = {};
     
-    Object.entries(testNameToFiles).forEach(([testName, files]) => {
-      if (files.size > 1) {
-        duplicates[testName] = Array.from(files);
+    Object.entries(testNameToEntries).forEach(([testName, entries]) => {
+      if (entries.length > 1) {
+        duplicates[testName] = entries.map(e => e.filePath);
       }
     });
   
     if (Object.keys(duplicates).length > 0) {
-      console.warn('\n\x1b[33m[WARNING] Duplicate scenarios names found: This will effect your reporting');    
+      console.warn('\n\x1b[33m[WARNING] Duplicate scenario names found: This will affect your reporting');    
       Object.entries(duplicates).forEach(([testName, files]) => {
         console.log(`\x1b[33m"${testName}" exists in:`);
         files.forEach(file => {
@@ -49,6 +53,6 @@ function findDuplicateTestNames() {
     } 
   
     return duplicates;
-  }
+}
 
-module.exports = {findDuplicateTestNames}
+module.exports = { findDuplicateTestNames };
