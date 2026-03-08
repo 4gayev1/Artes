@@ -18,6 +18,8 @@ const {
   findDuplicateTestNames,
 } = require("./src/helper/controller/findDuplicateTestNames");
 const { getEnvInfo } = require("artes/src/helper/controller/getEnvInfo");
+const { uploadReport } = require("./src/helper/controller/reportUploader");
+
 
 const artesConfigPath = path.resolve(process.cwd(), "artes.config.js");
 
@@ -49,6 +51,11 @@ const flags = {
   customBrandName: args.includes("--brandName"),
   customReportName: args.includes("--reportName"),
   zip: args.includes("--zip"),
+  uploadReport: args.includes("--uploadReport"),
+  reporterURL: args.includes("--reporterURL"),
+  projectName: args.includes("--projectName"),
+  projectType: args.includes("--projectType"),
+  reportPath: args.includes("--reportPath"),
   features: args.includes("--features"),
   stepDef: args.includes("--stepDef"),
   tags: args.includes("--tags"),
@@ -73,6 +80,10 @@ const flags = {
 
 const env = getArgValue("--env");
 const vars = getArgValue("--saveVar");
+const reporterURL = getArgValue("--reporterURL");
+const projectType = getArgValue("--projectType");
+const projectName = getArgValue("--projectName");
+const reportPath = getArgValue("--reportPath");
 const logo = getArgValue("--logo");
 const brandName = getArgValue("--brandName");
 const reportName = getArgValue("--reportName");
@@ -173,7 +184,7 @@ flags.timeout ? (process.env.TIMEOUT = timeout) : "";
 
 flags.slowMo ? (process.env.SLOWMO = slowMo) : "";
 
-function main() {
+async function main() {
   if (flags.help) return showHelp();
   if (flags.version) return showVersion();
   if (flags.create) return createProject(flags.createYes, flags.noDeps);
@@ -239,6 +250,16 @@ function main() {
       force: true,
     });
   }
+
+  if (flags.uploadReport || artesConfig.uploadReport) {
+  await uploadReport({
+    reporterURL:  reporterURL  || artesConfig.reporterURL,
+    projectName:  projectName  || artesConfig.projectName || "Artes Report",
+    projectType:  projectType  || artesConfig.projectType || "Artes",
+    reportName:   reportName   || artesConfig.reportName  || "Artes Report",
+    reportPath:   reportPath   || artesConfig.reportPath  || path.join(process.cwd(), "report.zip")
+  });
+}
 
   cleanUp();
   process.exit(process.env.EXIT_CODE);

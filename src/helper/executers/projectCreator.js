@@ -43,7 +43,7 @@ function createProject(createYes, noDeps) {
   fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
   const config = `module.exports = {
-    headless: false,                 // Set to true for headless browser mode
+       headless: false,                 // Set to true for headless browser mode
 
     // Configuration options:
     // env: "",                      // string - Environment name for tests
@@ -56,11 +56,16 @@ function createProject(createYes, noDeps) {
     // timeout : 0,                  // number - Test timeout in seconds
     // slowMo: 0,                    // number - Slow down test execution (Default: 0 seconds)
     // parallel: 0,                  // number - Number of parallel workers
-    // report: true                  // boolean - Generate report
-    // zip: false                    // boolean - Generate zip of report
-    // logo: ""                      // string - Custom logo for the report sidebar. Accepts an absolute path, a relative path, or a direct image URL
-    // brandName: ""                 // string - Brand name displayed next to the logo in the report sidebar
-    // reportName: ""                // string - Report name displayed on the summary widget
+    // report: true,                 // boolean - Generate report
+    // zip: false,                   // boolean - Generate zip of report
+    // uploadReport: false,          // boolean - Upload report to Artes Reporting System
+    // reporterURL: "",              // string  - URL of the Artes Reporting System
+    // projectName: "Artes Report",  // string  - Name of the project in the Artes Reporting System
+    // projectType: "Artes",         // string  - Type/category of the project (e.g., UI, API)
+    // reportPath: "./report.zip",   // string  - Path to the report zip file to be uploaded
+    // logo: "",                     // string - Custom logo for the report sidebar. Accepts an absolute path, a relative path, or a direct image URL
+    // brandName: "",                // string - Brand name displayed next to the logo in the report sidebar
+    // reportName: "Artes Report",   // string - Report name displayed on the summary widget and in the Artes Reporting System
     // reportSuccess: false,         // boolean - Add screenshots and video records to report also for success test cases
     // trace: false,                 // boolean - Enable tracing
     // reportWithTrace: false,       // boolean - Include trace in report

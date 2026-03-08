@@ -40,8 +40,23 @@ function showHelp() {
             📄 --singleFileReport   Generate single file Allure report
                 Usage:   artes -r --singleFileReport
 
-            🗜️ --zip            Zip the report folder after generation
+           🗜️ --zip            Zip the report folder after generation
                 Usage:   artes -r --zip
+
+            --uploadReport     Upload the generated report to a Artes Reporting System
+                Usage:   artes --uploadReport --reporterURL "https://example.com/upload"
+            
+            --reporterURL      URL of the Artes Reporting System to upload the report
+                Usage:   artes --uploadReport --reporterURL "https://example.com/upload"
+
+            --projectName      Name of the project in the Artes Reporting System (default: "Artes Report")
+                Usage:   artes --uploadReport --reporterURL "https://example.com/upload" --projectName "My Project"
+
+            --projectType      Type of the project (e.g., UI, API) for reporting purposes (default: "Artes")
+                Usage:   artes --uploadReport --reporterURL "https://example.com/upload" --projectType "API"
+
+            --reportPath       Path to the report zip or html file to be uploaded (default: ./report.zip)
+                Usage:   artes --uploadReport --reporterURL "https://example.com/upload" --reportPath "./my_report.zip"
 
             🖼️ --logo           Set a custom logo in the report sidebar  
                 Usage:  artes --logo logo.png
@@ -49,7 +64,7 @@ function showHelp() {
             🏢 --brandName      Set the brand name displayed next to the logo in the report sidebar
                 Usage:  artes --brandName 'My Company' 
 
-            📄 --reportName      Set the report name displayed on the summary widget
+            📄 --reportName      Report name displayed on the summary widget and in the Artes Reporting System
                 Usage:  artes --reportName 'Alma UI' 
       
             📁 --features      Specify one or more feature files' relative paths to run (comma-separated)

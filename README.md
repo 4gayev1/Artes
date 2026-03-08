@@ -115,9 +115,14 @@ npx artes [options]
 | `-rwt, --reportWithTrace` | Add trace to the report                                                            | `artes -rwt` or `artes --reportWithTrace`                             |
 | `--singleFileReport`      | Generate single file allure report                                                 | `artes -r --singleFileReport`                                         |
 | `--zip`                   | Zip the report folder after generation                                             | `artes -r --zip`                                                      |
+| `--uploadReport`          | Upload the generated report to Artes Reporting System                              | `artes --uploadReport --reporterURL "https://example.com"`            |
+| `--reporterURL`           | URL of the Artes Reporting System to upload the report                             | `artes --uploadReport --reporterURL "https://example.com"`            |
+| `--projectName`           | Name of the project in the Artes Reporting System (default: `"Artes Report"`)     | `artes --uploadReport --reporterURL "https://example.com" --projectName "My Project"` |
+| `--projectType`           | Type of the project for reporting purposes (default: `"Artes"`)                   | `artes --uploadReport --reporterURL "https://example.com" --projectType "API"` |
+| `--reportPath`            | Path to the report zip file to upload (default: `./report.zip`)                   | `artes --uploadReport --reporterURL "https://example.com" --reportPath "./my_report.zip"` |
 | 🖼️ `--logo`               | Set a custom logo in the report sidebar. Accepts an absolute path, a relative path, or a direct image URL | `artes --logo /abs/path/logo.png`<br>`artes --logo logo.png`<br>`artes --logo 'https://example.com/logo.png'` |
 | 🏢 `--brandName`          | Set the brand name displayed next to the logo in the report sidebar                | `artes --brandName 'My Company'`                                      |
-| 📄 `--reportName`         | Set the report name displayed on the summary widget                                | `artes --reportName 'Alma UI'`  
+| 📄 `--reportName`         | Report name displayed on the summary widget and in the Artes Reporting System                       | `artes --reportName 'Alma UI'`  
 | 📁 `--features`           | Specify one or more feature files' relative paths to run (comma-separated)         | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
 | 📜 `--stepDef`            | Specify one or more step definition files' relative paths to use (comma-separated) | `artes --stepDef "tests/steps/login.js,tests/steps/home.js"`          |
 | 🔖 `--tags`               | Run tests with specified Cucumber tags                                             | `artes --tags "@smoke or @wip"`                                       |
@@ -615,12 +620,25 @@ Artes supports environment-specific configurations through environment variables
 
 | Option        | Default Value                  | Description                                            |
 | ------------- | ------------------------------ | ------------------------------------------------------ |
-| `device`      | `""`                     | [Device List](./docs/emulationDevicesList.md) |
+| `device`      | `""`                           | [Device List](./docs/emulationDevicesList.md)          |
 
 
-## 📊 Report Generation
+## 📊 Reporting
 
 Artes can generate Allure reports. After running tests with the `-r` flag, the reports will be stored in the `report` folder in HTML format. You can view them in your browser after the tests complete.
+
+## 📊 Integration with Artes Reporting System
+
+Artes has a built-in integration with the Artes Reporting System. By configuring the options below, you can automatically upload your test reports and keep your pipeline stages clean and organized.
+
+| **Option**       | **Default Value**             | **Description**                                                        |
+| ---------------- | ----------------------------- | ---------------------------------------------------------------------- |
+| `uploadReport`   | `false`                       | Automatically upload the report to Artes Reporting System after tests. |
+| `reporterURL`    | `""`                          | URL of the Artes Reporting System instance to upload the report to.    |
+| `projectName`    | `"Artes Report"`              | Name of the project in the Artes Reporting System.                     |
+| `projectType`    | `"Artes"`                     | Type/category of the project (e.g., UI, API).                          |
+| `reportName`     | `"Artes Report"`              | Display name of the report in the Artes Reporting System.              |
+| `reportPath`     | `"./report.zip"`              | Path to the report zip file to be uploaded.                            |
 
 ---
 
