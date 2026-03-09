@@ -4,6 +4,7 @@
 
 - [Mouse Actions](#mouse-actions)
 - [Keyboard Actions](#keyboard-actions)
+- [Browser Actions](#browser-actions)
 - [Page Actions](#page-actions)
 - [Frame Actions](#frame-actions)
 - [API Actions](#api-actions)
@@ -106,6 +107,30 @@
 - User holds down `{string}`
 - User releases `{string}`
 - User presses `{string}`
+
+# Browser Actions
+
+## Cookie Actions
+
+- User sets `{string}` cookies
+
+## Accessibility Actions
+
+### Full Page Checks
+- User checks accessibility of current page
+- User checks accessibility of `{string}` page
+
+### Element Checks
+- User checks accessibility of `{string}` element
+- User checks accessibility of `{string}` element on the `{string}` page
+
+### WCAG-Specific Checks
+> For valid WCAG tags, refer to the [axe-core Tags Documentation](https://www.deque.com/axe/core-documentation/api-documentation/#axecore-tags)
+
+- User checks accessibility of current page due to `{string}` WCAG
+- User checks accessibility of `{string}` page due to `{string}` WCAG
+- User checks accessibility of `{string}` element due to `{string}` WCAG
+- User checks accessibility of `{string}` element on the `{string}` page due to `{string}` WCAG
 
 ---
 
