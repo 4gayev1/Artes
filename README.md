@@ -627,7 +627,7 @@ Artes supports environment-specific configurations through environment variables
 
 Artes can generate Allure reports. After running tests with the `-r` flag, the reports will be stored in the `report` folder in HTML format. You can view them in your browser after the tests complete.
 
-## 📊 Integration with Artes Reporting System
+### Integration with Artes Reporting System
 
 Artes has a built-in integration with the Artes Reporting System. By configuring the options below, you can automatically upload your test reports and keep your pipeline stages clean and organized.
 
@@ -656,7 +656,7 @@ To achieve the best video recording quality, use the following command:
 xvfb-run -a --server-args="-screen 0 3840x1180x24" --auto-servernum npx artes --width 1600 --height 900
 ```
 
-### 🔬 CI/CD Executor on Report
+### CI/CD Executor on Report
 
 Artes automatically detects your CI/CD environment and displays executor information — pipeline name, build number, and a direct link to the build — on the generated report.
 
