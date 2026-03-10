@@ -226,7 +226,7 @@ module.exports = {
       ? JSON.parse(process.env.MODE)
       : artesConfig?.headless !== undefined
         ? artesConfig.headless
-        : true,
+        : false,
     slowMo: process.env.SLOWMO
       ? Number(process.env.SLOWMO) * 1000
       : artesConfig?.slowMo * 1000 || 0,

@@ -43,9 +43,8 @@ function createProject(createYes, noDeps) {
   fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
   const config = `module.exports = {
-       headless: false,                 // Set to true for headless browser mode
-
     // Configuration options:
+    // headless: false,              // Set to true for headless browser mode
     // env: "",                      // string - Environment name for tests
     // variables: {}                 // object - Variables for tests
     // testPercentage: 0,            // number - Minimum success rate percentage(Default: 0)
