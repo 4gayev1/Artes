@@ -191,11 +191,17 @@ async function main() {
 
   runTests();
 
+  const testCoverage = testCoverageCalculator();
+
+  if (testCoverage.totalTests === 0) {
+    console.log("\x1b[33mNo tests were run (0 scenarios). Skipping report generation and upload.\x1b[0m");
+    cleanUp();
+    process.exit(process.env.EXIT_CODE);
+  }
+
   logPomWarnings();
 
   findDuplicateTestNames();
-
-  const testCoverage = testCoverageCalculator();
 
   const testPercentage = process.env.PERCENTAGE
     ? Number(process.env.PERCENTAGE)
@@ -229,16 +235,17 @@ async function main() {
     fs.renameSync(source, destination);
   }
 
-  if (
-    flags.reportWithTrace ||
-    artesConfig.reportWithTrace ||
-    flags.report ||
-    artesConfig.report
-  ) {
-    getExecutor();
-    getEnvInfo();
-    generateReport();
-  }
+    if (
+      flags.reportWithTrace ||
+      artesConfig.reportWithTrace ||
+      flags.report ||
+      artesConfig.report
+    ) {
+      getExecutor();
+      getEnvInfo();
+      generateReport();
+    }
+
 
   if (
     !(process.env.TRACE === "true"
@@ -251,18 +258,23 @@ async function main() {
     });
   }
 
-  if (flags.uploadReport || artesConfig.uploadReport) {
-  await uploadReport({
-    reporterURL:  reporterURL  || artesConfig.reporterURL,
-    projectName:  projectName  || artesConfig.projectName || "Artes Report",
-    projectType:  projectType  || artesConfig.projectType || "Artes",
-    reportName:   reportName   || artesConfig.reportName  || "Artes Report",
-    reportPath:   reportPath   || artesConfig.reportPath  || path.join(process.cwd(), "report.zip")
-  });
-}
+  try {
+    if (flags.uploadReport || artesConfig.uploadReport) {
+        await uploadReport({
+          reporterURL: reporterURL || artesConfig.reporterURL,
+          projectName: projectName || artesConfig.projectName || "Artes Report",
+          projectType: projectType || artesConfig.projectType || "Artes",
+          reportName:  reportName  || artesConfig.reportName  || "Artes Report",
+          reportPath:  reportPath  || artesConfig.reportPath  || path.join(process.cwd(), "report.zip")
+        });
+    }
+  } catch (err) {
+    console.error("Upload failed:", err.message);
+  } finally {
+    cleanUp();
+    process.exit(process.env.EXIT_CODE);
+  }
 
-  cleanUp();
-  process.exit(process.env.EXIT_CODE);
 }
 
 main();

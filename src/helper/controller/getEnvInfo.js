@@ -16,6 +16,7 @@ async function getEnvInfo() {
     baseURL = cucumberConfig.baseURL;
   }
 
+  let browserInfo = null;
   if (fs.existsSync(path.join(moduleConfig.modulePath, "browser-info.json"))) {
     browserInfo = JSON.parse(
       fs.readFileSync(
@@ -44,8 +45,8 @@ async function getEnvInfo() {
 
     // ── Browser ─────────────────────────────
     Browser_Name: cucumberConfig.browser.browserType,
-    Browser_Version: browserInfo.BROWSER_VERSION,
-    Screen_Size: `w: ${browserInfo.BROWSER_WIDTH}px h:${browserInfo.BROWSER_HEIGHT}px`,
+    Browser_Version: browserInfo?.BROWSER_VERSION ?? "N/A",
+    Screen_Size: `w: ${browserInfo?.BROWSER_WIDTH ?? "N/A"}px h:${browserInfo?.BROWSER_HEIGHT ?? "N/A"}px`,
     Headless: cucumberConfig.browser.headless ?? "N/A",
 
     // ── Test Config ─────────────────────────
