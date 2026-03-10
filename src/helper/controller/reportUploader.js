@@ -17,7 +17,7 @@ async function uploadReport({
   formData.append("project", projectName);
   formData.append("type", projectType);
 
-  const response = await fetch(`${reporterURL}/api/report`, {
+  const response = await fetch(reporterURL, {
     method: "POST",
     body: formData,
   });
