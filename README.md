@@ -9,25 +9,29 @@
     <img src="https://img.shields.io/npm/dm/artes?label=npm&logo=npm&color=blue" alt="npm version">
   </a>
 
-  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
-    <img src="https://img.shields.io/badge/-JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
+   <a href="https://github.com/4gayev1/Artes">
+    <img src="https://img.shields.io/badge/GitHub-Artes-181717?logo=github&logoColor=white" alt="GitHub Artes">
+  </a>
+
+  <a href="https://hub.docker.com/r/vahidaghayev/artes">
+    <img src="https://img.shields.io/badge/Docker-Artes-blue?logo=docker&logoColor=white" alt="Docker Artes">
+  </a>
+
+   <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
+    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
   </a>
   
   <a href="https://playwright.dev/">
-    <img src="https://img.shields.io/badge/-Playwright-2EAD33?logo=playwright&logoColor=white" alt="Playwright">
+    <img src="https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white" alt="Playwright">
   </a>
-
+  
   <a href="https://cucumber.io/">
-    <img src="https://img.shields.io/badge/-Cucumber-23D96C?logo=cucumber&logoColor=white" alt="Cucumber">
+    <img src="https://img.shields.io/badge/Cucumber-23D96C?logo=cucumber&logoColor=white" alt="Cucumber">
   </a>
 
-   <a href="https://hub.docker.com/r/vahidaghayev/artes">
-    <img src="https://img.shields.io/badge/docker-artes-blue" alt="Docker Artes">
+  <a href="https://www.apache.org/licenses/LICENSE-2.0">
+    <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache 2.0 License">
   </a>
-
-<a href="https://www.apache.org/licenses/LICENSE-2.0">
-  <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache 2.0 License">
-</a>
 
 </p>
 
