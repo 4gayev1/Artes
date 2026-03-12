@@ -21,6 +21,10 @@
     <img src="https://img.shields.io/badge/-Cucumber-23D96C?logo=cucumber&logoColor=white" alt="Cucumber">
   </a>
 
+   <a href="https://hub.docker.com/r/vahidaghayev/artes">
+    <img src="https://img.shields.io/badge/docker-artes-blue" alt="Docker Artes">
+  </a>
+
 <a href="https://www.apache.org/licenses/LICENSE-2.0">
   <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache 2.0 License">
 </a>
