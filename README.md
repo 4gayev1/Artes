@@ -4,7 +4,28 @@
 
 <h1 align="center">Artes</h1>
 
-## 🚀 Summary
+<p >
+  <a href="https://www.npmjs.com/package/artes">
+    <img src="https://img.shields.io/npm/dm/artes?label=npm&logo=npm&color=blue" alt="npm version">
+  </a>
+
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
+    <img src="https://img.shields.io/badge/-JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
+  </a>
+  
+  <a href="https://playwright.dev/">
+    <img src="https://img.shields.io/badge/-Playwright-2EAD33?logo=playwright&logoColor=white" alt="Playwright">
+  </a>
+
+  <a href="https://cucumber.io/">
+    <img src="https://img.shields.io/badge/-Cucumber-23D96C?logo=cucumber&logoColor=white" alt="Cucumber">
+  </a>
+
+<a href="https://www.apache.org/licenses/LICENSE-2.0">
+  <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache 2.0 License">
+</a>
+
+</p>
 
 Artes is a test runner for Playwright that executes [predefined Cucumber tests](./docs/stepDefinitions.md) and can generate Allure reports for test results. It simplifies setting up Playwright with Cucumber in your automation workflow. With Artes, you can easily run tests without writing step definitions, generate reports, and customize your testing environment.
 
