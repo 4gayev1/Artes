@@ -60,6 +60,7 @@ function findDuplicateTestNames() {
       console.log("");
     });
     console.log("\x1b[0m");
+    console.log("");
   }
 
   return duplicates;

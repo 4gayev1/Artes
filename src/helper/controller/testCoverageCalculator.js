@@ -73,6 +73,7 @@ function testCoverageCalculator({ silent = false } = {}) {
       console.warn(`- "${t.scenario}" ran ${t.count} times`);
     });
     console.log("\x1b[0m");
+    console.log("");
   }
 
   return {

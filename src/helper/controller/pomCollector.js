@@ -77,6 +77,7 @@ function logPomWarnings() {
   });
 
   console.log("\x1b[0m");
+  console.log("");
 }
 
 module.exports = { pomCollector, logPomWarnings };
