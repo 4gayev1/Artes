@@ -205,8 +205,8 @@ After running the `-c` flag to create a new project, the structure will look lik
       (Your feature files here)
     /POMs    // Optional
       (POM JSON file here)
-    /steps  // For custom steps
-        (Your step definition JS files here)
+    /steps  // For custom steps and hooks
+        (Your step definition and hooks JS files here)
   artes.config.js
   /report
     (Generated Allure report HTML here)
