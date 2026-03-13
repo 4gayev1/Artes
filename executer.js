@@ -193,7 +193,7 @@ async function main() {
 
   const testCoverage = testCoverageCalculator();
 
-  if (testCoverage.totalTests === 0) {
+  if (testCoverage?.totalTests === 0) {
     console.log("\x1b[33mNo tests were run (0 scenarios). Skipping report generation and upload.\x1b[0m");
     cleanUp();
     process.exit(process.env.EXIT_CODE);
