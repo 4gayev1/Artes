@@ -129,6 +129,37 @@ function showHelp() {
       `);
 }
 
+
+function showAIHelp() {
+  console.log(`
+        🚀 Artes AI Bug reporter
+      
+        Usage: 
+            npx artes [options]
+      
+        Options:
+
+            🤖 --ai            Enable AI-generated bug reports and test summaries
+                Usage:   artes --ai
+
+            🧠 --aiModel       AI model to use for report generation
+                               Supported: "gpt-4o", "gemini 2.5 flash", "claude sonnet", "mistral large"
+                Usage:   artes --ai --aiModel "gemini 2.5 flash"
+
+            🔑 --aiKey         API key for the selected AI provider
+                Usage:   artes --ai --aiKey "your-api-key"
+
+            🔗 --aiURL         Local AI endpoint URL (e.g., Ollama, LM Studio). Overrides --aiModel and --aiKey when set
+                Usage:   artes --ai --aiURL "http://localhost:11434/api/chat"
+
+            🌍 --aiLanguage    Language for AI-generated reports (default: "English")
+                Usage:   artes --ai --aiLanguage "Azerbaijani"
+
+            📋 --maxReports    Maximum number of AI reports to generate per test run (default: 10)
+                Usage:   artes --ai --maxReports 5
+      `);
+}
+
 module.exports = {
-  showHelp,
+  showHelp, showAIHelp
 };

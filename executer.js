@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const {
   showHelp,
+  showAIHelp,
   showVersion,
   createProject,
   runTests,
@@ -19,7 +20,6 @@ const {
 } = require("./src/helper/controller/findDuplicateTestNames");
 const { getEnvInfo } = require("artes/src/helper/controller/getEnvInfo");
 const { uploadReport } = require("./src/helper/controller/reportUploader");
-
 
 const artesConfigPath = path.resolve(process.cwd(), "artes.config.js");
 
@@ -56,6 +56,13 @@ const flags = {
   projectName: args.includes("--projectName"),
   projectType: args.includes("--projectType"),
   reportPath: args.includes("--reportPath"),
+  aiHelp: args.includes("--aiHelp"),
+  ai: args.includes("--ai"),
+  aiURL: args.includes("--aiURL"),
+  aiModel: args.includes("--aiModel"),
+  aiKey: args.includes("--aiKey"),
+  aiLanguage: args.includes("--aiLanguage"),
+  maxReports: args.includes("--maxReports"),
   features: args.includes("--features"),
   stepDef: args.includes("--stepDef"),
   tags: args.includes("--tags"),
@@ -87,6 +94,12 @@ const reportPath = getArgValue("--reportPath");
 const logo = getArgValue("--logo");
 const brandName = getArgValue("--brandName");
 const reportName = getArgValue("--reportName");
+const ai = args.includes("--ai");
+const aiURL = getArgValue("--aiURL");
+const aiModel = getArgValue("--aiModel");
+const aiKey = getArgValue("--aiKey");
+const aiLanguage = getArgValue("--aiLanguage");
+const maxReports = getArgValue("--maxReports");
 const featureFiles = getArgValue("--features");
 const features = flags.features && featureFiles;
 const stepDef = getArgValue("--stepDef");
@@ -145,6 +158,13 @@ flags.singleFileReport
 
 flags.zip ? (process.env.ZIP = true) : (process.env.ZIP = false);
 
+flags.ai ? (process.env.AI = ai) : (process.env.AI = false);
+flags.aiURL ? (process.env.AI_URL = aiURL) : "";
+flags.aiModel ? (process.env.AI_MODEL = aiModel) : "";
+flags.aiKey ? (process.env.AI_KEY = aiKey) : "";
+flags.aiLanguage ? (process.env.AI_LANGUAGE = aiLanguage) : "";
+flags.maxReports ? (process.env.MAX_REPORTS = maxReports) : "";
+
 flags.headless &&
   console.log("Running mode:", flags.headless ? "headless" : "headed");
 flags.headless ? (process.env.MODE = JSON.stringify(true)) : false;
@@ -186,6 +206,7 @@ flags.slowMo ? (process.env.SLOWMO = slowMo) : "";
 
 async function main() {
   if (flags.help) return showHelp();
+  if (flags.aiHelp) return showAIHelp();
   if (flags.version) return showVersion();
   if (flags.create) return createProject(flags.createYes, flags.noDeps);
 
@@ -193,7 +214,7 @@ async function main() {
 
   const testCoverage = testCoverageCalculator();
 
-  if (testCoverage?.totalTests === 0) {
+  if (testCoverage.totalTests === 0) {
     console.log("\x1b[33mNo tests were run (0 scenarios). Skipping report generation and upload.\x1b[0m");
     cleanUp();
     process.exit(process.env.EXIT_CODE);

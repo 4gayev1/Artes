@@ -1,4 +1,4 @@
-const { showHelp } = require("./helper");
+const { showHelp, showAIHelp } = require("./helper");
 const { createProject } = require("./projectCreator");
 const { generateReport } = require("./reportGenerator");
 const { runTests } = require("./testRunner");
@@ -10,6 +10,7 @@ module.exports = {
   generateReport,
   runTests,
   showHelp,
+  showAIHelp,
   showVersion,
   cleanUp,
 };

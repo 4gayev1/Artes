@@ -52,6 +52,14 @@ function createProject(createYes, noDeps) {
     // paths: [],                    // string[] - Paths to feature files
     // steps: "",                    // string - Step definitions files
     // pomPath: "",                  // string - Path to POM files
+    // ai: {
+    //   ai: false,                  // boolean - Enable AI-generated bug reports and test summaries
+    //   url: "",                    // string  - Local AI endpoint URL (e.g., Ollama, LM Studio). Overrides model/key when set
+    //   model: "gpt-4o",            // string  - AI model to use (e.g., "gpt-4o", "gemini 2.5 flash", "claude sonnet", "mistral large")
+    //   key: "",                    // string  - API key for the selected AI provider
+    //   language: "English",        // string  - Language for generated reports (e.g., "English", "Azerbaijani")
+    //   maxReports: 10,             // number  - Maximum number of AI reports to generate per test run
+    // },
     // timeout : 0,                  // number - Test timeout in seconds
     // slowMo: 0,                    // number - Slow down test execution (Default: 0 seconds)
     // parallel: 0,                  // number - Number of parallel workers

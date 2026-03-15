@@ -191,6 +191,22 @@ module.exports = {
           : false,
     zip: process.env.ZIP == "true" ? true : artesConfig.zip ? true : false,
   },
+  ai:{
+ai: process.env.AI ? process.env.AI : artesConfig?.ai?.ai || false,
+url: process.env.AI_URL ? process.env.AI_URL : artesConfig?.ai?.url || "",
+model: process.env.AI_MODEL
+  ? process.env.AI_MODEL
+  : artesConfig?.ai?.model || "gpt-4o",
+key: process.env.AI_KEY
+  ? process.env.AI_KEY
+  : artesConfig?.ai?.key || "",
+language: process.env.AI_LANGUAGE
+  ? process.env.AI_LANGUAGE
+  : artesConfig?.ai?.language || "English",
+maxReports: process.env.MAX_REPORTS
+  ? parseInt(process.env.MAX_REPORTS)
+  : artesConfig?.ai?.maxReports || 10,
+  },
   env: env,
   variables: loadVariables(process.env.VARS, artesConfig.variables),
   baseURL: process.env.BASE_URL

@@ -21,6 +21,8 @@ const allure = require("allure-js-commons");
 const ffprobe = require("ffprobe-static");
 const ffmpegPath = require("ffmpeg-static");
 const { execSync } = require("child_process");
+const { attachAiBugReport } = require("artes/src/helper/controller/aiBugReporter");
+
 
 const HTTP_METHODS = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"];
 
@@ -161,7 +163,26 @@ After(async function ({ result, pickle }) {
     await projectHooks.After();
   }
 
+  
+  const shouldReport =
+    cucumberConfig.default.successReport || result?.status !== Status.PASSED;
+    
   await attachResponse(allure.attachment);
+
+if (shouldReport && cucumberConfig.ai.ai) {
+    await attachAiBugReport({
+      result,
+      pickle,
+      response: context.response,
+      language: cucumberConfig.ai.language,
+      url: cucumberConfig.ai.url,
+      aiModel: cucumberConfig.ai.model,
+      aiKey: cucumberConfig.ai.key,
+      maxReports: cucumberConfig.ai.maxReports
+    });
+  }
+
+
   context.response = await {};
 
   Object.keys(context.vars).length > 0 &&
@@ -171,8 +192,6 @@ After(async function ({ result, pickle }) {
       "application/json",
     );
 
-  const shouldReport =
-    cucumberConfig.default.successReport || result?.status !== Status.PASSED;
 
   if (shouldReport & (context.page.url() !== "about:blank")) {
     const screenshotBuffer = await context.page.screenshot({ type: "png" });

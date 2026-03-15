@@ -87,8 +87,18 @@ Artes is a test runner for Playwright that executes [predefined Cucumber tests](
 ### 🧪 CLI, CI/CD & Containerization
 
 - Powerful CLI for full control from the command line
+- Quality gate support — set a minimum success rate threshold to automatically fail the pipeline when test results drop below the required percentage
 - Official [Artes Docker image](https://hub.docker.com/r/vahidaghayev/artes) for seamless containerized execution
 - CI/CD-ready — integrate easily with any pipeline
+
+### 🤖 AI-Powered Bug Reports & Test Summaries
+
+- Automatically generates professional bug reports for failed test cases
+- Generates concise test summaries for passed scenarios
+- Supports multiple AI providers — OpenAI, Google Gemini, Anthropic Claude, Mistral, Groq, Cohere, DeepSeek (see [Supported AI Providers](docs/aiProviders.md) for full model list and setup)
+- Works with local AI models (Ollama, LM Studio) — no API key required
+- Multi-language report generation — produce reports in any language
+- Configurable report cap to control API usage and costs
 
 ### 📊 Artes Reporting System
 
@@ -172,6 +182,18 @@ npx artes [options]
 | 📐 `--height`             | Set browser height (default is 720)                                                | `artes --height 1080`                                                 |
 | ⏱️ `--timeout`            | Set timeout for each test step in seconds (default is 30 seconds)                  | `artes --timeout 10`                                                  |
 | 🐢 `--slowMo`             | Slow down text execution for clear view (default: 0 seconds)                       | `artes --slowMo 1`                                                    |
+
+### AI Options
+
+| Option | Description | Usage Example |
+| --- | --- | --- |
+| 🤖 `--ai` | Enable AI-generated bug reports and test summaries | `artes --ai` |
+| 🧠 `--aiModel` | AI model to use for report generation | `artes --ai --aiModel "gemini 2.5 flash"` |
+| 🔑 `--aiKey` | API key for the selected AI provider | `artes --ai --aiKey "your-api-key"` |
+| 🔗 `--aiURL` | Local AI endpoint URL (e.g. Ollama, LM Studio). Overrides `--aiModel` and `--aiKey` when set | `artes --ai --aiURL "http://localhost:11434/api/chat"` |
+| 🌍 `--aiLanguage` | Language for AI-generated reports (default: `"English"`) | `artes --ai --aiLanguage "Azerbaijani"` |
+| 📋 `--maxReports` | Maximum number of AI reports to generate per test run (default: `10`) | `artes --ai --maxReports 5` |
+
 
 \*\* To just run the tests: <br>
 Globally: artes <br>
@@ -566,6 +588,19 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 
 ---
 
+## 🤖 AI Configuration
+
+| **Option**           | **Default Value** | **Description**                                                                                      |
+| -------------------- | ----------------- | ---------------------------------------------------------------------------------------------------- |
+| `ai.ai`              | `false`           | Enable AI-generated bug reports and test summaries.                                                  |
+| `ai.model`           | `"gpt-4o"`        | AI model to use for report generation (e.g. `"gemini 2.5 flash"`, `"claude sonnet"`)                 |
+| `ai.key`             | `""`              | API key for the selected AI provider.                                                                |
+| `ai.url`             | `""`              | Local AI endpoint URL (e.g. Ollama, LM Studio). Overrides `model` and `key` when set.                |
+| `ai.language`        | `"English"`       | Language for AI-generated reports (e.g. `"Azerbaijani"`, `"German"`).                                |
+| `ai.maxReports`      | `10`              | Maximum number of AI reports to generate per test run.                                               |
+
+---
+
 ## 🌍 Environment Configuration
 
 | **Option** | **Default Value** | **Description**                                                                                              |
@@ -659,8 +694,6 @@ Artes can generate Allure reports. After running tests with the `-r` flag, the r
 ### Integration with Artes Reporting System
 
 Artes has a built-in integration with the Artes Reporting System. By configuring the options below, you can automatically upload your test reports and keep your pipeline stages clean and organized.
-
-*Note: report and zip should be true for report uploading*
 
 | **Option**       | **Default Value**             | **Description**                                                        |
 | ---------------- | ----------------------------- | ---------------------------------------------------------------------- |
