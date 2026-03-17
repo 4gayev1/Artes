@@ -164,7 +164,7 @@ After(async function ({ result, pickle }) {
   
 await attachResponse(allure.attachment);
 
-if (shouldReport && cucumberConfig.ai.ai) {
+if (shouldReport && cucumberConfig.ai.ai === "true") {
   await attachAiBugReport({
     result,
     pickle,
