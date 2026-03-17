@@ -62,6 +62,7 @@ const flags = {
   aiModel: args.includes("--aiModel"),
   aiKey: args.includes("--aiKey"),
   aiLanguage: args.includes("--aiLanguage"),
+  maxTokens: args.includes("--maxTokens"),
   maxReports: args.includes("--maxReports"),
   features: args.includes("--features"),
   stepDef: args.includes("--stepDef"),
@@ -99,6 +100,7 @@ const aiURL = getArgValue("--aiURL");
 const aiModel = getArgValue("--aiModel");
 const aiKey = getArgValue("--aiKey");
 const aiLanguage = getArgValue("--aiLanguage");
+const maxTokens = getArgValue("--maxTokens")
 const maxReports = getArgValue("--maxReports");
 const featureFiles = getArgValue("--features");
 const features = flags.features && featureFiles;
@@ -163,6 +165,7 @@ flags.aiURL ? (process.env.AI_URL = aiURL) : "";
 flags.aiModel ? (process.env.AI_MODEL = aiModel) : "";
 flags.aiKey ? (process.env.AI_KEY = aiKey) : "";
 flags.aiLanguage ? (process.env.AI_LANGUAGE = aiLanguage) : "";
+flags.maxTokens ? (process.env.MAX_TOKENS = maxTokens) : "";
 flags.maxReports ? (process.env.MAX_REPORTS = maxReports) : "";
 
 flags.headless &&

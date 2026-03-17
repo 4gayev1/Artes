@@ -30,13 +30,11 @@ function resolveProvider(aiFlag = "gemini 2.5 flash") {
 }
 
 
-async function callAI({ prompt, aiFlag, apiKey }) {
+async function callAI({ prompt, aiFlag, apiKey, maxTokens }) {
   const { provider, modelId } = resolveProvider(aiFlag);
-
-  console.log(`Using ${provider.name} — model: ${modelId}`);
-
+  
   const url  = provider.buildUrl(modelId, apiKey);
-  const body = provider.buildBody(prompt, modelId);
+  const body = provider.buildBody(prompt, modelId, maxTokens);
 
   const headers = { "Content-Type": "application/json" };
 
@@ -118,7 +116,6 @@ function buildPickleContext(pickle = {}) {
 }
 
 async function callLocalAI({ prompt, url, apiKey }) {
-  console.log(`Using AI — endpoint: ${url}`);
 
   const headers = { "Content-Type": "application/json" };
   if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
@@ -215,7 +212,7 @@ if (url) {
     return callLocalAI({ prompt, url, apiKey });
   }
 
-  return callAI({ prompt, aiFlag, apiKey });
+  return callAI({ prompt, aiFlag, apiKey, maxTokens });
 }
 
 async function generatePassedSummary({ pickleCtx, response, language, aiFlag, apiKey, url }) {
@@ -256,7 +253,7 @@ async function generatePassedSummary({ pickleCtx, response, language, aiFlag, ap
     return callLocalAI({ prompt, url, apiKey });
   }
 
-  return callAI({ prompt, aiFlag, apiKey });
+  return callAI({ prompt, aiFlag, apiKey, maxTokens });
 }
 
 
@@ -266,7 +263,7 @@ let _reportCount = 0;
 
 
 
-const DEFAULT_DELAY_MS = 1000;
+const DEFAULT_DELAY_MS = 3000;
 
 async function attachAiBugReport({
   result,
@@ -278,6 +275,7 @@ async function attachAiBugReport({
   url,
   maxReports = 10,
   delayMs = DEFAULT_DELAY_MS,  
+  maxTokens
 }) {
   try {
     if (!aiKey && !url) {
@@ -307,6 +305,7 @@ async function attachAiBugReport({
         aiFlag: aiModel,
         apiKey: aiKey,
         url,
+        maxTokens
       });
       attachmentLabel = "Test Summary";
     } else {
@@ -318,7 +317,8 @@ async function attachAiBugReport({
         language,
         aiFlag: aiModel,
         apiKey: aiKey,
-        url,   
+        url,
+        maxTokens 
       });
       attachmentLabel = "Bug Report";
     }

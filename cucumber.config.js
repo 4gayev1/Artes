@@ -203,6 +203,9 @@ key: process.env.AI_KEY
 language: process.env.AI_LANGUAGE
   ? process.env.AI_LANGUAGE
   : artesConfig?.ai?.language || "English",
+  maxTokens: process.env.MAX_TOKENS
+  ? parseInt(process.env.MAX_TOKENS)
+  : artesConfig?.ai?.maxTokens || 4000,
 maxReports: process.env.MAX_REPORTS
   ? parseInt(process.env.MAX_REPORTS)
   : artesConfig?.ai?.maxReports || 10,

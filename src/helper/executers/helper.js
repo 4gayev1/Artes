@@ -154,6 +154,9 @@ function showAIHelp() {
 
             🌍 --aiLanguage    Language for AI-generated reports (default: "English")
                 Usage:   artes --ai --aiLanguage "Azerbaijani"
+               
+            🔢 --maxTokens     Maximum tokens for AI-generated reports (default: 4000)
+                Usage:   artes --ai --maxTokens 8000
 
             📋 --maxReports    Maximum number of AI reports to generate per test run (default: 10)
                 Usage:   artes --ai --maxReports 5

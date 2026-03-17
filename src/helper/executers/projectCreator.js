@@ -55,9 +55,10 @@ function createProject(createYes, noDeps) {
     // ai: {
     //   ai: false,                  // boolean - Enable AI-generated bug reports and test summaries
     //   url: "",                    // string  - Local AI endpoint URL (e.g., Ollama, LM Studio). Overrides model/key when set
-    //   model: "gpt-4o",            // string  - AI model to use (e.g., "gpt-4o", "gemini 2.5 flash", "claude sonnet", "mistral large")
+    //   model: "gemini 2.5 flash",  // string  - AI model to use (e.g., "gpt-4o", "gemini 2.5 flash", "claude sonnet", "mistral large")
     //   key: "",                    // string  - API key for the selected AI provider
-    //   language: "English",        // string  - Language for generated reports (e.g., "English", "Azerbaijani")
+    //   language: "English",        // string  - Language for generated reports (e.g., "English", "Azerbaijani"),
+    //   maxTokens: 4000,            // number  - Maximum tokens for AI-generated reports (default: 4000)
     //   maxReports: 10,             // number  - Maximum number of AI reports to generate per test run
     // },
     // timeout : 0,                  // number - Test timeout in seconds

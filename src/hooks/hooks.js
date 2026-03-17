@@ -159,27 +159,28 @@ AfterStep(async function ({ pickleStep }) {
 });
 
 After(async function ({ result, pickle }) {
-  if (typeof projectHooks.After === "function") {
-    await projectHooks.After();
-  }
-
-  
   const shouldReport =
-    cucumberConfig.default.successReport || result?.status !== Status.PASSED;
-    
-  await attachResponse(allure.attachment);
+  cucumberConfig.default.successReport || result?.status !== Status.PASSED;
+  
+await attachResponse(allure.attachment);
 
 if (shouldReport && cucumberConfig.ai.ai) {
-    await attachAiBugReport({
-      result,
-      pickle,
-      response: context.response,
-      language: cucumberConfig.ai.language,
-      url: cucumberConfig.ai.url,
-      aiModel: cucumberConfig.ai.model,
-      aiKey: cucumberConfig.ai.key,
-      maxReports: cucumberConfig.ai.maxReports
-    });
+  await attachAiBugReport({
+    result,
+    pickle,
+    response: context.response,
+    language: cucumberConfig.ai.language,
+    url: cucumberConfig.ai.url,
+    aiModel: cucumberConfig.ai.model,
+    aiKey: cucumberConfig.ai.key,
+    maxReports: cucumberConfig.ai.maxReports,
+    maxTokens: cucumberConfig.ai.maxTokens
+  });
+}
+
+
+  if (typeof projectHooks.After === "function") {
+    await projectHooks.After();
   }
 
 

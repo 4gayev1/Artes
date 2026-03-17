@@ -192,6 +192,7 @@ npx artes [options]
 | 🔑 `--aiKey` | API key for the selected AI provider | `artes --ai --aiKey "your-api-key"` |
 | 🔗 `--aiURL` | Local AI endpoint URL (e.g. Ollama, LM Studio). Overrides `--aiModel` and `--aiKey` when set | `artes --ai --aiURL "http://localhost:11434/api/chat"` |
 | 🌍 `--aiLanguage` | Language for AI-generated reports (default: `"English"`) | `artes --ai --aiLanguage "Azerbaijani"` |
+| 🔢 --maxTokens | Maximum tokens for AI response output (default: 4000) | artes --ai --maxTokens 8000 |
 | 📋 `--maxReports` | Maximum number of AI reports to generate per test run (default: `10`) | `artes --ai --maxReports 5` |
 
 
@@ -597,6 +598,7 @@ You can configure Artes by editing the `artes.config.js` file. Below are the def
 | `ai.key`             | `""`              | API key for the selected AI provider.                                                                |
 | `ai.url`             | `""`              | Local AI endpoint URL (e.g. Ollama, LM Studio). Overrides `model` and `key` when set.                |
 | `ai.language`        | `"English"`       | Language for AI-generated reports (e.g. `"Azerbaijani"`, `"German"`).                                |
+| ai.maxTokens | 4000 | Maximum tokens for AI response output |
 | `ai.maxReports`      | `10`              | Maximum number of AI reports to generate per test run.                                               |
 
 ---

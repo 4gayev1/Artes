@@ -1,26 +1,23 @@
-
 const PROVIDERS = [
-
   {
     name    : "Gemini",
     keywords: ["gemini"],
     models  : {
-      "2.5 flash lite" : "gemini-2.5-flash-lite",   
-      "2.5 flash"      : "gemini-2.5-flash",         
-      "2.5 pro"        : "gemini-2.5-pro",           
-      "2.0 flash"      : "gemini-2.0-flash",         
-      default          : "gemini-2.5-flash",         
+      "2.5 flash lite" : "gemini-2.5-flash-lite",
+      "2.5 flash"      : "gemini-2.5-flash",
+      "2.5 pro"        : "gemini-2.5-pro",
+      "2.0 flash"      : "gemini-2.0-flash",
+      default          : "gemini-2.5-flash",
     },
     authStyle : "queryparam",
     buildUrl  : (modelId, apiKey) =>
       `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${apiKey}`,
-    buildBody : (prompt) => ({
+    buildBody : (prompt, modelId, maxTokens = 4000) => ({
       contents        : [{ parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.6, maxOutputTokens: 4000 },
+      generationConfig: { temperature: 0.6, maxOutputTokens: maxTokens },
     }),
     parseResp : (data) => data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "",
   },
-
 
   {
     name    : "OpenAI",
@@ -39,15 +36,14 @@ const PROVIDERS = [
     authKey   : "Authorization",
     authValue : (apiKey) => `Bearer ${apiKey}`,
     buildUrl  : () => "https://api.openai.com/v1/chat/completions",
-    buildBody : (prompt, modelId) => ({
+    buildBody : (prompt, modelId, maxTokens = 4000) => ({
       model      : modelId,
-      max_tokens : 4000,
+      max_tokens : maxTokens,
       temperature: 0.6,
       messages   : [{ role: "user", content: prompt }],
     }),
     parseResp : (data) => data?.choices?.[0]?.message?.content ?? "",
   },
-
 
   {
     name    : "Claude",
@@ -65,15 +61,14 @@ const PROVIDERS = [
     authValue        : (apiKey) => apiKey,
     buildExtraHeaders: () => ({ "anthropic-version": "2023-06-01" }),
     buildUrl         : () => "https://api.anthropic.com/v1/messages",
-    buildBody        : (prompt, modelId) => ({
+    buildBody        : (prompt, modelId, maxTokens = 4000) => ({
       model     : modelId,
-      max_tokens: 4000,
+      max_tokens: maxTokens,
       messages  : [{ role: "user", content: prompt }],
     }),
     parseResp : (data) =>
       (data?.content ?? []).filter((b) => b.type === "text").map((b) => b.text).join(""),
   },
-
 
   {
     name    : "Mistral",
@@ -90,15 +85,14 @@ const PROVIDERS = [
     authKey   : "Authorization",
     authValue : (apiKey) => `Bearer ${apiKey}`,
     buildUrl  : () => "https://api.mistral.ai/v1/chat/completions",
-    buildBody : (prompt, modelId) => ({
+    buildBody : (prompt, modelId, maxTokens = 4000) => ({
       model      : modelId,
-      max_tokens : 4000,
+      max_tokens : maxTokens,
       temperature: 0.6,
       messages   : [{ role: "user", content: prompt }],
     }),
     parseResp : (data) => data?.choices?.[0]?.message?.content ?? "",
   },
-
 
   {
     name    : "Groq",
@@ -114,15 +108,14 @@ const PROVIDERS = [
     authKey   : "Authorization",
     authValue : (apiKey) => `Bearer ${apiKey}`,
     buildUrl  : () => "https://api.groq.com/openai/v1/chat/completions",
-    buildBody : (prompt, modelId) => ({
+    buildBody : (prompt, modelId, maxTokens = 4000) => ({
       model      : modelId,
-      max_tokens : 4000,
+      max_tokens : maxTokens,
       temperature: 0.6,
       messages   : [{ role: "user", content: prompt }],
     }),
     parseResp : (data) => data?.choices?.[0]?.message?.content ?? "",
   },
-
 
   {
     name    : "Cohere",
@@ -136,13 +129,13 @@ const PROVIDERS = [
     authKey   : "Authorization",
     authValue : (apiKey) => `Bearer ${apiKey}`,
     buildUrl  : () => "https://api.cohere.com/v2/chat",
-    buildBody : (prompt, modelId) => ({
-      model   : modelId,
-      messages: [{ role: "user", content: prompt }],
+    buildBody : (prompt, modelId, maxTokens = 4000) => ({
+      model         : modelId,
+      max_tokens    : maxTokens,
+      messages      : [{ role: "user", content: prompt }],
     }),
     parseResp : (data) => data?.message?.content?.[0]?.text ?? "",
   },
-
 
   {
     name    : "DeepSeek",
@@ -156,9 +149,9 @@ const PROVIDERS = [
     authKey   : "Authorization",
     authValue : (apiKey) => `Bearer ${apiKey}`,
     buildUrl  : () => "https://api.deepseek.com/chat/completions",
-    buildBody : (prompt, modelId) => ({
+    buildBody : (prompt, modelId, maxTokens = 4000) => ({
       model      : modelId,
-      max_tokens : 4000,
+      max_tokens : maxTokens,
       temperature: 0.6,
       messages   : [{ role: "user", content: prompt }],
     }),
