@@ -68,7 +68,7 @@ function testCoverageCalculator({ silent = false } = {}) {
   });
 
   if (!silent && retriedTests.length > 0) {
-    console.warn("\n\x1b[33mRetried test cases:");
+    console.warn(`\n\x1b[33mRetried ${retriedTests.length} test cases:`);
     retriedTests.forEach((t) => {
       console.warn(`- "${t.scenario}" ran ${t.count} times`);
     });
