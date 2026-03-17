@@ -148,7 +148,7 @@ async function callLocalAI({ prompt, url, apiKey }) {
 }
 
 
-async function generateFailedBugReport({ resultCtx, pickleCtx, response, language, aiFlag, apiKey, url }) {
+async function generateFailedBugReport({ resultCtx, pickleCtx, response, language, aiFlag, apiKey, url, maxTokens }) {
 
   const nameInstruction = pickleCtx.useMeaningfulName
     ? `The test case is named "${pickleCtx.scenarioName}" — use this as context for the bug report title.`
@@ -215,7 +215,7 @@ if (url) {
   return callAI({ prompt, aiFlag, apiKey, maxTokens });
 }
 
-async function generatePassedSummary({ pickleCtx, response, language, aiFlag, apiKey, url }) {
+async function generatePassedSummary({ pickleCtx, response, language, aiFlag, apiKey, url, maxTokens }) {
   const lang = language ?? "English";
 
   const prompt = [

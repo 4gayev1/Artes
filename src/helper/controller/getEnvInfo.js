@@ -56,12 +56,12 @@ async function getEnvInfo() {
     Timeout: cucumberConfig.default.timeout ?? "N/A",
 
     // ── AI Config ─────────────────────────
-    AI_Enabled:      cucumberConfig.default.ai        ?? false,
-    AI_URL:          cucumberConfig.default.url        ?? "N/A",
-    AI_Model:        cucumberConfig.default.model      ?? "gemini 2.5 flash",
-    AI_Language:     cucumberConfig.default.language   ?? "English",
-    AI_Max_Tokens:   cucumberConfig.default.maxTokens  ?? "4000",
-    AI_Max_Reports:  cucumberConfig.default.maxReports ?? 10,
+    AI_Enabled:      cucumberConfig.ai.ai        ?? false,
+    AI_URL:          cucumberConfig.ai.url        || "N/A",
+    AI_Model:        cucumberConfig.ai.model      || "N/A",
+    AI_Language:     cucumberConfig.ai.language   || "English",
+    AI_Max_Tokens:   cucumberConfig.ai.maxTokens  ?? "4000",
+    AI_Max_Reports:  cucumberConfig.ai.maxReports ?? 10,
 
     // ── Git ─────────────────────────────────
     Git_Branch: process.env.GIT_BRANCH ?? process.env.BRANCH_NAME ?? "N/A",
