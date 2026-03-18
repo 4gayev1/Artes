@@ -139,61 +139,75 @@ npx artes [options]
 npx artes [options]
 ```
 
-### Options
 
-| Option                    | Description                                                                        | Usage Example                                                         |
-| ------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| 🆘 `-h, --help`           | Show the usage options                                                             | `artes -h` or `artes --help`                                          |
-| 🏷️ `-v, --version`        | Show the current version of Artes                                                  | `artes -v` or `artes --version`                                       |
-| 🏗️ `-c, --create`         | Create an example project with Artes                                               | `artes -c` or `artes --create`                                        |
-| ✅ `-y, --yes`            | Skip the confirmation prompt when creating an example project                      | `artes -c -y` or `artes --create --yes`                               |
-| 🚫 --noDeps               | Skip installing dependencies when creating example project                         | `artes -c --noDeps`                                                   |
-| 📊 `-r, --report`         | Run tests and generate Allure report                                               | `artes -r` or `artes --report`                                        |
-| `--reportSuccess`         | Add screenshots and video records for also Success test cases                      | `artes --reportSuccess`                                               |
-| `--trace`                 | Enable tracing                                                                     | `artes --trace`                                                       |
-| `-rwt, --reportWithTrace` | Add trace to the report                                                            | `artes -rwt` or `artes --reportWithTrace`                             |
-| `--singleFileReport`      | Generate single file allure report                                                 | `artes -r --singleFileReport`                                         |
-| `--zip`                   | Zip the report folder after generation                                             | `artes -r --zip`                                                      |
-| `--uploadReport`          | Upload the generated report to Artes Reporting System                              | `artes -r --zip --uploadReport --reporterURL "https://example.com"`            |
-| `--reporterURL`           | URL of the Artes Reporting System to upload the report                             | `artes -r --zip --uploadReport --reporterURL "https://example.com"`            |
-| `--projectName`           | Name of the project in the Artes Reporting System (default: `"Artes Report"`)     | `artes -r --zip --uploadReport --reporterURL "https://example.com" --projectName "My Project"` |
-| `--projectType`           | Type of the project for reporting purposes (default: `"Artes"`)                   | `artes -r --zip --uploadReport --reporterURL "https://example.com" --projectType "API"` |
-| `--reportPath`            | Path to the report zip file to upload (default: `./report.zip`)                   | `artes -r --zip --uploadReport --reporterURL "https://example.com" --reportPath "./my_report.zip"` |
-| 🖼️ `--logo`               | Set a custom logo in the report sidebar. Accepts an absolute path, a relative path, or a direct image URL | `artes -r --logo /abs/path/logo.png`<br>`artes --logo logo.png`<br>`artes --logo 'https://example.com/logo.png'` |
-| 🏢 `--brandName`          | Set the brand name displayed next to the logo in the report sidebar                | `artes --brandName 'My Company'`                                      |
-| 📄 `--reportName`         | Report name displayed on the summary widget and in the Artes Reporting System                       | `artes --reportName 'Alma UI'`  
-| 📁 `--features`           | Specify one or more feature files' relative paths to run (comma-separated)         | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
-| 📜 `--stepDef`            | Specify one or more step definition files' relative paths to use (comma-separated) | `artes --stepDef "tests/steps/login.js,tests/steps/home.js"`          |
-| 🔖 `--tags`               | Run tests with specified Cucumber tags                                             | `artes --tags "@smoke or @wip"`                                       |
-| 🌐 `--env`                | Set the environment for the test run                                               | `artes --env "dev"`                                                   |
-| `--saveVar`              |  Set the variables from CLI                                                         | `artes --saveVar '{"armud":20,"banana":200}'` |  
-| 🕶️ `--headless`           | Run browser in headless mode                                                       | `artes --headless`                                                    |
-| ⚡ `--parallel`           | Run tests in parallel mode                                                         | `artes --parallel 2`                                                  |
-| 🔁 `--retry`              | Retry failed tests                                                                 | `artes --retry 3`                                                     |
-| 🔁 `--rerun`              | Rerun only the failed tests from previous run                                      | `artes --rerun @rerun.txt`                                            |
-| 🎭 `--dryRun`             | Perform a dry run without executing tests                                          | `artes --dryRun`                                                      |
-| 📈 `--percentage`         | Set minimum success percentage to pass test run (default is 0)                     | `artes --percentage 85`                                               |
-| 🌍 `--browser`            | Specify browser to use (`chromium`, `firefox`, or `webkit`)                        | `artes --browser chromium`                                            |
-| `--offline`               | Run browser in offline mode                                                        | `artes --offline` |
-| 📱 `--device`             | Emulate specific device (e.g., "iPhone 13")                                        | `artes --device "iPhone 13"`   |
-| 🔗 `--baseURL`            | Set base URL for the tests                                                         | `artes --baseURL "https://example.com"`                               |
-| 🖥️ `--maxScreen`          | Maximize browser window on launch                                                  | `artes --maxScreen`                                                   |
-| 📏 `--width`              | Set browser width (default is 1280)                                                | `artes --width 1920`                                                  |
-| 📐 `--height`             | Set browser height (default is 720)                                                | `artes --height 1080`                                                 |
-| ⏱️ `--timeout`            | Set timeout for each test step in seconds (default is 30 seconds)                  | `artes --timeout 10`                                                  |
-| 🐢 `--slowMo`             | Slow down text execution for clear view (default: 0 seconds)                       | `artes --slowMo 1`                                                    |
-
-### AI Options
+### General ( artes -h or artes --help )
 
 | Option | Description | Usage Example |
 | --- | --- | --- |
-| 🤖 `--ai` | Enable AI-generated bug reports and test summaries | `artes --ai` |
-| 🧠 `--aiModel` | AI model to use for report generation | `artes --ai --aiModel "gemini 2.5 flash"` |
-| 🔑 `--aiKey` | API key for the selected AI provider | `artes --ai --aiKey "your-api-key"` |
-| 🔗 `--aiURL` | Local AI endpoint URL (e.g. Ollama, LM Studio). Overrides `--aiModel` and `--aiKey` when set | `artes --ai --aiURL "http://localhost:11434/api/chat"` |
-| 🌍 `--aiLanguage` | Language for AI-generated reports (default: `"English"`) | `artes --ai --aiLanguage "Azerbaijani"` |
-| 🔢 --maxTokens | Maximum tokens for AI response output (default: 4000) | artes --ai --maxTokens 8000 |
-| 📋 `--maxReports` | Maximum number of AI reports to generate per test run (default: `10`) | `artes --ai --maxReports 5` |
+| `-h, --help` | Show this help message | `artes -h` or `artes --help` |
+| `-v, --version` | Show current version of artes | `artes -v` or `artes --version` |
+| `-c, --create` | Create example artes project | `artes -c` or `artes --create` |
+
+### Reporting & Branding ( artes report --help )
+
+| Option | Description | Usage Example |
+| --- | --- | --- |
+| `-r, --report` | Run tests and generate Allure report | `artes -r` or `artes --report` |
+| `--reportSuccess` | Generate screenshot and video with successful tests too | `artes --reportSuccess` |
+| `--trace` | Enable tracing for all tests | `artes --trace` |
+| `-rwt, --reportWithTrace` | Include trace in the report | `artes -rwt` or `artes --reportWithTrace` |
+| `--singleFileReport` | Generate single file Allure report | `artes -r --singleFileReport` |
+| `--zip` | Zip the report folder after generation | `artes -r --zip` |
+| `--logo` | Set a custom logo in the report sidebar | `artes --logo logo.png` |
+| `--brandName` | Set the brand name displayed next to the logo | `artes --brandName 'My Company'` |
+| `--reportName` | Report name on the summary widget | `artes --reportName 'Alma UI'` |
+| `--uploadReport` | Upload the generated report to Artes Reporting System | `artes -r --zip --uploadReport --reporterURL "https://example.com"` |
+| `--reporterURL` | URL of the Artes Reporting System | `artes --uploadReport --reporterURL "https://example.com"` |
+| `--projectName` | Project name in the Artes Reporting System (default: `"Artes Report"`) | `artes --uploadReport --reporterURL "https://example.com" --projectName "My Project"` |
+| `--projectType` | Project type for reporting, e.g., UI, API (default: `"Artes"`) | `artes --uploadReport --reporterURL "https://example.com" --projectType "API"` |
+| `--reportPath` | Path to the report zip file to upload (default: `./report.zip`) | `artes --uploadReport --reporterURL "https://example.com" --reportPath "./my_report.zip"` |
+
+### Browser ( artes browser --help )
+
+| Option | Description | Usage Example |
+| --- | --- | --- |
+| `--browser` | Specify browser to use (`chromium`, `firefox`, `webkit`) | `artes --browser chromium` |
+| `--device` | Emulate a specific device (e.g., `"iPhone 13"`) | `artes --device "iPhone 13"` |
+| `--maxScreen` | Maximize browser window on launch | `artes --maxScreen` |
+| `--width` | Set browser width (default: `1280`) | `artes --width 1920` |
+| `--height` | Set browser height (default: `720`) | `artes --height 1080` |
+
+### Execution ( artes execution --help )
+
+| Option | Description | Usage Example |
+| --- | --- | --- |
+| `--headless` | Run browser in headless mode | `artes --headless` |
+| `--baseURL` | Set base URL for the tests | `artes --baseURL "https://example.com"` |
+| `--offline` | Run browser in offline mode | `artes --offline` |
+| `--features` | Specify feature file paths to run (comma-separated) | `artes --features "tests/features/Alma,tests/features/Banan.feature"` |
+| `--stepDef` | Specify step definition file paths to use (comma-separated) | `artes --stepDef "tests/steps/login.js,tests/steps/home.js"` |
+| `--tags` | Run tests with specified Cucumber tags | `artes --tags "@smoke and not @wip"` |
+| `--env` | Set the environment for the test run | `artes --env "dev"` |
+| `--saveVar` | Set variables from CLI | `artes --saveVar '{"armud":20,"banana":200}'` |
+| `--parallel` | Run tests in parallel mode | `artes --parallel 3` |
+| `--retry` | Retry failed tests | `artes --retry 2` |
+| `--rerun` | Rerun only failed tests from previous run | `artes --rerun @rerun.txt` |
+| `--dryRun` | Perform a dry run without executing tests | `artes --dryRun` |
+| `--percentage` | Set minimum success percentage to pass test run (default: `0`) | `artes --percentage 85` |
+| `--timeout` | Set timeout for each test step in seconds (default: `30`) | `artes --timeout 10` |
+| `--slowMo` | Slow down execution for clear view (default: `0`) | `artes --slowMo 1` |
+
+### AI Bug Reporter ( artes ai --help )
+
+| Option | Description | Usage Example |
+| --- | --- | --- |
+| `--ai` | Enable AI-generated bug reports and test summaries | `artes --ai` |
+| `--aiModel` | AI model to use for report generation | `artes --ai --aiModel "gemini 2.5 flash"` |
+| `--aiKey` | API key for the selected AI provider | `artes --ai --aiKey "your-api-key"` |
+| `--aiURL` | Local AI endpoint URL (e.g., Ollama, LM Studio). Overrides `--aiModel` and `--aiKey` when set | `artes --ai --aiURL "http://localhost:11434/api/chat"` |
+| `--aiLanguage` | Language for AI-generated reports (default: `"English"`) | `artes --ai --aiLanguage "Azerbaijani"` |
+| `--maxTokens` | Maximum tokens for AI-generated reports (default: `4000`) | `artes --ai --maxTokens 8000` |
+| `--maxReports` | Maximum number of AI reports to generate per test run (default: `10`) | `artes --ai --maxReports 5` |
 
 
 \*\* To just run the tests: <br>

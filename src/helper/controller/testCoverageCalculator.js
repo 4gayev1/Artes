@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-function testCoverageCalculator({ silent = false } = {}) {
+function testCoverageCalculator({ silent = false, percentage = 0 } = {}) {
   const testStatusFile = path.join(
     process.cwd(),
     "node_modules",
@@ -67,6 +67,22 @@ function testCoverageCalculator({ silent = false } = {}) {
     }
   });
 
+  const result = {
+    percentage: ((total - notPassed) / total) * 100,
+    totalTests: total,
+    notPassed,
+    passed: total - notPassed,
+    latestStatuses: Object.fromEntries(
+      Object.entries(map).map(([id, data]) => [id, data.latest.status]),
+    ),
+  };
+
+  if (!silent && result.totalTests === 0) {
+    console.log("\x1b[33mNo tests were run (0 scenarios).\x1b[0m");
+    process.env.EXIT_CODE = 1;
+    return result;
+  }
+
   if (!silent && retriedTests.length > 0) {
     console.warn(`\n\x1b[33mRetried ${retriedTests.length} test cases:`);
     retriedTests.forEach((t) => {
@@ -76,15 +92,20 @@ function testCoverageCalculator({ silent = false } = {}) {
     console.log("");
   }
 
-  return {
-    percentage: ((total - notPassed) / total) * 100,
-    totalTests: total,
-    notPassed,
-    passed: total - notPassed,
-    latestStatuses: Object.fromEntries(
-      Object.entries(map).map(([id, data]) => [id, data.latest.status]),
-    ),
-  };
+  if (!silent && percentage > 0) {
+    const meetsThreshold = result.percentage >= percentage;
+
+    if (meetsThreshold) {
+      console.log(`\x1b[32mTests passed required ${percentage}% success rate with ${result.percentage.toFixed(2)}%!\x1b[0m`);
+      process.env.EXIT_CODE = 0;
+    } else {
+      console.log(`\x1b[31mTests failed required ${percentage}% success rate with ${result.percentage.toFixed(2)}%!\x1b[0m`);
+      process.env.EXIT_CODE = 1;
+    }
+  }
+  
+
+  return result
 }
 
 module.exports = { testCoverageCalculator };

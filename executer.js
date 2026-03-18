@@ -3,23 +3,24 @@ const {
   showHelp,
   showAIHelp,
   showVersion,
+  showBrowserHelp,
+  showExecutionHelp,
+  showReportingHelp,
   createProject,
   runTests,
   generateReport,
   cleanUp,
 } = require("./src/helper/executers/exporter");
+
 const { logPomWarnings } = require("./src/helper/controller/pomCollector");
-const fs = require("fs");
-const path = require("path");
-const {
-  testCoverageCalculator,
-} = require("./src/helper/controller/testCoverageCalculator");
+const { testCoverageCalculator } = require("./src/helper/controller/testCoverageCalculator");
 const { getExecutor } = require("./src/helper/controller/getExecutor");
-const {
-  findDuplicateTestNames,
-} = require("./src/helper/controller/findDuplicateTestNames");
+const { findDuplicateTestNames } = require("./src/helper/controller/findDuplicateTestNames");
 const { getEnvInfo } = require("artes/src/helper/controller/getEnvInfo");
 const { uploadReport } = require("./src/helper/controller/reportUploader");
+
+const fs = require("fs");
+const path = require("path");
 
 const artesConfigPath = path.resolve(process.cwd(), "artes.config.js");
 
@@ -31,256 +32,215 @@ if (fs.existsSync(artesConfigPath)) {
 
 const args = process.argv.slice(2);
 
+const set = (key, value) => { if (value) process.env[key] = value; };
+
 const getArgValue = (flag) => {
   const index = args.indexOf(flag);
   return index >= 0 ? args[index + 1] : undefined;
 };
 
+
 const flags = {
-  help: args.includes("-h") || args.includes("--help"),
+  // Main
+  help:    args.includes("-h") || args.includes("--help"),
   version: args.includes("-v") || args.includes("--version"),
-  create: args.includes("-c") || args.includes("--create"),
-  createYes: args.includes("-y") || args.includes("--yes"),
-  noDeps: args.includes("--noDeps"),
-  report: args.includes("-r") || args.includes("--report"),
-  reportSuccess: args.includes("--reportSuccess"),
-  trace: args.includes("-t") || args.includes("--trace"),
-  reportWithTrace: args.includes("-rwt") || args.includes("--reportWithTrace"),
+  create:  args.includes("-c") || args.includes("--create"),
+
+  // Sub-command help pages
+  reportHelp:    (args[0] === "report"    && args.includes("--help")),
+  browserHelp:   (args[0] === "browser"   && args.includes("--help")),
+  executionHelp: (args[0] === "execution" && args.includes("--help")),
+  aiHelp:        (args[0] === "ai"        && args.includes("--help")),
+
+  // Reporting
+  report:           args.includes("-r")              || args.includes("--report"),
+  reportSuccess:    args.includes("--reportSuccess"),
+  reportWithTrace:  args.includes("-rwt")            || args.includes("--reportWithTrace"),
+  trace:            args.includes("--trace"),
   singleFileReport: args.includes("--singleFileReport"),
-  customLogo: args.includes("--logo"),
-  customBrandName: args.includes("--brandName"),
-  customReportName: args.includes("--reportName"),
-  zip: args.includes("--zip"),
-  uploadReport: args.includes("--uploadReport"),
-  reporterURL: args.includes("--reporterURL"),
-  projectName: args.includes("--projectName"),
-  projectType: args.includes("--projectType"),
-  reportPath: args.includes("--reportPath"),
-  aiHelp: args.includes("--aiHelp"),
-  ai: args.includes("--ai"),
-  aiURL: args.includes("--aiURL"),
-  aiModel: args.includes("--aiModel"),
-  aiKey: args.includes("--aiKey"),
-  aiLanguage: args.includes("--aiLanguage"),
-  maxTokens: args.includes("--maxTokens"),
-  maxReports: args.includes("--maxReports"),
-  features: args.includes("--features"),
-  stepDef: args.includes("--stepDef"),
-  tags: args.includes("--tags"),
-  env: args.includes("--env"),
-  saveVar: args.includes("--saveVar"),
-  headless: args.includes("--headless"),
-  parallel: args.includes("--parallel"),
-  retry: args.includes("--retry"),
-  rerun: args.includes("--rerun"),
-  dryRun: args.includes("--dryRun"),
+  zip:              args.includes("--zip"),
+  logo:             args.includes("--logo"),
+  brandName:        args.includes("--brandName"),
+  reportName:       args.includes("--reportName"),
+  uploadReport:     args.includes("--uploadReport"),
+  reporterURL:      args.includes("--reporterURL"),
+  projectName:      args.includes("--projectName"),
+  projectType:      args.includes("--projectType"),
+  reportPath:       args.includes("--reportPath"),
+
+  // Browser & Environment
+  browser:    args.includes("--browser"),
+  device:     args.includes("--device"),
+  maxScreen:  args.includes("--maxScreen"),
+  width:      args.includes("--width"),
+  height:     args.includes("--height"),
+
+  // Execution
+  baseURL:    args.includes("--baseURL"),
+  env:        args.includes("--env"),
+  headless:   args.includes("--headless"),
+  offline:    args.includes("--offline"),
+  features:   args.includes("--features"),
+  stepDef:    args.includes("--stepDef"),
+  tags:       args.includes("--tags"),
+  parallel:   args.includes("--parallel"),
+  retry:      args.includes("--retry"),
+  rerun:      args.includes("--rerun"),
+  dryRun:     args.includes("--dryRun"),
   percentage: args.includes("--percentage"),
-  browser: args.includes("--browser"),
-  offline: args.includes("--offline"),
-  device: args.includes("--device"),
-  baseURL: args.includes("--baseURL"),
-  maximizeScreen: args.includes("--maxScreen"),
-  width: args.includes("--width"),
-  height: args.includes("--height"),
-  timeout: args.includes("--timeout"),
-  slowMo: args.includes("--slowMo"),
+  timeout:    args.includes("--timeout"),
+  slowMo:     args.includes("--slowMo"),
+  saveVar:    args.includes("--saveVar"),
+
+  // AI
+  ai:          args.includes("--ai"),
+  aiModel:     args.includes("--aiModel"),
+  aiKey:       args.includes("--aiKey"),
+  aiURL:       args.includes("--aiURL"),
+  aiLanguage:  args.includes("--aiLanguage"),
+  maxTokens:   args.includes("--maxTokens"),
+  maxReports:  args.includes("--maxReports"),
 };
 
-const env = getArgValue("--env");
-const vars = getArgValue("--saveVar");
-const reporterURL = getArgValue("--reporterURL");
-const projectType = getArgValue("--projectType");
-const projectName = getArgValue("--projectName");
-const reportPath = getArgValue("--reportPath");
-const logo = getArgValue("--logo");
-const brandName = getArgValue("--brandName");
-const reportName = getArgValue("--reportName");
-const ai = args.includes("--ai");
-const aiURL = getArgValue("--aiURL");
-const aiModel = getArgValue("--aiModel");
-const aiKey = getArgValue("--aiKey");
-const aiLanguage = getArgValue("--aiLanguage");
-const maxTokens = getArgValue("--maxTokens")
-const maxReports = getArgValue("--maxReports");
+const shouldReport = flags.reportWithTrace || artesConfig.reportWithTrace || flags.report || artesConfig.report;
+
+// Reporting & Branding
+const logo             = getArgValue("--logo");
+const brandName        = getArgValue("--brandName");
+const reportName       = getArgValue("--reportName");
+const reporterURL      = getArgValue("--reporterURL");
+const projectName      = getArgValue("--projectName");
+const projectType      = getArgValue("--projectType");
+const reportPath       = getArgValue("--reportPath");
+
+// Browser & Environment
+const browser   = getArgValue("--browser");
+const baseURL   = getArgValue("--baseURL");
+const device    = getArgValue("--device");
+const width     = getArgValue("--width");
+const height    = getArgValue("--height");
+
+// Execution
+const env          = getArgValue("--env");
 const featureFiles = getArgValue("--features");
 const features = flags.features && featureFiles;
-const stepDef = getArgValue("--stepDef");
-const tags = getArgValue("--tags");
-const parallel = getArgValue("--parallel");
-const retry = getArgValue("--retry");
-const rerun = getArgValue("--rerun");
-const percentage = getArgValue("--percentage");
-const browser = getArgValue("--browser");
-const device = getArgValue("--device");
-const baseURL = getArgValue("--baseURL");
-const width = getArgValue("--width");
-const height = getArgValue("--height");
-const timeout = getArgValue("--timeout");
-const slowMo = getArgValue("--slowMo");
+const stepDef      = getArgValue("--stepDef");
+const tags         = getArgValue("--tags");
+const parallel     = getArgValue("--parallel");
+const retry        = getArgValue("--retry");
+const rerun        = getArgValue("--rerun");
+const percentage   = getArgValue("--percentage");
+const timeout      = getArgValue("--timeout");
+const slowMo       = getArgValue("--slowMo");
+const vars         = getArgValue("--saveVar");
 
-flags.env ? (process.env.ENV = env) : "";
+// AI
+const aiModel    = getArgValue("--aiModel");
+const aiKey      = getArgValue("--aiKey");
+const aiURL      = getArgValue("--aiURL");
+const aiLanguage = getArgValue("--aiLanguage");
+const maxTokens  = getArgValue("--maxTokens");
+const maxReports = getArgValue("--maxReports");
 
-vars ? (process.env.VARS = vars) : "";
 
-flags.reportWithTrace ||
-artesConfig.reportWithTrace ||
-flags.report ||
-artesConfig.report
-  ? (process.env.REPORT_FORMAT = JSON.stringify([
-      "allure-cucumberjs/reporter:./allure-results",
-    ]))
-  : "";
 
-flags.customLogo ? (process.env.LOGO = logo) : "";
-flags.customBrandName ? (process.env.BRAND_NAME = brandName) : "";
-flags.customReportName ? (process.env.REPORT_NAME = reportName) : "";
+// Reporting & Branding
+set("REPORT",              flags.report);
+set("REPORT_SUCCESS",      flags.reportSuccess);
+set("SINGLE_FILE_REPORT",  flags.singleFileReport);
+set("REPORT_WITH_TRACE",   flags.reportWithTrace);
+set("TRACE",               flags.trace);
+set("ZIP",                 flags.zip);
+set("LOGO",                logo);
+set("BRAND_NAME",          brandName);
+set("REPORT_NAME",         reportName);
 
-flags.reportSuccess ? (process.env.REPORT_SUCCESS = true) : "";
+if (shouldReport) { process.env.REPORT_FORMAT = JSON.stringify(["allure-cucumberjs/reporter:./allure-results"]) }
 
-flags.tags && console.log("Running tags:", tags);
-flags.tags ? (process.env.RUN_TAGS = JSON.stringify(tags)) : "";
+set("REPORTER_URL",  reporterURL);
+set("PROJECT_NAME",  projectName);
+set("PROJECT_TYPE",  projectType);
+set("REPORT_PATH",   reportPath);
 
-flags.features && console.log("Running features:", features);
-flags.features ? (process.env.FEATURES = features) : "";
+// Browser & Environment
+set("BROWSER",          browser);
+set("BASE_URL",         baseURL ? JSON.stringify(baseURL) : null);
+set("DEVICE",           device  ? JSON.stringify(device)  : null);
+set("MODE",             flags.headless ? JSON.stringify(true)   : null);
+set("OFFLINE",          flags.offline);
+set("MAXIMIZE_SCREEN",  flags.maxScreen);
+set("WIDTH",            width);
+set("HEIGHT",           height);
 
-flags.stepDef && console.log("Running step definitions:", flags.stepDef);
-flags.stepDef ? (process.env.STEP_DEFINITIONS = stepDef) : "";
+// Execution
+set("ENV",  env);
+set("VARS", vars);
+set("FEATURES",         features);
+set("STEP_DEFINITIONS", stepDef);
+set("RUN_TAGS",         tags ? JSON.stringify(tags) : null);
+set("PARALLEL",         parallel);
+set("RETRY",            retry);
+set("RERUN",            rerun);
+set("DRYRUN",           flags.dryRun);
+set("PERCENTAGE",       percentage);
+set("TIMEOUT",          timeout);
+set("SLOWMO",           slowMo);
 
-flags.report ? (process.env.REPORT = true) : "";
+// AI
+set("AI",          flags.ai);
+set("AI_URL",      aiURL);
+set("AI_MODEL",    aiModel);
+set("AI_KEY",      aiKey);
+set("AI_LANGUAGE", aiLanguage);
+set("MAX_TOKENS",  maxTokens);
+set("MAX_REPORTS", maxReports);
 
-flags.trace ? (process.env.TRACE = true) : "";
-
-flags.reportWithTrace
-  ? (process.env.REPORT_WITH_TRACE = true)
-  : (process.env.REPORT_WITH_TRACE = false);
-
-flags.singleFileReport
-  ? (process.env.SINGLE_FILE_REPORT = true)
-  : (process.env.SINGLE_FILE_REPORT = false);
-
-flags.zip ? (process.env.ZIP = true) : (process.env.ZIP = false);
-
-flags.ai ? (process.env.AI = ai) : (process.env.AI = false);
-flags.aiURL ? (process.env.AI_URL = aiURL) : "";
-flags.aiModel ? (process.env.AI_MODEL = aiModel) : "";
-flags.aiKey ? (process.env.AI_KEY = aiKey) : "";
-flags.aiLanguage ? (process.env.AI_LANGUAGE = aiLanguage) : "";
-flags.maxTokens ? (process.env.MAX_TOKENS = maxTokens) : "";
-flags.maxReports ? (process.env.MAX_REPORTS = maxReports) : "";
-
-flags.headless &&
-  console.log("Running mode:", flags.headless ? "headless" : "headed");
-flags.headless ? (process.env.MODE = JSON.stringify(true)) : false;
-
-flags.parallel ? (process.env.PARALLEL = parallel) : "";
-
-flags.retry ? (process.env.RETRY = retry) : "";
-
-flags.rerun ? (process.env.RERUN = rerun) : "";
-
-flags.dryRun ? (process.env.DRYRUN = flags.dryRun) : "";
-
-flags.percentage ? (process.env.PERCENTAGE = percentage) : "";
-
-flags.browser && console.log("Running browser:", browser);
-flags.browser ? (process.env.BROWSER = JSON.stringify(browser)) : "";
-
-flags.browser && console.log("Running mode:", flags.offline && "Offline");
-flags.offline ? (process.env.OFFLINE = true) : "";
-
-flags.device && console.log("Running device:", device);
-flags.device ? (process.env.DEVICE = JSON.stringify(device)) : "";
-
-flags.baseURL ? (process.env.BASE_URL = JSON.stringify(baseURL)) : "";
-
-flags.maximizeScreen
-  ? (process.env.MAXIMIZE_SCREEN = flags.maximizeScreen)
-  : "";
-
-flags.width && console.log("Running width:", width);
-flags.width ? (process.env.WIDTH = width) : "";
-
-flags.height && console.log("Running height:", height);
-flags.height ? (process.env.HEIGHT = height) : "";
-
-flags.timeout ? (process.env.TIMEOUT = timeout) : "";
-
-flags.slowMo ? (process.env.SLOWMO = slowMo) : "";
 
 async function main() {
+  if (flags.reportHelp)    return showReportingHelp();
+  if (flags.browserHelp)   return showBrowserHelp();
+  if (flags.executionHelp) return showExecutionHelp();
+  if (flags.aiHelp)        return showAIHelp();
+
   if (flags.help) return showHelp();
-  if (flags.aiHelp) return showAIHelp();
   if (flags.version) return showVersion();
   if (flags.create) return createProject(flags.createYes, flags.noDeps);
 
+
   runTests();
 
-  const testCoverage = testCoverageCalculator();
+  const testPercentage = process.env.PERCENTAGE ? Number(process.env.PERCENTAGE) : artesConfig.testPercentage || 0;
 
+  const testCoverage = testCoverageCalculator({ percentage: testPercentage });
+
+  if (!testCoverage) {
+    cleanUp();
+    process.exit(1);
+  }
+  
   if (testCoverage.totalTests === 0) {
-    console.log("\x1b[33mNo tests were run (0 scenarios). Skipping report generation and upload.\x1b[0m");
     cleanUp();
     process.exit(process.env.EXIT_CODE);
   }
-
+  
   logPomWarnings();
 
   findDuplicateTestNames();
 
-  const testPercentage = process.env.PERCENTAGE
-    ? Number(process.env.PERCENTAGE)
-    : artesConfig.testPercentage || 0;
-
-  if (testPercentage > 0) {
-    const meetsThreshold = testCoverage.percentage >= testPercentage;
-
-    if (meetsThreshold) {
-      console.log(
-        `\x1b[32mTests passed required ${testPercentage}% success rate with ${testCoverage.percentage.toFixed(2)}%!\x1b[0m`,
-      );
-      process.env.EXIT_CODE = parseInt(0, 10);
-    } else {
-      console.log(
-        `\x1b[31mTests failed required ${testPercentage}% success rate with ${testCoverage.percentage.toFixed(2)}%!\x1b[0m`,
-      );
-      process.env.EXIT_CODE = parseInt(1, 10);
-    }
-  }
-
-  const source = path.join(
-    process.cwd(),
-    "node_modules",
-    "artes",
-    "@rerun.txt",
-  );
+  const source = path.join(process.cwd(), "node_modules", "artes",  "@rerun.txt" );
   const destination = path.join(process.cwd(), "@rerun.txt");
+  if (fs.existsSync(source)) { fs.renameSync(source, destination)}
 
-  if (fs.existsSync(source)) {
-    fs.renameSync(source, destination);
-  }
-
-    if (
-      flags.reportWithTrace ||
-      artesConfig.reportWithTrace ||
-      flags.report ||
-      artesConfig.report
-    ) {
+    if (shouldReport) {
       getExecutor();
       getEnvInfo();
       generateReport();
     }
 
-
-  if (
-    !(process.env.TRACE === "true"
-      ? process.env.TRACE
-      : artesConfig.trace || false)
-  ) {
-    fs.rmSync(path.join(process.cwd(), "traces"), {
-      recursive: true,
-      force: true,
-    });
-  }
+    const traceEnabled = process.env.TRACE === "true" || artesConfig.trace || false;
+    if (!traceEnabled) {
+      fs.rmSync(path.join(process.cwd(), "traces"), { recursive: true, force: true });
+    }
 
   try {
     if (flags.uploadReport || artesConfig.uploadReport) {

@@ -1,168 +1,192 @@
 function showHelp() {
-  console.log(`
-        🚀 Artes - Playwright Test Runner
-      
-        Description:
-            Artes is a test runner for Playwright that executes Cucumber tests
-            and can generate Allure reports.
-      
-        Usage: 
+    console.log(`
+      Artes CLI
+  
+        Usage:
             npx artes [options]
-      
+  
         Options:
-            🆘 -h, --help      Show this help message
-                Usage: artes -h or artes --help
-      
-            🏷️ -v, --version   Show current version of artes
-                Usage: artes -v or artes --version
-      
-            🏗️ -c, --create    Create example project with artes
-                Usage: artes -c or artes --create 
-      
-            ✅ -y, --yes       Skip confirmation prompt for creating example project
-                Usage:  artes -c -y or artes --create --yes
-
-            🚫 --noDeps       Skip installing dependencies when creating example project
-                Usage:  artes -c --noDeps or artes --create --noDeps
-      
-            📊 -r, --report    Run tests and generate Allure report
-                Usage:   artes -r or artes --report
-
-            ✅ --reportSuccess Generate screenshot and video record with also successful tests
-                Usage:   artes --reportSuccess
-
-            ⚡ --trace         Enable tracing for all tests
-                Usage:   artes --trace
-            
-            🔍 -rwt, --reportWithTrace Include trace in the report
-                Usage:   artes --reportWithTrace
-            
-            📄 --singleFileReport   Generate single file Allure report
-                Usage:   artes -r --singleFileReport
-
-           🗜️ --zip            Zip the report folder after generation
-                Usage:   artes -r --zip
-
-            --uploadReport     Upload the generated report to a Artes Reporting System
-                Usage:   artes --uploadReport --reporterURL "https://example.com/upload"
-            
-            --reporterURL      URL of the Artes Reporting System to upload the report
-                Usage:   artes --uploadReport --reporterURL "https://example.com/upload"
-
-            --projectName      Name of the project in the Artes Reporting System (default: "Artes Report")
-                Usage:   artes --uploadReport --reporterURL "https://example.com/upload" --projectName "My Project"
-
-            --projectType      Type of the project (e.g., UI, API) for reporting purposes (default: "Artes")
-                Usage:   artes --uploadReport --reporterURL "https://example.com/upload" --projectType "API"
-
-            --reportPath       Path to the report zip or html file to be uploaded (default: ./report.zip)
-                Usage:   artes --uploadReport --reporterURL "https://example.com/upload" --reportPath "./my_report.zip"
-
-            🖼️ --logo           Set a custom logo in the report sidebar  
-                Usage:  artes --logo logo.png
-
-            🏢 --brandName      Set the brand name displayed next to the logo in the report sidebar
-                Usage:  artes --brandName 'My Company' 
-
-            📄 --reportName      Report name displayed on the summary widget and in the Artes Reporting System
-                Usage:  artes --reportName 'Alma UI' 
-      
-            📁 --features      Specify one or more feature files' relative paths to run (comma-separated)
-                Usage:   artes --features "tests/features/Alma, tests/features/Banan.feature"
-
-            📜 --stepDef       Specify one or more step definition files' relative paths to use (comma-separated)
-                Usage:   artes --stepDef "tests/steps/login.js, tests/steps/home.js"
-      
-            🔖 --tags          Run tests with specified Cucumber tags
-                Usage:   artes --tags "@smoke and not @wip"
-      
-            🌐 --env           Set environment for the test run
-                Usage:   artes --env "dev"
-
-            --saveVar         Set variables from cli
-                        artes --saveVar '{"armud":20,"banana":200}'
-      
-            🕶️ --headless      Run browser in headless mode
-                Usage:   artes --headless
-      
-            ⚡ --parallel      Run tests in parallel mode
-                Usage:   artes --parallel 3
-      
-            🔁 --retry         Retry failed tests
-                Usage:   artes --retry 2
-
-            🔄 --rerun         Rerun only the failed tests from previous run
-                Usage:   artes --rerun @rerun.txt
-      
-            🎭 --dryRun        Perform a dry run without executing tests
-                Usage:   artes --dryRun
-
-            📈 --percentage    Set minimum success percentage to pass test run
-                Usage:   artes --percentage 85
-
-            🌐 --browser       Specify browser to use (chromium, firefox, webkit)
-                Usage:   artes --browser chromium
-            
-            --offline       Run browser in offline mode
-                Usage:   artes --offline
-
-            📱 --device       Emulate specific device (e.g., "iPhone 13")
-                Usage:   artes --device "iPhone 13"
-
-            🌐 --baseURL       Set base URL for the tests
-                Usage:   artes --baseURL "https://example.com"
-
-            📏 --maxScreen     Maximize browser window
-                Usage:   artes --maxScreen
-
-            📐 --width         Set browser width (default: 1280)
-                Usage:   artes --width 1920
-
-            📏 --height        Set browser height (default: 720)
-                Usage:   artes --height 1080
-
-            ⏱️ --timeout       Set timeout for each test step (default: 30 seconds)
-                Usage:   artes --timeout 10
-            
-            🐢 --slowMo        Slow down text execution for clear view (default: 0 seconds)
-                Usage:   artes --slowMo 1
-      `);
-}
-
-
-function showAIHelp() {
-  console.log(`
-        🚀 Artes AI Bug reporter
-      
-        Usage: 
+            -h, --help      Show this help message
+            -v, --version   Show current version of artes
+            -c, --create    Create example artes project
+  
+        For more options, use:
+            artes report --help       Reporting & branding options
+            artes browser --help      Browser & environment options
+            artes execution --help    Execution control options
+            artes ai --help           AI bug reporter options
+    `);
+  }
+  
+  function showReportingHelp() {
+    console.log(`
+      Artes CLI - Reporting & Branding
+  
+        Usage:
             npx artes [options]
-      
+  
+        Options:
+            -r, --report              Run tests and generate Allure report
+                Usage: artes -r or artes --report
+  
+            --reportSuccess           Generate screenshot and video with successful tests too
+                Usage: artes --reportSuccess
+  
+            -rwt, --reportWithTrace   Include trace in the report
+                Usage: artes --reportWithTrace
+  
+            --trace                   Enable tracing for all tests
+                Usage: artes --trace
+  
+            --singleFileReport        Generate single file Allure report
+                Usage: artes -r --singleFileReport
+  
+            --zip                     Zip the report folder after generation
+                Usage: artes -r --zip
+  
+            --logo                    Set a custom logo in the report sidebar
+                Usage: artes --logo logo.png
+  
+            --brandName               Set the brand name displayed next to the logo
+                Usage: artes --brandName 'My Company'
+  
+            --reportName              Report name on the summary widget
+                Usage: artes --reportName 'Alma UI'
+  
+            --uploadReport            Upload the generated report to Artes Reporting System
+                Usage: artes --uploadReport --reporterURL "https://example.com/upload"
+  
+            --reporterURL             URL of the Artes Reporting System
+                Usage: artes --uploadReport --reporterURL "https://example.com/upload"
+  
+            --projectName             Project name in the Artes Reporting System (default: "Artes Report")
+                Usage: artes --uploadReport --reporterURL "https://example.com/upload" --projectName "My Project"
+  
+            --projectType             Project type for reporting, e.g., UI, API (default: "Artes")
+                Usage: artes --uploadReport --reporterURL "https://example.com/upload" --projectType "API"
+  
+            --reportPath              Path to the report zip or html file to upload (default: ./report.zip)
+                Usage: artes --uploadReport --reporterURL "https://example.com/upload" --reportPath "./my_report.zip"
+    `);
+  }
+  
+  function showBrowserHelp() {
+    console.log(`
+      Artes CLI - Browser & Environment
+  
+        Usage:
+            npx artes [options]
+  
+        Options:
+            --browser     Specify browser to use (chromium, firefox, webkit)
+                Usage: artes --browser chromium
+  
+            --device      Emulate a specific device (e.g., "iPhone 13")
+                Usage: artes --device "iPhone 13"
+  
+            --maxScreen   Maximize browser window
+                Usage: artes --maxScreen
+  
+            --width       Set browser width (default: 1280)
+                Usage: artes --width 1920
+  
+            --height      Set browser height (default: 720)
+                Usage: artes --height 1080
+    `);
+  }
+  
+  function showExecutionHelp() {
+    console.log(`
+      Artes CLI - Execution
+  
+        Usage:
+            npx artes [options]
+  
         Options:
 
-            🤖 --ai            Enable AI-generated bug reports and test summaries
-                Usage:   artes --ai
+            --headless    Run browser in headless mode
+                Usage: artes --headless
 
-            🧠 --aiModel       AI model to use for report generation
-                               Supported: "gpt-4o", "gemini 2.5 flash", "claude sonnet", "mistral large"
-                Usage:   artes --ai --aiModel "gemini 2.5 flash"
+            --baseURL     Set base URL for the tests
+                Usage: artes --baseURL "https://example.com"
+  
+            --env         Set environment for the test run
+                Usage: artes --env "dev"
+  
+            --offline     Run browser in offline mode
+                Usage: artes --offline
 
-            🔑 --aiKey         API key for the selected AI provider
-                Usage:   artes --ai --aiKey "your-api-key"
-
-            🔗 --aiURL         Local AI endpoint URL (e.g., Ollama, LM Studio). Overrides --aiModel and --aiKey when set
-                Usage:   artes --ai --aiURL "http://localhost:11434/api/chat"
-
-            🌍 --aiLanguage    Language for AI-generated reports (default: "English")
-                Usage:   artes --ai --aiLanguage "Azerbaijani"
-               
-            🔢 --maxTokens     Maximum tokens for AI-generated reports (default: 4000)
-                Usage:   artes --ai --maxTokens 8000
-
-            📋 --maxReports    Maximum number of AI reports to generate per test run (default: 10)
-                Usage:   artes --ai --maxReports 5
-      `);
-}
-
-module.exports = {
-  showHelp, showAIHelp
-};
+            --features      Specify feature file paths to run (comma-separated)
+                Usage: artes --features "tests/features/Alma, tests/features/Banan.feature"
+  
+            --stepDef       Specify step definition file paths to use (comma-separated)
+                Usage: artes --stepDef "tests/steps/login.js, tests/steps/home.js"
+  
+            --tags          Run tests with specified Cucumber tags
+                Usage: artes --tags "@smoke and not @wip"
+  
+            --parallel      Run tests in parallel mode
+                Usage: artes --parallel 3
+  
+            --retry         Retry failed tests
+                Usage: artes --retry 2
+  
+            --rerun         Rerun only failed tests from previous run
+                Usage: artes --rerun @rerun.txt
+  
+            --dryRun        Perform a dry run without executing tests
+                Usage: artes --dryRun
+  
+            --percentage    Set minimum success percentage to pass test run
+                Usage: artes --percentage 85
+  
+            --timeout       Set timeout for each test step (default: 30 seconds)
+                Usage: artes --timeout 10
+  
+            --slowMo        Slow down execution for clear view (default: 0)
+                Usage: artes --slowMo 1
+  
+            --saveVar       Set variables from CLI
+                Usage: artes --saveVar '{"armud":20,"banana":200}'
+    `);
+  }
+  
+  function showAIHelp() {
+    console.log(`
+      Artes CLI - AI Bug Reporter
+  
+        Usage:
+            npx artes [options]
+  
+        Options:
+            --ai            Enable AI-generated bug reports and test summaries
+                Usage: artes --ai
+  
+            --aiModel       AI model to use for report generation.
+                            (For supported AI models: https://github.com/4gayev1/Artes/blob/main/docs/aiProviders.md)
+                Usage: artes --ai --aiModel "gemini 2.5 flash"
+  
+            --aiKey         API key for the selected AI provider
+                Usage: artes --ai --aiKey "your-api-key"
+  
+            --aiURL         Local AI endpoint URL (e.g., Ollama, LM Studio). Overrides --aiModel and --aiKey when set
+                Usage: artes --ai --aiURL "http://localhost:11434/api/chat"
+  
+            --aiLanguage    Language for AI-generated reports (default: "English")
+                Usage: artes --ai --aiLanguage "Azerbaijani"
+  
+            --maxTokens     Maximum tokens for AI-generated reports (default: 4000)
+                Usage: artes --ai --maxTokens 8000
+  
+            --maxReports    Maximum number of AI reports to generate per test run (default: 10)
+                Usage: artes --ai --maxReports 5
+    `);
+  }
+  
+  module.exports = {
+    showHelp,
+    showReportingHelp,
+    showBrowserHelp,
+    showExecutionHelp,
+    showAIHelp
+  };
