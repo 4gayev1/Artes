@@ -32,7 +32,7 @@ if (fs.existsSync(artesConfigPath)) {
 
 const args = process.argv.slice(2);
 
-const set = (key, value) => { if (value) process.env[key] = value; };
+const setEnvValue = (key, value) => { if (value) process.env[key] = value; };
 
 const getArgValue = (flag) => {
   const index = args.indexOf(flag);
@@ -147,55 +147,55 @@ const maxReports = getArgValue("--maxReports");
 
 
 // Reporting & Branding
-set("REPORT",              flags.report);
-set("REPORT_SUCCESS",      flags.reportSuccess);
-set("SINGLE_FILE_REPORT",  flags.singleFileReport);
-set("REPORT_WITH_TRACE",   flags.reportWithTrace);
-set("TRACE",               flags.trace);
-set("ZIP",                 flags.zip);
-set("LOGO",                logo);
-set("BRAND_NAME",          brandName);
-set("REPORT_NAME",         reportName);
+setEnvValue("REPORT",              flags.report);
+setEnvValue("REPORT_SUCCESS",      flags.reportSuccess);
+setEnvValue("SINGLE_FILE_REPORT",  flags.singleFileReport);
+setEnvValue("REPORT_WITH_TRACE",   flags.reportWithTrace);
+setEnvValue("TRACE",               flags.trace);
+setEnvValue("ZIP",                 flags.zip);
+setEnvValue("LOGO",                logo);
+setEnvValue("BRAND_NAME",          brandName);
+setEnvValue("REPORT_NAME",         reportName);
 
 if (shouldReport) { process.env.REPORT_FORMAT = JSON.stringify(["allure-cucumberjs/reporter:./allure-results"]) }
 
-set("REPORTER_URL",  reporterURL);
-set("PROJECT_NAME",  projectName);
-set("PROJECT_TYPE",  projectType);
-set("REPORT_PATH",   reportPath);
+setEnvValue("REPORTER_URL",  reporterURL);
+setEnvValue("PROJECT_NAME",  projectName);
+setEnvValue("PROJECT_TYPE",  projectType);
+setEnvValue("REPORT_PATH",   reportPath);
 
 // Browser & Environment
-set("BROWSER",          browser);
-set("BASE_URL",         baseURL ? JSON.stringify(baseURL) : null);
-set("DEVICE",           device  ? JSON.stringify(device)  : null);
-set("MODE",             flags.headless ? JSON.stringify(true)   : null);
-set("OFFLINE",          flags.offline);
-set("MAXIMIZE_SCREEN",  flags.maxScreen);
-set("WIDTH",            width);
-set("HEIGHT",           height);
+setEnvValue("BROWSER",          browser);
+setEnvValue("BASE_URL",         baseURL ? JSON.stringify(baseURL) : null);
+setEnvValue("DEVICE",           device  ? JSON.stringify(device)  : null);
+setEnvValue("MODE",             flags.headless ? JSON.stringify(true)   : null);
+setEnvValue("OFFLINE",          flags.offline);
+setEnvValue("MAXIMIZE_SCREEN",  flags.maxScreen);
+setEnvValue("WIDTH",            width);
+setEnvValue("HEIGHT",           height);
 
 // Execution
-set("ENV",  env);
-set("VARS", vars);
-set("FEATURES",         features);
-set("STEP_DEFINITIONS", stepDef);
-set("RUN_TAGS",         tags ? JSON.stringify(tags) : null);
-set("PARALLEL",         parallel);
-set("RETRY",            retry);
-set("RERUN",            rerun);
-set("DRYRUN",           flags.dryRun);
-set("PERCENTAGE",       percentage);
-set("TIMEOUT",          timeout);
-set("SLOWMO",           slowMo);
+setEnvValue("ENV",  env);
+setEnvValue("VARS", vars);
+setEnvValue("FEATURES",         features);
+setEnvValue("STEP_DEFINITIONS", stepDef);
+setEnvValue("RUN_TAGS",         tags ? JSON.stringify(tags) : null);
+setEnvValue("PARALLEL",         parallel);
+setEnvValue("RETRY",            retry);
+setEnvValue("RERUN",            rerun);
+setEnvValue("DRYRUN",           flags.dryRun);
+setEnvValue("PERCENTAGE",       percentage);
+setEnvValue("TIMEOUT",          timeout);
+setEnvValue("SLOWMO",           slowMo);
 
 // AI
-set("AI",          flags.ai);
-set("AI_URL",      aiURL);
-set("AI_MODEL",    aiModel);
-set("AI_KEY",      aiKey);
-set("AI_LANGUAGE", aiLanguage);
-set("MAX_TOKENS",  maxTokens);
-set("MAX_REPORTS", maxReports);
+setEnvValue("AI",          flags.ai);
+setEnvValue("AI_URL",      aiURL);
+setEnvValue("AI_MODEL",    aiModel);
+setEnvValue("AI_KEY",      aiKey);
+setEnvValue("AI_LANGUAGE", aiLanguage);
+setEnvValue("MAX_TOKENS",  maxTokens);
+setEnvValue("MAX_REPORTS", maxReports);
 
 
 async function main() {

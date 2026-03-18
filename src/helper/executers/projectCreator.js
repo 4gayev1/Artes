@@ -40,6 +40,10 @@ function createProject(createYes, noDeps) {
     testWithReport: "npx artes -r",
   };
 
+  packageJson.dependencies = {
+    artes: "latest"
+  };
+
   fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
   const config = `module.exports = {
