@@ -340,6 +340,8 @@
 - User expects that page match with `{string}` screenshot with `{float}`% difference
 - User expects that `{string}` element match with `{string}` screenshot
 - User expects that `{string}` element match with `{string}` screenshot with `{float}`% difference
+- User expects that `{string}` screenshot match with `{string}` screenshot
+- User expects that `{string}` screenshot match with `{string}` screenshot with `{float}`% difference
 - User expects `{string}` should have a screenshot
 - User expects `{string}` should match `{string}` text
 - User expects `{string}` should have `{string}` value
