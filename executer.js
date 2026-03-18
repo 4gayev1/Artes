@@ -45,6 +45,8 @@ const flags = {
   help:    args.includes("-h") || args.includes("--help"),
   version: args.includes("-v") || args.includes("--version"),
   create:  args.includes("-c") || args.includes("--create"),
+  createYes: args.includes("-y") || args.includes("--yes"),
+  noDeps: args.includes("--noDeps"),
 
   // Sub-command help pages
   reportHelp:    (args[0] === "report"    && args.includes("--help")),

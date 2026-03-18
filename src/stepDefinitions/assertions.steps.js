@@ -9,7 +9,7 @@ const {
 } = require("../helper/imports/commons");
 const {
   screenComparer,
-} = require("artes/src/helper/controller/screenComparer");
+} = require("../helper/controller/screenComparer");
 const { assert, frame } = require("../helper/stepFunctions/exporter");
 const Ajv = require("ajv");
 
@@ -395,6 +395,29 @@ Then(
       baselineFilename,
       (actualPath) => element(selector).screenshot({ path: actualPath }),
       { maxDiffPercent: maxDiff / 100 },
+    );
+  },
+);
+
+
+Then(
+  "User expects that {string} screenshot match with {string} screenshot",
+  async function (ss1, ss2) {
+    await screenComparer(
+      ss1,
+      null,
+      { maxDiffPercent: 0.01, comparePath: ss2 },
+    );
+  },
+);
+
+Then(
+  "User expects that {string} screenshot match with {string} screenshot with {float}% difference",
+  async function (ss1, ss2, maxDiff) {
+    await screenComparer(
+      ss1,
+      null,
+      { maxDiffPercent: maxDiff / 100, comparePath: ss2 },
     );
   },
 );

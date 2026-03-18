@@ -147,6 +147,8 @@ npx artes [options]
 | `-h, --help` | Show this help message | `artes -h` or `artes --help` |
 | `-v, --version` | Show current version of artes | `artes -v` or `artes --version` |
 | `-c, --create` | Create example artes project | `artes -c` or `artes --create` |
+| `-y, --yes` | Skip confirmation prompt when creating a project | `artes -c -y` or `artes -c --yes` |
+| `--noDeps` | Create project without installing dependencies | `artes -c --noDeps` |
 
 ### Reporting & Branding ( artes report --help )
 

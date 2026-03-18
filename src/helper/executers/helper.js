@@ -9,6 +9,8 @@ function showHelp() {
             -h, --help      Show this help message
             -v, --version   Show current version of artes
             -c, --create    Create example artes project
+            -y, --yes       Skip confirmation prompt when creating a project
+            --noDeps        Create project without installing dependencies
   
         For more options, use:
             artes report --help       Reporting & branding options
