@@ -127,10 +127,10 @@ Given(
 Given(
   "User sets random alphanumeric in range from {int} to {int} as {string}",
   async (from, to, key) => {
-    const randomWords = await random.string.alphanumeric({
+    const randomWords = await random.string.alphanumeric({length:{
       min: from,
       max: to,
-    });
+    }});
     context.vars[key] = randomWords;
   },
 );
