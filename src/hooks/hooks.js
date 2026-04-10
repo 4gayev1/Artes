@@ -105,6 +105,7 @@ Before(async function ({ pickle }) {
   context.browserContext = browserContext;
   context.page = await browserContext.newPage();
   context.request = requestInstance;
+  context.pickle = pickle;
 
   const dimensions = await context.page.evaluate(() => {
     return {
@@ -139,6 +140,8 @@ Before(async function ({ pickle }) {
 });
 
 BeforeStep(async ({ pickleStep }) => {
+      context.step = pickleStep;
+
   if (HTTP_METHODS.some((method) => pickleStep.text.includes(method))) {
     context.response = {};
   }
@@ -149,6 +152,8 @@ BeforeStep(async ({ pickleStep }) => {
 });
 
 AfterStep(async function ({ pickleStep }) {
+    context.step = pickleStep;
+
   if (typeof projectHooks.AfterStep === "function") {
     await projectHooks.AfterStep();
   }
@@ -159,6 +164,9 @@ AfterStep(async function ({ pickleStep }) {
 });
 
 After(async function ({ result, pickle }) {
+  context.pickle = pickle
+  context.pickleResult = result
+
   const shouldReport =
   cucumberConfig.default.successReport || result?.status !== Status.PASSED;
   
