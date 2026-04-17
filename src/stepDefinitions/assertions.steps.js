@@ -13,6 +13,18 @@ const {
 const { assert, frame } = require("../helper/stepFunctions/exporter");
 const Ajv = require("ajv");
 
+
+function pathToCamelCase(path) {
+    const parts = path.split(".");
+    return parts
+        .map((part, index) => {
+            if (index === 0) return part;
+            return part.charAt(0).toUpperCase() + part.slice(1);
+        })
+        .join("");
+}
+
+
 // Check if a selector should be attached
 Then("User expects {string} should be attached", async function (selector) {
   await assert.shouldBeAttached(selector);
@@ -1256,9 +1268,11 @@ Then("User expects should have {int} {string}", async (count, elements) => {
 Then(
   "User expects that response has {string} field with {string} value",
   async (field, value) => {
-    extractVarsFromResponse(context.response["Response Body"], field);
-    const varToString = JSON.stringify(context.vars[field]);
-    expect(varToString).toBe(value);
+      extractVarsFromResponse(context.response["Response Body"], field);
+      const key = pathToCamelCase(field);
+      const varToString = JSON.stringify(context.vars[key]);
+      console.log(varToString)
+      expect(varToString).toBe(JSON.stringify(value));
   },
 );
 

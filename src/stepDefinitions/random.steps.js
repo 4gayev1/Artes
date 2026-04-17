@@ -135,6 +135,14 @@ Given(
   },
 );
 
+Given(
+    "User sets random string in range from {int} to {int} in {string} casing as {string}",
+    async (from, to, casing, key) => {
+        const randomString = await random.string.alpha( { length: { min: from, max: to}, casing: casing  });
+        context.vars[key] = randomString;
+    },
+);
+
 Given("User sets random fullname as {string}", async (key) => {
   const randomFirstName = await random.person.firstName();
   const randomLastName = await random.person.lastName();
