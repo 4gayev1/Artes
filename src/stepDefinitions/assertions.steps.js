@@ -1270,8 +1270,7 @@ Then(
   async (field, value) => {
       extractVarsFromResponse(context.response["Response Body"], field);
       const key = pathToCamelCase(field);
-      const varToString = JSON.stringify(context.vars[key]);
-      expect(JSON.stringify(varToString)).toBe(JSON.stringify(value));
+      expect(String(context.vars[key])).toBe(value);
   },
 );
 
