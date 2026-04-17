@@ -1271,7 +1271,6 @@ Then(
       extractVarsFromResponse(context.response["Response Body"], field);
       const key = pathToCamelCase(field);
       const varToString = JSON.stringify(context.vars[key]);
-      console.log(varToString)
       expect(varToString).toBe(JSON.stringify(value));
   },
 );
