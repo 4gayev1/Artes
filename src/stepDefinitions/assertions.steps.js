@@ -1270,14 +1270,14 @@ Then(
   async (field, value) => {
       extractVarsFromResponse(context.response["Response Body"], field);
       const key = pathToCamelCase(field);
-      expect(String(context.vars[key])).toBe(value);
+      expect(String(context.vars[key])).toBe(resolveVariable(value));
   },
 );
 
 Then(
   "User expects that {string} should match {string}",
   async (value1, value2) => {
-    await expect(resolveVariable(value1)).toBe(value2);
+    await expect(resolveVariable(value1)).toBe(resolveVariable(value2));
   },
 );
 
