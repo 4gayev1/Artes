@@ -4,6 +4,7 @@ const {
   expect,
   element,
   extractVarsFromResponse,
+  pathToCamelCase,
   context,
   resolveVariable,
 } = require("../helper/imports/commons");
@@ -12,17 +13,6 @@ const {
 } = require("../helper/controller/screenComparer");
 const { assert, frame } = require("../helper/stepFunctions/exporter");
 const Ajv = require("ajv");
-
-
-function pathToCamelCase(path) {
-    const parts = path.split(".");
-    return parts
-        .map((part, index) => {
-            if (index === 0) return part;
-            return part.charAt(0).toUpperCase() + part.slice(1);
-        })
-        .join("");
-}
 
 
 // Check if a selector should be attached

@@ -93,15 +93,37 @@ function getElement(element) {
   return locator;
 }
 
+  function pathToCamelCase(path) {
+    const cleaned = path.replace(/\[(\d+)\]/g, "_$1");
+    const parts = cleaned.split(".");
+    return parts
+      .map((part, index) => {
+        if (index === 0) return part;
+        return part.charAt(0).toUpperCase() + part.slice(1);
+      })
+      .join("");
+  }
+
 function extractVarsFromResponse(responseBody, vars, customVarNames) {
   function getValueByPath(obj, path) {
-    const keys = path.split(".");
-    let current = obj;
-
     if (typeof obj === "string") return obj;
 
+    const keys = path.split(".").flatMap((key) => {
+      const arrayMatch = key.match(/^([^\[]+)\[(\d+)\]$/);
+      if (arrayMatch) {
+        return [arrayMatch[1], parseInt(arrayMatch[2])];
+      }
+      return [key];
+    });
+
+    let current = obj;
     for (const key of keys) {
-      if (current && typeof current === "object" && key in current) {
+      if (current == null) return undefined;
+
+      if (typeof key === "number") {
+        if (!Array.isArray(current)) return undefined;
+        current = current[key];
+      } else if (typeof current === "object" && key in current) {
         current = current[key];
       } else {
         return undefined;
@@ -111,15 +133,6 @@ function extractVarsFromResponse(responseBody, vars, customVarNames) {
     return current;
   }
 
-  function pathToCamelCase(path) {
-    const parts = path.split(".");
-    return parts
-      .map((part, index) => {
-        if (index === 0) return part;
-        return part.charAt(0).toUpperCase() + part.slice(1);
-      })
-      .join("");
-  }
 
   const varPaths = vars.split(",").map((v) => v.trim());
   let customNames = [];
@@ -205,6 +218,7 @@ module.exports = {
   addElements,
   getSelector,
   extractVarsFromResponse,
+  pathToCamelCase,
   saveVar,
   resolveVariable,
 };

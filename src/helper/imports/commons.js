@@ -4,6 +4,7 @@ const {
   getElement,
   getSelector,
   extractVarsFromResponse,
+  pathToCamelCase,
   saveVar,
   resolveVariable,
 } = require("../controller/elementController");
@@ -54,6 +55,7 @@ module.exports = {
   element,
   selector,
   extractVarsFromResponse,
+  pathToCamelCase,
   saveVar,
   resolveVariable,
   random,
