@@ -1265,6 +1265,15 @@ Then(
 );
 
 Then(
+  "User expects that {string} array has {int} items",
+  async (field, count) => {
+      extractVarsFromResponse(context.response["Response Body"], field);
+      const key = pathToCamelCase(field);
+      expect(context.vars[key].length).toEqual(count);
+  },
+);
+
+Then(
   "User expects that {string} should match {string}",
   async (value1, value2) => {
     await expect(resolveVariable(value1)).toBe(resolveVariable(value2));
