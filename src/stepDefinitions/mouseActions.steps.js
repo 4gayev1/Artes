@@ -60,7 +60,7 @@ When(
 When("User clicks at {int}, {int} coordinates", async function (x, y) {
   x = await resolveVariable(x);
   y = await resolveVariable(y);
-  await context.page.click({ position: { x: x, y: y } });
+  await context.page.mouse.click(x, y);
 });
 
 // User clicks at specific coordinates with click count and delay
@@ -69,11 +69,7 @@ When(
   async function (x, y, clickCount, delay) {
     x = await resolveVariable(x);
     y = await resolveVariable(y);
-    await context.page.click({
-      position: { x: x, y: y },
-      clickCount: clickCount,
-      delay: delay,
-    });
+    await context.page.mouse.click(x, y, { clickCount: clickCount, delay: delay });
   },
 );
 
@@ -83,7 +79,7 @@ When(
   async function (x, y) {
     x = await resolveVariable(x);
     y = await resolveVariable(y);
-    context.page.click({ position: { x: x, y: y }, force: true });
+    await context.page.mouse.click(x, y, { force: true });
   },
 );
 
