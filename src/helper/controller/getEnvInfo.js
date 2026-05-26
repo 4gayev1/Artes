@@ -27,6 +27,9 @@ async function getEnvInfo() {
   }
 
   const environment = {
+    // ── ARTES Version ───────────────────────
+    ARTES_Version: require(moduleConfig.modulePackageJsonPath).version,
+    
     // ── System ──────────────────────────────
     OS_Name: os.type(),
     OS_Version: os.release(),
