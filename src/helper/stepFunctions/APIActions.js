@@ -48,6 +48,10 @@ function curlExtractor(url, method, headers, body, requestDataType) {
           }
         }
         break;
+      case "xml":
+        curlCommand += ` \\\n  -H 'Content-Type: application/xml'`;
+        curlCommand += ` \\\n  --data-raw '${data}'`;
+        break;
 
       case "urlencoded":
       case "application/x-www-form-urlencoded":
@@ -144,6 +148,12 @@ async function requestMaker(headers, data, requestDataType) {
   switch (requestDataType) {
     case "multipart":
       Object.assign(request, { multipart: data });
+      break;
+    case "xml":
+      Object.assign(request, {
+        headers: { ...headers, "Content-Type": "application/xml" },
+        data: data,
+      });
       break;
     case "urlencoded":
     case "application/x-www-form-urlencoded":
@@ -264,6 +274,14 @@ const api = {
         );
         bodyForCurl = formRequest;
         break;
+      case "xml":
+        req = await requestMaker(
+          payloadJSON?.headers || {},
+          payloadJSON?.body || {},
+          requestDataType,
+        );
+        bodyForCurl = payloadJSON?.body || {};
+        break;
       case "urlencoded":
       case "application/x-www-form-urlencoded":
         req = await requestMaker(
@@ -333,6 +351,14 @@ const api = {
           requestDataType,
         );
         bodyForCurl = formRequest;
+        break;
+      case "xml":
+        req = await requestMaker(
+          payloadJSON?.headers || {},
+          payloadJSON?.body || {},
+          requestDataType,
+        );
+        bodyForCurl = payloadJSON?.body || {};
         break;
       case "urlencoded":
       case "application/x-www-form-urlencoded":
@@ -404,6 +430,14 @@ const api = {
         );
         bodyForCurl = formRequest;
         break;
+      case "xml":
+        req = await requestMaker(
+          payloadJSON?.headers || {},
+          payloadJSON?.body || {},
+          requestDataType,
+        );
+        bodyForCurl = payloadJSON?.body || {};
+        break;
       case "urlencoded":
       case "application/x-www-form-urlencoded":
         req = await requestMaker(
@@ -452,7 +486,7 @@ const api = {
 
     context.response = response;
   },
-  delete: async (url, payload, options) => {
+delete: async (url, payload, requestDataType, options) => {
     const URL = await selector(url);
 
     options = options ?? {};
@@ -460,10 +494,53 @@ const api = {
     const resolvedPayload = (await payload) && resolveVariable(payload);
     const payloadJSON = (await resolvedPayload) && JSON.parse(resolvedPayload);
 
-    const req = await requestMaker(
-      payloadJSON?.headers || {},
-      payloadJSON?.body || {},
-    );
+    let req;
+    let bodyForCurl = payloadJSON?.body || {};
+
+    switch (requestDataType) {
+      case "multipart":
+        const formRequest = processForm(payloadJSON?.body || {});
+        req = await requestMaker(
+          payloadJSON?.headers || {},
+          formRequest || {},
+          requestDataType,
+        );
+        bodyForCurl = formRequest;
+        break;
+      case "urlencoded":
+      case "application/x-www-form-urlencoded":
+        req = await requestMaker(
+          {
+            ...payloadJSON?.headers,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          payloadJSON?.body || {},
+          requestDataType,
+        );
+        break;
+      case "form":
+        req = await requestMaker(
+          payloadJSON?.headers || {},
+          payloadJSON?.body || {},
+          requestDataType,
+        );
+        break;
+      case "xml":
+        req = await requestMaker(
+          {
+            ...payloadJSON?.headers,
+            "Content-Type": "application/xml",
+          },
+          payloadJSON?.body || {},
+          requestDataType,
+        );
+        break;
+      default:
+        req = await requestMaker(
+          payloadJSON?.headers || {},
+          payloadJSON?.body || {},
+        );
+    }
 
     const requestStarts = performance.now();
 
@@ -474,9 +551,9 @@ const api = {
     const curlCommand = curlExtractor(
       res.url(),
       "DELETE",
-      payloadJSON?.headers || {},
-      payloadJSON?.body || {},
-      null,
+      req.headers,
+      bodyForCurl,
+      requestDataType,
     );
 
     const response = responseMaker(payloadJSON, res, duration, curlCommand);

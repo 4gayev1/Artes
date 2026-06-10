@@ -89,6 +89,21 @@ When(
 );
 
 When(
+  "User sends xml POST request to {string} with payload:",
+  async (url, payload) => {
+    await api.post(url, payload, "xml");
+  },
+);
+
+When(
+  "User sends xml POST request to {string} with payload and saves {string} variables",
+  async (url, vars, payload) => {
+    await api.post(url, payload, "xml");
+    await extractVarsFromResponse(context.response["Response Body"], vars);
+  },
+);
+
+When(
   "User sends PUT request to {string} with payload:",
   async function (url, payload) {
     await api.put(url, payload);
@@ -129,6 +144,21 @@ When(
   "User sends x-www-form-urlencoded PUT request to {string} with payload and saves {string} variables",
   async (url, vars, payload) => {
     await api.put(url, payload, "application/x-www-form-urlencoded");
+    await extractVarsFromResponse(context.response["Response Body"], vars);
+  },
+);
+
+When(
+  "User sends xml PUT request to {string} with payload:",
+  async (url, payload) => {
+    await api.put(url, payload, "xml");
+  },
+);
+
+When(
+  "User sends xml PUT request to {string} with payload and saves {string} variables",
+  async (url, vars, payload) => {
+    await api.put(url, payload, "xml");
     await extractVarsFromResponse(context.response["Response Body"], vars);
   },
 );
@@ -178,6 +208,21 @@ When(
   },
 );
 
+When(
+  "User sends xml PATCH request to {string} with payload:",
+  async (url, payload) => {
+    await api.patch(url, payload, "xml");
+  },
+);
+
+When(
+  "User sends xml PATCH request to {string} with payload and saves {string} variables",
+  async (url, vars, payload) => {
+    await api.patch(url, payload, "xml");
+    await extractVarsFromResponse(context.response["Response Body"], vars);
+  },
+);
+
 When("User sends DELETE request to {string}", async function (url) {
   await api.delete(url);
 });
@@ -201,6 +246,21 @@ When(
   "User sends DELETE request to {string} with payload and saves {string}",
   async function (url, vars, payload) {
     await api.delete(url, payload);
+    await extractVarsFromResponse(context.response["Response Body"], vars);
+  },
+);
+
+When(
+  "User sends xml DELETE request to {string} with payload:",
+  async (url, payload) => {
+    await api.delete(url, payload, "xml");
+  },
+);
+
+When(
+  "User sends xml DELETE request to {string} with payload and saves {string} variables",
+  async (url, vars, payload) => {
+    await api.delete(url, payload, "xml");
     await extractVarsFromResponse(context.response["Response Body"], vars);
   },
 );
