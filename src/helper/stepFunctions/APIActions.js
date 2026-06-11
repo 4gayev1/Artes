@@ -5,6 +5,7 @@ const {
   selector,
   resolveVariable,
   moduleConfig,
+  normalizeCrossplatformPath
 } = require("../imports/commons");
 
 function getMimeType(filePath) {
@@ -112,7 +113,7 @@ function processForm(requestBody) {
 
     if (typeof value === "string") {
 
-      const normalizedValue = path.normalize(value);
+      const normalizedValue = normalizeCrossplatformPath(value);
 
       const looksLikeFilePath =
         normalizedValue.endsWith(".pdf") ||
@@ -122,7 +123,7 @@ function processForm(requestBody) {
         normalizedValue.endsWith(".txt") ||
         normalizedValue.endsWith(".doc") ||
         normalizedValue.endsWith(".docx") ||
-        normalizedValue.includes(path.sep);
+        normalizedValue.includes("/"); 
 
       if (looksLikeFilePath) {
         try {

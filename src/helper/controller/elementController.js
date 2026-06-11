@@ -93,6 +93,10 @@ function getElement(element) {
   return locator;
 }
 
+   function normalizeCrossplatformPath(inputPath) {
+    return path.normalize(inputPath.replace(/\\/g, "/"));
+  }
+
   function pathToCamelCase(path) {
     const cleaned = path.replace(/\[(\d+)\]/g, "_$1");
     const parts = cleaned.split(".");
@@ -219,6 +223,7 @@ module.exports = {
   getSelector,
   extractVarsFromResponse,
   pathToCamelCase,
+  normalizeCrossplatformPath,
   saveVar,
   resolveVariable,
 };

@@ -7,6 +7,7 @@ const {
   pathToCamelCase,
   saveVar,
   resolveVariable,
+  normalizeCrossplatformPath
 } = require("../controller/elementController");
 const { context } = require("../../hooks/context");
 
@@ -56,6 +57,7 @@ module.exports = {
   selector,
   extractVarsFromResponse,
   pathToCamelCase,
+  normalizeCrossplatformPath,
   saveVar,
   resolveVariable,
   random,

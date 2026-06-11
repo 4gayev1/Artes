@@ -7,6 +7,7 @@ const {
   random,
   moduleConfig,
   resolveVariable,
+  normalizeCrossplatformPath
 } = require("../helper/imports/commons");
 const { api } = require("../helper/stepFunctions/exporter");
 const path = require("path");
@@ -389,14 +390,13 @@ When(
   async (file, variable) => {
     file = await resolveVariable(file);
 
-    const normalizedFile = path.normalize(file);
+    const normalizedFile = normalizeCrossplatformPath(file);
 
     const filePath = path.isAbsolute(normalizedFile)
       ? normalizedFile
       : path.join(moduleConfig.projectPath, normalizedFile);
 
     const fileData = fs.readFileSync(filePath);
-    const base64Data = fileData.toString("base64");
-    context.vars[variable] = base64Data;
+    context.vars[variable] = fileData.toString("base64");
   },
 );
