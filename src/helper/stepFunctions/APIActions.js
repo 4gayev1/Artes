@@ -110,28 +110,37 @@ function processForm(requestBody) {
       }
     }
 
-    if (
-      typeof value === "string" &&
-      (value.endsWith(".pdf") ||
-        value.endsWith(".jpg") ||
-        value.endsWith(".png") ||
-        value.endsWith(".txt") ||
-        value.endsWith(".doc") ||
-        value.endsWith(".docx") ||
-        value.includes("/"))
-    ) {
-      try {
-        const filePath = path.join(moduleConfig.projectPath, value);
-        if (fs.existsSync(filePath)) {
-          formData[key] = {
-            name: path.basename(filePath),
-            mimeType: getMimeType(filePath),
-            buffer: fs.readFileSync(filePath),
-          };
-          continue;
+    if (typeof value === "string") {
+
+      const normalizedValue = path.normalize(value);
+
+      const looksLikeFilePath =
+        normalizedValue.endsWith(".pdf") ||
+        normalizedValue.endsWith(".jpg") ||
+        normalizedValue.endsWith(".jpeg") ||
+        normalizedValue.endsWith(".png") ||
+        normalizedValue.endsWith(".txt") ||
+        normalizedValue.endsWith(".doc") ||
+        normalizedValue.endsWith(".docx") ||
+        normalizedValue.includes(path.sep);
+
+      if (looksLikeFilePath) {
+        try {
+          const filePath = path.isAbsolute(normalizedValue)
+            ? normalizedValue
+            : path.join(moduleConfig.projectPath, normalizedValue);
+
+          if (fs.existsSync(filePath)) {
+            formData[key] = {
+              name: path.basename(filePath),
+              mimeType: getMimeType(filePath),
+              buffer: fs.readFileSync(filePath),
+            };
+            continue;
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
     }
 

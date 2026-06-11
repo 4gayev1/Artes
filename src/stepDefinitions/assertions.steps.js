@@ -1312,3 +1312,41 @@ Then(
     expect(actualStatusCode).toBe(expectedStatusCode);
   },
 );
+
+
+Then("User expects that response should have {string} field", async (field) => {
+  extractVarsFromResponse(context.response["Response Body"], field);
+  const key = pathToCamelCase(field);
+  const varToString = JSON.stringify(context.vars[field]);
+  expect(varToString).toBeDefined();
+});
+
+Then(
+  "User expects that response should not have {string} field",
+  async (field) => {
+    extractVarsFromResponse(context.response["Response Body"], field);
+    const key = pathToCamelCase(field);
+    const varToString = JSON.stringify(context.vars[field]);
+    expect(varToString).not.toBeDefined();
+  },
+);
+
+Then(
+  "User expects that {string} array has items more than {int}",
+  (field, count) => {
+    extractVarsFromResponse(context.response["Response Body"], field);
+    const key = pathToCamelCase(field);
+    const resolvedCount = resolveVariable(count)
+    expect(context.vars[key].length).toBeLessThan(resolvedCount);
+  },
+);
+
+Then(
+  "User expects that {string} array has items less than {int}",
+  (field, count) => {
+    extractVarsFromResponse(context.response["Response Body"], field);
+    const key = pathToCamelCase(field);
+    const resolvedCount = resolveVariable(count)
+    expect(context.vars[key].length).toBeLessThan(resolvedCount);
+  },
+);

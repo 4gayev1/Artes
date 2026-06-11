@@ -283,6 +283,33 @@ When(
   },
 );
 
+  When(
+  'User sets {int} year from current year as {string}',
+  async function (year, yearName) {
+    const targetYear = time().add(year, 'year').year();
+    context.vars[yearName] = targetYear.toString();
+  }
+);
+
+When(
+  'User sets {int} month from current month as {string}',
+  async function (month, monthName) {
+    const targetMonth = time().add(month, 'month').month() + 1;
+
+    context.vars[monthName] = targetMonth.toString().padStart(2, '0');
+  }
+);
+
+When(
+  "User saves request time in ISO format as {string}",
+  async (request_time) => {
+    context.vars[request_time] = new Date(
+      context.response["Response Headers"].date,
+    ).toISOString();
+    allure.attachment("Request Time", context.vars[request_time], "text/plain");
+  },
+);
+
 When("User wants to see saved variables", async function () {
   console.log("\nVariables:", api.vars(null), "\n");
 });
@@ -362,9 +389,14 @@ When(
   async (file, variable) => {
     file = await resolveVariable(file);
 
-    const filePath = await path.join(moduleConfig.projectPath, file);
-    const fileData = await fs.readFileSync(filePath);
-    const base64Data = await fileData.toString("base64");
-    context.vars[variable] = await base64Data;
+    const normalizedFile = path.normalize(file);
+
+    const filePath = path.isAbsolute(normalizedFile)
+      ? normalizedFile
+      : path.join(moduleConfig.projectPath, normalizedFile);
+
+    const fileData = fs.readFileSync(filePath);
+    const base64Data = fileData.toString("base64");
+    context.vars[variable] = base64Data;
   },
 );

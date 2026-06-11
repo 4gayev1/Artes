@@ -13,6 +13,7 @@ const {
   random,
   time,
   resolveVariable,
+  pathToCamelCase
 } = require("./src/helper/imports/commons");
 
 const {
