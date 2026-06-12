@@ -21,6 +21,9 @@ function reportCustomizer() {
       ? report.reportName
       : report.reportName.name || "";
 
+
+      writeProcessStatus();
+
   const { buffer: faviconBuffer, mime: faviconMime } =
     readFileAsBuffer(defaultLogoPath());
   const faviconDataUrl = `data:${faviconMime};base64,${faviconBuffer.toString("base64")}`;
@@ -28,9 +31,11 @@ function reportCustomizer() {
   if (isRemoteUrl(report.logo)) {
     return fetchRemoteLogo(report.logo)
       .catch((err) => {
+
         console.warn(
-          `[artes] Warning: failed to fetch logo from "${report.logo}": ${err.message}. Falling back to default logo.`,
+          `\n\x1b[33m Warning: failed to fetch logo from "${report.logo}": ${err.message}. Falling back to default logo.`,
         );
+          console.log("\x1b[0m");
         return readFileAsBuffer(defaultLogoPath());
       })
       .then(({ buffer, mime, filename }) => {
@@ -480,6 +485,27 @@ function updateHtml(htmlPath, report, reportName, faviconDataUrl) {
     `<link rel="icon" href="${faviconDataUrl}">`,
   );
   fs.writeFileSync(htmlPath, html, "utf8");
+}
+
+function writeProcessStatus() {
+  try {
+    const exitCode = process.env.EXIT_CODE || "0";
+    const processStatus = {
+      exitCode: parseInt(exitCode, 10),
+    };
+
+    const widgetsDir = path.resolve(__dirname, "../../../../../report/widgets");
+    
+    if (!fs.existsSync(widgetsDir)) {
+      fs.mkdirSync(widgetsDir, { recursive: true });
+    }
+
+    const statusFilePath = path.join(widgetsDir, "process-status.json");
+    fs.writeFileSync(statusFilePath, JSON.stringify(processStatus, null, 2), "utf8");
+  } catch (error) {
+    console.warn(`\n\x1b[33m Warning: failed to write process status: ${error.message}`);
+    console.log("\x1b[0m");
+  }
 }
 
 module.exports = { reportCustomizer };
