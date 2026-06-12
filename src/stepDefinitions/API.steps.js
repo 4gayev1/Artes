@@ -12,6 +12,9 @@ const {
 const { api } = require("../helper/stepFunctions/exporter");
 const path = require("path");
 const fs = require("fs");
+require("allure-cucumberjs");
+const allure = require("allure-js-commons");
+
 
 When("User sends GET request to {string}", async function (url) {
   await api.get(url);
