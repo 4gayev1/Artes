@@ -1337,7 +1337,7 @@ Then(
     extractVarsFromResponse(context.response["Response Body"], field);
     const key = pathToCamelCase(field);
     const resolvedCount = resolveVariable(count)
-    expect(context.vars[key].length).toBeLessThan(resolvedCount);
+    expect(context.vars[key].length).toBeGreaterThan(resolvedCount);
   },
 );
 
