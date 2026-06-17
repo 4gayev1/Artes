@@ -1317,8 +1317,7 @@ Then(
 Then("User expects that response should have {string} field", async (field) => {
   extractVarsFromResponse(context.response["Response Body"], field);
   const key = pathToCamelCase(field);
-  const varToString = JSON.stringify(context.vars[field]);
-  expect(varToString).toBeDefined();
+  expect(context.vars[key]).toBeDefined();
 });
 
 Then(
@@ -1326,8 +1325,7 @@ Then(
   async (field) => {
     extractVarsFromResponse(context.response["Response Body"], field);
     const key = pathToCamelCase(field);
-    const varToString = JSON.stringify(context.vars[field]);
-    expect(varToString).not.toBeDefined();
+    expect(context.vars[key]).toBeUndefined();
   },
 );
 
