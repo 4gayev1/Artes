@@ -1265,6 +1265,15 @@ Then(
 );
 
 Then(
+  "User expects that response does not have {string} field with {string} value",
+  async (field, value) => {
+      extractVarsFromResponse(context.response["Response Body"], field);
+      const key = pathToCamelCase(field);
+      expect(String(context.vars[key])).not.toBe(resolveVariable(value));
+  },
+);
+
+Then(
   "User expects that {string} array has {int} items",
   async (field, count) => {
       extractVarsFromResponse(context.response["Response Body"], field);
