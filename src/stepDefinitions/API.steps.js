@@ -403,19 +403,3 @@ When(
     context.vars[variable] = fileData.toString("base64");
   },
 );
-
-Then(
-  "User expects that response has {string} field that contains {string} value",
-  async (field, value) => {
-      extractVarsFromResponse(context.response["Response Body"], field);
-      const key = pathToCamelCase(field);
-      expect(String(context.vars[key])).toContain(resolveVariable(value));
-  },
-);
-
-
-Then('User expects that response has {string} header with {string} value',   async (field, value) => {
-      extractVarsFromResponse(context.response["Response Headers"], field);
-      const key = pathToCamelCase(field);
-      expect(String(context.vars[key])).toBe(resolveVariable(value));
-})
