@@ -1265,31 +1265,6 @@ Then(
 );
 
 Then(
-  "User expects that response has {string} field that contains {string} value",
-  async (field, value) => {
-      extractVarsFromResponse(context.response["Response Body"], field);
-      const key = pathToCamelCase(field);
-      expect(String(context.vars[key])).toContain(resolveVariable(value));
-  },
-);
-
-
-Then('User expects that response has {string} header with {string} value',   async (field, value) => {
-      extractVarsFromResponse(context.response["Response Headers"], field);
-      const key = pathToCamelCase(field);
-      expect(String(context.vars[key])).toBe(resolveVariable(value));
-})
-
-Then(
-  "User expects that response does not have {string} field with {string} value",
-  async (field, value) => {
-      extractVarsFromResponse(context.response["Response Body"], field);
-      const key = pathToCamelCase(field);
-      expect(String(context.vars[key])).not.toBe(resolveVariable(value));
-  },
-);
-
-Then(
   "User expects that {string} array has {int} items",
   async (field, count) => {
       extractVarsFromResponse(context.response["Response Body"], field);
@@ -1338,6 +1313,21 @@ Then(
   },
 );
 
+Then(
+  'User expects that response can have {string} status codes',
+  async function (expectedStatusCodes) {
+    expectedStatusCodes = await resolveVariable(expectedStatusCodes);
+
+    const allowedStatusCodes = expectedStatusCodes
+      .split(',')
+      .map(code => Number(code.trim()));
+
+    const actualStatusCode = context.response.Response.status();
+
+    expect(allowedStatusCodes).toContain(actualStatusCode);
+  }
+);
+
 
 Then("User expects that response should have {string} field", async (field) => {
   extractVarsFromResponse(context.response["Response Body"], field);
@@ -1373,3 +1363,4 @@ Then(
     expect(context.vars[key].length).toBeLessThan(resolvedCount);
   },
 );
+

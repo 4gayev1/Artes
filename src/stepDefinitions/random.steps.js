@@ -14,7 +14,7 @@ Given("User sets random word as {string}", async (key) => {
 
 Given(
   "User sets random word that has {int} character as {string}",
-  async (key, count) => {
+  async (count, key) => {
     const word = random.lorem.word(count);
     context.vars[key] = word;
   },
@@ -33,7 +33,7 @@ Given("User sets random words as {string}", async (key) => {
   context.vars[key] = words;
 });
 
-Given("User sets random {int} words as {string}", async (key, count) => {
+Given("User sets random {int} words as {string}", async (count, key) => {
   const words = random.lorem.words({ wordCount: count });
   context.vars[key] = words;
 });
