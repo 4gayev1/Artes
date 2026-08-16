@@ -1,5 +1,6 @@
 const { When } = require("../helper/imports/commons");
 const { frame } = require("../helper/stepFunctions/exporter");
+const { saveVar, element} = require("artes");
 
 // User takes a screenshot of a specific selector
 When("User takes a screenshot of {string}", async function (selector) {
@@ -74,3 +75,134 @@ When("User gets the element with role {string}", async function (role) {
 When("User gets the element with testId {string}", async function (testId) {
   await frame.getByTestId(testId);
 });
+
+
+
+
+When("User saves the value of {string} as {string}", async function (selector, varName) {
+
+async function extractElementValue(locator) {
+  await locator.waitFor({ state: "visible" });
+
+  const tagName = await locator.evaluate((el) => el.tagName.toLowerCase());
+  const normalize = (str) => str?.replace(/\s+/g, " ").trim();
+
+  if (["input", "textarea"].includes(tagName)) {
+    return normalize(await locator.inputValue());
+  }
+
+  if (tagName === "select") {
+    return normalize(
+      await locator.evaluate((el) => el.options[el.selectedIndex]?.text)
+    );
+  }
+
+  if (tagName === "img") {
+    return normalize(await locator.getAttribute("alt"));
+  }
+
+  // Try several strategies in order, use the first non-empty result
+  const strategies = [
+    () => locator.innerText(),
+    () => locator.textContent(),
+    () => locator.getAttribute("value"),
+    () => locator.getAttribute("aria-label"),
+    () => locator.getAttribute("title"),
+    () => locator.getAttribute("placeholder"),
+    () => locator.getAttribute("alt"),
+  ];
+
+  for (const strategy of strategies) {
+    try {
+      const result = normalize(await strategy());
+      if (result) return result;
+    } catch {
+      // strategy not applicable to this element, try next
+      continue;
+    }
+  }
+
+  return "";
+}
+
+  const locator = element(selector);
+  const value = await extractElementValue(locator);
+    console.log( typeof locator)
+
+    saveVar(value, varName);
+
+});
+
+
+When(
+  "User saves the value of {int} th of {string} as {string}",
+  async function (ordinal, selector, varName) {
+
+
+async function extractElementValue(locator) {
+  await locator.waitFor({ state: "visible" });
+
+  const tagName = await locator.evaluate((el) => el.tagName.toLowerCase());
+  const normalize = (str) => str?.replace(/\s+/g, " ").trim();
+
+  if (["input", "textarea"].includes(tagName)) {
+    return normalize(await locator.inputValue());
+  }
+
+  if (tagName === "select") {
+    return normalize(
+      await locator.evaluate((el) => el.options[el.selectedIndex]?.text)
+    );
+  }
+
+  if (tagName === "img") {
+    return normalize(await locator.getAttribute("alt"));
+  }
+
+  const strategies = [
+    () => locator.innerText(),
+    () => locator.textContent(),
+    () => locator.getAttribute("value"),
+    () => locator.getAttribute("aria-label"),
+    () => locator.getAttribute("title"),
+    () => locator.getAttribute("placeholder"),
+    () => locator.getAttribute("alt"),
+  ];
+
+  for (const strategy of strategies) {
+    try {
+      const result = normalize(await strategy());
+      if (result) return result;
+    } catch {
+      continue;
+    }
+  }
+
+  return "";
+}
+
+function ordinalToIndex(ordinal) {
+  const num = parseInt(ordinal, 10);
+  if (isNaN(num) || num < 1) {
+    throw new Error(`Invalid ordinal "${ordinal}" — must be like "1st", "2nd", "3rd", "4th"...`);
+  }
+  return num - 1;
+}
+
+
+    const index = ordinalToIndex(ordinal);
+    const baseLocator = element(selector);
+
+    const count = await baseLocator.count();
+    if (index >= count) {
+      throw new Error(
+        `Requested ${ordinal} match for "${selector}", but only ${count} element(s) found.`
+      );
+    }
+
+    const locator = baseLocator.nth(index);
+    const value = await extractElementValue(locator);
+
+    saveVar(value, varName);
+  }
+);

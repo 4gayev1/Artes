@@ -13,6 +13,28 @@ function addElements(newElements) {
 //   return locatorCount ==0 ? false : true;
 // }
 
+function isPlaywrightCallSyntax(str) {
+  return typeof str === "string" && /^[a-zA-Z]+\(.*\)\s*;?\s*$/s.test(str.trim());
+}
+
+function parsePlaywrightCall(str) {
+  const match = str.trim().match(/^([a-zA-Z]+)\((.*)\)\s*;?\s*$/s);
+  if (!match) return null;
+
+  const [, method, argsStr] = match;
+
+  // Safely evaluate the argument list as a JS array literal
+  // e.g. "'button', { name: 'Decline' }" -> ['button', { name: 'Decline' }]
+  let args;
+  try {
+    args = Function(`"use strict"; return [${argsStr}];`)();
+  } catch (err) {
+    throw new Error(`Failed to parse locator arguments in "${str}": ${err.message}`);
+  }
+
+  return { method, args };
+}
+
 function selectorSeparator(element) {
   if (typeof element !== "string") return element;
 
@@ -52,6 +74,19 @@ function getElement(element) {
     throw new Error("Page context is not initialized.");
   }
 
+  const rawValue = resolveVariable(
+    elements?.[element]?.selector || elements?.[element] || element
+  );
+
+  // NEW: handle raw Playwright method-call syntax, e.g. getByRole('button', { name: 'Decline' })
+  if (isPlaywrightCallSyntax(rawValue)) {
+    const parsed = parsePlaywrightCall(rawValue);
+    if (!parsed || typeof context.page[parsed.method] !== "function") {
+      throw new Error(`Unsupported or invalid Playwright locator call: "${rawValue}"`);
+    }
+    return context.page[parsed.method](...parsed.args);
+  }
+  
   const selector = getSelector(element);
   const waitTime = elements[element]?.waitTime * 1000 || 0;
 
