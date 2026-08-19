@@ -5,11 +5,19 @@ const {
   context,
   resolveVariable,
 } = require("../helper/imports/commons");
-const { mouse, frame, page } = require("../helper/stepFunctions/exporter");
+const { mouse, frame, page, assert } = require("../helper/stepFunctions/exporter");
 
 // User clicks on a selector
 When("User clicks {string}", async function (selector) {
   await mouse.click(selector);
+});
+
+When('User clicks {string} if visible', async (selector) => {
+  try {
+    await assert.shouldBeVisible(selector);
+    await mouse.click(selector);
+  } catch (error) {
+  }
 });
 
 When("User clicks last of {string}", async (selector) => {
