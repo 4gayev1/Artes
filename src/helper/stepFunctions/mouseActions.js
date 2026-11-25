@@ -69,11 +69,13 @@ const mouse = {
 
     filePath = await resolveVariable(filePath);
     const file = selector(filePath);
+    const normalized = String(file).replace(/\\/g, "/");
+
     const fileChooserPromise = context.page.waitForEvent("filechooser");
     await element(fileInput).click();
     const fileChooser = await fileChooserPromise;
     await fileChooser.setFiles(
-      path.resolve(moduleConfig.projectPath, file),
+      path.resolve(moduleConfig.projectPath, normalized),
       options,
     );
   },
