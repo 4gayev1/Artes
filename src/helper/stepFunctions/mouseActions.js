@@ -73,7 +73,7 @@ const mouse = {
     await element(fileInput).click();
     const fileChooser = await fileChooserPromise;
     await fileChooser.setFiles(
-      path.join(moduleConfig.projectPath, file),
+      path.resolve(moduleConfig.projectPath, file),
       options,
     );
   },
